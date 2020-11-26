@@ -1,0 +1,1 @@
+set(MODULE_NAME ${PROJECT_NAME}_Example)

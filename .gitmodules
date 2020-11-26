@@ -1,0 +1,9 @@
+[submodule "Dependencies/GLFW"]
+	path = Dependencies/GLFW
+	url = https://github.com/glfw/glfw.git
+[submodule "Dependencies/spdlog"]
+	path = Dependencies/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "Dependencies/EASTL"]
+	path = Dependencies/EASTL
+	url = https://github.com/electronicarts/EASTL.git

@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="GEOGL"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="msvc8"/>
+		<Option virtualFolders="CMake Files\;CMake Files\Dependencies\;CMake Files\Dependencies\GLFW\;CMake Files\Dependencies\GLFW\src\;CMake Files\Dependencies\GLFW\docs\;CMake Files\Dependencies\GLAD\;CMake Files\Dependencies\spdlog\;CMake Files\Dependencies\spdlog\cmake\;CMake Files\Dependencies\STB\;CMake Files\Source\;CMake Files\Source\GEOGL\;CMake Files\Source\Example\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 all"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 install/local"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 install"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 edit_cache"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 list_install_components"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="uninstall">
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLFW"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\Makefile VERBOSE=1 uninstall"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw">
+				<Option output="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLFW/src/glfw3.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLFW/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add option="-D_UNICODE"/>
+					<Add option="-D_CRT_SECURE_NO_WARNINGS"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLFW/src"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\src\Makefile VERBOSE=1 glfw"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\src\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\src\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\src\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw/fast">
+				<Option output="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLFW/src/glfw3.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLFW/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add option="-D_UNICODE"/>
+					<Add option="-D_CRT_SECURE_NO_WARNINGS"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLFW/src"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\src\Makefile VERBOSE=1 glfw/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\src\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\src\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\src\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="docs">
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLFW/docs"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\docs\Makefile VERBOSE=1 docs"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\docs\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\docs\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLFW\docs\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GLAD">
+				<Option output="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLAD/GLAD.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLAD"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLAD/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLAD\Makefile VERBOSE=1 GLAD"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLAD\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLAD\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLAD\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GLAD/fast">
+				<Option output="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLAD/GLAD.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLAD"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLAD/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLAD\Makefile VERBOSE=1 GLAD/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLAD\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLAD\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\GLAD\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="spdlog">
+				<Option output="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/spdlog/spdlogd.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/spdlog"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DSPDLOG_COMPILED_LIB"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLAD/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\spdlog\Makefile VERBOSE=1 spdlog"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\spdlog\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\spdlog\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\spdlog\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="spdlog/fast">
+				<Option output="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/spdlog/spdlogd.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/spdlog"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DSPDLOG_COMPILED_LIB"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLAD/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\spdlog\Makefile VERBOSE=1 spdlog/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\spdlog\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\spdlog\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\spdlog\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="STB_LIB">
+				<Option output="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/STB/STB_LIB.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/STB"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLAD/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/STB/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\STB\Makefile VERBOSE=1 STB_LIB"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\STB\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\STB\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\STB\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="STB_LIB/fast">
+				<Option output="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/STB/STB_LIB.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/STB"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLAD/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/STB/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\STB\Makefile VERBOSE=1 STB_LIB/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\STB\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\STB\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Dependencies\STB\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GEOGL">
+				<Option output="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/bin/GEOGL.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Source/GEOGL"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGEOGL_BUILD_LIBRARY"/>
+					<Add option="-DGEOGL_VERSION_MAJOR=0"/>
+					<Add option="-DGEOGL_VERSION_MINOR=0"/>
+					<Add option="-DGEOGL_VERSION_PATCH=1"/>
+					<Add option="-DGEOGL_ENGINE_NAME=&quot;GEOGL-0.0.1-1&quot;"/>
+					<Add option="-DSPDLOG_COMPILED_LIB"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLAD/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/STB/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLM"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Source\GEOGL\Makefile VERBOSE=1 GEOGL"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Source\GEOGL\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Source\GEOGL\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Source\GEOGL\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GEOGL/fast">
+				<Option output="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/bin/GEOGL.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Source/GEOGL"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGEOGL_BUILD_LIBRARY"/>
+					<Add option="-DGEOGL_VERSION_MAJOR=0"/>
+					<Add option="-DGEOGL_VERSION_MINOR=0"/>
+					<Add option="-DGEOGL_VERSION_PATCH=1"/>
+					<Add option="-DGEOGL_ENGINE_NAME=&quot;GEOGL-0.0.1-1&quot;"/>
+					<Add option="-DSPDLOG_COMPILED_LIB"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLAD/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/STB/include"/>
+					<Add directory="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLM"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Source\GEOGL\Makefile VERBOSE=1 GEOGL/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Source\GEOGL\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Source\GEOGL\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\matth\Desktop\Programming\GEOGL\cmake-build-debug\Source\GEOGL\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLAD/src/glad.c">
+			<Option target="GLAD"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include/GLFW/glfw3.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/include/GLFW/glfw3native.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/egl_context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/egl_context.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/input.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/internal.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/mappings.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/osmesa_context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/osmesa_context.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/vulkan.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/wgl_context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/wgl_context.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/win32_init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/win32_joystick.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/win32_joystick.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/win32_monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/win32_platform.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/win32_thread.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/win32_time.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/win32_window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/STB/include/STB/stb_image.h">
+			<Option target="STB_LIB"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/STB/stb_image.c">
+			<Option target="STB_LIB"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/async.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/async_logger-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/async_logger.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/common-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/common.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/backtracer-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/backtracer.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/circular_q.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/console_globals.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/file_helper-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/file_helper.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/fmt_helper.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/log_msg-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/log_msg.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/log_msg_buffer-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/log_msg_buffer.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/mpmc_blocking_q.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/null_mutex.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/os-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/os.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/periodic_worker-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/periodic_worker.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/registry-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/registry.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/synchronous_factory.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/tcp_client-windows.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/tcp_client.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/thread_pool-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/thread_pool.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/details/windows_include.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bin_to_hex.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/chrono.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/color.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/compile.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/core.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/format-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/format.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/locale.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/os.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/ostream.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/posix.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/printf.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/bundled/ranges.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/chrono.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/fmt.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fmt/ostr.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/formatter.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/fwd.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/logger-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/logger.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/pattern_formatter-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/pattern_formatter.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/android_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/ansicolor_sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/ansicolor_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/base_sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/base_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/basic_file_sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/basic_file_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/daily_file_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/dist_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/dup_filter_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/msvc_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/null_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/ostream_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/ringbuffer_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/rotating_file_sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/rotating_file_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/stdout_color_sinks-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/stdout_color_sinks.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/stdout_sinks-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/stdout_sinks.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/syslog_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/systemd_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/tcp_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/win_eventlog_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/wincolor_sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/sinks/wincolor_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/spdlog-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/spdlog.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/stopwatch.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/tweakme.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/include/spdlog/version.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/src/async.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/src/cfg.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/src/color_sinks.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/src/file_sinks.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/src/fmt.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/src/spdlog.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/src/stdout_sinks.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Source/GEOGL/Logging/LoggingFunctions.cpp">
+			<Option target="GEOGL"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Source/GEOGL/Logging/PrivateLog.hpp">
+			<Option target="GEOGL"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Source/GEOGL/Logging/PublicLog.hpp">
+			<Option target="GEOGL"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Source/GEOGL/Utils/PCH.cpp">
+			<Option target="GEOGL"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Source/GEOGL/Utils/PCH.hpp">
+			<Option target="GEOGL"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Source/GEOGL/Win32Exports.hpp">
+			<Option target="GEOGL"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Source/GEOGL/include/GEOGL/GEOGL.hpp">
+			<Option target="GEOGL"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Dependencies/GLFW/src/glfw_config.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Source/GEOGL/CMakeFiles/GEOGL.dir/cmake_pch.cxx">
+			<Option target="GEOGL"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/cmake-build-debug/Source/GEOGL/CMakeFiles/GEOGL.dir/cmake_pch.hxx">
+			<Option target="GEOGL"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Dependencies\GLFW\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/cmake_uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\Dependencies\GLFW\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Dependencies\GLFW\src\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\Dependencies\GLFW\src\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\Dependencies\GLFW\src\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\Dependencies\GLFW\src\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/docs/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Dependencies\GLFW\docs\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLFW/docs/Doxyfile.in">
+			<Option virtualFolder="CMake Files\Dependencies\GLFW\docs\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/GLAD/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Dependencies\GLAD\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Dependencies\spdlog\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/cmake/ide.cmake">
+			<Option virtualFolder="CMake Files\Dependencies\spdlog\cmake\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/spdlog/cmake/utils.cmake">
+			<Option virtualFolder="CMake Files\Dependencies\spdlog\cmake\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Dependencies/STB/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Dependencies\STB\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Source/GEOGL/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Source\GEOGL\"/>
+		</Unit>
+		<Unit filename="C:/Users/matth/Desktop/Programming/GEOGL/Source/Example/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Source\Example\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
