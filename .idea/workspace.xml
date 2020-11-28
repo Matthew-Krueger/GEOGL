@@ -28,6 +28,7 @@
       <config projectName="GEOGL" targetName="glfw" />
       <config projectName="GEOGL" targetName="splitview" />
       <config projectName="GEOGL" targetName="empty" />
+      <config projectName="GEOGL" targetName="GEOGL_Doxygen" />
       <config projectName="GEOGL" targetName="boing" />
       <config projectName="GEOGL" targetName="docs" />
       <config projectName="GEOGL" targetName="glfwinfo" />
@@ -48,49 +49,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6513e696-470e-4e3b-b453-5e4d3ae19554" name="Default Changelist" comment="Created Basic Setup">
-      <change afterPath="$PROJECT_DIR$/Source/Example/main.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/ModelComponents/RawModel.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/ModelComponents/RawModel.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Rendering/GraphicsInstance.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Rendering/GraphicsInstance.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Rendering/Renderer.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Rendering/Renderer.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/Callbacks.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/Callbacks.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/Loader.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/Loader.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="6513e696-470e-4e3b-b453-5e4d3ae19554" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Example/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Example/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GEOGL/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Logging/LoggingFunctions.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Logging/LoggingFunctions.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Utils/PCH.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/PCH.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GEOGL/include/GEOGL/GEOGL.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/include/GEOGL/Core.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeDoxyfile.in" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeDoxygenDefaults.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/GLAD/GLAD.cbp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/GLAD/GLAD.lib" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/GLFW/GLFW.cbp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/GLFW/cmake_uninstall.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/GLFW/docs/Doxyfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/GLFW/src/glfw3.lib" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/GLFW/src/glfw3.pc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/GLFW/src/glfw3Config.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/GLFW/src/glfw3ConfigVersion.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/GLFW/src/glfw_config.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/STB/STB_LIB.cbp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/STB/STB_LIB.lib" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/spdlog/spdlog.cbp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Dependencies/spdlog/spdlogd.lib" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/GEOGL.cbp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Source/GEOGL/GEOGL.exp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Source/GEOGL/GEOGL.lib" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/bin/GEOGL.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/bin/GEOGL.ilk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/bin/GEOGL.pdb" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,9 +77,6 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="SIGN_OFF_COMMIT" value="true" />
-  </component>
-  <component name="OCResolveContextSettings">
-    <option name="configuration" value="0-Debug-GEOGL" />
   </component>
   <component name="ProjectId" id="1kpjwxcrdgcuuXxDpLVKs3hxpYE" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -149,8 +107,13 @@
       <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL\Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.GEOGL_Example">
+  <component name="RunManager" selected="CMake Application.GEOGL_Doxygen">
     <configuration name="GEOGL" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GEOGL" CONFIG_NAME="Debug-Visual Studio x64">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GEOGL_Doxygen" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GEOGL_Doxygen" CONFIG_NAME="Debug-Visual Studio x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -347,6 +310,7 @@
     </configuration>
     <list>
       <item itemvalue="CMake Application.GEOGL" />
+      <item itemvalue="CMake Application.GEOGL_Doxygen" />
       <item itemvalue="CMake Application.GLAD" />
       <item itemvalue="CMake Application.STB_LIB" />
       <item itemvalue="CMake Application.GEOGL_Example" />
@@ -399,7 +363,7 @@
       <workItem from="1606410997356" duration="177000" />
       <workItem from="1606418480907" duration="4186000" />
       <workItem from="1606427365245" duration="9998000" />
-      <workItem from="1606507556712" duration="8296000" />
+      <workItem from="1606507556712" duration="9093000" />
     </task>
     <task id="LOCAL-00001" summary="Created basic folder structure">
       <created>1606404733087</created>
@@ -408,7 +372,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606404733087</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Have a working Quad renderer">
+      <created>1606523545586</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1606523545586</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -480,7 +451,8 @@
       <path value="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAThread" />
     </ignored-roots>
     <MESSAGE value="Created basic folder structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created basic folder structure" />
+    <MESSAGE value="Have a working Quad renderer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Have a working Quad renderer" />
   </component>
   <component name="WindowStateProjectService">
     <state x="362" y="72" key="#New_File_Extensions" timestamp="1606507787623">
@@ -495,34 +467,38 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="500" y="160" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1606431719465" />
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1606408149831">
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1606523544547">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1606408149831" />
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1606523544547" />
     <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1606428776298">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1606428776298" />
-    <state width="723" height="223" key="GridCell.Tab.0.bottom" timestamp="1606523459073">
+    <state width="723" height="223" key="GridCell.Tab.0.bottom" timestamp="1606523811386">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="723" height="223" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606523459073" />
-    <state width="723" height="223" key="GridCell.Tab.0.center" timestamp="1606523459073">
+    <state width="723" height="223" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606523811386" />
+    <state width="723" height="223" key="GridCell.Tab.0.center" timestamp="1606523811386">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="723" height="223" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606523459073" />
-    <state width="723" height="223" key="GridCell.Tab.0.left" timestamp="1606523459073">
+    <state width="723" height="223" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606523811386" />
+    <state width="723" height="223" key="GridCell.Tab.0.left" timestamp="1606523811386">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="723" height="223" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606523459073" />
-    <state width="723" height="223" key="GridCell.Tab.0.right" timestamp="1606523459073">
+    <state width="723" height="223" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606523811386" />
+    <state width="723" height="223" key="GridCell.Tab.0.right" timestamp="1606523811386">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="723" height="223" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606523459073" />
+    <state width="723" height="223" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606523811386" />
     <state x="278" y="58" key="SettingsEditor" timestamp="1606507634444">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="278" y="58" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1606507634444" />
+    <state x="724" y="136" key="Vcs.Push.Dialog.v2" timestamp="1606523547993">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="724" y="136" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606523547993" />
     <state x="587" y="327" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606519216690">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
