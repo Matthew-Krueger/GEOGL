@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts "da" flag; do
+while getopts "dab" flag; do
 	case "${flag}" in
 	  d) dodoxygen="TRUE";;
 	  a) doarchive="TRUE";;
