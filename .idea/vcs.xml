@@ -2,68 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAAssert" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAAssert/test/packages/EABase" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAAssert/test/packages/EABase/test/packages/EASTL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAAssert/test/packages/EAMain" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAAssert/test/packages/EASTL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAAssert/test/packages/EAStdC" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAAssert/test/packages/EATest" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAAssert/test/packages/EAThread" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAMain" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAMain/test/packages/EAAssert" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAMain/test/packages/EABase" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAMain/test/packages/EASTL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAMain/test/packages/EAStdC" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAMain/test/packages/EATest" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAMain/test/packages/EAThread" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EASTL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAStdC" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAStdC/test/packages/EAAssert" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAStdC/test/packages/EABase" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAStdC/test/packages/EAMain" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAStdC/test/packages/EASTL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAStdC/test/packages/EATest" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAStdC/test/packages/EAThread" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EATest" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EATest/test/packages/EAAssert" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EATest/test/packages/EABase" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EATest/test/packages/EAMain" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EATest/test/packages/EASTL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EATest/test/packages/EAStdC" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EATest/test/packages/EAThread" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAThread" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAThread/test/packages/EAAssert" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAThread/test/packages/EABase" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAThread/test/packages/EAMain" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAThread/test/packages/EASTL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAThread/test/packages/EAStdC" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EABase/test/packages/EAThread/test/packages/EATest" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EAAssert" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EAAssert/test/packages/EABase" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EAAssert/test/packages/EAMain" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EAAssert/test/packages/EASTL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EAAssert/test/packages/EAStdC" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EAAssert/test/packages/EATest" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EAAssert/test/packages/EAThread" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EABase" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EASTL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EAStdC" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EATest" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAMain/test/packages/EAThread" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EASTL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAStdC" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EATest" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAAssert/test/packages/EAThread" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EABase" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAMain" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAStdC" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EATest" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Dependencies/EASTL/test/packages/EAThread" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Dependencies/GLFW" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Dependencies/spdlog" vcs="Git" />
   </component>

@@ -27,7 +27,6 @@
 
 #include "../Win32Exports.hpp"
 
-
 #include <string>
 #include <vector>
 #include <memory>
@@ -51,5 +50,8 @@
 
 
 #include "../Logging/PrivateLog.hpp"
+#include "../ModelComponents/RawModel.hpp"
+#include "Loader.hpp"
+
 
 #endif //GEOGL_PCH_HPP

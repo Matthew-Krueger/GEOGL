@@ -38,7 +38,7 @@ namespace GEOGL{
         //coreLogger = spdlog::stdout_color_mt("f");
 
 
-        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(filePath);
+        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(filePath.c_str());
         file_sink->set_level(spdlog::level::trace);
         file_sink->set_pattern("%^[%T] %n: %v%$");
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();

@@ -38,16 +38,11 @@ include_directories(Dependencies/STB/include)
 
 # GLM
 include_directories(Dependencies/GLM)
-
-# EASTL
-add_subdirectory(Dependencies/EASTL)
-include_directories(Dependencies/EASTL/include)
-
 ###################################
 #          Build GEOGL            #
 ###################################
-add_subdirectory(Source/GEOGL)
 include_directories(Source/GEOGL/include)
+add_subdirectory(Source/GEOGL)
 
 ###################################
 #          Build Example          #
