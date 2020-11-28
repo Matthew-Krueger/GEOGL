@@ -65,7 +65,7 @@ namespace GEOGL{
         setSizeCallback(windowDefaultSizeCallback);
         setDebugCallback(windowDefaultDebugCallback);
 
-        GEOGL_CORE_INFO_NOSTRIP("OpenGL Version", (const char *)glGetString(GL_VERSION));
+        GEOGL_CORE_INFO_NOSTRIP("OpenGL Version {}", (const char *)glGetString(GL_VERSION));
 
     }
 
@@ -86,7 +86,7 @@ namespace GEOGL{
 
     void GraphicsInstance::setDebugCallback(void (*errorCallback)(GLenum, GLenum, GLuint, GLenum, GLsizei, const char *, const void *)) { // NOLINT(readability-convert-member-functions-to-static)
 
-        GEOGL_CORE_TRACE("GL DebugMessageCallback", "Setting glDebugMessageCallback");
+        GEOGL_CORE_INFO("Setting glDebugMessageCallback");
 
 #if defined(NDEBUG)
         glEnable(GL_DEBUG_OUTPUT);

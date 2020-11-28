@@ -25,6 +25,47 @@
 #ifndef GEOGL_CORE_HPP
 #define GEOGL_CORE_HPP
 
+#ifdef INCLUDE_WIN_MAIN
+
+int main(int argc, char ** argv);
+#ifdef WIN32
+
+#ifdef APIENTRY
+#undef APIENTRY
+#endif
+#include <windows.h>
+INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPWSTR, INT)
+{
+
+    INT returnCode;
+    UNREFERENCED_PARAMETER(hInst);
+    UNREFERENCED_PARAMETER(hPrevInstance);
+
+    int argc;
+    char** argv;
+    {
+        LPWSTR* lpArgv = CommandLineToArgvW( GetCommandLineW(), &argc );
+        argv = (char**) malloc( argc*sizeof(char*) );
+        int size, i = 0;
+        for( ; i < argc; ++i ) {
+            size = wcslen( lpArgv[i] ) + 1;
+            argv[i] = (char*) malloc( size );
+            wcstombs( argv[i], lpArgv[i], size );
+        }
+
+        returnCode = (INT) main(argc, argv);
+
+        LocalFree( lpArgv );
+    }
+
+    return returnCode;
+
+}
+
+#endif
+
+#endif
+
 #include "../Win32Exports.hpp"
 
 #include <string>

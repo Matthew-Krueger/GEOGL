@@ -21,15 +21,17 @@
  *    distribution.                                                            *
  *                                                                             *
  *******************************************************************************/
-
+#ifdef WIN32
+#define INCLUDE_WIN_MAIN
+#endif
 #include <GEOGL/Core.hpp>
 
 
 int main(int argc, char ** argv){
 
-    GEOGL::Log::Init("log.txt");
+    GEOGL::Log::Init("log.txt", "Example");
 
-    GEOGL_INFO_NOSTRIP("Creating Graphics instance");
+    GEOGL_INFO("Creating Graphics instance. CMD argument count {}", argc);
     auto gi = GEOGL::GraphicsInstance::makeGraphicsInstance(1280,720,"Window You");
 
     GEOGL_INFO_NOSTRIP("Loading quad");

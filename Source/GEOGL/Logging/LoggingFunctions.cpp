@@ -32,7 +32,7 @@ namespace GEOGL{
     std::shared_ptr<spdlog::logger> Log::coreLogger;
     std::shared_ptr<spdlog::logger> Log::clientLogger;
 
-    void Log::Init(const std::string& filePath) {
+    void Log::Init(const std::string& filePath, const std::string& clientName) {
 
         //spdlog::set_pattern("%^[%T] %n: %v%$");
         //coreLogger = spdlog::stdout_color_mt("f");
@@ -40,13 +40,20 @@ namespace GEOGL{
 
         auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(filePath.c_str());
         file_sink->set_level(spdlog::level::trace);
-        file_sink->set_pattern("%^[%T] %n: %v%$");
+        file_sink->set_pattern("%^[%c] [%n] [%l] : %v%$");
+        //file_sink->set_pattern("%^[%T] %n: %v%$");
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
         console_sink->set_level(spdlog::level::trace);
-        console_sink->set_pattern("%^[%T] %n: %v%$");
+        console_sink->set_pattern("%^[%c] [%n] [%l] : %v%$");
+        //console_sink->set_pattern("%^[%T] %n: %v%$");
+
+        //spdlog::flush_every(std::chrono::seconds(3));
 
         coreLogger = std::make_shared<spdlog::logger>(GEOGL_ENGINE_NAME, spdlog::sinks_init_list{console_sink, file_sink});
-        clientLogger = std::make_shared<spdlog::logger>("Client", spdlog::sinks_init_list{console_sink, file_sink});
+        clientLogger = std::make_shared<spdlog::logger>(clientName + " Client", spdlog::sinks_init_list{console_sink, file_sink});
+
+        coreLogger->flush_on(spdlog::level::trace);
+        clientLogger->flush_on(spdlog::level::trace);
 
         /*{
             auto core_console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();

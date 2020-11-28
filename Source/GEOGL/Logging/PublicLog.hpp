@@ -40,7 +40,7 @@ namespace GEOGL{
         static std::shared_ptr<spdlog::logger> clientLogger;
 
     public:
-        static void Init(const std::string& filePath);
+        static void Init(const std::string& filePath, const std::string& clientName = "Client");
 
         inline static std::shared_ptr<spdlog::logger>& getCoreLogger(){ return coreLogger; }
         inline static std::shared_ptr<spdlog::logger>& getClientLogger(){ return clientLogger; }
@@ -51,20 +51,20 @@ namespace GEOGL{
 
 // client log macros
 #ifdef NDEBUG
-#   define GEOGL_TRACE
+//#   define GEOGL_TRACE
 #   define GEOGL_INFO
 #   define GEOGL_WARN
 #   define GEOGL_ERROR
 #   define GEOGL_CRITICAL
 #else
-#   define GEOGL_TRACE(...)       ::GEOGL::Log::getClientLogger()->trace(__VA_ARGS__);
+//#   define GEOGL_TRACE(...)       ::GEOGL::Log::getClientLogger()->trace(__VA_ARGS__);
 #   define GEOGL_INFO(...)        ::GEOGL::Log::getClientLogger()->info(__VA_ARGS__);
 #   define GEOGL_WARN(...)        ::GEOGL::Log::getClientLogger()->warn(__VA_ARGS__);
 #   define GEOGL_ERROR(...)       ::GEOGL::Log::getClientLogger()->error(__VA_ARGS__);
 #   define GEOGL_CRITICAL(...)       ::GEOGL::Log::getClientLogger()->critical(__VA_ARGS__);
 #endif
 
-#define GEOGL_TRACE_NOSTRIP(...)       ::GEOGL::Log::getClientLogger()->trace(__VA_ARGS__);
+//#define GEOGL_TRACE_NOSTRIP(...)       ::GEOGL::Log::getClientLogger()->trace(__VA_ARGS__);
 #define GEOGL_INFO_NOSTRIP(...)        ::GEOGL::Log::getClientLogger()->info(__VA_ARGS__);
 #define GEOGL_WARN_NOSTRIP(...)        ::GEOGL::Log::getClientLogger()->warn(__VA_ARGS__);
 #define GEOGL_ERROR_NOSTRIP(...)       ::GEOGL::Log::getClientLogger()->error(__VA_ARGS__);

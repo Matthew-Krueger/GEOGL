@@ -29,7 +29,6 @@
 
 namespace GEOGL{
 
-
     std::shared_ptr<GEOGL::RawModel> Loader::loadToVAO(const std::vector<float>& positions) {
 
         GLuint vaoID = createVAO();
@@ -48,6 +47,7 @@ namespace GEOGL{
         GLuint result;
         glGenVertexArrays(1, &result);
         glBindVertexArray(result);
+        GEOGL_CORE_INFO("Allocating VAO id: {}", result);
         return result;
     }
 
@@ -62,6 +62,7 @@ namespace GEOGL{
         glVertexAttribPointer(attributeNumber, sizePerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
         glEnableVertexAttribArray(attributeNumber);
         //glBindBuffer(GL_ARRAY_BUFFER, 0);
+        GEOGL_CORE_INFO("Allocating VBO id: {}", vboID);
 
         return vboID;
 
@@ -73,12 +74,18 @@ namespace GEOGL{
 
     void Loader::deleteVAO(GLuint vaoID) {
 
+        GEOGL_CORE_INFO("Deleting VAO id: {}", vaoID);
         glDeleteVertexArrays(1, &vaoID);
 
     }
 
     void Loader::deleteVBO(std::vector<GLuint>& vbos) {
 
+#ifndef NDEBUG
+        for(auto vbo:vbos){
+            GEOGL_CORE_INFO("Deleting VBO id: {}", vbo);
+        }
+#endif
         glDeleteBuffers(vbos.size(), vbos.data());
 
         vbos.clear();
