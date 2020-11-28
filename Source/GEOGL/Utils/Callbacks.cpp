@@ -31,9 +31,9 @@ namespace GEOGL{
     windowDefaultDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char *message,
                                    const void *userParam) {
 
-        char* _source;
-        char* _type;
-        char* _severity;
+        std::string _source;
+        std::string _type;
+        std::string _severity;
 
         switch (source) {
             case GL_DEBUG_SOURCE_API:
@@ -126,14 +126,8 @@ namespace GEOGL{
                 break;
         }
 
-        char * buffer = (char*)calloc(500, sizeof(char));
+        GEOGL_CORE_ERROR("OpenGL Error {}: {} of {} severity, raised from {}: {}",id, _type, _severity, _source, message);
 
-        sprintf(buffer,"%d: %s of %s severity, raised from %s: %s\n",
-                id, _type, _severity, _source, message);
-
-        GEOGL_CORE_ERROR("OpenGL Error",buffer);
-
-        free(buffer);
     }
 
     void windowDefaultSizeCallback(GLFWwindow* window, int width, int height){

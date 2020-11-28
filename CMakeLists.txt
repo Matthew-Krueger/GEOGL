@@ -31,6 +31,7 @@ include_directories(Dependencies/GLAD/include)
 # spdlog
 add_subdirectory(Dependencies/spdlog)
 include_directories(Dependencies/spdlog/include)
+set_property(TARGET spdlog PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 # stbimage
 add_subdirectory(Dependencies/STB)

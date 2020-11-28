@@ -49,7 +49,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6513e696-470e-4e3b-b453-5e4d3ae19554" name="Default Changelist" comment="" />
+    <list default="true" id="6513e696-470e-4e3b-b453-5e4d3ae19554" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Utils/Callbacks.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/Callbacks.cpp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -360,7 +363,7 @@
       <workItem from="1606410997356" duration="177000" />
       <workItem from="1606418480907" duration="4186000" />
       <workItem from="1606427365245" duration="9998000" />
-      <workItem from="1606507556712" duration="9558000" />
+      <workItem from="1606507556712" duration="10515000" />
     </task>
     <task id="LOCAL-00001" summary="Created basic folder structure">
       <created>1606404733087</created>
@@ -383,7 +386,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606524430909</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fixed some minor problems. See if it compiles">
+      <created>1606524978358</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1606524978358</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -457,7 +467,8 @@
     <MESSAGE value="Created basic folder structure" />
     <MESSAGE value="Have a working Quad renderer" />
     <MESSAGE value="Add Jenkins for Doxygen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Jenkins for Doxygen" />
+    <MESSAGE value="Fixed some minor problems. See if it compiles" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed some minor problems. See if it compiles" />
   </component>
   <component name="WindowStateProjectService">
     <state x="362" y="72" key="#New_File_Extensions" timestamp="1606507787623">
@@ -472,38 +483,38 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="500" y="160" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1606431719465" />
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1606524430296">
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1606524977790">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1606524430296" />
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1606524977790" />
     <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1606428776298">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1606428776298" />
-    <state width="723" height="223" key="GridCell.Tab.0.bottom" timestamp="1606523811386">
+    <state width="1480" height="223" key="GridCell.Tab.0.bottom" timestamp="1606525824641">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="723" height="223" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606523811386" />
-    <state width="723" height="223" key="GridCell.Tab.0.center" timestamp="1606523811386">
+    <state width="1480" height="223" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606525824641" />
+    <state width="1480" height="223" key="GridCell.Tab.0.center" timestamp="1606525824640">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="723" height="223" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606523811386" />
-    <state width="723" height="223" key="GridCell.Tab.0.left" timestamp="1606523811386">
+    <state width="1480" height="223" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606525824640" />
+    <state width="1480" height="223" key="GridCell.Tab.0.left" timestamp="1606525824640">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="723" height="223" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606523811386" />
-    <state width="723" height="223" key="GridCell.Tab.0.right" timestamp="1606523811386">
+    <state width="1480" height="223" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606525824640" />
+    <state width="1480" height="223" key="GridCell.Tab.0.right" timestamp="1606525824640">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="723" height="223" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606523811386" />
+    <state width="1480" height="223" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606525824640" />
     <state x="278" y="58" key="SettingsEditor" timestamp="1606507634444">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="278" y="58" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1606507634444" />
-    <state x="724" y="136" key="Vcs.Push.Dialog.v2" timestamp="1606524436122">
+    <state x="724" y="136" key="Vcs.Push.Dialog.v2" timestamp="1606524980174">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="724" y="136" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606524436122" />
+    <state x="724" y="136" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606524980174" />
     <state x="587" y="327" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606519216690">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -512,9 +523,9 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="94" y="94" width="1349" height="637" key="dock-window-1/0.0.1536.824@0.0.1536.824" timestamp="1606405951233" />
-    <state x="427" y="188" key="run.anything.popup" timestamp="1606521152871">
+    <state x="427" y="188" key="run.anything.popup" timestamp="1606525881996">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="427" y="188" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1606521152871" />
+    <state x="427" y="188" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1606525881996" />
   </component>
 </project>
