@@ -22,6 +22,7 @@ addons:
       - libgl-dev
       - libglu-dev
 install:
+  - sudo apt purge cmake
   - sudo snap install cmake --classic
   - cmake --version || exit
 script:

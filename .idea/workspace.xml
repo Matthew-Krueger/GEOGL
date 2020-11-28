@@ -362,7 +362,7 @@
       <workItem from="1606410997356" duration="177000" />
       <workItem from="1606418480907" duration="4186000" />
       <workItem from="1606427365245" duration="9998000" />
-      <workItem from="1606507556712" duration="13201000" />
+      <workItem from="1606507556712" duration="13511000" />
     </task>
     <task id="LOCAL-00001" summary="Created basic folder structure">
       <created>1606404733087</created>
@@ -420,7 +420,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606528325428</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="One more try with different YAML.&#10;&#10;I apparently can't get it do run on only bionic">
+      <created>1606528660406</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1606528660406</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -499,7 +506,8 @@
     <MESSAGE value="Test this deploy method with travis" />
     <MESSAGE value="Fixed YAML" />
     <MESSAGE value="Fixed another YAML problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed another YAML problem" />
+    <MESSAGE value="One more try with different YAML.&#10;&#10;I apparently can't get it do run on only bionic" />
+    <option name="LAST_COMMIT_MESSAGE" value="One more try with different YAML.&#10;&#10;I apparently can't get it do run on only bionic" />
   </component>
   <component name="WindowStateProjectService">
     <state x="362" y="72" key="#New_File_Extensions" timestamp="1606507787623">
@@ -514,10 +522,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="500" y="160" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1606431719465" />
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1606528324809">
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1606528659589">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1606528324809" />
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1606528659589" />
     <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1606428776298">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -542,10 +550,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="278" y="58" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1606507634444" />
-    <state x="724" y="136" key="Vcs.Push.Dialog.v2" timestamp="1606528326663">
+    <state x="724" y="136" key="Vcs.Push.Dialog.v2" timestamp="1606528662323">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="724" y="136" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606528326663" />
+    <state x="724" y="136" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606528662323" />
     <state x="587" y="327" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606519216690">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
