@@ -49,10 +49,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6513e696-470e-4e3b-b453-5e4d3ae19554" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-    </list>
+    <list default="true" id="6513e696-470e-4e3b-b453-5e4d3ae19554" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -107,7 +104,7 @@
       <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL\Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.GEOGL_Doxygen">
+  <component name="RunManager" selected="CMake Application.GEOGL_Example">
     <configuration name="GEOGL" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GEOGL" CONFIG_NAME="Debug-Visual Studio x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -363,7 +360,7 @@
       <workItem from="1606410997356" duration="177000" />
       <workItem from="1606418480907" duration="4186000" />
       <workItem from="1606427365245" duration="9998000" />
-      <workItem from="1606507556712" duration="9093000" />
+      <workItem from="1606507556712" duration="9558000" />
     </task>
     <task id="LOCAL-00001" summary="Created basic folder structure">
       <created>1606404733087</created>
@@ -379,7 +376,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606523545586</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Add Jenkins for Doxygen">
+      <created>1606524430909</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1606524430909</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -452,7 +456,8 @@
     </ignored-roots>
     <MESSAGE value="Created basic folder structure" />
     <MESSAGE value="Have a working Quad renderer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Have a working Quad renderer" />
+    <MESSAGE value="Add Jenkins for Doxygen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Jenkins for Doxygen" />
   </component>
   <component name="WindowStateProjectService">
     <state x="362" y="72" key="#New_File_Extensions" timestamp="1606507787623">
@@ -467,10 +472,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="500" y="160" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1606431719465" />
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1606523544547">
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1606524430296">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1606523544547" />
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1606524430296" />
     <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1606428776298">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -495,10 +500,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="278" y="58" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1606507634444" />
-    <state x="724" y="136" key="Vcs.Push.Dialog.v2" timestamp="1606523547993">
+    <state x="724" y="136" key="Vcs.Push.Dialog.v2" timestamp="1606524436122">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="724" y="136" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606523547993" />
+    <state x="724" y="136" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606524436122" />
     <state x="587" y="327" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606519216690">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

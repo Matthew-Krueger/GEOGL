@@ -43,7 +43,7 @@
 #   define GEOGL_API_HIDDEN
 #else
 #   if __GNUC__ >= 4
-#       define GEOGL_API __attribute__ ((visibility ("default"))) extern
+#       define GEOGL_API __attribute__ ((visibility ("default")))
 #       define GEOGL_API_HIDDEN  __attribute__ ((visibility ("hidden")))
 #   else
 #       define GEOGL_API
