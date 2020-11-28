@@ -28,7 +28,7 @@
 namespace GEOGL{
 
 
-    GraphicsInstance::GraphicsInstance(int width, int height, const std::string& windowName) {
+    GraphicsInstance::GraphicsInstance(const std::string& windowName, int width, int height) {
 
 
         /* Init glfw and crash if unable */
@@ -37,6 +37,12 @@ namespace GEOGL{
             GEOGL_CORE_CRITICAL_NOSTRIP("Failed to start GLFW");
             exit(EXIT_FAILURE);
         }
+
+        /* Get monitor res */
+        auto * mode = (GLFWvidmode*) glfwGetVideoMode(glfwGetPrimaryMonitor());
+        width = (width == 0) ? mode->width : width;
+        height = (height == 0) ? mode->height : height;
+        GEOGL_CORE_INFO_NOSTRIP("Creating Graphics Instance with initial X resolution = {}, Y resolution = {}", width, height);
 
         /* Do window hints for GLFW */
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -99,8 +105,8 @@ namespace GEOGL{
     }
 
     std::shared_ptr<GEOGL::GraphicsInstance>
-    GraphicsInstance::makeGraphicsInstance(int width, int height,const std::string& windowName) {
-        return std::make_shared<GEOGL::GraphicsInstance>(width, height, windowName);
+    GraphicsInstance::makeGraphicsInstance(const std::string& windowName, int width, int height) {
+        return std::make_shared<GEOGL::GraphicsInstance>(windowName, width, height);
     }
 
 

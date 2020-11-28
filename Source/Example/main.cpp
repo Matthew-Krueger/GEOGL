@@ -26,13 +26,33 @@
 #endif
 #include <GEOGL/Core.hpp>
 
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 int main(int argc, char ** argv){
+/*
+#ifdef WIN32
+    int xInitial =1280;// (int) GetSystemMetrics(SM_CXSCREEN);
+    int yInitial =720;// (int) GetSystemMetrics(SM_CYSCREEN);
+    {
+        RECT desktop;
+        HWND hDesktop = GetDesktopWindow();
+        GetWindowRect(hDesktop, &desktop);
+
+        xInitial = desktop.right;
+        yInitial = desktop.bottom;
+    }
+
+#else
+    int xInitial = 1280;
+    int yInitial = 720;
+#endif*/
 
     GEOGL::Log::Init("log.txt", "Example");
 
-    GEOGL_INFO("Creating Graphics instance. CMD argument count {}", argc);
-    auto gi = GEOGL::GraphicsInstance::makeGraphicsInstance(1280,720,"Window You");
+    GEOGL_INFO("Creating Graphics instance");
+    auto gi = GEOGL::GraphicsInstance::makeGraphicsInstance("Window You");
 
     GEOGL_INFO_NOSTRIP("Loading quad");
     auto rm = GEOGL::Loader::loadToVAO({ -0.5f, 0.5f, 0,

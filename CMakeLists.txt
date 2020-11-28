@@ -6,6 +6,11 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
+###################################
+#             Options             #
+###################################
+option(BUILD_STATIC_MSVC "Build with a static MSVC runtime" ON)
+
 
 ###################################
 #              Info               #

@@ -31,7 +31,7 @@ namespace GEOGL {
         GLFWwindow *window;
 
     public:
-        GraphicsInstance(int width, int height, const std::string& windowName);
+        GraphicsInstance(const std::string& windowName, int width, int height);
         ~GraphicsInstance();
 
         /**
@@ -65,7 +65,7 @@ namespace GEOGL {
         inline void updateDisplay(){ glfwSwapBuffers(window); glfwPollEvents(); };
         inline void closeDisplay(){ glfwSetWindowShouldClose(window, true); };
 
-        static std::shared_ptr<GEOGL::GraphicsInstance> makeGraphicsInstance(int width, int height, const std::string& windowName);
+        static std::shared_ptr<GEOGL::GraphicsInstance> makeGraphicsInstance(const std::string& windowName = "Default Window", int width = 0, int height = 0);
 
     };
 }
