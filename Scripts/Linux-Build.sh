@@ -4,6 +4,7 @@ while getopts "da" flag; do
 	case "${flag}" in
 	  d) dodoxygen="TRUE";;
 	  a) doarchive="TRUE";;
+	  b) build="TRUE";;
   esac
 done
 
@@ -20,10 +21,12 @@ cd Build || exit
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../_install .. || exit
 echo "Configuring CMake done."
 
-# C Compiling
-echo "Compiling the engine and example meta package"
-make GEOGL_Example
-echo "Engine and example meta package compiled"
+if [ "$build" == "TRUE" ]; then
+  # C Compiling
+  echo "Compiling the engine and example meta package"
+  make GEOGL_Example
+  echo "Engine and example meta package compiled"
+fi
 
 #mkdir -p bin || exit
 #cp Sources/*/lib* bin/ || exit
@@ -45,10 +48,12 @@ if [ "$doarchive" == "TRUE" ]; then
   echo "Archiving Artifacts"
   mkdir -p bin/artifacts
 
-  echo "Archiving Libraries"
-  cd bin || exit
-  tar cvzf artifacts/Libraries.tar.gz lib*
-  cd ..
+  if [ "$build" == "TRUE" ]; then
+    echo "Archiving Libraries"
+    cd bin || exit
+    tar cvzf artifacts/Libraries.tar.gz lib*
+    cd ..
+  fi
 
   echo "Archiving Doxygen"
   if [ -e bin/Docs.tar.gz ]
@@ -56,8 +61,10 @@ if [ "$doarchive" == "TRUE" ]; then
     cp bin/Docs.tar.gz bin/artifacts
   fi
 
-  echo "Archiving Examples"
-  cd bin/Examples || exit
-  tar -cvzf "../artifacts/Examples.tar.gz" *;
-  cd ../..
+  if [ "$build" == "TRUE" ]; then
+    echo "Archiving Examples"
+    cd bin/Examples || exit
+    tar -cvzf "../artifacts/Examples.tar.gz" *;
+    cd ../..
+  fi
 fi

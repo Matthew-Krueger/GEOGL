@@ -1,0 +1,36 @@
+language: c++
+compiler:
+  - clang
+  - gcc
+
+matrix:
+  include:
+    - os: linux
+    dist:
+      - bionic
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+        packages:
+          - g++
+          - clang
+          - doxygen
+          - graphviz
+          - snap
+          - libx11-dev
+          - libxrandr-dev
+          - libxinerama-dev
+          - libxcursor-dev
+          - libxi-dev
+          - libgl-dev
+          - libglu-dev
+    env:
+      - MATRIX_EVAL="CC=gcc && CXX=g++"
+    - os: osx
+      name: "OSX build"
+install:
+  - sudo snap install cmake --classic
+  - cmake --version || exit
+script:
+  - bash Scripts/Linux-Build.sh -b
