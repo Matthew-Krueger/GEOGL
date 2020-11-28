@@ -7,8 +7,7 @@ matrix:
   include:
     -
      os: linux
-     dist:
-       - bionic
+     dist: bionic
      addons:
         apt:
           sources:
@@ -26,8 +25,6 @@ matrix:
             - libxi-dev
             - libgl-dev
             - libglu-dev
-    - os: osx
-      name: "OSX build"
 install:
   - sudo snap install cmake --classic
   - cmake --version || exit
