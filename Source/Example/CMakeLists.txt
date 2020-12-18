@@ -14,9 +14,9 @@ if(WIN32)
 
 endif(WIN32)
 
-add_executable(${MODULE_NAME} ${OPTIONS} main.cpp ${ADDITIONAL_WIN32_FILES})
+add_executable(${MODULE_NAME} ${OPTIONS} SandboxApplication.cpp SandboxApplication.hpp ${ADDITIONAL_WIN32_FILES})
 
-target_link_libraries(${MODULE_NAME} ${PROJECT_NAME})
+target_link_libraries(${MODULE_NAME} GEOGL::Engine)
 #target_include_directories(${MODULE_NAME} PRIVATE ../GEOGL/include)
 
 set_target_properties(${MODULE_NAME} PROPERTIES

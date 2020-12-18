@@ -9,7 +9,9 @@ endif()
 ###################################
 #             Options             #
 ###################################
-option(BUILD_STATIC_MSVC "Build with a static MSVC runtime" ON)
+option(GEOGL_BUILD_STATIC_MSVC "Build with a static MSVC runtime" OFF)
+option(GEOGL_BUILD_WITH_OPENGL "Build GEOGL with OpenGL support" ON)
+option(GEOGL_BUILD_WITH_VULKAN "Build GEOGL with Vulkan Support" OFF)
 
 
 ###################################

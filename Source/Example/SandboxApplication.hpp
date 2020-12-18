@@ -22,35 +22,18 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_PCH_HPP
-#define GEOGL_PCH_HPP
+#include <GEOGL/Core.hpp>
 
-#include "../include/GEOGL/Core.hpp"
+#ifndef GEOGL_SANDBOXAPPLICATION_HPP
+#define GEOGL_SANDBOXAPPLICATION_HPP
 
-#include "../Win32Exports.hpp"
+namespace Sandbox {
+    class SandboxApp : public GEOGL::Application {
+    public:
+        SandboxApp();
 
-#include <string>
-#include <vector>
-#include <memory>
-#include <spdlog/spdlog.h>
+        ~SandboxApp();
+    };
+}
 
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
-
-/* Stb Image */
-#include <STB/stb_image.h>
-
-/* GLAD */
-#include <glad/glad.h>
-
-/* GLFW */
-#include <GLFW/glfw3.h>
-
-
-#include "../Logging/PrivateLog.hpp"
-
-#endif //GEOGL_PCH_HPP
+#endif //GEOGL_SANDBOXAPPLICATION_HPP

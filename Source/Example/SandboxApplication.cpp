@@ -22,35 +22,31 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_PCH_HPP
-#define GEOGL_PCH_HPP
+#define GEOGL_INCLUDE_MAIN
+#define GEOGL_INCLUDE_WIN_MAIN
+#include <GEOGL/MainCreator.hpp>
 
-#include "../include/GEOGL/Core.hpp"
+#include "SandboxApplication.hpp"
 
-#include "../Win32Exports.hpp"
+namespace Sandbox{
 
-#include <string>
-#include <vector>
-#include <memory>
-#include <spdlog/spdlog.h>
+    SandboxApp::SandboxApp() {
 
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
+        GEOGL::Log::Init("log.txt", "Sandbox");
+        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
 
-/* Stb Image */
-#include <STB/stb_image.h>
+    }
 
-/* GLAD */
-#include <glad/glad.h>
+    SandboxApp::~SandboxApp(){
 
-/* GLFW */
-#include <GLFW/glfw3.h>
+        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
 
+    }
 
-#include "../Logging/PrivateLog.hpp"
+}
 
-#endif //GEOGL_PCH_HPP
+GEOGL::Application* GEOGL::createApplication(){
+
+    return new Sandbox::SandboxApp();
+
+}

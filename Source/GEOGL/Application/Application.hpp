@@ -22,35 +22,23 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_PCH_HPP
-#define GEOGL_PCH_HPP
 
-#include "../include/GEOGL/Core.hpp"
+#ifndef GEOGL_APPLICATION_HPP
+#define GEOGL_APPLICATION_HPP
 
-#include "../Win32Exports.hpp"
+namespace GEOGL{
 
-#include <string>
-#include <vector>
-#include <memory>
-#include <spdlog/spdlog.h>
+    class GEOGL_API Application{
+    public:
+        Application();
+        virtual ~Application();
 
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
+        void run();
+    };
 
-/* Stb Image */
-#include <STB/stb_image.h>
+    // To be defined in the client.
+    Application* createApplication();
 
-/* GLAD */
-#include <glad/glad.h>
+}
 
-/* GLFW */
-#include <GLFW/glfw3.h>
-
-
-#include "../Logging/PrivateLog.hpp"
-
-#endif //GEOGL_PCH_HPP
+#endif //GEOGL_APPLICATION_HPP

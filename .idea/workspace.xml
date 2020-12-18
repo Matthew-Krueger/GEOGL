@@ -16,10 +16,10 @@
       <config projectName="GEOGL" targetName="spdlog" />
       <config projectName="GEOGL" targetName="gears" />
       <config projectName="GEOGL" targetName="inputlag" />
+      <config projectName="GEOGL" targetName="GEOGL_OpenGL" />
       <config projectName="GEOGL" targetName="offscreen" />
       <config projectName="GEOGL" targetName="particles" />
       <config projectName="GEOGL" targetName="heightmap" />
-      <config projectName="GEOGL" targetName="GEOGL" />
       <config projectName="GEOGL" targetName="events" />
       <config projectName="GEOGL" targetName="gamma" />
       <config projectName="GEOGL" targetName="windows" />
@@ -38,26 +38,45 @@
       <config projectName="GEOGL" targetName="wave" />
       <config projectName="GEOGL" targetName="STB_LIB" />
       <config projectName="GEOGL" targetName="clipboard" />
+      <config projectName="GEOGL" targetName="GEOGL_Engine" />
       <config projectName="GEOGL" targetName="tearing" />
       <config projectName="GEOGL" targetName="msaa" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
-      <configuration PROFILE_NAME="Debug-Visual Studio x64" CONFIG_NAME="Debug" TOOLCHAIN_NAME="Visual Studio x64" />
-      <configuration PROFILE_NAME="Release-Visual Studio x64" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio x64" />
-      <configuration PROFILE_NAME="MinSizeRel-Visual Studio x64" CONFIG_NAME="MinSizeRel" TOOLCHAIN_NAME="Visual Studio x64" />
+      <configuration PROFILE_NAME="Debug-Visual Studio x64" CONFIG_NAME="Debug" TOOLCHAIN_NAME="Visual Studio x64" ENABLED="true" />
+      <configuration PROFILE_NAME="Release-Visual Studio x64" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio x64" ENABLED="true" />
+      <configuration PROFILE_NAME="MinSizeRel-Visual Studio x64" CONFIG_NAME="MinSizeRel" TOOLCHAIN_NAME="Visual Studio x64" ENABLED="true" />
+      <configuration PROFILE_NAME="Debug-Visual Studio x86" CONFIG_NAME="Debug" TOOLCHAIN_NAME="Visual Studio x86" ENABLED="true" />
+      <configuration PROFILE_NAME="Release-Visual Studio x86" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio x86" ENABLED="true" />
+      <configuration PROFILE_NAME="MinSizeRel-Visual Studio x86" CONFIG_NAME="MinSizeRel" TOOLCHAIN_NAME="Visual Studio x86" ENABLED="true" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6513e696-470e-4e3b-b453-5e4d3ae19554" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Info/About.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Info/Implementation.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Example/SandboxApplication.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Example/SandboxApplication.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Application/Application.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Application/Application.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/OpenGL/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/OpenGL/OpenGLCompileTest.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/OpenGL/OpenGLCompileTest.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/OpenGL/include/GEOGL/Platform/OpenGL.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/Vulkan/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/include/GEOGL/MainCreator.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Example/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Example/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Example/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Example/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/GEOGL/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Rendering/GraphicsInstance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Rendering/GraphicsInstance.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Rendering/GraphicsInstance.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Rendering/GraphicsInstance.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Utils/PCH.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/PCH.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GEOGL/include/GEOGL/Core.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/include/GEOGL/Core.hpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,217 +129,222 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL\Platform" />
+      <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL" />
       <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL\Rendering" />
       <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL\Utils" />
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.GEOGL_Example">
-    <configuration name="GEOGL" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GEOGL" CONFIG_NAME="Debug-Visual Studio x64">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GEOGL_Doxygen" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GEOGL_Doxygen" CONFIG_NAME="Debug-Visual Studio x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GEOGL_Doxygen" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GEOGL_Doxygen" CONFIG_NAME="Debug-Visual Studio x64">
+    <configuration name="GEOGL_Engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GEOGL_Engine" CONFIG_NAME="Debug-Visual Studio x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GEOGL_Example" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GEOGL_Example" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="GEOGL_Example">
+    <configuration name="GEOGL_Example" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GEOGL_Example" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="GEOGL_Example">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GLAD" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GLAD" CONFIG_NAME="Debug-Visual Studio x64">
+    <configuration name="GEOGL_OpenGL" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GEOGL_OpenGL" CONFIG_NAME="Debug-Visual Studio x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="STB_LIB" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="STB_LIB" CONFIG_NAME="Debug-Visual Studio x64">
+    <configuration name="GLAD" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="GLAD" CONFIG_NAME="Debug-Visual Studio x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="STB_LIB" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="STB_LIB" CONFIG_NAME="Debug-Visual Studio x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="boing" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="boing" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="boing">
+    <configuration name="boing" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="boing" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="boing">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="clipboard" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="clipboard" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="clipboard">
+    <configuration name="clipboard" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="clipboard" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="clipboard">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="cursor" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="cursor" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="cursor">
+    <configuration name="cursor" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="cursor" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="cursor">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="docs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="docs" CONFIG_NAME="Debug-Visual Studio x64">
+    <configuration name="docs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="docs" CONFIG_NAME="Debug-Visual Studio x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="empty" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="empty" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="empty">
+    <configuration name="empty" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="empty" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="empty">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="events" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="events" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="events">
+    <configuration name="events" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="events" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="events">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="gamma" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="gamma" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="gamma">
+    <configuration name="gamma" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="gamma" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="gamma">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="gears" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="gears" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="gears">
+    <configuration name="gears" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="gears" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="gears">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="glfw" CONFIG_NAME="Debug-Visual Studio x64">
+    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="glfw" CONFIG_NAME="Debug-Visual Studio x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="glfwinfo" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="glfwinfo" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="glfwinfo">
+    <configuration name="glfwinfo" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="glfwinfo" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="glfwinfo">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="heightmap" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="heightmap" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="heightmap">
+    <configuration name="heightmap" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="heightmap" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="heightmap">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="icon" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="icon" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="icon">
+    <configuration name="icon" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="icon" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="icon">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="iconify" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="iconify" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="iconify">
+    <configuration name="iconify" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="iconify" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="iconify">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="inputlag" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="inputlag" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="inputlag">
+    <configuration name="inputlag" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="inputlag" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="inputlag">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="joysticks" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="joysticks" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="joysticks">
+    <configuration name="joysticks" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="joysticks" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="joysticks">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="monitors" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="monitors" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="monitors">
+    <configuration name="monitors" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="monitors" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="monitors">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="msaa" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="msaa" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="msaa">
+    <configuration name="msaa" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="msaa" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="msaa">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="offscreen" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="offscreen" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="offscreen">
+    <configuration name="offscreen" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="offscreen" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="offscreen">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="opacity" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="opacity" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="opacity">
+    <configuration name="opacity" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="opacity" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="opacity">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="particles" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="particles" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="particles">
+    <configuration name="particles" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="particles" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="particles">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="reopen" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="reopen" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="reopen">
+    <configuration name="reopen" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="reopen" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="reopen">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sharing" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="sharing" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="sharing">
+    <configuration name="sharing" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="sharing" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="sharing">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="simple" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="simple" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="simple">
+    <configuration name="simple" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="simple" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="simple">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="spdlog" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="spdlog" CONFIG_NAME="Debug-Visual Studio x64">
+    <configuration name="spdlog" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="spdlog" CONFIG_NAME="Debug-Visual Studio x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="splitview" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="splitview" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="splitview">
+    <configuration name="splitview" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="splitview" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="splitview">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="tearing" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="tearing" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="tearing">
+    <configuration name="tearing" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="tearing" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="tearing">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="threads" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="threads" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="threads">
+    <configuration name="threads" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="threads" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="threads">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="timeout" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="timeout" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="timeout">
+    <configuration name="timeout" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="timeout" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="timeout">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="title" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="title" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="title">
+    <configuration name="title" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="title" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="title">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="triangle-vulkan" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="triangle-vulkan" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="triangle-vulkan">
+    <configuration name="triangle-vulkan" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="triangle-vulkan" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="triangle-vulkan">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="uninstall" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="uninstall" CONFIG_NAME="Debug-Visual Studio x64">
+    <configuration name="uninstall" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="uninstall" CONFIG_NAME="Debug-Visual Studio x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="wave" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="wave" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="wave">
+    <configuration name="wave" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="wave" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="wave">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="windows" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="windows" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="windows">
+    <configuration name="windows" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GEOGL" TARGET_NAME="windows" CONFIG_NAME="Debug-Visual Studio x64" RUN_TARGET_PROJECT_NAME="GEOGL" RUN_TARGET_NAME="windows">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="CMake Application.GEOGL" />
       <item itemvalue="CMake Application.GEOGL_Doxygen" />
       <item itemvalue="CMake Application.GLAD" />
-      <item itemvalue="CMake Application.STB_LIB" />
-      <item itemvalue="CMake Application.GEOGL_Example" />
+      <item itemvalue="CMake Application.uninstall" />
       <item itemvalue="CMake Application.docs" />
       <item itemvalue="CMake Application.boing" />
       <item itemvalue="CMake Application.gears" />
@@ -353,7 +377,10 @@
       <item itemvalue="CMake Application.triangle-vulkan" />
       <item itemvalue="CMake Application.windows" />
       <item itemvalue="CMake Application.spdlog" />
-      <item itemvalue="CMake Application.uninstall" />
+      <item itemvalue="CMake Application.STB_LIB" />
+      <item itemvalue="CMake Application.GEOGL_Example" />
+      <item itemvalue="CMake Application.GEOGL_Engine" />
+      <item itemvalue="CMake Application.GEOGL_OpenGL" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -370,7 +397,17 @@
       <workItem from="1606410997356" duration="177000" />
       <workItem from="1606418480907" duration="4186000" />
       <workItem from="1606427365245" duration="9998000" />
-      <workItem from="1606507556712" duration="24875000" />
+      <workItem from="1606507556712" duration="24965000" />
+      <workItem from="1606591614786" duration="282000" />
+      <workItem from="1606591929899" duration="620000" />
+      <workItem from="1606613108177" duration="400000" />
+      <workItem from="1606689103290" duration="751000" />
+      <workItem from="1606846923405" duration="3934000" />
+      <workItem from="1607548268953" duration="3412000" />
+      <workItem from="1607708312176" duration="628000" />
+      <workItem from="1607734350804" duration="187000" />
+      <workItem from="1607787340212" duration="2966000" />
+      <workItem from="1607872006919" duration="4589000" />
     </task>
     <task id="LOCAL-00001" summary="Created basic folder structure">
       <created>1606404733087</created>
@@ -470,7 +507,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606535878406</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Added Auto detect window resolution">
+      <created>1606540617558</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1606540617558</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -556,64 +600,7 @@
     <MESSAGE value="Try Build on focal" />
     <MESSAGE value="Fixed flag. It should actually compile now" />
     <MESSAGE value="Added ImageIcon on windows and made some system modifications" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ImageIcon on windows and made some system modifications" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="362" y="72" key="#New_File_Extensions" timestamp="1606507787623">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="362" y="72" key="#New_File_Extensions/0.0.1536.824@0.0.1536.824" timestamp="1606507787623" />
-    <state x="532" y="215" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1606535688204">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="532" y="215" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1606535688204" />
-    <state x="500" y="160" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1606431719465">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="500" y="160" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1606431719465" />
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1606535877713">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1606535877713" />
-    <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1606428776298">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1606428776298" />
-    <state width="723" height="225" key="GridCell.Tab.0.bottom" timestamp="1606540560274">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="723" height="225" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606540560274" />
-    <state width="723" height="225" key="GridCell.Tab.0.center" timestamp="1606540560274">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="723" height="225" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606540560274" />
-    <state width="723" height="225" key="GridCell.Tab.0.left" timestamp="1606540560273">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="723" height="225" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606540560273" />
-    <state width="723" height="225" key="GridCell.Tab.0.right" timestamp="1606540560274">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="723" height="225" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606540560274" />
-    <state x="278" y="58" key="SettingsEditor" timestamp="1606534890491">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="278" y="58" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1606534890491" />
-    <state x="724" y="136" key="Vcs.Push.Dialog.v2" timestamp="1606535880328">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="724" y="136" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606535880328" />
-    <state x="587" y="327" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606519216690">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="587" y="327" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1606519216690" />
-    <state x="94" y="94" width="1349" height="637" key="dock-window-1" timestamp="1606405951233">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="94" y="94" width="1349" height="637" key="dock-window-1/0.0.1536.824@0.0.1536.824" timestamp="1606405951233" />
-    <state x="428" y="188" key="run.anything.popup" timestamp="1606535730811">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="428" y="188" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1606535730811" />
+    <MESSAGE value="Added Auto detect window resolution" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Auto detect window resolution" />
   </component>
 </project>

@@ -26,28 +26,7 @@
 #endif
 #include <GEOGL/Core.hpp>
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 int main(int argc, char ** argv){
-/*
-#ifdef WIN32
-    int xInitial =1280;// (int) GetSystemMetrics(SM_CXSCREEN);
-    int yInitial =720;// (int) GetSystemMetrics(SM_CYSCREEN);
-    {
-        RECT desktop;
-        HWND hDesktop = GetDesktopWindow();
-        GetWindowRect(hDesktop, &desktop);
-
-        xInitial = desktop.right;
-        yInitial = desktop.bottom;
-    }
-
-#else
-    int xInitial = 1280;
-    int yInitial = 720;
-#endif*/
 
     GEOGL::Log::Init("log.txt", "Example");
 
@@ -71,6 +50,14 @@ int main(int argc, char ** argv){
         r.prepare();
 
         r.render(*rm);
+
+
+        glfwPollEvents();
+        int state = glfwGetMouseButton(gi->getWindowPtr(), GLFW_MOUSE_BUTTON_LEFT);
+        if (state == GLFW_PRESS)
+        {
+            glfwSetWindowShouldClose(gi->getWindowPtr(), true);
+        }
 
         gi->updateDisplay();
 

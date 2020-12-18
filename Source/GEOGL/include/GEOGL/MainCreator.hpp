@@ -22,35 +22,62 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_PCH_HPP
-#define GEOGL_PCH_HPP
+#include "Core.hpp"
 
-#include "../include/GEOGL/Core.hpp"
+#ifndef GEOGL_MAINCREATOR_HPP
+#define GEOGL_MAINCREATOR_HPP
 
-#include "../Win32Exports.hpp"
+int main(int argc, char ** argv);
 
-#include <string>
-#include <vector>
-#include <memory>
-#include <spdlog/spdlog.h>
+#ifdef GEOGL_INCLUDE_WIN_MAIN
+#   ifdef WIN32
+#       ifdef APIENTRY
+#           undef APIENTRY
+#       endif
+#   include <windows.h>
+    INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPWSTR, INT)
+    {
 
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
+        INT returnCode;
+        UNREFERENCED_PARAMETER(hInst);
+        UNREFERENCED_PARAMETER(hPrevInstance);
 
-/* Stb Image */
-#include <STB/stb_image.h>
+        int argc;
+        char** argv;
+        {
+            LPWSTR* lpArgv = CommandLineToArgvW( GetCommandLineW(), &argc );
+            argv = (char**) malloc( argc*sizeof(char*) );
+            int size, i = 0;
+            for( ; i < argc; ++i ) {
+                size = wcslen( lpArgv[i] ) + 1;
+                argv[i] = (char*) malloc( size );
+                wcstombs( argv[i], lpArgv[i], size );
+            }
 
-/* GLAD */
-#include <glad/glad.h>
+            returnCode = (INT) main(argc, argv);
 
-/* GLFW */
-#include <GLFW/glfw3.h>
+            LocalFree( lpArgv );
+        }
 
+        return returnCode;
 
-#include "../Logging/PrivateLog.hpp"
+    }
 
-#endif //GEOGL_PCH_HPP
+#   endif
+
+#endif
+
+/* Required external */
+extern GEOGL::Application* GEOGL::createApplication();
+
+#ifdef GEOGL_INCLUDE_MAIN
+/* Actual Main function */
+int main(int argc, char ** argv){
+
+    GEOGL::Application* application = GEOGL::createApplication();
+    application->run();
+    delete application;
+
+}
+#endif
+#endif //GEOGL_MAINCREATOR_HPP

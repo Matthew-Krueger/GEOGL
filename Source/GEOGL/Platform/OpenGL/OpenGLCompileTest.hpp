@@ -1,0 +1,8 @@
+//
+// Created by matth on 12/1/2020.
+//
+
+#ifndef GEOGL_OPENGLCOMPILETEST_HPP
+#define GEOGL_OPENGLCOMPILETEST_HPP
+
+#endif //GEOGL_OPENGLCOMPILETEST_HPP

@@ -22,35 +22,22 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_PCH_HPP
-#define GEOGL_PCH_HPP
 
-#include "../include/GEOGL/Core.hpp"
+#include "Application.hpp"
 
-#include "../Win32Exports.hpp"
+namespace GEOGL{
 
-#include <string>
-#include <vector>
-#include <memory>
-#include <spdlog/spdlog.h>
+    Application::Application(){
 
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
+    }
 
-/* Stb Image */
-#include <STB/stb_image.h>
+    Application::~Application() = default;
 
-/* GLAD */
-#include <glad/glad.h>
+    void Application::run(){
 
-/* GLFW */
-#include <GLFW/glfw3.h>
+        while(true);
+
+    }
 
 
-#include "../Logging/PrivateLog.hpp"
-
-#endif //GEOGL_PCH_HPP
+}

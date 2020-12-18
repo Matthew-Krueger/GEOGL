@@ -1,15 +1,42 @@
-set(MODULE_NAME ${PROJECT_NAME})
+set(MODULE_NAME ${PROJECT_NAME}_Engine)
 
-add_library(${MODULE_NAME} SHARED include/GEOGL/Core.hpp Utils/PCH.cpp Utils/PCH.hpp Logging/PrivateLog.hpp Logging/PublicLog.hpp Logging/LoggingFunctions.cpp Win32Exports.hpp include/GEOGL/Core.hpp ../Example/main.cpp Rendering/GraphicsInstance.cpp Rendering/GraphicsInstance.hpp Utils/Callbacks.cpp Utils/Callbacks.hpp ModelComponents/RawModel.cpp ModelComponents/RawModel.hpp Utils/Loader.cpp Utils/Loader.hpp Rendering/Renderer.cpp Rendering/Renderer.hpp)
+# Build the DLL
+add_library(${MODULE_NAME} SHARED include/GEOGL/Core.hpp Application/Application.cpp Application/Application.hpp Utils/PCH.cpp Utils/PCH.hpp Logging/PrivateLog.hpp Logging/PublicLog.hpp Logging/LoggingFunctions.cpp Win32Exports.hpp include/GEOGL/Core.hpp ../Example/main.cpp Rendering/GraphicsInstance.cpp Rendering/GraphicsInstance.hpp Utils/Callbacks.cpp Utils/Callbacks.hpp ModelComponents/RawModel.cpp ModelComponents/RawModel.hpp Utils/Loader.cpp Utils/Loader.hpp Rendering/Renderer.cpp Rendering/Renderer.hpp include/GEOGL/MainCreator.hpp)
 
-add_dependencies(${MODULE_NAME} glfw STB_LIB spdlog GLAD)
-target_link_libraries(${MODULE_NAME} glfw STB_LIB spdlog GLAD)
+# Include Platforms
+add_subdirectory(Platform)
+
+# Optional Platform Libs
+set(GEOGL_PLATFORM_LIBS "")
+if(GEOGL_BUILD_WITH_OPENGL)
+    set(GEOGL_PLATFORM_LIBS ${GEOGL_PLATFORM_LIBS}GEOGL::Platform::OpenGL)
+    set(GEOGL_PLATFORM_EXISTS TRUE)
+    message("-- Building GEOGL::Engine with OpenGL support.")
+endif(GEOGL_BUILD_WITH_OPENGL)
+if(GEOGL_BUILD_WITH_VULKAN)
+    set(GEOGL_PLATFORM_LIBS ${GEOGL_PLATFORM_LIBS} GEOGL::Platform::Vulkan)
+    set(GEOGL_PLATFORM_EXISTS TRUE)
+    message("-- Building GEOGL::Engine with Vulkan support.")
+endif(GEOGL_BUILD_WITH_VULKAN)
+
+# make sure a platform is selected. If not, error
+if (NOT(GEOGL_PLATFORM_EXISTS STREQUAL "TRUE"))
+    message(FATAL_ERROR "No platform selected for GEOGL. Please select a platform.")
+endif(NOT(GEOGL_PLATFORM_EXISTS STREQUAL "TRUE"))
+
+# Add Dependencies
+add_dependencies(${MODULE_NAME} glfw STB_LIB spdlog GLAD ${GEOGL_PLATFORM_LIBS})
+target_link_libraries(${MODULE_NAME} glfw STB_LIB spdlog GLAD ${GEOGL_PLATFORM_LIBS})
 
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_BUILD_LIBRARY)
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_VERSION_MAJOR=${GEOGL_VERSION_MAJOR})
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_VERSION_MINOR=${GEOGL_VERSION_MINOR})
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_VERSION_PATCH=${GEOGL_VERSION_PATCH})
-target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_ENGINE_NAME="${PROJECT_NAME}-${GEOGL_VERSION_FULL}")
+target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_ENGINE_NAME="GEOGL-Engine-${GEOGL_VERSION_FULL}")
+
+
+
+
 
 target_precompile_headers("${MODULE_NAME}" PRIVATE Utils/PCH.hpp)
 
@@ -40,3 +67,5 @@ if(BUILD_STATIC_MSVC)
                 MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     endif(WIN32)
 endif(BUILD_STATIC_MSVC)
+
+add_library(GEOGL::Engine ALIAS ${MODULE_NAME})

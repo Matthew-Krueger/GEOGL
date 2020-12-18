@@ -22,35 +22,7 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_PCH_HPP
-#define GEOGL_PCH_HPP
+#ifndef GEOGL_OPENGL_HPP
+#define GEOGL_OPENGL_HPP
 
-#include "../include/GEOGL/Core.hpp"
-
-#include "../Win32Exports.hpp"
-
-#include <string>
-#include <vector>
-#include <memory>
-#include <spdlog/spdlog.h>
-
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
-
-/* Stb Image */
-#include <STB/stb_image.h>
-
-/* GLAD */
-#include <glad/glad.h>
-
-/* GLFW */
-#include <GLFW/glfw3.h>
-
-
-#include "../Logging/PrivateLog.hpp"
-
-#endif //GEOGL_PCH_HPP
+#endif //GEOGL_OPENGL_HPP
