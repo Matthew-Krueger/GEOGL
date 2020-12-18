@@ -22,59 +22,91 @@
  *                                                                             *
  *******************************************************************************/
 
-#include "../ModelComponents/RawModel.hpp"
+// Based off of Hazel by The Cherno
 
-#ifndef GEOGL_LOADER_HPP
-#define GEOGL_LOADER_HPP
+#ifndef GEOGL_APPLICATIONEVENT_HPP
+#define GEOGL_APPLICATIONEVENT_HPP
 
 namespace GEOGL{
 
-    class GEOGL_API Loader{
-
+    class WindowResizeEvent : public Event
+    {
     public:
-        /**
-         * Loads a model into a RawModel
-         * @param positions The positions to load
-         * @return The shared_ptr to the new RawModel
-         */
-        static std::shared_ptr<GEOGL::RawModel> loadToVAO(const std::vector<float>& positions);
+        WindowResizeEvent(unsigned int width, unsigned int height)
+                : m_Width(width), m_Height(height) {};
 
         /**
-         * Deletes a VAO
-         * @param vaoID The VAO to delete
+         * Gets the width the window was resized to
+         * @return The width
          */
-        static void deleteVAO(GLuint vaoID);
+        unsigned int getWidth() const { return m_Width; }
 
         /**
-         * Deletes a VBO vector
-         * @param vbos The vbos to delete
+         * Gets the height the window was resized to
+         * @return The height
          */
-        static void deleteVBO(std::vector<GLuint>& vbos);
+        unsigned int getHeight() const { return m_Height; }
 
+        /**
+         * Outputs a string describing the event
+         * @return The string describing the event
+         */
+        std::string toString() const override{
+            std::stringstream ss;
+            ss << "WindowResizeEvent: " << m_Width << ", " << m_Height;
+            return ss.str();
+        }
+
+        EVENT_CLASS_TYPE(WindowResize)
+        EVENT_CLASS_CATEGORY(EventCategoryApplication)
 
     private:
-
-        /**
-         * Creates a vao
-         * @return The VAOid
-         */
-        static GLuint createVAO();
-
-        /**
-         * Stores Float data in an attribute list
-         * @param attributeNumber The attribute number to store it in
-         * @param data the data to store
-         * @return The VBO id
-         */
-        static GLuint storeDataInAttributeList(int attributeNumber, const std::vector<float> &data, int sizePerVertex);
-
-        /**
-         * Unbinds the current VAO
-         */
-        static void unbindVAO();
-
+        unsigned int m_Width, m_Height;
     };
 
+    /**
+     * Represents a close window request
+     */
+    class WindowCloseEvent : public Event{
+    public:
+        WindowCloseEvent() = default;
+
+        EVENT_CLASS_TYPE(WindowClose)
+        EVENT_CLASS_CATEGORY(EventCategoryApplication)
+    };
+
+    /**
+     * Represnets a tick
+     */
+    class AppTickEvent : public Event{
+    public:
+        AppTickEvent() = default;
+
+        EVENT_CLASS_TYPE(AppTick)
+        EVENT_CLASS_CATEGORY(EventCategoryApplication)
+    };
+
+    /**
+     * Represents when the app is updated
+     */
+    class AppUpdateEvent : public Event{
+    public:
+        AppUpdateEvent() = default;
+
+        EVENT_CLASS_TYPE(AppUpdate)
+        EVENT_CLASS_CATEGORY(EventCategoryApplication)
+    };
+
+    /**
+     * Represents when the app is rendered
+     */
+    class AppRenderEvent : public Event{
+    public:
+        AppRenderEvent() = default;
+
+        EVENT_CLASS_TYPE(AppRender)
+        EVENT_CLASS_CATEGORY(EventCategoryApplication)
+    };
 }
 
-#endif //GEOGL_LOADER_HPP
+#endif //GEOGL_APPLICATIONEVENT_HPP

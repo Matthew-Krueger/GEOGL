@@ -55,27 +55,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6513e696-470e-4e3b-b453-5e4d3ae19554" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Info/About.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Info/Implementation.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Example/SandboxApplication.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Example/SandboxApplication.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Application/Application.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Application/Application.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/OpenGL/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/OpenGL/OpenGLCompileTest.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/OpenGL/OpenGLCompileTest.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/OpenGL/include/GEOGL/Platform/OpenGL.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/Vulkan/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GEOGL/include/GEOGL/MainCreator.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dependencies/Nlohmann/JSON/include/Nlohmann/json.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Events/ApplicationEvent.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Events/Event.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Events/KeyEvent.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Events/MouseEvent.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/Headers/Dependencies.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/KeyCodes.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/MouseCodes.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Example/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Example/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Example/SandboxApplication.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Example/SandboxApplication.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Example/SandboxApplication.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Example/SandboxApplication.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Example/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Example/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/GEOGL/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Utils/PCH.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/PCH.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GEOGL/ModelComponents/RawModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/ModelComponents/RawModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Platform/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Platform/OpenGL/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Platform/OpenGL/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Rendering/Renderer.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Rendering/Renderer.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Utils/Loader.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/Loader.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Utils/PCH.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/Headers/PCH.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GEOGL/Utils/PCH.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/Utils/Headers/PCH.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/GEOGL/include/GEOGL/Core.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GEOGL/include/GEOGL/Core.hpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -129,10 +129,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL\Utils" />
+      <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL\Utils\Headers" />
       <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL\Platform" />
       <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL" />
       <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL\Rendering" />
-      <recent name="C:\Users\matth\Desktop\Programming\GEOGL\Source\GEOGL\Utils" />
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.GEOGL_Example">
@@ -407,7 +408,7 @@
       <workItem from="1607708312176" duration="628000" />
       <workItem from="1607734350804" duration="187000" />
       <workItem from="1607787340212" duration="2966000" />
-      <workItem from="1607872006919" duration="4589000" />
+      <workItem from="1607872006919" duration="11336000" />
     </task>
     <task id="LOCAL-00001" summary="Created basic folder structure">
       <created>1606404733087</created>
@@ -514,7 +515,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606540617558</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Added An Entry Point and Lots of other platform code and whatnot. Finally getting back to work.">
+      <created>1608254937535</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1608254937535</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -601,6 +609,7 @@
     <MESSAGE value="Fixed flag. It should actually compile now" />
     <MESSAGE value="Added ImageIcon on windows and made some system modifications" />
     <MESSAGE value="Added Auto detect window resolution" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Auto detect window resolution" />
+    <MESSAGE value="Added An Entry Point and Lots of other platform code and whatnot. Finally getting back to work." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added An Entry Point and Lots of other platform code and whatnot. Finally getting back to work." />
   </component>
 </project>

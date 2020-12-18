@@ -22,18 +22,11 @@
  *                                                                             *
  *******************************************************************************/
 
-#include <GEOGL/Core.hpp>
+#ifndef GEOGL_PCH_HPP
+#define GEOGL_PCH_HPP
 
-#ifndef GEOGL_SANDBOXAPPLICATION_HPP
-#define GEOGL_SANDBOXAPPLICATION_HPP
+#include "Dependencies.hpp"
 
-namespace Sandbox {
-    class SandboxApp : public GEOGL::Application {
-    public:
-        SandboxApp();
+#include "../Logging/PrivateLog.hpp"
 
-        ~SandboxApp() override;
-    };
-}
-
-#endif //GEOGL_SANDBOXAPPLICATION_HPP
+#endif //GEOGL_PCH_HPP

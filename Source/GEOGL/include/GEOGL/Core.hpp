@@ -25,28 +25,7 @@
 #ifndef GEOGL_CORE_HPP
 #define GEOGL_CORE_HPP
 
-#include "../Win32Exports.hpp"
-
-#include <string>
-#include <vector>
-#include <memory>
-#include <spdlog/spdlog.h>
-
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
-
-/* Stb Image */
-#include <STB/stb_image.h>
-
-/* GLAD */
-#include <glad/glad.h>
-
-/* GLFW */
-#include <GLFW/glfw3.h>
+#include "../../Utils/Headers/Dependencies.hpp"
 
 #include "../../Application/Application.hpp"
 
@@ -60,5 +39,9 @@
 
 #include "../../Rendering/Renderer.hpp"
 
+#include "../../Events/Event.hpp"
+#include "../../Events/ApplicationEvent.hpp"
+#include "../../Events/KeyEvent.hpp"
+#include "../../Events/MouseEvent.hpp"
 
 #endif //GEOGL_CORE_HPP

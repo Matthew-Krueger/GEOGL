@@ -1,7 +1,7 @@
 set(MODULE_NAME ${PROJECT_NAME}_Engine)
 
 # Build the DLL
-add_library(${MODULE_NAME} SHARED include/GEOGL/Core.hpp Application/Application.cpp Application/Application.hpp Utils/PCH.cpp Utils/PCH.hpp Logging/PrivateLog.hpp Logging/PublicLog.hpp Logging/LoggingFunctions.cpp Win32Exports.hpp include/GEOGL/Core.hpp ../Example/main.cpp Rendering/GraphicsInstance.cpp Rendering/GraphicsInstance.hpp Utils/Callbacks.cpp Utils/Callbacks.hpp ModelComponents/RawModel.cpp ModelComponents/RawModel.hpp Utils/Loader.cpp Utils/Loader.hpp Rendering/Renderer.cpp Rendering/Renderer.hpp include/GEOGL/MainCreator.hpp)
+add_library(${MODULE_NAME} SHARED include/GEOGL/Core.hpp Application/Application.cpp Utils/MouseCodes.hpp Application/Application.hpp Utils/Headers/PCH.cpp Utils/Headers/PCH.hpp Logging/PrivateLog.hpp Logging/PublicLog.hpp Logging/LoggingFunctions.cpp Win32Exports.hpp include/GEOGL/Core.hpp ../Example/main.cpp Rendering/GraphicsInstance.cpp Rendering/GraphicsInstance.hpp Utils/Callbacks.cpp Utils/Callbacks.hpp ModelComponents/RawModel.cpp ModelComponents/RawModel.hpp Utils/Loader.cpp Utils/Loader.hpp Rendering/Renderer.cpp Rendering/Renderer.hpp include/GEOGL/MainCreator.hpp Utils/Headers/Dependencies.hpp Events/Event.hpp Events/ApplicationEvent.hpp Events/KeyEvent.hpp Events/MouseEvent.hpp Utils/KeyCodes.hpp)
 
 # Include Platforms
 add_subdirectory(Platform)
@@ -38,7 +38,7 @@ target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_ENGINE_NAME="GEOGL-Eng
 
 
 
-target_precompile_headers("${MODULE_NAME}" PRIVATE Utils/PCH.hpp)
+target_precompile_headers("${MODULE_NAME}" PRIVATE Utils/Headers/PCH.hpp)
 
 set_target_properties(${MODULE_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/

@@ -25,6 +25,8 @@
 
 #include "RawModel.hpp"
 
+#include "../Utils/Loader.hpp"
+
 namespace GEOGL {
     RawModel::RawModel(GLuint vaoID, std::vector<GLuint> vbos, size_t vertexCount) : vaoID(vaoID), vbos(std::move(vbos)), vertexCount(vertexCount) {}
 

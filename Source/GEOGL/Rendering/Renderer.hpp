@@ -22,6 +22,8 @@
  *                                                                             *
  *******************************************************************************/
 
+#include "../ModelComponents/RawModel.hpp"
+
 #ifndef GEOGL_RENDERER_HPP
 #define GEOGL_RENDERER_HPP
 

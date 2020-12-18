@@ -21,7 +21,7 @@
  *    distribution.                                                            *
  *                                                                             *
  *******************************************************************************/
-#ifdef WIN32
+/*#ifdef WIN32
 #define INCLUDE_WIN_MAIN
 #endif
 #include <GEOGL/Core.hpp>
@@ -65,4 +65,4 @@ int main(int argc, char ** argv){
 
     return 0;
 
-}
+}*/

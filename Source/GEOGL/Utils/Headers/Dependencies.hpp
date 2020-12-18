@@ -22,18 +22,27 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_PCH_HPP
-#define GEOGL_PCH_HPP
 
-#include "../include/GEOGL/Core.hpp"
+#ifndef GEOGL_DEPENDENCIES_HPP
+#define GEOGL_DEPENDENCIES_HPP
 
 #include "../Win32Exports.hpp"
 
+/* JSON */
+#include <Nlohmann/json.hpp>
+using json = nlohmann::json;
+
+/* STDLIB */
 #include <string>
+#include <sstream>
 #include <vector>
 #include <memory>
+#include <functional>
+
+/* spdlog */
 #include <spdlog/spdlog.h>
 
+/* glm */
 #include <glm/glm.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/vec2.hpp>
@@ -50,7 +59,7 @@
 /* GLFW */
 #include <GLFW/glfw3.h>
 
+#define BIT(x) (1 << x)
 
-#include "../Logging/PrivateLog.hpp"
 
-#endif //GEOGL_PCH_HPP
+#endif

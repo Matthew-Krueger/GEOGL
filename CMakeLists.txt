@@ -32,6 +32,9 @@ set(GEOGL_VERSION_FULL "${GEOGL_VERSION}.${GEOGL_VERSION_PATCH}-${GEOGL_VERSION_
 #           Dependencies          #
 ###################################
 
+# JSON
+include_directories(Dependencies/Nlohmann/JSON/include)
+
 # GLFW
 add_subdirectory(Dependencies/GLFW)
 include_directories(Dependencies/GLFW/include)

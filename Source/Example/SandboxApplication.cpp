@@ -22,6 +22,7 @@
  *                                                                             *
  *******************************************************************************/
 
+#include <iostream>
 #define GEOGL_INCLUDE_MAIN
 #define GEOGL_INCLUDE_WIN_MAIN
 #include <GEOGL/MainCreator.hpp>
