@@ -19,7 +19,7 @@ like this:
 class SandboxApp : public GEOGL::Application {
 public:
     SandboxApp();
-    ~SandboxApp();
+    ~SandboxApp() override;
 };
 ```
 
@@ -32,4 +32,5 @@ your build system to have the correct include directories.
 There is no need to create a separate main class for a windows
 GUI Application. Simply `#define GEOGL_INCLUDE_WIN_MAIN` and
 GEOGL will include a wWinMain function that will forward argc and argv
-to your real main function, courtesy of stackoverflow.com. This only
+to your real main function, courtesy of stackoverflow.com. This is automatically
+only included on Windows, so no need to guard it for cross platform builds.

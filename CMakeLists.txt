@@ -69,13 +69,13 @@ add_subdirectory(Source/Example)
 #         Build Doxygen           #
 ###################################
 set(DOXYGEN_GENERATE_HTML YES)
-set(DOXYGEN_CALLER_GRAPH YES)
-set(DOXYGEN_CALL_GRAPH YES)
+#set(DOXYGEN_CALLER_GRAPH YES)
+#set(DOXYGEN_CALL_GRAPH YES)
 set(DOXYGEN_EXTRACT_ALL YES)
 set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Docs")
 set(DOXYGEN_EXCLUDE_PATTERNS ",,*/Docs/*,*/cmake-build-debug/*,*/cmake-build-release/*,*/Dependencies/*,*/Build/*")
 set(DOXYGEN_USE_MDFILE_AS_MAINPAGE README.md)
 set(DOXYGEN_UML_LOOK YES)
 
-find_package(Doxygen REQUIRED dot)
+find_package(Doxygen REQUIRED)
 doxygen_add_docs(${PROJECT_NAME}_Doxygen "${CMAKE_SOURCE_DIR}")

@@ -36,6 +36,7 @@ namespace GEOGL{
     void Application::run(){
 
         while(true);
+        //GEOGL_CORE_INFO_NOSTRIP("Ran Application Run");
 
     }
 
