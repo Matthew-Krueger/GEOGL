@@ -31,6 +31,13 @@ set(GEOGL_VERSION_FULL "${GEOGL_VERSION}.${GEOGL_VERSION_PATCH}-${GEOGL_VERSION_
 ###################################
 #           Dependencies          #
 ###################################
+set(GEOGL_INCLUDE_DIRECTORIES
+    Dependencies/Nlohmann/JSON/include
+    Dependencies/GLFW/include
+    Dependencies/GLAD/include
+    Dependencies/spdlog/include
+    Dependencies/STB/include Dependencies/GLM
+)
 
 # JSON
 include_directories(Dependencies/Nlohmann/JSON/include)

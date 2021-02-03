@@ -27,9 +27,7 @@
 
 namespace GEOGL{
 
-    Application::Application(){
-
-    }
+    Application::Application()= default;
 
     Application::~Application() = default;
 
