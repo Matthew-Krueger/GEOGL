@@ -48,6 +48,10 @@
 #define GEOGL_CORE_ERROR_NOSTRIP(...)  ::GEOGL::Log::getCoreLogger()->error(__VA_ARGS__);
 #define GEOGL_CORE_CRITICAL_NOSTRIP(...)  ::GEOGL::Log::getCoreLogger()->critical(__VA_ARGS__);
 
-
+#ifdef GEOGL_ENABLE_ASSERTS
+#   define GEOGL_CORE_ASSERT(x, ...) { if(!(x)) { GEOGL_CORE_ERROR_NOSTRIP("Assertion Failed: {0}", __VA_ARGS__); GEOGL_DEBUG_BREAK(); } }
+#else
+#   define GEOGL_CORE_ASSERT(x, ...)
+#endif
 
 #endif //VG_ENGINE_PRIVATELOG_HPP
