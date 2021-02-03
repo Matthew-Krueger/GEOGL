@@ -22,28 +22,53 @@
  *                                                                             *
  *******************************************************************************/
 
+/*******************************************************************************
+ *                                                                             *
+ * This code was based heavily off the Cherno game engine series               *
+ *                                                                             *
+ *******************************************************************************/
 
-#include "Application.hpp"
+#ifndef NODIFY_SCREENWRITER_OPENGLWINDOW_HPP
+#define NODIFY_SCREENWRITER_OPENGLWINDOW_HPP
+
+#include "../../Rendering/Window.hpp"
 #include <GLFW/glfw3.h>
-#include <iostream>
-namespace GEOGL{
 
-    Application::Application() {
-            m_Window = std::unique_ptr<Window>(Window::create());
-    }
+namespace GEOGL {
 
-    Application::~Application() = default;
+    class WindowsWindow : public Window
+    {
+    public:
+        WindowsWindow(const WindowProps& props);
+        virtual ~WindowsWindow();
 
-    void Application::run(){
+        void onUpdate() override;
 
-        while(m_Running){
-            glClearColor(1,0,1,1);
-            glClear(GL_COLOR_BUFFER_BIT);
-            m_Window->onUpdate();
-        }
-// while(true);
+        inline unsigned int getWidth() const override { return m_Data.width; }
+        inline unsigned int getHeight() const override { return m_Data.height; }
 
-    }
+        // Window attributes
+        inline void setEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+        void setVSync(bool enabled) override;
+        bool isVSync() const override;
+    private:
+        virtual void init(const WindowProps& props);
+        virtual void shutdown();
+    private:
+        GLFWwindow* m_Window;
 
+        struct WindowData
+        {
+            std::string title;
+            unsigned int width, height;
+            bool vSync;
+
+            EventCallbackFn EventCallback;
+        };
+
+        WindowData m_Data;
+    };
 
 }
+
+#endif //NODIFY_SCREENWRITER_OPENGLWINDOW_HPP

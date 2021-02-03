@@ -22,28 +22,51 @@
  *                                                                             *
  *******************************************************************************/
 
+/*******************************************************************************
+ *                                                                             *
+ * This code was based heavily off the Cherno game engine series               *
+ *                                                                             *
+ *******************************************************************************/
 
-#include "Application.hpp"
-#include <GLFW/glfw3.h>
-#include <iostream>
-namespace GEOGL{
+#ifndef NODIFY_SCREENWRITER_WINDOW_HPP
+#define NODIFY_SCREENWRITER_WINDOW_HPP
 
-    Application::Application() {
-            m_Window = std::unique_ptr<Window>(Window::create());
-    }
+#include "../Events/Event.hpp"
+namespace GEOGL {
 
-    Application::~Application() = default;
+    struct WindowProps
+    {
+        std::string title;
+        unsigned int width;
+        unsigned int height;
 
-    void Application::run(){
-
-        while(m_Running){
-            glClearColor(1,0,1,1);
-            glClear(GL_COLOR_BUFFER_BIT);
-            m_Window->onUpdate();
+        WindowProps(const std::string& title = "Hazel Engine",
+                    unsigned int width = 1280,
+                    unsigned int height = 720)
+                : title(title), width(width), height(height)
+        {
         }
-// while(true);
+    };
 
-    }
+    // Interface representing a desktop system based Window
+    class GEOGL_API Window{
+    public:
+        using EventCallbackFn = std::function<void(Event&)>;
 
+        virtual ~Window() {}
+        virtual void onUpdate() = 0;
+
+        virtual unsigned int getWidth() const = 0;
+        virtual unsigned int getHeight() const = 0;
+
+        // Window attributes
+        virtual void setEventCallback(const EventCallbackFn& callback) = 0;
+        virtual void setVSync(bool enabled) = 0;
+        virtual bool isVSync() const = 0;
+
+        static Window* create(const WindowProps& props = WindowProps());
+    };
 
 }
+
+#endif //NODIFY_SCREENWRITER_WINDOW_HPP

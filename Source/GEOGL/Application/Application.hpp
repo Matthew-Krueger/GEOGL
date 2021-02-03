@@ -26,6 +26,8 @@
 #ifndef GEOGL_APPLICATION_HPP
 #define GEOGL_APPLICATION_HPP
 
+#include "../Rendering/Window.hpp"
+
 namespace GEOGL{
 
     class GEOGL_API Application{
@@ -34,6 +36,11 @@ namespace GEOGL{
         virtual ~Application();
 
         void run();
+
+    private:
+        std::unique_ptr<Window> m_Window;
+        bool m_Running = true;
+
     };
 
     // To be defined in the client.

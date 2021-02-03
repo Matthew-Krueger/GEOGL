@@ -1,7 +1,7 @@
 set(MODULE_NAME ${PROJECT_NAME}_Engine_${GEOGL_VERSION_FULL})
 
 # Build the DLL
-add_library(${MODULE_NAME} SHARED include/GEOGL/Core.hpp Application/Application.cpp Utils/MouseCodes.hpp Application/Application.hpp Utils/Headers/PCH.cpp Utils/Headers/PCH.hpp Logging/PrivateLog.hpp Logging/PublicLog.hpp Logging/LoggingFunctions.cpp Win32Exports.hpp include/GEOGL/Core.hpp ../Example/main.cpp Rendering/GraphicsInstance.cpp Rendering/GraphicsInstance.hpp Utils/Callbacks.cpp Utils/Callbacks.hpp ModelComponents/RawModel.cpp ModelComponents/RawModel.hpp Utils/Loader.cpp Utils/Loader.hpp Rendering/Renderer.cpp Rendering/Renderer.hpp include/GEOGL/MainCreator.hpp Utils/Headers/Dependencies.hpp Events/Event.hpp Events/ApplicationEvent.hpp Events/KeyEvent.hpp Events/MouseEvent.hpp Utils/KeyCodes.hpp)
+add_library(${MODULE_NAME} SHARED include/GEOGL/Core.hpp Rendering/Window.hpp Application/Application.cpp Utils/MouseCodes.hpp Application/Application.hpp Utils/Headers/PCH.cpp Utils/Headers/PCH.hpp Logging/PrivateLog.hpp Logging/PublicLog.hpp Logging/LoggingFunctions.cpp Win32Exports.hpp include/GEOGL/Core.hpp ../Example/main.cpp Rendering/GraphicsInstance.cpp Rendering/GraphicsInstance.hpp Utils/Callbacks.cpp Utils/Callbacks.hpp ModelComponents/RawModel.cpp ModelComponents/RawModel.hpp Utils/Loader.cpp Utils/Loader.hpp Rendering/Renderer.cpp Rendering/Renderer.hpp include/GEOGL/MainCreator.hpp Utils/Headers/Dependencies.hpp Events/Event.hpp Events/ApplicationEvent.hpp Events/KeyEvent.hpp Events/MouseEvent.hpp Utils/KeyCodes.hpp)
 
 # Include Platforms
 add_subdirectory(Platform)
@@ -9,7 +9,20 @@ add_subdirectory(Platform)
 # Optional Platform Libs
 set(GEOGL_PLATFORM_LIBS "")
 if(GEOGL_BUILD_WITH_OPENGL)
+
+    #find OpenGL
+    find_library(OpenGL REQUIRED)
+
+    # Set up GEOGL's platform Libs
     set(GEOGL_PLATFORM_LIBS ${GEOGL_PLATFORM_LIBS}GEOGL::Platform::OpenGL)
+
+    # Add OpenGL libs
+    if(WIN32)
+        set(GEOGL_PLATFORM_LIBS_ADDITIONAL opengl32)
+    else()
+        set(GEOGL_PLATFORM_LIBS_ADDITIONAL GL)
+    endif(WIN32)
+
     set(GEOGL_PLATFORM_EXISTS TRUE)
     message("-- Building GEOGL::Engine with OpenGL support.")
 endif(GEOGL_BUILD_WITH_OPENGL)
@@ -26,7 +39,7 @@ endif(NOT(GEOGL_PLATFORM_EXISTS STREQUAL "TRUE"))
 
 # Add Dependencies
 add_dependencies(${MODULE_NAME} glfw STB_LIB spdlog GLAD ${GEOGL_PLATFORM_LIBS})
-target_link_libraries(${MODULE_NAME} glfw STB_LIB spdlog GLAD ${GEOGL_PLATFORM_LIBS})
+target_link_libraries(${MODULE_NAME} glfw STB_LIB spdlog GLAD ${GEOGL_PLATFORM_LIBS} ${GEOGL_PLATFORM_LIBS_ADDITIONAL})
 
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_BUILD_LIBRARY)
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_VERSION_MAJOR=${GEOGL_VERSION_MAJOR})
