@@ -30,9 +30,13 @@
 
 
 #include "OpenGLWindow.hpp"
+#include "../../Events/ApplicationEvent.hpp"
+#include "../../Events/MouseEvent.hpp"
+#include "../../Events/KeyEvent.hpp"
 
 namespace GEOGL {
 
+    static uint8_t currentWindows = 0;
 
     void glfwErrorCallback(int errorCode, const char * errorText){
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
@@ -40,37 +44,32 @@ namespace GEOGL {
 
     static bool s_GLFWInitialized = false;
 
-    Window* Window::create(const WindowProps& props)
-    {
-        return new WindowsWindow(props);
+    Window* Window::create(const WindowProps& props){
+        return new OpenGLWindow(props);
     }
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "VirtualCallInCtorOrDtor"
-    WindowsWindow::WindowsWindow(const WindowProps& props)
-    {
+    OpenGLWindow::OpenGLWindow(const WindowProps& props){
         init(props);
     }
-#pragma clang diagnostic pop
 
-    WindowsWindow::~WindowsWindow()
-    {
+    OpenGLWindow::~OpenGLWindow(){
         shutdown();
     }
 
-    void WindowsWindow::init(const WindowProps& props)
-    {
+    void OpenGLWindow::init(const WindowProps& props){
+
+        /* Set the data of the window */
         m_Data.title = props.title;
         m_Data.width = props.width;
         m_Data.height = props.height;
-
         GEOGL_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
 
-        if (!s_GLFWInitialized)
-        {
+        /* Check if GLFW has been initialized, if not, load GLFW */
+        if (!s_GLFWInitialized){
             // TODO: glfwTerminate on system shutdown
+            GEOGL_CORE_INFO("Initializing GLFW");
             int success = glfwInit();
-            GEOGL_CORE_ASSERT(success, "Could not intialize GLFW!");
+            GEOGL_CORE_ASSERT_NOSTRIP(success, "Could not intialize GLFW!");
             glfwSetErrorCallback(&glfwErrorCallback);
 
             s_GLFWInitialized = true;
@@ -78,38 +77,132 @@ namespace GEOGL {
 
 
         /* Do window hints for GLFW */
+        GEOGL_CORE_INFO("Creating Window with OpenGL Context");
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
+        /* Creating the window */
         m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
         glfwMakeContextCurrent(m_Window);
         glfwSetWindowUserPointer(m_Window, &m_Data);
         setVSync(true);
 
+        ++currentWindows;
+        GEOGL_CORE_INFO("Successfully created window, noting the current window count is {}.", currentWindows);
+
+        /* Load GLAD */
+        GEOGL_CORE_INFO("Loading higher OpenGL functions with GLAD.");
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
-            GEOGL_CORE_CRITICAL_NOSTRIP("Failed to load OpenGL with GLAD");
+            GEOGL_CORE_CRITICAL_NOSTRIP("Failed to load OpenGL with GLAD.");
         }
 
         /* Set glViewport to what we were given */
         glViewport(0, 0, props.width, props.height);
 
+        GEOGL_CORE_INFO_NOSTRIP("OpenGL Version: {}.", (const char *)glGetString(GL_VERSION));
+        GEOGL_CORE_INFO_NOSTRIP("GLSL Supported version {}.", (const char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
+
+        /* Set up callbacks for GLFW window events */
+        glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height){
+            auto* data = (WindowData*) glfwGetWindowUserPointer(window);
+
+            data->width = width;
+            data->height = height;
+
+            WindowResizeEvent event(width, height);
+            data->EventCallback(event);
+        });
+
+        glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window){
+            auto* data = (WindowData*) glfwGetWindowUserPointer(window);
+            WindowCloseEvent event;
+            data->EventCallback(event);
+        });
+
+        glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
+            auto* data = (WindowData*) glfwGetWindowUserPointer(window);
+
+            switch(action){
+                case GLFW_PRESS: {
+                    KeyPressedEvent event(key,0);
+                    data->EventCallback(event);
+                    break;
+                }
+                case GLFW_RELEASE:{
+                    KeyReleasedEvent event(key);
+                    data->EventCallback(event);
+                    break;
+                }
+                case GLFW_REPEAT:{
+                    KeyPressedEvent event(key,1);
+                    data->EventCallback(event);
+                    break;
+                }
+                default:
+                    GEOGL_CORE_CRITICAL_NOSTRIP("Unable to determine key action.");
+                    break;
+            }
+        });
+
+        glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods){
+            auto data = (WindowData*) glfwGetWindowUserPointer(window);
+            switch(action){
+                case GLFW_PRESS:{
+                    MouseButtonPressedEvent event(button);
+                    data->EventCallback(event);
+                    break;
+                }
+                case GLFW_RELEASE:{
+                    MouseButtonReleasedEvent event(button);
+                    data->EventCallback(event);
+                    break;
+                }
+                default:
+                    GEOGL_CORE_CRITICAL_NOSTRIP("Unable to determine mouse action.");
+                    break;
+            }
+        });
+
+        glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset){
+
+            auto data = (WindowData*) glfwGetWindowUserPointer(window);
+
+            MouseScrolledEvent event((float)xOffset, (float)yOffset);
+            data->EventCallback(event);
+
+        });
+
+        glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos){
+            auto data = (WindowData*) glfwGetWindowUserPointer(window);
+
+            MouseMovedEvent event((float)xPos, (float)yPos);
+            data->EventCallback(event);
+
+        });
+
     }
 
-    void WindowsWindow::shutdown()
-    {
+    void OpenGLWindow::shutdown(){
+        --currentWindows;
         glfwDestroyWindow(m_Window);
+        GEOGL_CORE_INFO("Quit a window. Noting the current window count is {}.", currentWindows);
+
+        /* Check if there are no more windows. If so, terminate GLFW */
+        if(currentWindows == 0){
+            GEOGL_CORE_INFO("Since current windows is {}, terminating GLFW", currentWindows);
+            glfwTerminate();
+        }
+
     }
 
-    void WindowsWindow::onUpdate()
-    {
+    void OpenGLWindow::onUpdate(){
         glfwPollEvents();
         glfwSwapBuffers(m_Window);
     }
 
-    void WindowsWindow::setVSync(bool enabled)
-    {
+    void OpenGLWindow::setVSync(bool enabled){
         if (enabled)
             glfwSwapInterval(1);
         else
@@ -118,8 +211,7 @@ namespace GEOGL {
         m_Data.vSync = enabled;
     }
 
-    bool WindowsWindow::isVSync() const
-    {
+    bool OpenGLWindow::isVSync() const{
         return m_Data.vSync;
     }
 

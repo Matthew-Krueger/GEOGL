@@ -40,7 +40,7 @@ namespace GEOGL {
         unsigned int width;
         unsigned int height;
 
-        WindowProps(const std::string& title = "Hazel Engine",
+        WindowProps(const std::string& title = "GEOGL Engine",
                     unsigned int width = 1280,
                     unsigned int height = 720)
                 : title(title), width(width), height(height)

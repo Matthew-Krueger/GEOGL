@@ -27,23 +27,42 @@
 #define GEOGL_APPLICATION_HPP
 
 #include "../Rendering/Window.hpp"
+#include "../Events/ApplicationEvent.hpp"
 
 namespace GEOGL{
 
+    /**
+     * Represents an abstract application
+     */
     class GEOGL_API Application{
     public:
         Application();
         virtual ~Application();
 
+        /**
+         * Contains the main run loop for the game
+         */
         void run();
 
+        /**
+         * Handles events for the game
+         * @param e
+         */
+        void onEvent(Event& event);
+
     private:
+        bool onWindowClose(WindowCloseEvent& event);
         std::unique_ptr<Window> m_Window;
         bool m_Running = true;
 
     };
 
     // To be defined in the client.
+    /**
+     * Returns a pointer to an application
+     * \note MUST BE IMPLEMENTED IN CLIENT
+     * @return Application pointer
+     */
     Application* createApplication();
 
 }

@@ -76,5 +76,6 @@ namespace GEOGL{
 #else
 #   define GEOGL_ASSERT(x, ...)
 #endif
+#define GEOGL_ASSERT_NOSTRIP(x, ...) { if(!(x)) { GEOGL_ERROR_NOSTRIP("Assertion Failed: {0}", __VA_ARGS__); GEOGL_DEBUG_BREAK(); } } (void(0))
 
 #endif //VG_ENGINE_PUBLICLOG_HPP

@@ -36,11 +36,11 @@
 
 namespace GEOGL {
 
-    class WindowsWindow : public Window
+    class OpenGLWindow : public Window
     {
     public:
-        WindowsWindow(const WindowProps& props);
-        virtual ~WindowsWindow();
+        OpenGLWindow(const WindowProps& props);
+        virtual ~OpenGLWindow();
 
         void onUpdate() override;
 

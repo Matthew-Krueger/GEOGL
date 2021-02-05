@@ -25,11 +25,16 @@
 
 #include "Application.hpp"
 #include <GLFW/glfw3.h>
-#include <iostream>
 namespace GEOGL{
 
+#define BIND_EVENT_FN(function) std::bind(&function, this, std::placeholders::_1)
+
     Application::Application() {
-            m_Window = std::unique_ptr<Window>(Window::create());
+
+        /* Create window */
+        m_Window = std::unique_ptr<Window>(Window::create());
+        m_Window->setEventCallback(BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
+
     }
 
     Application::~Application() = default;
@@ -43,6 +48,22 @@ namespace GEOGL{
         }
 // while(true);
 
+    }
+
+    void Application::onEvent(Event& event){
+
+        EventDispatcher dispatcher(event);
+
+        dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::onWindowClose)); // NOLINT(modernize-avoid-bind)
+
+
+        //GEOGL_CORE_INFO("{}", event.toString());
+
+    }
+
+    bool Application::onWindowClose(WindowCloseEvent& event){
+        m_Running = false;
+        return true;
     }
 
 
