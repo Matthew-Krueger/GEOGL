@@ -22,7 +22,6 @@
  *                                                                             *
  *******************************************************************************/
 
-#include "../Rendering/GraphicsInstance.hpp"
 #include "Callbacks.hpp"
 
 namespace GEOGL{
@@ -130,7 +129,8 @@ namespace GEOGL{
 
     }
 
-    void windowDefaultSizeCallback(GLFWwindow* window, int width, int height){
-        glViewport(0, 0, width, height);
+    void atExitCallback(){
+        GEOGL_CORE_INFO_NOSTRIP("Successfully exited GEOGL Engine version {}", GEOGL_VERSION_FULL);
     }
+
 }

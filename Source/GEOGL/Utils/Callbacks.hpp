@@ -27,14 +27,6 @@
 namespace GEOGL {
 
     /**
-     * \brief The Callback for a window size change
-     * @param window OpenGL Provided Value
-     * @param width OpenGL Provided Value
-     * @param height OpenGL Provided Value
-     */
-    GEOGL_API void windowDefaultSizeCallback(GLFWwindow *window, int width, int height);
-
-    /**
      * \brief Provides a callback for OpenGL errors, and uses severe error log
      * @param source OpenGL Provided Value
      * @param type OpenGL Provided Value
@@ -46,6 +38,9 @@ namespace GEOGL {
      */
     GEOGL_API void windowDefaultDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
                                               const char *message, const void *userParam);
+
+    GEOGL_API void atExitCallback();
+
 }
 
 #endif //GEOGL_CALLBACKS_HPP

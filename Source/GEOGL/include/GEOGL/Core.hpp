@@ -34,10 +34,7 @@
 #include "../../Logging/PublicLog.hpp"
 
 #include "../../Utils/Callbacks.hpp"
-#include "../../Rendering/GraphicsInstance.hpp"
 #include "../../Utils/Loader.hpp"
-
-#include "../../Rendering/Renderer.hpp"
 
 #include "../../Events/Event.hpp"
 #include "../../Events/ApplicationEvent.hpp"

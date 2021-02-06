@@ -74,6 +74,7 @@ extern GEOGL::Application* GEOGL::createApplication();
 /* Actual Main function */
 int main(int argc, char ** argv){
 
+    atexit(GEOGL::atExitCallback);
     GEOGL::Application* application = GEOGL::createApplication();
     application->run();
     delete application;

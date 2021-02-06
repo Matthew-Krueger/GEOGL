@@ -30,15 +30,15 @@ namespace GEOGL{
 
     class RawModel{
     private:
-        GLuint vaoID;
+        unsigned int vaoID;
         size_t vertexCount;
-        std::vector<GLuint> vbos;
+        std::vector<unsigned int> vbos;
 
     public:
-        RawModel(GLuint vaoID, std::vector<GLuint> vbos, size_t vertexCount);
+        RawModel(unsigned int vaoID, std::vector<unsigned int> vbos, size_t vertexCount);
         ~RawModel();
 
-        inline GLuint getVAOID() const { return vaoID; }
+        inline unsigned int getVAOID() const { return vaoID; }
         inline size_t getVertexCount() const { return vertexCount; }
 
     };
