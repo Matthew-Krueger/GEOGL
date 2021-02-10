@@ -27,6 +27,9 @@
 #ifndef GEOGL_LOADER_HPP
 #define GEOGL_LOADER_HPP
 
+// TODO make Loader a platform class
+#include <GLFW/glfw3.h>
+
 namespace GEOGL{
 
     class GEOGL_API Loader{

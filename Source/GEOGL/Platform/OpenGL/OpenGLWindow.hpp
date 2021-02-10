@@ -36,6 +36,9 @@
 
 namespace GEOGL {
 
+    /**
+     * Represents an actual OpenGL Window, based on GLFW.
+     */
     class OpenGLWindow : public Window
     {
     public:

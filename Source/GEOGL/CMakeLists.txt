@@ -1,7 +1,7 @@
 set(MODULE_NAME ${PROJECT_NAME}_Engine_${GEOGL_VERSION_FULL})
 
 # Build the DLL
-add_library(${MODULE_NAME} SHARED include/GEOGL/Core.hpp Rendering/Window.hpp Application/Application.cpp Utils/MouseCodes.hpp Application/Application.hpp Utils/Headers/PCH.cpp Utils/Headers/PCH.hpp Logging/PrivateLog.hpp Logging/PublicLog.hpp Logging/LoggingFunctions.cpp Win32Exports.hpp include/GEOGL/Core.hpp ../Example/main.cpp Utils/Callbacks.cpp Utils/Callbacks.hpp ModelComponents/RawModel.cpp ModelComponents/RawModel.hpp Utils/Loader.cpp Utils/Loader.hpp include/GEOGL/MainCreator.hpp Utils/Headers/Dependencies.hpp Events/Event.hpp Events/ApplicationEvent.hpp Events/KeyEvent.hpp Events/MouseEvent.hpp Utils/KeyCodes.hpp)
+add_library(${MODULE_NAME} SHARED include/GEOGL/Core.hpp Rendering/Window.hpp Application/Application.cpp Utils/MouseCodes.hpp Application/Application.hpp Utils/Headers/PCH.cpp Utils/Headers/PCH.hpp Logging/PrivateLog.hpp Logging/PublicLog.hpp Logging/LoggingFunctions.cpp Win32Exports.hpp include/GEOGL/Core.hpp Utils/Callbacks.cpp Utils/Callbacks.hpp ModelComponents/RawModel.cpp ModelComponents/RawModel.hpp Utils/Loader.cpp Utils/Loader.hpp include/GEOGL/MainCreator.hpp Utils/Headers/Dependencies.hpp Events/Event.hpp Events/ApplicationEvent.hpp Events/KeyEvent.hpp Events/MouseEvent.hpp Utils/KeyCodes.hpp Utils/CallbacksPrivate.hpp)
 
 # Include Platforms
 add_subdirectory(Platform)

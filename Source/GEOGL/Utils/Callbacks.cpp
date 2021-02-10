@@ -23,6 +23,9 @@
  *******************************************************************************/
 
 #include "Callbacks.hpp"
+#include "CallbacksPrivate.hpp"
+
+#include <GLFW/glfw3.h>
 
 namespace GEOGL{
 

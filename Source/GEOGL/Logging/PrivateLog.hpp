@@ -53,6 +53,9 @@
 #else
 #   define GEOGL_CORE_ASSERT(x, ...)
 #endif
+/**
+ * Forms a non-stripping assert. If not launched with a debugger, this causes a hard crash
+ */
 #define GEOGL_CORE_ASSERT_NOSTRIP(x, ...) { if(!(x)) { GEOGL_CORE_ERROR_NOSTRIP("Assertion Failed: {0}", __VA_ARGS__); GEOGL_DEBUG_BREAK(); } } (void(0))
 
 

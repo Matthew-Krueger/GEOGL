@@ -31,6 +31,9 @@
 
 namespace GEOGL{
 
+    /**
+     * Represents an event where the mouse moved to a new position
+     */
     class MouseMovedEvent : public Event{
     public:
         MouseMovedEvent(const float x, const float y)
@@ -51,6 +54,9 @@ namespace GEOGL{
         float m_MouseX, m_MouseY;
     };
 
+    /**
+     * Represents an event where the mouse is scrolled
+     */
     class MouseScrolledEvent : public Event{
     public:
         MouseScrolledEvent(const float xOffset, const float yOffset)
@@ -71,6 +77,9 @@ namespace GEOGL{
         float m_XOffset, m_YOffset;
     };
 
+    /**
+     *
+     */
     class MouseButtonEvent : public Event{
     public:
         MouseCode getMouseButton() const { return m_Button; }

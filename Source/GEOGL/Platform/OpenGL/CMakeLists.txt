@@ -1,6 +1,6 @@
 set(MODULE_NAME ${PROJECT_NAME}_OpenGL)
 
-add_library(${MODULE_NAME} STATIC OpenGLWindow.cpp OpenGLWindow.hpp OpenGLCompileTest.cpp OpenGLCompileTest.hpp)
+add_library(${MODULE_NAME} STATIC OpenGLWindow.cpp OpenGLWindow.hpp)
 set_property(TARGET ${MODULE_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 target_precompile_headers("${MODULE_NAME}" PRIVATE ../../Utils/Headers/PCH.hpp)

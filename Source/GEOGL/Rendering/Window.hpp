@@ -34,12 +34,32 @@
 #include "../Events/Event.hpp"
 namespace GEOGL {
 
+    /**
+     * Holds the properties of a window when it is created
+     */
     struct WindowProps
     {
+        /**
+         * The title of the window to be created
+         */
         std::string title;
+
+        /**
+         * The width of the window to be created
+         */
         unsigned int width;
+
+        /**
+         * The height of the window to be created
+         */
         unsigned int height;
 
+        /**
+         * Constructs a WindowProps to be passed to the \link Window.create \endlink function.
+         * @param title The title of the window to create (Default: GEOGL Engine")
+         * @param width The width of the window to create (Default: 1280 px)
+         * @param height The height of the window to create (Default: 720 px)
+         */
         WindowProps(const std::string& title = "GEOGL Engine",
                     unsigned int width = 1280,
                     unsigned int height = 720)
@@ -48,7 +68,18 @@ namespace GEOGL {
         }
     };
 
-    // Interface representing a desktop system based Window
+    /**
+     * \brief Interface representing a desktop system based Window
+     * Represents a window. The window is not actually represented here, but instead
+     * in the \link OpenGLWindow \endlink class. This is an abstract interface to
+     * represent any window of any system, and the things universally required.
+     *
+     * An event callback must be set in order to handle events, as there is no other
+     * interface to handle events for this window type, to keep things cross platform
+     * if needed.
+     *
+     * \note VSync is automatically enabled. To disable, call \link setVSync(false) \endlink
+     */
     class GEOGL_API Window{
     public:
         using EventCallbackFn = std::function<void(Event&)>;

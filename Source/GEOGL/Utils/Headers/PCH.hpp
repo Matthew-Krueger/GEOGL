@@ -26,6 +26,11 @@
 #define GEOGL_PCH_HPP
 
 #include "Dependencies.hpp"
+/* GLAD */
+#include <glad/glad.h>
+
+/* GLFW */
+#include <GLFW/glfw3.h>
 
 #include "../Logging/PrivateLog.hpp"
 

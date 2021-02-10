@@ -53,12 +53,6 @@ using json = nlohmann::json;
 /* Stb Image */
 #include <STB/stb_image.h>
 
-/* GLAD */
-#include <glad/glad.h>
-
-/* GLFW */
-#include <GLFW/glfw3.h>
-
 #define BIT(x) (1 << x)
 
 

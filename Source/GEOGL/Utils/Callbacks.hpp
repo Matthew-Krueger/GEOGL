@@ -27,18 +27,8 @@
 namespace GEOGL {
 
     /**
-     * \brief Provides a callback for OpenGL errors, and uses severe error log
-     * @param source OpenGL Provided Value
-     * @param type OpenGL Provided Value
-     * @param id OpenGL Provided Value
-     * @param severity OpenGL Provided Value
-     * @param length OpenGL Provided Value
-     * @param message OpenGL Provided Value
-     * @param userParam OpenGL Provided Value
+     * A callback to be called on the exit of the client. Handled by the main creator.
      */
-    GEOGL_API void windowDefaultDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
-                                              const char *message, const void *userParam);
-
     GEOGL_API void atExitCallback();
 
 }

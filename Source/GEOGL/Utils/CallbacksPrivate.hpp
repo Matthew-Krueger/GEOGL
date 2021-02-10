@@ -21,48 +21,23 @@
  *    distribution.                                                            *
  *                                                                             *
  *******************************************************************************/
-/*#ifdef WIN32
-#define INCLUDE_WIN_MAIN
-#endif
-#include <GEOGL/Core.hpp>
-
-int main(int argc, char ** argv){
-
-    GEOGL::Log::Init("log.txt", "Example");
-
-    GEOGL_INFO("Creating Graphics instance");
-    auto gi = GEOGL::GraphicsInstance::makeGraphicsInstance("Window You");
-
-    GEOGL_INFO_NOSTRIP("Loading quad");
-    auto rm = GEOGL::Loader::loadToVAO({ -0.5f, 0.5f, 0,
-                                         -0.5f, -0.5f, 0,
-                                         0.5f, -0.5f, 0,
-                                         0.5f, -0.5f, 0,
-                                         0.5f, 0.5f, 0,
-                                         -0.5f, 0.5f, 0});
-    GEOGL_INFO_NOSTRIP("Loaded quad");
 
 
-    GEOGL::Renderer r;
+#ifndef NODIFY_SCREENWRITER_CALLBACKSPRIVATE_HPP
+#define NODIFY_SCREENWRITER_CALLBACKSPRIVATE_HPP
 
-    GEOGL_INFO_NOSTRIP("Starting Loop");
-    while(!gi->windowShouldClose()){
-        r.prepare();
+/**
+ * \brief Provides a callback for OpenGL errors, and uses severe error log
+ * @param source OpenGL Provided Value
+ * @param type OpenGL Provided Value
+ * @param id OpenGL Provided Value
+ * @param severity OpenGL Provided Value
+ * @param length OpenGL Provided Value
+ * @param message OpenGL Provided Value
+ * @param userParam OpenGL Provided Value
+ */
+GEOGL_API void windowDefaultDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
+                                          const char *message, const void *userParam);
 
-        r.render(*rm);
 
-
-        glfwPollEvents();
-        int state = glfwGetMouseButton(gi->getWindowPtr(), GLFW_MOUSE_BUTTON_LEFT);
-        if (state == GLFW_PRESS)
-        {
-            glfwSetWindowShouldClose(gi->getWindowPtr(), true);
-        }
-
-        gi->updateDisplay();
-
-    }
-
-    return 0;
-
-}*/
+#endif //NODIFY_SCREENWRITER_CALLBACKSPRIVATE_HPP

@@ -29,6 +29,9 @@
 
 namespace GEOGL{
 
+    /**
+     * Represents a window being resized
+     */
     class WindowResizeEvent : public Event
     {
     public:

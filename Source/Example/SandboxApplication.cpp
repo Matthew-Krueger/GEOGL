@@ -32,7 +32,6 @@ namespace Sandbox{
 
     SandboxApp::SandboxApp() {
 
-        GEOGL::Log::Init("log.txt", "Sandbox");
         GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
 
     }
@@ -47,6 +46,7 @@ namespace Sandbox{
 
 GEOGL::Application* GEOGL::createApplication(){
 
+    GEOGL::Log::Init("log.txt", "Sandbox");
     return new Sandbox::SandboxApp();
 
 }

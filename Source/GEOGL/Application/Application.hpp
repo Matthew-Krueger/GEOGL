@@ -51,6 +51,11 @@ namespace GEOGL{
         void onEvent(Event& event);
 
     private:
+        /**
+         * Is a callback for when the window is closed
+         * @param event The event that asks for the window to be closed
+         * @return returns true if successful
+         */
         bool onWindowClose(WindowCloseEvent& event);
         std::unique_ptr<Window> m_Window;
         bool m_Running = true;

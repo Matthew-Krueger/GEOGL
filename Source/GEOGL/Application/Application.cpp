@@ -41,6 +41,9 @@ namespace GEOGL{
 
     void Application::run(){
 
+        GEOGL_CORE_INFO_NOSTRIP("Successfully started application.");
+        GEOGL_CORE_INFO("Starting run loop.");
+
         while(m_Running){
             glClearColor(1,0,1,1);
             glClear(GL_COLOR_BUFFER_BIT);
