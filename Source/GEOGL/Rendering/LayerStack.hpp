@@ -22,25 +22,37 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_CORE_HPP
-#define GEOGL_CORE_HPP
+/*******************************************************************************
+ *                                                                             *
+ * This code was based heavily off the Cherno game engine series               *
+ *                                                                             *
+ *******************************************************************************/
 
-#include "../../Utils/Headers/Dependencies.hpp"
 
-#include "../../Application/Application.hpp"
+#ifndef NODIFY_SCREENWRITER_LAYERSTACK_HPP
+#define NODIFY_SCREENWRITER_LAYERSTACK_HPP
 
-#include "../../ModelComponents/RawModel.hpp"
+#include "Layer.hpp"
 
-#include "../../Logging/PublicLog.hpp"
+namespace GEOGL {
 
-#include "../../Utils/Callbacks.hpp"
-#include "../../Utils/Loader.hpp"
+    class GEOGL_API LayerStack{
+    public:
+        LayerStack();
+        ~LayerStack();
 
-#include "../../Events/Event.hpp"
-#include "../../Events/ApplicationEvent.hpp"
-#include "../../Events/KeyEvent.hpp"
-#include "../../Events/MouseEvent.hpp"
+        void pushLayer(Layer* layer);
+        void pushOverlay(Layer* overlay);
+        void popLayer(Layer* layer);
+        void popOverlay(Layer* overlay);
 
-#include "../../Rendering/Layer.hpp"
+        std::vector<Layer*>::iterator begin() { return m_Layers.begin(); }
+        std::vector<Layer*>::iterator end() { return m_Layers.end(); }
+    private:
+        std::vector<Layer*> m_Layers;
+        std::vector<Layer*>::iterator m_LayerInsert;
+    };
 
-#endif //GEOGL_CORE_HPP
+}
+
+#endif //NODIFY_SCREENWRITER_LAYERSTACK_HPP

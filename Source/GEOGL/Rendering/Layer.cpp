@@ -22,25 +22,23 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_CORE_HPP
-#define GEOGL_CORE_HPP
+/*******************************************************************************
+ *                                                                             *
+ * This code was based heavily off the Cherno game engine series               *
+ *                                                                             *
+ *******************************************************************************/
 
-#include "../../Utils/Headers/Dependencies.hpp"
 
-#include "../../Application/Application.hpp"
+#include "Layer.hpp"
 
-#include "../../ModelComponents/RawModel.hpp"
+namespace GEOGL {
 
-#include "../../Logging/PublicLog.hpp"
+    Layer::Layer(const std::string& debugName)
+            : m_DebugName(debugName){
+    }
 
-#include "../../Utils/Callbacks.hpp"
-#include "../../Utils/Loader.hpp"
+    Layer::~Layer(){
 
-#include "../../Events/Event.hpp"
-#include "../../Events/ApplicationEvent.hpp"
-#include "../../Events/KeyEvent.hpp"
-#include "../../Events/MouseEvent.hpp"
+    }
 
-#include "../../Rendering/Layer.hpp"
-
-#endif //GEOGL_CORE_HPP
+}

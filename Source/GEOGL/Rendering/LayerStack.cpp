@@ -22,25 +22,55 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_CORE_HPP
-#define GEOGL_CORE_HPP
+/*******************************************************************************
+ *                                                                             *
+ * This code was based heavily off the Cherno game engine series               *
+ *                                                                             *
+ *******************************************************************************/
 
-#include "../../Utils/Headers/Dependencies.hpp"
 
-#include "../../Application/Application.hpp"
+#include "LayerStack.hpp"
 
-#include "../../ModelComponents/RawModel.hpp"
+namespace GEOGL {
 
-#include "../../Logging/PublicLog.hpp"
+    LayerStack::LayerStack(){
+        m_LayerInsert = m_Layers.begin();
+    }
 
-#include "../../Utils/Callbacks.hpp"
-#include "../../Utils/Loader.hpp"
+    LayerStack::~LayerStack(){
+        for (Layer* layer : m_Layers) {
+            layer->onDetach();
+            delete layer;
+        }
+    }
 
-#include "../../Events/Event.hpp"
-#include "../../Events/ApplicationEvent.hpp"
-#include "../../Events/KeyEvent.hpp"
-#include "../../Events/MouseEvent.hpp"
+    void LayerStack::pushLayer(Layer* layer){
+        GEOGL_CORE_INFO("Pushing layer {} to layerstack.", layer->getName());
+        m_LayerInsert = m_Layers.emplace(m_LayerInsert, layer);
+        layer->onAttach();
+    }
 
-#include "../../Rendering/Layer.hpp"
+    void LayerStack::pushOverlay(Layer* overlay){
+        GEOGL_CORE_INFO("Pushing overlay {} to layerstack.", overlay->getName());
+        m_Layers.emplace_back(overlay);
+        overlay->onAttach();
+    }
 
-#endif //GEOGL_CORE_HPP
+    void LayerStack::popLayer(Layer* layer){
+        auto it = std::find(m_Layers.begin(), m_Layers.end(), layer);
+        if (it != m_Layers.end())
+        {
+            m_Layers.erase(it);
+            m_LayerInsert--;
+        }
+        layer->onDetach();
+    }
+
+    void LayerStack::popOverlay(Layer* overlay){
+        auto it = std::find(m_Layers.begin(), m_Layers.end(), overlay);
+        if (it != m_Layers.end())
+            m_Layers.erase(it);
+        overlay->onDetach();
+    }
+
+}

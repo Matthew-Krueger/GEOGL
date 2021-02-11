@@ -47,6 +47,11 @@ namespace GEOGL{
         while(m_Running){
             glClearColor(1,0,1,1);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            for(Layer* layer : m_LayerStack){
+                layer->onUpdate();
+            }
+
             m_Window->onUpdate();
         }
 // while(true);
@@ -57,11 +62,25 @@ namespace GEOGL{
 
         EventDispatcher dispatcher(event);
 
+        /* Bind a Window Close Event to Application::onWindowClose() */
         dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::onWindowClose)); // NOLINT(modernize-avoid-bind)
 
+        for(auto it = m_LayerStack.end(); it != m_LayerStack.begin();){
+            (*--it)->onEvent(event);
+            if(event.Handled)
+                break;
+        }
 
         //GEOGL_CORE_INFO("{}", event.toString());
 
+    }
+
+    void Application::pushLayer(Layer *layer) {
+        m_LayerStack.pushLayer(layer);
+    }
+
+    void Application::pushOverlay(Layer *layer) {
+        m_LayerStack.pushOverlay(layer);
     }
 
     bool Application::onWindowClose(WindowCloseEvent& event){

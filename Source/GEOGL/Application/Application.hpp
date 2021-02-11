@@ -28,6 +28,7 @@
 
 #include "../Rendering/Window.hpp"
 #include "../Events/ApplicationEvent.hpp"
+#include "../Rendering/LayerStack.hpp"
 
 namespace GEOGL{
 
@@ -50,6 +51,10 @@ namespace GEOGL{
          */
         void onEvent(Event& event);
 
+        void pushLayer(Layer* layer);
+        void pushOverlay(Layer* layer);
+
+
     private:
         /**
          * Is a callback for when the window is closed
@@ -59,6 +64,7 @@ namespace GEOGL{
         bool onWindowClose(WindowCloseEvent& event);
         std::unique_ptr<Window> m_Window;
         bool m_Running = true;
+        LayerStack m_LayerStack;
 
     };
 

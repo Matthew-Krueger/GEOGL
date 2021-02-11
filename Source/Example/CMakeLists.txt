@@ -22,10 +22,3 @@ target_link_libraries(${MODULE_NAME} GEOGL::Engine)
 set_target_properties(${MODULE_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/
         )
-
-if(BUILD_STATIC_MSVC)
-    if(WIN32)
-    set_property(TARGET ${MODULE_NAME} PROPERTY
-            MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    endif(WIN32)
-endif(BUILD_STATIC_MSVC)

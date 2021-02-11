@@ -22,25 +22,35 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_CORE_HPP
-#define GEOGL_CORE_HPP
+/*******************************************************************************
+ *                                                                             *
+ * This code was based heavily off the Cherno game engine series               *
+ *                                                                             *
+ *******************************************************************************/
 
-#include "../../Utils/Headers/Dependencies.hpp"
 
-#include "../../Application/Application.hpp"
+#ifndef NODIFY_SCREENWRITER_LAYER_HPP
+#define NODIFY_SCREENWRITER_LAYER_HPP
 
-#include "../../ModelComponents/RawModel.hpp"
+#include "../Events/Event.hpp"
 
-#include "../../Logging/PublicLog.hpp"
+namespace GEOGL {
 
-#include "../../Utils/Callbacks.hpp"
-#include "../../Utils/Loader.hpp"
+    class GEOGL_API Layer{
+    public:
+        Layer(const std::string& name = "Layer");
+        virtual ~Layer();
 
-#include "../../Events/Event.hpp"
-#include "../../Events/ApplicationEvent.hpp"
-#include "../../Events/KeyEvent.hpp"
-#include "../../Events/MouseEvent.hpp"
+        virtual void onAttach(){}
+        virtual void onDetach(){}
+        virtual void onUpdate(){}
+        virtual void onEvent(Event& event) {}
 
-#include "../../Rendering/Layer.hpp"
+        inline const std::string& getName() const { return m_DebugName; }
+    protected:
+        std::string m_DebugName;
+    };
 
-#endif //GEOGL_CORE_HPP
+}
+
+#endif //NODIFY_SCREENWRITER_LAYER_HPP
