@@ -34,6 +34,9 @@
 namespace GEOGL{
 
 
+    /**
+     * \brief Represents the internals of the logging API.
+     */
     class GEOGL_API Log{
     private:
         static std::shared_ptr<spdlog::logger> coreLogger;

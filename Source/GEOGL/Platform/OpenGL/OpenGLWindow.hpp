@@ -41,7 +41,11 @@ struct GLFWwindow;
 namespace GEOGL {
 
     /**
-     * Represents an actual OpenGL Window, based on GLFW.
+     * \brief Represents an actual OpenGL Window, based on GLFW.
+     *
+     * This is a pure representation of a window rendering with OpenGL, and contains
+     * the OpenGL code required to load the OpenGL extensions from the graphics
+     * driver, open the window, and update the frame.
      */
     class OpenGLWindow : public Window
     {
@@ -55,12 +59,28 @@ namespace GEOGL {
         inline unsigned int getHeight() const override { return m_Data.height; }
 
         // Window attributes
+        /**
+         * Sets the event callback for GLFW to use when events are given from the
+         * driver.
+         * @param callback The callback function to set.
+         */
         inline void setEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+
+        /**
+         * Sets whether or not VSync is enabled
+         * @param enabled Whether or not vsync should be enabled.
+         */
         void setVSync(bool enabled) override;
+
+        /**
+         * Asks if VSync is enabled
+         * @return Whether or not VSync is enabled.
+         */
         bool isVSync() const override;
     private:
-        virtual void init(const WindowProps& props);
-        virtual void shutdown();
+        void init(const WindowProps& props);
+        void shutdown();
+
     private:
         GLFWwindow* m_Window;
 

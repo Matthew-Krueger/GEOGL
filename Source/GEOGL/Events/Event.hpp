@@ -102,7 +102,7 @@ namespace GEOGL{
         /**
          * Creates a dispatcher which is capable of dispatching events using a template
          * parameter as illustrated in
-         * @param event
+         * @param event The event with which to create the dispatcher
          */
         EventDispatcher(Event& event)
                 : m_Event(event){}
@@ -119,6 +119,7 @@ namespace GEOGL{
          * match.
          * @return True if the event was dispatched, false otherwise.
          *
+         * EXAMPLE USAGE:
          * \code
          * EventDispatcher dispatcher(event);
          * dispatcher.dispatch<MouseMovedEvent>(GEOGL_BIND_FUNCTION(onMouseMovedEvent));

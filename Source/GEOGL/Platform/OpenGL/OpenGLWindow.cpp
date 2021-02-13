@@ -45,10 +45,6 @@ namespace GEOGL {
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
     }
 
-    Window* Window::create(const WindowProps& props){
-        return new OpenGLWindow(props);
-    }
-
     OpenGLWindow::OpenGLWindow(const WindowProps& props){
         init(props);
     }
@@ -112,6 +108,9 @@ namespace GEOGL {
 
             data->width = width;
             data->height = height;
+
+            /* Set the viewport before we get further. Better to do now then later */
+            glViewport(0,0,width,height);
 
             WindowResizeEvent event(width, height);
             data->EventCallback(event);
