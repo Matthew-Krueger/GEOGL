@@ -33,6 +33,7 @@ namespace Sandbox{
     SandboxApp::SandboxApp() {
 
         GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
+        pushOverlay(new GEOGL::ImGuiLayer());
 
     }
 
