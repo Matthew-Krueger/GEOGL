@@ -29,6 +29,9 @@
 
 namespace GEOGL{
 
+#define GEOGL_BIND_EVENT_FN(function) std::bind(&function, this, std::placeholders::_1)
+
+
     /**
      * Represents the type of an event
      */

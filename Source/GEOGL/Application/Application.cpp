@@ -27,8 +27,6 @@
 #include <GLFW/glfw3.h>
 namespace GEOGL{
 
-#define BIND_EVENT_FN(function) std::bind(&function, this, std::placeholders::_1)
-
     Application* Application::s_Instance = nullptr;
 
     Application::Application() {
@@ -38,7 +36,7 @@ namespace GEOGL{
 
         /* Create window */
         m_Window = std::unique_ptr<Window>(Window::create());
-        m_Window->setEventCallback(BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
+        m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
 
     }
 
@@ -46,8 +44,7 @@ namespace GEOGL{
 
     void Application::run(){
 
-        GEOGL_CORE_INFO_NOSTRIP("Successfully started application.");
-        GEOGL_CORE_INFO("Starting run loop.");
+        GEOGL_CORE_INFO_NOSTRIP("Successfully started application. Entering Loop.");
 
         while(m_Running){
             glClearColor(1,0,1,1);
@@ -68,7 +65,7 @@ namespace GEOGL{
         EventDispatcher dispatcher(event);
 
         /* Bind a Window Close Event to Application::onWindowClose() */
-        dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::onWindowClose)); // NOLINT(modernize-avoid-bind)
+        dispatcher.dispatch<WindowCloseEvent>(GEOGL_BIND_EVENT_FN(Application::onWindowClose)); // NOLINT(modernize-avoid-bind)
 
         for(auto it = m_LayerStack.end(); it != m_LayerStack.begin();){
             (*--it)->onEvent(event);

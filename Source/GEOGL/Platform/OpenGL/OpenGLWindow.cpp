@@ -148,6 +148,15 @@ namespace GEOGL {
             }
         });
 
+        glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int character){
+
+            auto data = (WindowData*) glfwGetWindowUserPointer(window);
+
+            KeyTypedEvent event(character);
+            data->EventCallback(event);
+
+        });
+
         glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods){
             auto data = (WindowData*) glfwGetWindowUserPointer(window);
             switch(action){

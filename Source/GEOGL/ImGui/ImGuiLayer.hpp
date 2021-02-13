@@ -35,6 +35,11 @@
 #include "../Events/Event.hpp"
 #include "../Rendering/Layer.hpp"
 
+#include "../Events/KeyEvent.hpp"
+#include "../Events/MouseEvent.hpp"
+#include "../Events/ApplicationEvent.hpp"
+
+
 namespace GEOGL{
 
     class GEOGL_API ImGuiLayer : public Layer{
@@ -46,6 +51,16 @@ namespace GEOGL{
         void onDetach() override;
         void onUpdate() override;
         void onEvent(Event& event) override;
+
+    private: // functions
+        bool onMouseButtonPressedEvent(MouseButtonPressedEvent& event);
+        bool onMouseButtonReleasedEvent(MouseButtonReleasedEvent& event);
+        bool onMouseMovedEvent(MouseMovedEvent& event);
+        bool onMouseScrolledEvent(MouseScrolledEvent& event);
+        bool onKeyPressedEvent(KeyPressedEvent& event);
+        bool onKeyReleasedEvent(KeyReleasedEvent& event);
+        bool onKeyTypedEvent(KeyTypedEvent& event);
+        bool onWindowResizedEvent(WindowResizeEvent& event);
 
     private:
         float m_Time = 0;
