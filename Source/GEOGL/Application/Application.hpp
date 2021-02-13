@@ -36,6 +36,9 @@ namespace GEOGL{
      * Represents an abstract application
      */
     class GEOGL_API Application{
+    private:
+        static Application* s_Instance;
+
     public:
         Application();
         virtual ~Application();
@@ -54,6 +57,8 @@ namespace GEOGL{
         void pushLayer(Layer* layer);
         void pushOverlay(Layer* layer);
 
+        static inline Application& get() { return *Application::s_Instance; };
+        inline Window& getWindow() { return *m_Window; };
 
     private:
         /**
@@ -65,6 +70,7 @@ namespace GEOGL{
         std::unique_ptr<Window> m_Window;
         bool m_Running = true;
         LayerStack m_LayerStack;
+
 
     };
 

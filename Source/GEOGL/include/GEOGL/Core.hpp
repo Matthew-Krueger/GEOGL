@@ -43,4 +43,6 @@
 
 #include "../../Rendering/Layer.hpp"
 
+#include "../../ImGui/ImGuiLayer.hpp"
+
 #endif //GEOGL_CORE_HPP

@@ -29,7 +29,12 @@ namespace GEOGL{
 
 #define BIND_EVENT_FN(function) std::bind(&function, this, std::placeholders::_1)
 
+    Application* Application::s_Instance = nullptr;
+
     Application::Application() {
+
+        GEOGL_CORE_ASSERT_NOSTRIP(!s_Instance,"An application already exists.");
+        s_Instance = this;
 
         /* Create window */
         m_Window = std::unique_ptr<Window>(Window::create());

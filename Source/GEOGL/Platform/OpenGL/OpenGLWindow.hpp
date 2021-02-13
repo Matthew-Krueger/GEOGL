@@ -32,7 +32,11 @@
 #define NODIFY_SCREENWRITER_OPENGLWINDOW_HPP
 
 #include "../../Rendering/Window.hpp"
-#include <GLFW/glfw3.h>
+
+/**
+ * Forward declaration of GLFWwindow, as we need not know how it works.
+ */
+struct GLFWwindow;
 
 namespace GEOGL {
 

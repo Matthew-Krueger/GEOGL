@@ -33,16 +33,17 @@
 #include "../../Events/ApplicationEvent.hpp"
 #include "../../Events/MouseEvent.hpp"
 #include "../../Events/KeyEvent.hpp"
+#include <GLFW/glfw3.h>
 
 namespace GEOGL {
 
     static uint8_t currentWindows = 0;
+    static bool s_GLFWInitialized = false;
+    static bool s_GLADInitialized = false;
 
     void glfwErrorCallback(int errorCode, const char * errorText){
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
     }
-
-    static bool s_GLFWInitialized = false;
 
     Window* Window::create(const WindowProps& props){
         return new OpenGLWindow(props);
@@ -92,10 +93,11 @@ namespace GEOGL {
         ++currentWindows;
         GEOGL_CORE_INFO("Successfully created window, noting the current window count is {}.", currentWindows);
 
-        /* Load GLAD */
-        GEOGL_CORE_INFO("Loading higher OpenGL functions with GLAD.");
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
-            GEOGL_CORE_CRITICAL_NOSTRIP("Failed to load OpenGL with GLAD.");
+        /* Check if higher level openGl funcitons have been loaded */
+        if(!s_GLADInitialized) {
+            GEOGL_CORE_INFO("Loading higher OpenGL functions with GLAD.");
+            int gladStatus = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+            GEOGL_CORE_ASSERT_NOSTRIP(gladStatus, "Failed to load higher OpenGL functions with GLAD.");
         }
 
         /* Set glViewport to what we were given */
@@ -193,6 +195,8 @@ namespace GEOGL {
         if(currentWindows == 0){
             GEOGL_CORE_INFO("Since current windows is {}, terminating GLFW", currentWindows);
             glfwTerminate();
+            s_GLFWInitialized = false;
+            s_GLADInitialized = false;
         }
 
     }

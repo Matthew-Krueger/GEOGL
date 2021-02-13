@@ -60,6 +60,11 @@ include_directories(Dependencies/STB/include)
 
 # GLM
 include_directories(Dependencies/GLM)
+
+# ImGui
+add_subdirectory(Dependencies/ImGui-1.81)
+include_directories(Dependencies/ImGui-1.81/include)
+
 ###################################
 #          Build GEOGL            #
 ###################################
