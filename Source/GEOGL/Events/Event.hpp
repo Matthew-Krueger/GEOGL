@@ -91,8 +91,10 @@ namespace GEOGL{
     /**
      * Dispatches an event.
      * Usage:<br>
-     * \code EventDispatcher dispatcher(event);
-     * dispatcher.dispatch<MouseMovedEvent>(GEOGL_BIND_FUNCTION(onMouseMovedEvent)); \endcode
+     * \code
+     * EventDispatcher dispatcher(event);
+     * dispatcher.dispatch<MouseMovedEvent>(GEOGL_BIND_FUNCTION(onMouseMovedEvent));
+     * \endcode
      */
     class EventDispatcher
     {
@@ -116,8 +118,11 @@ namespace GEOGL{
          * @param functionToBind The function to bind if EventType and the type of the internal event
          * match.
          * @return True if the event was dispatched, false otherwise.
-         * \example EventDispatcher dispatcher(event);
+         *
+         * \code
+         * EventDispatcher dispatcher(event);
          * dispatcher.dispatch<MouseMovedEvent>(GEOGL_BIND_FUNCTION(onMouseMovedEvent));
+         * \endcode
          */
         template<typename EventType, typename FunctionType>
         bool dispatch(const FunctionType& functionToBind){
