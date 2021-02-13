@@ -89,19 +89,40 @@ namespace GEOGL{
     };
 
     /**
-     * Dispatches an event
+     * Dispatches an event.
+     * Usage:
+     * EventDispatcher dispatcher(event);
+     * dispatcher.dispatch<MouseMovedEvent>(GEOGL_BIND_FUNCTION(onMouseMovedEvent));
      */
     class EventDispatcher
     {
     public:
+        /**
+         * Creates a dispatcher which is capable of dispatching events using a template
+         * parameter as illustrated in
+         * @param event
+         */
         EventDispatcher(Event& event)
                 : m_Event(event){}
 
         // F will be deduced by the compiler
-        template<typename T, typename F>
-        bool dispatch(const F& func){
-            if (m_Event.getEventType() == T::getStaticType()){
-                m_Event.Handled |= func(static_cast<T&>(m_Event));
+        /**
+         * Dispatches the event to the function func, if it matches
+         * the type of event stored in the dispatcher.
+         * @example EventDispatcher dispatcher(event);
+         * dispatcher.dispatch<MouseMovedEvent>(GEOGL_BIND_FUNCTION(onMouseMovedEvent));
+         * @tparam EventType The Type of the event you wish to target. Note, this is not
+         * the same as the type of event given to dispatcher, this is the actual target type.
+         * @tparam FunctionType This template perimeter can be automatically deduced by the compiler.
+         * Buy it a beer (but not for Clang. It is not 21 yet).
+         * @param functionToBind The function to bind if EventType and the type of the internal event
+         * match.
+         * @return True if the event was dispatched, false otherwise.
+         */
+        template<typename EventType, typename FunctionType>
+        bool dispatch(const FunctionType& functionToBind){
+            if (m_Event.getEventType() == EventType::getStaticType()){
+                m_Event.Handled |= functionToBind(static_cast<EventType&>(m_Event));
                 return true;
             }
             return false;
