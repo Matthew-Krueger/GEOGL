@@ -28,83 +28,26 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLWINDOW_HPP
-#define GEOGL_OPENGLWINDOW_HPP
 
-#include "../../IO/Window.hpp"
+#ifndef GEOGL_OPENGLINPUT_HPP
+#define GEOGL_OPENGLINPUT_HPP
 
-/**
- * Forward declaration of GLFWwindow, as we need not know how it works.
- */
-struct GLFWwindow;
+#include "../../IO/Input.hpp"
 
-namespace GEOGL {
+namespace GEOGL{
 
-    /**
-     * \brief Represents an actual OpenGL Window, based on GLFW.
-     *
-     * This is a pure representation of a window rendering with OpenGL, and contains
-     * the OpenGL code required to load the OpenGL extensions from the graphics
-     * driver, open the window, and update the frame.
-     */
-    class OpenGLWindow : public Window
-    {
-    public:
-        OpenGLWindow(const WindowProps& props);
-        virtual ~OpenGLWindow();
+    class GEOGL_API_HIDDEN OpenGLInput : public GEOGL::Input{
 
-        void onUpdate() override;
+    protected:
+        bool isKeyPressedImpl(int keycode) override;
 
-        inline unsigned int getWidth() const override { return m_Data.width; }
-        inline unsigned int getHeight() const override { return m_Data.height; }
+        bool isMouseButtonPressedImpl(int button) override;
+        bool getMouseXImpl() override;
+        bool getMouseYImpl() override;
+        glm::vec2 getMousePositionImpl() override;
 
-        // Window attributes
-        /**
-         * Sets the event callback for GLFW to use when events are given from the
-         * driver.
-         * @param callback The callback function to set.
-         */
-        inline void setEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
-
-        /**
-         * Sets whether or not VSync is enabled
-         * @param enabled Whether or not vsync should be enabled.
-         */
-        void setVSync(bool enabled) override;
-
-        /**
-         * Asks if VSync is enabled
-         * @return Whether or not VSync is enabled.
-         */
-        bool isVSync() const override;
-
-        inline void* getNativeWindow() const override { return m_Window; };
-
-        /**
-         * Returns that this window is an OpenGL Desktop window
-         * @return An WINDOW_OPENGL_DESKTOP flag
-         */
-        enum WindowAPIType type() override;
-
-    private:
-        void init(const WindowProps& props);
-        void shutdown();
-
-    private:
-        GLFWwindow* m_Window;
-
-        struct WindowData
-        {
-            std::string title;
-            unsigned int width, height;
-            bool vSync;
-
-            EventCallbackFn EventCallback;
-        };
-
-        WindowData m_Data;
     };
 
 }
 
-#endif //NODIFY_SCREENWRITER_OPENGLWINDOW_HPP
+#endif //NODIFY_SCREENWRITER_OPENGLINPUT_HPP

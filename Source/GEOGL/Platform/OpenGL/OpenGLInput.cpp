@@ -28,83 +28,54 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLWINDOW_HPP
-#define GEOGL_OPENGLWINDOW_HPP
+#include "OpenGLInput.hpp"
+#include "../../Application/Application.hpp"
 
-#include "../../IO/Window.hpp"
+#include <GLFW/glfw3.h>
 
-/**
- * Forward declaration of GLFWwindow, as we need not know how it works.
- */
-struct GLFWwindow;
+namespace GEOGL{
 
-namespace GEOGL {
 
-    /**
-     * \brief Represents an actual OpenGL Window, based on GLFW.
-     *
-     * This is a pure representation of a window rendering with OpenGL, and contains
-     * the OpenGL code required to load the OpenGL extensions from the graphics
-     * driver, open the window, and update the frame.
-     */
-    class OpenGLWindow : public Window
-    {
-    public:
-        OpenGLWindow(const WindowProps& props);
-        virtual ~OpenGLWindow();
+    bool OpenGLInput::isKeyPressedImpl(int keycode) {
 
-        void onUpdate() override;
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        auto state = glfwGetKey(window, keycode);
 
-        inline unsigned int getWidth() const override { return m_Data.width; }
-        inline unsigned int getHeight() const override { return m_Data.height; }
+        return state == GLFW_PRESS || state == GLFW_REPEAT;
 
-        // Window attributes
-        /**
-         * Sets the event callback for GLFW to use when events are given from the
-         * driver.
-         * @param callback The callback function to set.
-         */
-        inline void setEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+    }
 
-        /**
-         * Sets whether or not VSync is enabled
-         * @param enabled Whether or not vsync should be enabled.
-         */
-        void setVSync(bool enabled) override;
+    bool OpenGLInput::isMouseButtonPressedImpl(int button) {
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        auto state = glfwGetMouseButton(window, button);
 
-        /**
-         * Asks if VSync is enabled
-         * @return Whether or not VSync is enabled.
-         */
-        bool isVSync() const override;
+        return state == GLFW_PRESS;
 
-        inline void* getNativeWindow() const override { return m_Window; };
+    }
 
-        /**
-         * Returns that this window is an OpenGL Desktop window
-         * @return An WINDOW_OPENGL_DESKTOP flag
-         */
-        enum WindowAPIType type() override;
+    bool OpenGLInput::getMouseXImpl() {
 
-    private:
-        void init(const WindowProps& props);
-        void shutdown();
+        return getMousePositionImpl().x;
 
-    private:
-        GLFWwindow* m_Window;
+    }
 
-        struct WindowData
-        {
-            std::string title;
-            unsigned int width, height;
-            bool vSync;
+    bool OpenGLInput::getMouseYImpl() {
 
-            EventCallbackFn EventCallback;
-        };
+        return getMousePositionImpl().y;
 
-        WindowData m_Data;
-    };
+    }
+
+    glm::vec2 OpenGLInput::getMousePositionImpl(){
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        double xpos, ypos;
+
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        return glm::vec2((float)xpos, (float)ypos);
+
+    }
 
 }
 
-#endif //NODIFY_SCREENWRITER_OPENGLWINDOW_HPP
+#include "OpenGLInput.hpp"

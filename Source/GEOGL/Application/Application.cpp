@@ -61,6 +61,8 @@ namespace GEOGL{
         m_Window = std::unique_ptr<Window>(Window::create());
         m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
 
+        /* Initialize input class */
+
     }
 
     Application::~Application() = default;

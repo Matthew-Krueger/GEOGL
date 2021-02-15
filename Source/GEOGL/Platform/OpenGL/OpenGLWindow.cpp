@@ -33,6 +33,7 @@
 #include "../../IO/Events/ApplicationEvent.hpp"
 #include "../../IO/Events/MouseEvent.hpp"
 #include "../../IO/Events/KeyEvent.hpp"
+#include "OpenGLInput.hpp"
 #include <GLFW/glfw3.h>
 
 namespace GEOGL {
@@ -54,6 +55,9 @@ namespace GEOGL {
     }
 
     void OpenGLWindow::init(const WindowProps& props){
+
+        /* Initialize Input for OpenGLWindow */
+        Input::init(new OpenGLInput());
 
         /* Set the data of the window */
         m_Data.title = props.title;
@@ -226,6 +230,12 @@ namespace GEOGL {
     bool OpenGLWindow::isVSync() const{
         return m_Data.vSync;
     }
+
+    /*void* OpenGLWindow::getNativeWindow() const{
+
+        return (void*) m_Window;
+
+    }*/
 
     enum WindowAPIType OpenGLWindow::type(){
 

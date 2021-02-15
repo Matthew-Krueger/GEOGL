@@ -115,6 +115,12 @@ namespace GEOGL {
         virtual bool isVSync() const = 0;
 
         /**
+         * Gets the native window as a pointer
+         * @return The native window pointer void
+         */
+        virtual void* getNativeWindow() const = 0;
+
+        /**
          * Queries the window type.
          * \note Must be implemented in each platform.
          * @return The type of the window
