@@ -4,3 +4,6 @@
 [submodule "Dependencies/spdlog"]
 	path = Dependencies/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "Info"]
+	path = Info
+	url = git@github.com:Matthew-Krueger/GEOGL.wiki.git
