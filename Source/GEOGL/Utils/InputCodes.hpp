@@ -22,17 +22,21 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_KEYCODES_HPP
-#define GEOGL_KEYCODES_HPP
+
+#ifndef GEOGL_KEYCODE_HPP
+#define GEOGL_KEYCODE_HPP
 
 namespace GEOGL{
 
     using KeyCode = uint16_t;
 
     namespace Key{
+
+        /**
+         * The
+         */
         enum : KeyCode
         {
-            // From glfw3.h
             Space               = 32,
             Apostrophe          = 39, /* ' */
             Comma               = 44, /* , */
@@ -166,6 +170,36 @@ namespace GEOGL{
         };
     }
 
+    using MouseCode = uint16_t;
+
+    /**
+     * \brief Namespace for holding Mouse codes.
+     * \note From GLFW. Always access through InputCodes.getKeyCode();
+     */
+    namespace Mouse
+    {
+        /**
+         * Holds mouse codes
+         */
+        enum : MouseCode
+        {
+            // From glfw3.h
+            Button0                = 0,
+            Button1                = 1,
+            Button2                = 2,
+            Button3                = 3,
+            Button4                = 4,
+            Button5                = 5,
+            Button6                = 6,
+            Button7                = 7,
+
+            ButtonLast             = Button7,
+            ButtonLeft             = Button0,
+            ButtonRight            = Button1,
+            ButtonMiddle           = Button2
+        };
+    }
+
 }
 
-#endif //GEOGL_KEYCODES_HPP
+#endif //NODIFY_SCREENWRITER_KEYCODE_HPP

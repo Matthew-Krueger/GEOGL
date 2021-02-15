@@ -22,32 +22,32 @@
  *                                                                             *
  *******************************************************************************/
 
-/*******************************************************************************
- *                                                                             *
- * This code was based heavily off the Cherno game engine series               *
- *                                                                             *
- *******************************************************************************/
 
+#ifndef GEOGL_INPUTCODESCONVERTER_HPP
+#define GEOGL_INPUTCODESCONVERTER_HPP
 
-#ifndef GEOGL_OPENGLINPUT_HPP
-#define GEOGL_OPENGLINPUT_HPP
-
-#include "../../IO/Input.hpp"
+#include "InputCodes.hpp"
 
 namespace GEOGL{
+    /**
+     * \brief Serves as a wrapper to input codes, converting to other types as may be necessary in the future.
+     */
+    class GEOGL_API_HIDDEN InputCodesConverter{
 
-    class GEOGL_API_HIDDEN OpenGLInput : public GEOGL::Input{
+    public:
+        static inline int getKeyCode(KeyCode key) { return s_Instance->getKeyCodeImpl(key); };
+        static inline int getMouseCode(MouseCode button) { return s_Instance->getMouseCodeImpl(button); };
+
+        inline static void init(InputCodesConverter* input){s_Instance = input; };
 
     protected:
-        bool isKeyPressedImpl(int keycode) override;
+        virtual int getKeyCodeImpl(KeyCode key) = 0;
+        virtual int getMouseCodeImpl(MouseCode button) = 0;
 
-        bool isMouseButtonPressedImpl(int button) override;
-        bool getMouseXImpl() override;
-        bool getMouseYImpl() override;
-        glm::vec2 getMousePositionImpl() override;
+    private:
+        static InputCodesConverter* s_Instance;
 
     };
-
 }
 
-#endif //NODIFY_SCREENWRITER_OPENGLINPUT_HPP
+#endif //NODIFY_SCREENWRITER_INPUTCODESCONVERTER_HPP

@@ -30,10 +30,12 @@
 
 
 #include "OpenGLWindow.hpp"
-#include "../../IO/Events/ApplicationEvent.hpp"
-#include "../../IO/Events/MouseEvent.hpp"
-#include "../../IO/Events/KeyEvent.hpp"
+#include "../../../IO/Events/ApplicationEvent.hpp"
+#include "../../../IO/Events/MouseEvent.hpp"
+#include "../../../IO/Events/KeyEvent.hpp"
 #include "OpenGLInput.hpp"
+#include "OpenGLKeyCodes.hpp"
+#include "../../../Utils/InputCodesConverter.hpp"
 #include <GLFW/glfw3.h>
 
 namespace GEOGL {
@@ -58,6 +60,9 @@ namespace GEOGL {
 
         /* Initialize Input for OpenGLWindow */
         Input::init(new OpenGLInput());
+
+        /* Initialize Input Polling */
+        InputCodesConverter::init(new OpenGLKeyCodes());
 
         /* Set the data of the window */
         m_Data.title = props.title;

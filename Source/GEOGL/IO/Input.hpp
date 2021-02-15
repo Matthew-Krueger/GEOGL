@@ -25,6 +25,8 @@
 #ifndef GEOGL_INPUT_HPP
 #define GEOGL_INPUT_HPP
 
+#include "../Utils/InputCodes.hpp"
+
 namespace GEOGL{
 
     class GEOGL_API Input{
@@ -35,17 +37,17 @@ namespace GEOGL{
          * @param keycode The key to check
          * @return Whether or not the key is pressed
          */
-        inline static bool isKeyPressed(int keycode){ return s_Instance->isKeyPressedImpl(keycode); };
+        inline static bool isKeyPressed(KeyCode keycode){ return s_Instance->isKeyPressedImpl(keycode); };
 
-        inline static bool isMouseButtonPressed(int button){ return s_Instance->isMouseButtonPressedImpl(button); };
+        inline static bool isMouseButtonPressed(MouseCode button){ return s_Instance->isMouseButtonPressedImpl(button); };
         inline static float getMouseX(){return s_Instance->getMouseXImpl(); };
         inline static float getMouseY(){return s_Instance->getMouseYImpl(); };
         inline static glm::vec2 getMousePosition(){return s_Instance->getMousePositionImpl();};
 
         inline static void init(Input* input){s_Instance = input; };
     protected:
-        virtual bool isKeyPressedImpl(int keycode)=0;
-        virtual bool isMouseButtonPressedImpl(int button) = 0;
+        virtual bool isKeyPressedImpl(KeyCode keycode)=0;
+        virtual bool isMouseButtonPressedImpl(MouseCode button) = 0;
         virtual bool getMouseXImpl() = 0;
         virtual bool getMouseYImpl() = 0;
         virtual glm::vec2 getMousePositionImpl() = 0;

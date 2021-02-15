@@ -25,26 +25,31 @@
 #ifndef GEOGL_CORE_HPP
 #define GEOGL_CORE_HPP
 
+/* Dependencies */
 #include "../../Utils/Headers/Dependencies.hpp"
 
+/* Application */
 #include "../../Application/Application.hpp"
 
-#include "../../ModelComponents/RawModel.hpp"
-
+/* Logging */
 #include "../../Logging/PublicLog.hpp"
 
+/* Loading and Callbacks */
 #include "../../Utils/Callbacks.hpp"
-#include "../../Utils/Loader.hpp"
 
+/* Events */
 #include "../../IO/Events/Event.hpp"
 #include "../../IO/Events/ApplicationEvent.hpp"
 #include "../../IO/Events/KeyEvent.hpp"
 #include "../../IO/Events/MouseEvent.hpp"
 
+/* Input Polling Section */
 #include "../../IO/Input.hpp"
+#include "../../Utils/InputCodes.hpp"
 
+/* Rendering API */
 #include "../../Rendering/Layer.hpp"
-
 #include "../../ImGui/ImGuiLayer.hpp"
+#include "../../Rendering/LayerStack.hpp"
 
 #endif //GEOGL_CORE_HPP

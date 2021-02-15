@@ -27,7 +27,8 @@
 #ifndef GEOGL_KEYEVENT_HPP
 #define GEOGL_KEYEVENT_HPP
 
-#include "../../Utils/KeyCodes.hpp"
+//#include "../../Utils/KeyCodes.hpp"
+#include "../../Utils/InputCodes.hpp"
 
 namespace GEOGL{
 

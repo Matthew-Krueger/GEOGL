@@ -22,27 +22,32 @@
  *                                                                             *
  *******************************************************************************/
 
+/*******************************************************************************
+ *                                                                             *
+ * This code was based heavily off the Cherno game engine series               *
+ *                                                                             *
+ *******************************************************************************/
 
-#ifndef GEOGL_RAWMODEL_HPP
-#define GEOGL_RAWMODEL_HPP
+
+#ifndef GEOGL_OPENGLINPUT_HPP
+#define GEOGL_OPENGLINPUT_HPP
+
+#include "../../../IO/Input.hpp"
 
 namespace GEOGL{
 
-    class RawModel{
-    private:
-        unsigned int vaoID;
-        size_t vertexCount;
-        std::vector<unsigned int> vbos;
+    class GEOGL_API_HIDDEN OpenGLInput : public GEOGL::Input{
 
-    public:
-        RawModel(unsigned int vaoID, std::vector<unsigned int> vbos, size_t vertexCount);
-        ~RawModel();
+    protected:
+        bool isKeyPressedImpl(KeyCode keycode) override;
 
-        inline unsigned int getVAOID() const { return vaoID; }
-        inline size_t getVertexCount() const { return vertexCount; }
+        bool isMouseButtonPressedImpl(MouseCode button) override;
+        bool getMouseXImpl() override;
+        bool getMouseYImpl() override;
+        glm::vec2 getMousePositionImpl() override;
 
     };
 
 }
 
-#endif //GEOGL_RAWMODEL_HPP
+#endif //NODIFY_SCREENWRITER_OPENGLINPUT_HPP

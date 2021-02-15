@@ -28,54 +28,26 @@
  *                                                                             *
  *******************************************************************************/
 
-#include "OpenGLInput.hpp"
-#include "../../Application/Application.hpp"
+#ifndef GEOGL_OPENGLKEYCODES_HPP
+#define GEOGL_OPENGLKEYCODES_HPP
 
-#include <GLFW/glfw3.h>
+#include "../../../Utils/InputCodes.hpp"
+#include "../../../Utils/InputCodesConverter.hpp"
 
 namespace GEOGL{
 
+    /**
+     * \brief A wrapper for GLFW Key Codes.
+     *
+     * Since GLFW is identical to our keycodes, these just return the cast to int of the code.
+     */
+    class GEOGL_API_HIDDEN OpenGLKeyCodes : public InputCodesConverter{
 
-    bool OpenGLInput::isKeyPressedImpl(int keycode) {
+        int getKeyCodeImpl(KeyCode key) override;
+        int getMouseCodeImpl(MouseCode button) override;
 
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        auto state = glfwGetKey(window, keycode);
-
-        return state == GLFW_PRESS || state == GLFW_REPEAT;
-
-    }
-
-    bool OpenGLInput::isMouseButtonPressedImpl(int button) {
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        auto state = glfwGetMouseButton(window, button);
-
-        return state == GLFW_PRESS;
-
-    }
-
-    bool OpenGLInput::getMouseXImpl() {
-
-        return getMousePositionImpl().x;
-
-    }
-
-    bool OpenGLInput::getMouseYImpl() {
-
-        return getMousePositionImpl().y;
-
-    }
-
-    glm::vec2 OpenGLInput::getMousePositionImpl(){
-
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        double xpos, ypos;
-
-        glfwGetCursorPos(window, &xpos, &ypos);
-
-        return glm::vec2((float)xpos, (float)ypos);
-
-    }
+    };
 
 }
 
-#include "OpenGLInput.hpp"
+#endif //NODIFY_SCREENWRITER_OPENGLKEYCODES_HPP

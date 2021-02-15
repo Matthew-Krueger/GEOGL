@@ -26,7 +26,7 @@
 #include "Window.hpp"
 
 //#if (GEOGL_BUILD_WITH_OPENGL == true)
-#include "../Platform/OpenGL/OpenGLWindow.hpp"
+#include "../Platform/OpenGL/IO/OpenGLWindow.hpp"
 
 
 namespace GEOGL{

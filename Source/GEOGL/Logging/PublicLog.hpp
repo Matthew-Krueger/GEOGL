@@ -57,8 +57,8 @@ namespace GEOGL{
 //#   define GEOGL_TRACE
 #   define GEOGL_INFO
 #   define GEOGL_WARN
-#   define GEOGL_ERROR              ::GEOGL::Log::getClientLogger()->error(__VA_ARGS__)
-#   define GEOGL_CRITICAL           ::GEOGL::Log::getClientLogger()->critical(__VA_ARGS__)
+#   define GEOGL_ERROR(...)         ::GEOGL::Log::getClientLogger()->error(__VA_ARGS__)
+#   define GEOGL_CRITICAL(...)      ::GEOGL::Log::getClientLogger()->critical(__VA_ARGS__)
 #else
 /**
  * Enables asserts when compiling in debug mode
