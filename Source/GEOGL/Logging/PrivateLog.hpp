@@ -23,8 +23,8 @@
  *******************************************************************************/
 
 
-#ifndef VG_ENGINE_PRIVATELOG_HPP
-#define VG_ENGINE_PRIVATELOG_HPP
+#ifndef GEOGL_ENGINE_PRIVATELOG_HPP
+#define GEOGL_ENGINE_PRIVATELOG_HPP
 
 #include "PublicLog.hpp"
 
@@ -51,7 +51,7 @@
 #ifdef GEOGL_ENABLE_ASSERTS
 #   define GEOGL_CORE_ASSERT(x, ...) { if(!(x)) { GEOGL_CORE_ERROR_NOSTRIP("Assertion Failed: {0}", __VA_ARGS__); GEOGL_DEBUG_BREAK(); } } (void(0))
 #else
-#   define GEOGL_CORE_ASSERT(x, ...)
+#   define GEOGL_CORE_ASSERT(x, ...) {x;} (void(0))
 #endif
 /**
  * Forms a non-stripping assert. If not launched with a debugger, this causes a hard crash

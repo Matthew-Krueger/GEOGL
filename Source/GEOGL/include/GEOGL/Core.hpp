@@ -36,10 +36,12 @@
 #include "../../Utils/Callbacks.hpp"
 #include "../../Utils/Loader.hpp"
 
-#include "../../Events/Event.hpp"
-#include "../../Events/ApplicationEvent.hpp"
-#include "../../Events/KeyEvent.hpp"
-#include "../../Events/MouseEvent.hpp"
+#include "../../IO/Events/Event.hpp"
+#include "../../IO/Events/ApplicationEvent.hpp"
+#include "../../IO/Events/KeyEvent.hpp"
+#include "../../IO/Events/MouseEvent.hpp"
+
+#include "../../IO/Input.hpp"
 
 #include "../../Rendering/Layer.hpp"
 

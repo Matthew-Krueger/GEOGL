@@ -30,9 +30,9 @@
 
 
 #include "OpenGLWindow.hpp"
-#include "../../Events/ApplicationEvent.hpp"
-#include "../../Events/MouseEvent.hpp"
-#include "../../Events/KeyEvent.hpp"
+#include "../../IO/Events/ApplicationEvent.hpp"
+#include "../../IO/Events/MouseEvent.hpp"
+#include "../../IO/Events/KeyEvent.hpp"
 #include <GLFW/glfw3.h>
 
 namespace GEOGL {

@@ -27,7 +27,7 @@
 #ifndef GEOGL_MOUSEEVENT_HPP
 #define GEOGL_MOUSEEVENT_HPP
 
-#include "../Utils/MouseCodes.hpp"
+#include "../../Utils/MouseCodes.hpp"
 
 namespace GEOGL{
 

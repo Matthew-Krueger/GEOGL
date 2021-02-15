@@ -28,10 +28,10 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef NODIFY_SCREENWRITER_WINDOW_HPP
-#define NODIFY_SCREENWRITER_WINDOW_HPP
+#ifndef GEOGL_WINDOW_HPP
+#define GEOGL_WINDOW_HPP
 
-#include "../Events/Event.hpp"
+#include "../IO/Events/Event.hpp"
 namespace GEOGL {
 
     enum WindowAPIType {

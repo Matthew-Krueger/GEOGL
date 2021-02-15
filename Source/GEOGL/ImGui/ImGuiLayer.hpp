@@ -32,12 +32,12 @@
 #ifndef NODIFY_SCREENWRITER_IMGUILAYER_HPP
 #define NODIFY_SCREENWRITER_IMGUILAYER_HPP
 
-#include "../Events/Event.hpp"
+#include "../IO/Events/Event.hpp"
 #include "../Rendering/Layer.hpp"
 
-#include "../Events/KeyEvent.hpp"
-#include "../Events/MouseEvent.hpp"
-#include "../Events/ApplicationEvent.hpp"
+#include "../IO/Events/KeyEvent.hpp"
+#include "../IO/Events/MouseEvent.hpp"
+#include "../IO/Events/ApplicationEvent.hpp"
 
 
 namespace GEOGL{

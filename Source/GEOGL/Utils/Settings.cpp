@@ -72,7 +72,7 @@ namespace GEOGL{
         outputFile.flush();
         outputFile.close();
         bool reloadStatus = reload();
-        GEOGL_CORE_ASSERT_NOSTRIP(reloadStatus, "Failed to reload settings after saving, File {}", m_FilePath);
+        GEOGL_CORE_ASSERT_NOSTRIP(reloadStatus, GEOGL_FORMAT("Failed to reload settings after saving, File: {}", m_FilePath));
 
     }
 }

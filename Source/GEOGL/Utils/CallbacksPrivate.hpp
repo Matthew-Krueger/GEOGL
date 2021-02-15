@@ -23,8 +23,8 @@
  *******************************************************************************/
 
 
-#ifndef NODIFY_SCREENWRITER_CALLBACKSPRIVATE_HPP
-#define NODIFY_SCREENWRITER_CALLBACKSPRIVATE_HPP
+#ifndef GEOGL_CALLBACKSPRIVATE_HPP
+#define GEOGL_CALLBACKSPRIVATE_HPP
 
 /**
  * \brief Provides a callback for OpenGL errors, and uses severe error log

@@ -22,35 +22,9 @@
  *                                                                             *
  *******************************************************************************/
 
-/*******************************************************************************
- *                                                                             *
- * This code was based heavily off the Cherno game engine series               *
- *                                                                             *
- *******************************************************************************/
+#ifndef GEOGL_INPUT_HPP
+#define GEOGL_INPUT_HPP
 
 
-#ifndef GEOGL_LAYER_HPP
-#define GEOGL_LAYER_HPP
 
-#include "../IO/Events/Event.hpp"
-
-namespace GEOGL {
-
-    class GEOGL_API Layer{
-    public:
-        Layer(const std::string& name = "Layer");
-        virtual ~Layer();
-
-        virtual void onAttach(){}
-        virtual void onDetach(){}
-        virtual void onUpdate() = 0;
-        virtual void onEvent(Event& event) {}
-
-        inline const std::string& getName() const { return m_DebugName; }
-    protected:
-        std::string m_DebugName;
-    };
-
-}
-
-#endif //NODIFY_SCREENWRITER_LAYER_HPP
+#endif //NODIFY_SCREENWRITER_INPUT_HPP

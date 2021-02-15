@@ -26,8 +26,8 @@
 #ifndef GEOGL_APPLICATION_HPP
 #define GEOGL_APPLICATION_HPP
 
-#include "../Rendering/Window.hpp"
-#include "../Events/ApplicationEvent.hpp"
+#include "../IO/Window.hpp"
+#include "../IO/Events/ApplicationEvent.hpp"
 #include "../Rendering/LayerStack.hpp"
 #include "../Utils/Settings.hpp"
 

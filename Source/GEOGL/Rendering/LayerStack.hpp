@@ -29,8 +29,8 @@
  *******************************************************************************/
 
 
-#ifndef NODIFY_SCREENWRITER_LAYERSTACK_HPP
-#define NODIFY_SCREENWRITER_LAYERSTACK_HPP
+#ifndef GEOGL_LAYERSTACK_HPP
+#define GEOGL_LAYERSTACK_HPP
 
 #include "Layer.hpp"
 

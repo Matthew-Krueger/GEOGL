@@ -22,8 +22,8 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef WIN32EXPORTS_VG_ENGINE
-#define WIN32EXPORTS_VG_ENGINE
+#ifndef GEOGL_WIN32EXPORTS
+#define GEOGL_WIN32EXPORTS
 
 #if defined _WIN32 || defined __CYGWIN__
 #   ifdef GEOGL_BUILD_LIBRARY

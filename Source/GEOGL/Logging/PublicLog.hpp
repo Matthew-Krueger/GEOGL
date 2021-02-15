@@ -25,8 +25,8 @@
 /* This file is also used for private log, but I don't care, so, it goes here. */
 
 
-#ifndef VG_ENGINE_PUBLICLOG_HPP
-#define VG_ENGINE_PUBLICLOG_HPP
+#ifndef GEOGL_PUBLICLOG_HPP
+#define GEOGL_PUBLICLOG_HPP
 
 #include <spdlog/spdlog.h>
 #include "../Win32Exports.hpp"
@@ -75,16 +75,18 @@ namespace GEOGL{
 #define GEOGL_INFO_NOSTRIP(...)     ::GEOGL::Log::getClientLogger()->info(__VA_ARGS__)
 #define GEOGL_WARN_NOSTRIP(...)     ::GEOGL::Log::getClientLogger()->warn(__VA_ARGS__)
 #define GEOGL_ERROR_NOSTRIP(...)    ::GEOGL::Log::getClientLogger()->error(__VA_ARGS__)
-#define GEOGL_FATAL_CRITICAL(...)   :GEOGL::Log::getClientLogger()->critical(__VA_ARGS__)
+#define GEOGL_FATAL_CRITICAL(...)   ::GEOGL::Log::getClientLogger()->critical(__VA_ARGS__)
 
 #ifdef GEOGL_ENABLE_ASSERTS
 #   define GEOGL_ASSERT(x, ...) { if(!(x)) { GEOGL_ERROR_NOSTRIP("Assertion Failed: {0}", __VA_ARGS__); GEOGL_DEBUG_BREAK(); } } (void(0))
 #else
-#   define GEOGL_ASSERT(x, ...)
+#   define GEOGL_ASSERT(x, ...) { x; } (void(0))
 #endif
 /**
  * Forms a non-stripping assert. If not launched with a debugger, this causes a hard crash
  */
 #define GEOGL_ASSERT_NOSTRIP(x, ...) { if(!(x)) { GEOGL_ERROR_NOSTRIP("Assertion Failed: {0}", __VA_ARGS__); GEOGL_DEBUG_BREAK(); } } (void(0))
+
+#define GEOGL_FORMAT(...)           ::fmt::format(__VA_ARGS__)
 
 #endif //VG_ENGINE_PUBLICLOG_HPP

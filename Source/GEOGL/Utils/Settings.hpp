@@ -22,8 +22,8 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef NODIFY_SCREENWRITER_SETTINGS_HPP
-#define NODIFY_SCREENWRITER_SETTINGS_HPP
+#ifndef GEOGL_SETTINGS_HPP
+#define GEOGL_SETTINGS_HPP
 
 namespace GEOGL{
 

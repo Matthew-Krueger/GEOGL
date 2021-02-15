@@ -28,10 +28,10 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef NODIFY_SCREENWRITER_OPENGLWINDOW_HPP
-#define NODIFY_SCREENWRITER_OPENGLWINDOW_HPP
+#ifndef GEOGL_OPENGLWINDOW_HPP
+#define GEOGL_OPENGLWINDOW_HPP
 
-#include "../../Rendering/Window.hpp"
+#include "../../IO/Window.hpp"
 
 /**
  * Forward declaration of GLFWwindow, as we need not know how it works.
