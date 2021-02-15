@@ -40,7 +40,7 @@ namespace GEOGL{
     bool OpenGLInput::isKeyPressedImpl(KeyCode keycode) {
 
         auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        auto state = glfwGetKey(window, InputCodesConverter::getKeyCode(keycode));
+        auto state = glfwGetKey(window, InputCodesConverter::getNativeKeyCode(keycode));
 
         return state == GLFW_PRESS || state == GLFW_REPEAT;
 
@@ -49,7 +49,7 @@ namespace GEOGL{
     bool OpenGLInput::isMouseButtonPressedImpl(MouseCode button) {
 
         auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        auto state = glfwGetMouseButton(window, InputCodesConverter::getMouseCode(button));
+        auto state = glfwGetMouseButton(window, InputCodesConverter::getNativeMouseCode(button));
 
         return state == GLFW_PRESS;
 

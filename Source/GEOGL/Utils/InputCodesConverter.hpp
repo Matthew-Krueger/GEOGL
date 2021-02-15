@@ -35,14 +35,18 @@ namespace GEOGL{
     class GEOGL_API_HIDDEN InputCodesConverter{
 
     public:
-        static inline int getKeyCode(KeyCode key) { return s_Instance->getKeyCodeImpl(key); };
-        static inline int getMouseCode(MouseCode button) { return s_Instance->getMouseCodeImpl(button); };
+        static inline int getNativeKeyCode(KeyCode key) { return s_Instance->getNativeKeyCodeImpl(key); };
+        static inline int getNativeMouseCode(MouseCode button) { return s_Instance->getNativeMouseCodeImpl(button); };
+        static inline KeyCode getGEOGLKeyCode(int nativeKeyCode) { return s_Instance->getGEOGLKeyCodeImpl(nativeKeyCode); };
+        static inline MouseCode getGEOGLMouseCode(int nativeMouseCode) { return s_Instance->getGEOGLMouseCodeImpl(nativeMouseCode); };
 
         inline static void init(InputCodesConverter* input){s_Instance = input; };
 
     protected:
-        virtual int getKeyCodeImpl(KeyCode key) = 0;
-        virtual int getMouseCodeImpl(MouseCode button) = 0;
+        virtual int getNativeKeyCodeImpl(KeyCode key) = 0;
+        virtual int getNativeMouseCodeImpl(MouseCode button) = 0;
+        virtual KeyCode getGEOGLKeyCodeImpl(int nativeKeyCode) = 0;
+        virtual MouseCode getGEOGLMouseCodeImpl(int nativeMouseCode) = 0;
 
     private:
         static InputCodesConverter* s_Instance;

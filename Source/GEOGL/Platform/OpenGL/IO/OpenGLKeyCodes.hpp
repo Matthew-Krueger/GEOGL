@@ -43,8 +43,10 @@ namespace GEOGL{
      */
     class GEOGL_API_HIDDEN OpenGLKeyCodes : public InputCodesConverter{
 
-        int getKeyCodeImpl(KeyCode key) override;
-        int getMouseCodeImpl(MouseCode button) override;
+        int getNativeKeyCodeImpl(KeyCode key) override;
+        int getNativeMouseCodeImpl(MouseCode button) override;
+        KeyCode getGEOGLKeyCodeImpl(int nativeKeyCode) override;
+        MouseCode getGEOGLMouseCodeImpl(int nativeMouseCode) override;
 
     };
 

@@ -174,7 +174,7 @@ namespace GEOGL{
 
     /**
      * \brief Namespace for holding Mouse codes.
-     * \note From GLFW. Always access through InputCodes.getKeyCode();
+     * \note From GLFW. Always access through InputCodes.getNativeKeyCode();
      */
     namespace Mouse
     {

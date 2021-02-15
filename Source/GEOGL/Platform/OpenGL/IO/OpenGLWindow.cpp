@@ -136,17 +136,17 @@ namespace GEOGL {
 
             switch(action){
                 case GLFW_PRESS: {
-                    KeyPressedEvent event(key,0);
+                    KeyPressedEvent event(InputCodesConverter::getGEOGLKeyCode(key),0);
                     data->EventCallback(event);
                     break;
                 }
                 case GLFW_RELEASE:{
-                    KeyReleasedEvent event(key);
+                    KeyReleasedEvent event(InputCodesConverter::getGEOGLKeyCode(key));
                     data->EventCallback(event);
                     break;
                 }
                 case GLFW_REPEAT:{
-                    KeyPressedEvent event(key,1);
+                    KeyPressedEvent event(InputCodesConverter::getGEOGLKeyCode(key),1);
                     data->EventCallback(event);
                     break;
                 }
@@ -169,12 +169,12 @@ namespace GEOGL {
             auto data = (WindowData*) glfwGetWindowUserPointer(window);
             switch(action){
                 case GLFW_PRESS:{
-                    MouseButtonPressedEvent event(button);
+                    MouseButtonPressedEvent event(InputCodesConverter::getGEOGLMouseCode(button));
                     data->EventCallback(event);
                     break;
                 }
                 case GLFW_RELEASE:{
-                    MouseButtonReleasedEvent event(button);
+                    MouseButtonReleasedEvent event(InputCodesConverter::getGEOGLMouseCode(button));
                     data->EventCallback(event);
                     break;
                 }
