@@ -25,11 +25,34 @@
 
 #include "Application.hpp"
 #include <GLFW/glfw3.h>
+#include <fstream>
+
 namespace GEOGL{
+
+    enum WindowAPIType determineLowestAPI(){
+
+        if(GEOGL_BUILD_WITH_OPENGL){
+            return WindowAPIType::WINDOW_OPENGL_DESKTOP;
+        }else if(GEOGL_BUILD_WITH_VULKAN){
+            return WindowAPIType::WINDOW_VULKAN_DESKTOP;
+        }
+
+    }
 
     Application* Application::s_Instance = nullptr;
 
     Application::Application() {
+
+        /* Open settings */
+        {
+            if(!m_Settings.open("settings.json")) {
+                m_Settings.data()["api"] = determineLowestAPI();
+                m_Settings.flush();
+            }
+
+        }
+
+        GEOGL_CORE_INFO_NOSTRIP("Selected Graphics API: {}", apiPrettyPrint(m_Settings.data()["api"]));
 
         GEOGL_CORE_ASSERT_NOSTRIP(!s_Instance,"An application already exists.");
         s_Instance = this;

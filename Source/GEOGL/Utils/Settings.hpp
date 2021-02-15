@@ -22,30 +22,53 @@
  *                                                                             *
  *******************************************************************************/
 
-
-#include "Window.hpp"
-
-//#if (GEOGL_BUILD_WITH_OPENGL == true)
-#include "../Platform/OpenGL/OpenGLWindow.hpp"
-
+#ifndef NODIFY_SCREENWRITER_SETTINGS_HPP
+#define NODIFY_SCREENWRITER_SETTINGS_HPP
 
 namespace GEOGL{
 
-    std::string apiPrettyPrint(enum WindowAPIType windowAPI){
+    /**
+     * \brief An API for reading settings from JSON from disk
+     */
+    class GEOGL_API Settings{
+    public:
 
-        switch(windowAPI){
-            case WindowAPIType::WINDOW_OPENGL_DESKTOP:
-                return std::string("OpenGL");
-            case WindowAPIType::WINDOW_VULKAN_DESKTOP:
-                return std::string("Vulkan");
-            default:
-                return std::string("Unknown");
-        }
+        /**
+         * \brief Constructs a blank settings object. Must call open to load a file.
+         */
+        Settings();
+        ~Settings();
 
-    }
+        /**
+         * \brief Gets the data for reading/
+         * @return The Json data. Access using array access following Nlohmann json
+         */
+        inline json& data(){ return m_Json; };
 
-    Window* Window::create(const WindowProps& props){
-        return new OpenGLWindow(props);
-    }
+        /**
+         * Opens the specified file and loads it into m_Json.
+         * @param filePath
+         * @return TRUE if reading succeeded, FALSE otherwise.
+         */
+        bool open(std::string filePath);
+
+        /**
+         * Reloads the json from the disk. Useful for live patches.
+         * @return If it successfully reloaded.
+         */
+        bool reload();
+
+        /**
+         * Flushes the current json to the disk.
+         */
+        void flush();
+
+    private:
+        std::string m_FilePath;
+        json m_Json;
+
+    };
 
 }
+
+#endif //NODIFY_SCREENWRITER_SETTINGS_HPP

@@ -77,6 +77,13 @@ namespace GEOGL {
          * @return Whether or not VSync is enabled.
          */
         bool isVSync() const override;
+
+        /**
+         * Returns that this window is an OpenGL Desktop window
+         * @return An WINDOW_OPENGL_DESKTOP flag
+         */
+        enum WindowAPIType type() override;
+
     private:
         void init(const WindowProps& props);
         void shutdown();

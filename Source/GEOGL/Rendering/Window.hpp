@@ -34,6 +34,17 @@
 #include "../Events/Event.hpp"
 namespace GEOGL {
 
+    enum WindowAPIType {
+        WINDOW_OPENGL_DESKTOP = 0,
+        WINDOW_VULKAN_DESKTOP = 1
+    };
+
+    /**
+     * Pretty prints the API Type.
+     * @return The Pretty Printed API type
+     */
+    GEOGL_API std::string apiPrettyPrint(enum WindowAPIType windowAPI);
+
     /**
      * Holds the properties of a window when it is created
      */
@@ -87,13 +98,28 @@ namespace GEOGL {
         virtual ~Window() {}
         virtual void onUpdate() = 0;
 
+        /**
+         * Gets the current Width of the window.
+         * @return The current width of the window
+         */
         virtual unsigned int getWidth() const = 0;
+        /**
+         * Gets the current Height of the window
+         * @return The current Height of the window
+         */
         virtual unsigned int getHeight() const = 0;
 
         // Window attributes
         virtual void setEventCallback(const EventCallbackFn& callback) = 0;
         virtual void setVSync(bool enabled) = 0;
         virtual bool isVSync() const = 0;
+
+        /**
+         * Queries the window type.
+         * \note Must be implemented in each platform.
+         * @return The type of the window
+         */
+        virtual enum WindowAPIType type() = 0;
 
         static Window* create(const WindowProps& props = WindowProps());
     };

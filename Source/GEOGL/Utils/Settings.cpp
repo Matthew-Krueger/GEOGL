@@ -22,30 +22,57 @@
  *                                                                             *
  *******************************************************************************/
 
-
-#include "Window.hpp"
-
-//#if (GEOGL_BUILD_WITH_OPENGL == true)
-#include "../Platform/OpenGL/OpenGLWindow.hpp"
-
+#include <fstream>
+#include <utility>
+#include <iomanip>
+#include "Settings.hpp"
 
 namespace GEOGL{
 
-    std::string apiPrettyPrint(enum WindowAPIType windowAPI){
 
-        switch(windowAPI){
-            case WindowAPIType::WINDOW_OPENGL_DESKTOP:
-                return std::string("OpenGL");
-            case WindowAPIType::WINDOW_VULKAN_DESKTOP:
-                return std::string("Vulkan");
-            default:
-                return std::string("Unknown");
-        }
+    Settings::Settings() =default;
+
+    Settings::~Settings() {
+
+        flush();
 
     }
 
-    Window* Window::create(const WindowProps& props){
-        return new OpenGLWindow(props);
+    bool Settings::open(std::string filePath) {
+
+        m_FilePath = std::move(filePath);
+
+        return reload();
+
+
     }
 
+    bool Settings::reload() {
+
+        /* Try to load settings file */
+        std::ifstream settingsFile(m_FilePath);
+
+        /* Make sure it loaded, otherwise, return false */
+        if(!settingsFile)
+            return false;
+
+        /* now, load the json */
+        settingsFile >> m_Json;
+
+        return !m_Json.empty();
+
+    }
+
+    void Settings::flush() {
+
+        std::ofstream outputFile;
+        outputFile.open(m_FilePath, std::ios::out | std::ios::trunc);
+        GEOGL_CORE_ASSERT_NOSTRIP(outputFile, "Filed to save settings {}", m_FilePath);
+        outputFile << std::setw(4) << m_Json << std::endl;
+        outputFile.flush();
+        outputFile.close();
+        bool reloadStatus = reload();
+        GEOGL_CORE_ASSERT_NOSTRIP(reloadStatus, "Failed to reload settings after saving, File {}", m_FilePath);
+
+    }
 }

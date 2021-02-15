@@ -227,4 +227,10 @@ namespace GEOGL {
         return m_Data.vSync;
     }
 
+    enum WindowAPIType OpenGLWindow::type(){
+
+        return WindowAPIType::WINDOW_OPENGL_DESKTOP;
+
+    }
+
 }

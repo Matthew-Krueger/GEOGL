@@ -29,8 +29,15 @@
 #include "../Rendering/Window.hpp"
 #include "../Events/ApplicationEvent.hpp"
 #include "../Rendering/LayerStack.hpp"
+#include "../Utils/Settings.hpp"
 
 namespace GEOGL{
+
+    /**
+     * Determines the lowest API that can be used to maximize compatibility.
+     * @return The minimum compiled supported API
+     */
+    GEOGL_API enum WindowAPIType determineLowestAPI();
 
     /**
      * \brief An abstract representation of an application. To be extended in
@@ -75,6 +82,7 @@ namespace GEOGL{
         std::unique_ptr<Window> m_Window;
         bool m_Running = true;
         LayerStack m_LayerStack;
+        Settings m_Settings;
 
 
     };
