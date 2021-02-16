@@ -1,9 +1,15 @@
 set(MODULE_NAME ${PROJECT_NAME}_Vulkan)
 
-add_library(${MODULE_NAME} STATIC IO/VulkanInput.cpp IO/VulkanInput.hpp IO/VulkanKeyCodes.cpp IO/VulkanKeyCodes.hpp IO/VulkanWindow.cpp IO/VulkanWindow.hpp VulkanExtensions/VulkanExtensions.cpp VulkanExtensions/VulkanExtensions.hpp)
+add_library(${MODULE_NAME} STATIC IO/VulkanInput.cpp IO/VulkanInput.hpp IO/VulkanKeyCodes.cpp IO/VulkanKeyCodes.hpp IO/VulkanWindow.cpp IO/VulkanWindow.hpp VulkanExtensions/VulkanExtensions.cpp VulkanExtensions/VulkanExtensions.hpp VulkanHendeler/VulkanHandler.cpp VulkanHendeler/VulkanHandler.hpp)
 set_property(TARGET ${MODULE_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 target_precompile_headers("${MODULE_NAME}" PRIVATE ../../Utils/Headers/PCH.hpp)
+
+# parse IGPU suitability
+set(GEOGL_ENABLE_IGPU_DEF 0)
+if(GEOGL_ENABLE_IGPU)
+    set(GEOGL_ENABLE_IGPU_DEF 1)
+endif()
 
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_BUILD_LIBRARY)
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_VERSION_MAJOR=${GEOGL_VERSION_MAJOR})
@@ -14,6 +20,7 @@ target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_ENGINE_NAME="GEOGL-Eng
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_ENGINE_NAME_NO_VERSION="GEOGL Engine")
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_BUILD_WITH_VULKAN=${GEOGL_VULKAN_BUILD_FLAG})
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_BUILD_WITH_OPENGL=${GEOGL_OGL_BUILD_FLAG})
+target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_ENABLE_IGPU=${GEOGL_ENABLE_IGPU_DEF})
 
 add_custom_command(
         TARGET ${MODULE_NAME} POST_BUILD

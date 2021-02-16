@@ -86,10 +86,6 @@ namespace GEOGL {
         void init(const WindowProps &props);
         void shutdown();
 
-        bool checkValidationLayerSupport(const std::vector<const char*>& layers) const;
-        void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
-        std::vector<const char*> getRequiredExtensions();
-
     private:
         /**
          * Holds the window ptr.
@@ -115,6 +111,7 @@ namespace GEOGL {
     private:
         VkInstance m_VulkanInstance;
         VkDebugUtilsMessengerEXT m_VulkanDebugMessenger;
+        VkPhysicalDevice m_VulkanPhysicalDevice;
 
     };
 

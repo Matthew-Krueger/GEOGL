@@ -32,6 +32,7 @@
 #include <GLFW/glfw3.h>
 
 #include <vulkan/vulkan.h>
+#include "../VulkanHendeler/VulkanHandler.hpp"
 #include "../VulkanExtensions/VulkanExtensions.hpp"
 
 namespace GEOGL {
@@ -39,12 +40,6 @@ namespace GEOGL {
     static uint8_t currentWindows = 0;
     static bool s_GLFWInitialized = false;
     static bool s_GLADInitialized = false;
-
-#ifndef NDEBUG
-    bool enableValidationLayers = true;
-#else
-    bool enableValidationLayers = false;
-#endif
 
 
     static void glfwErrorCallbackVulkan(int errorCode, const char * errorText){
@@ -93,80 +88,15 @@ namespace GEOGL {
             ++currentWindows;
         }
 
-        const std::vector<const char*> validationLayers = {
-                "VK_LAYER_KHRONOS_validation"
-        };
-
-        /* Check validation layer support */
-        {
-            if(enableValidationLayers && !checkValidationLayerSupport(validationLayers)){
-                GEOGL_ASSERT(false, "Validation layers requested, but not supported.");
-            }
-        }
 
         /* Create Vulkan Instance */
         {
-            VkApplicationInfo appInfo{};
-            appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-            appInfo.pApplicationName = m_Data.title.c_str();
-            appInfo.applicationVersion = VK_MAKE_VERSION(props.versionMajor, props.versionMinor, props.versionPatch);
-            appInfo.pEngineName = GEOGL_ENGINE_NAME_NO_VERSION;
-            appInfo.engineVersion = VK_MAKE_VERSION(GEOGL_VERSION_MAJOR, GEOGL_VERSION_MINOR, GEOGL_VERSION_PATCH);
-            appInfo.apiVersion = VK_API_VERSION_1_0;
-
-            auto extensions = getRequiredExtensions();
-
-            VkInstanceCreateInfo createInfo{};
-            createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-            createInfo.pApplicationInfo = &appInfo;
-            createInfo.enabledExtensionCount = extensions.size();
-            createInfo.ppEnabledExtensionNames = extensions.data();
-
-            /* Check for validation layers, and enable if requested */
-            VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
-            if(enableValidationLayers){
-                GEOGL_CORE_INFO_NOSTRIP("Validation Layers requested");
-                uint16_t count = 0;
-                for(auto& layer:validationLayers){
-                    ++count;
-                    GEOGL_CORE_INFO_NOSTRIP("Validation layer #{}: {}", count, layer);
-                }
-                createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-                createInfo.ppEnabledLayerNames = validationLayers.data();
-
-                populateDebugMessengerCreateInfo(debugCreateInfo);
-                createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
-
-            }else{
-                GEOGL_CORE_INFO_NOSTRIP("No validation layers requested");
-                createInfo.enabledLayerCount = 0;
-                createInfo.pNext = nullptr;
-            }
-
-            /* Create the instance */
-            VkResult createInstanceResult = vkCreateInstance(&createInfo, nullptr, &m_VulkanInstance);
-            GEOGL_CORE_ASSERT_NOSTRIP(createInstanceResult == VK_SUCCESS, "Unable to create Vulkan Instance. Error {}.", createInstanceResult);
-            GEOGL_CORE_INFO("Vulkan Instance Created.");
+            VulkanHandler::createInstance(&m_VulkanInstance, &m_VulkanPhysicalDevice, m_Data.title.c_str(), props, &m_VulkanDebugMessenger);
         }
 
         /* Enumerate Extensions */
-#if (!defined(NDEBUG) && GEOGL_VULKAN_VERBOSE)
-        {
-            GEOGL_CORE_INFO("Asking Vulkan how many extensions are supported");
-            uint32_t extensionCount =0;
-            vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-            GEOGL_CORE_INFO("Vulkan reports {} extensions available.", extensionCount);
-
-            std::vector<VkExtensionProperties> extensions(extensionCount);
-            vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
-
-            uint16_t count = 0;
-            for(const auto& extension:extensions){
-                ++count;
-                GEOGL_CORE_INFO("Vulkan Extension #{}: {}", count, extension.extensionName);
-            }
-
-        }
+#if (!defined(NDEBUG) && defined(GEOGL_VULKAN_VERBOSE))
+        VulkanHandler::enumerateExtensions();
 #endif
 
         /* Set up callbacks for GLFW window events */
@@ -261,15 +191,7 @@ namespace GEOGL {
             });
         }
 
-        /* set up Vulkan debug messenger */
-        if(enableValidationLayers){
 
-            VkDebugUtilsMessengerCreateInfoEXT createInfo{};
-            populateDebugMessengerCreateInfo(createInfo);
-            VkResult createDebugUtilsResult = createDebugUtilsMessengerEXT(m_VulkanInstance, &createInfo,nullptr,&m_VulkanDebugMessenger);
-            GEOGL_ASSERT_NOSTRIP(createDebugUtilsResult == VK_SUCCESS, "Unable to create Debug Messenger. Error #{}", createDebugUtilsResult);
-
-        }
 
     }
 
@@ -278,7 +200,7 @@ namespace GEOGL {
 
         /* Clean up vulkan */
         {
-            destroyDebugUtilsMessengerEXT(m_VulkanInstance, m_VulkanDebugMessenger, nullptr);
+            VulkanExtensions::destroyDebugUtilsMessengerEXT(m_VulkanInstance, m_VulkanDebugMessenger, nullptr);
 
             /* Destroy Instance */
             vkDestroyInstance(m_VulkanInstance, nullptr);
@@ -302,12 +224,9 @@ namespace GEOGL {
     }
 
     void VulkanWindow::setVSync(bool enabled){
-        if (enabled)
-            glfwSwapInterval(1);
-        else
-            glfwSwapInterval(0);
 
-        m_Data.vSync = enabled;
+        GEOGL_CORE_ERROR("Cannot set vsync yet on vulkan");
+
     }
 
     bool VulkanWindow::isVSync() const{
@@ -322,73 +241,12 @@ namespace GEOGL {
 
     enum WindowAPIType VulkanWindow::type(){
 
-        return WindowAPIType::WINDOW_OPENGL_DESKTOP;
+        return WindowAPIType::WINDOW_VULKAN_DESKTOP;
 
     }
 
     void VulkanWindow::clearColor() {
 
-    }
-
-    void VulkanWindow::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
-
-        createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-        createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-        createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-        createInfo.pfnUserCallback = debugCallback;
-        createInfo.pUserData = nullptr;
-
-    }
-
-    bool VulkanWindow::checkValidationLayerSupport(const std::vector<const char*>& layers) const{
-
-        uint32_t layerCount;
-        vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
-
-        std::vector<VkLayerProperties> availableLayers(layerCount);
-        vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-
-        for(const char* layerName : layers){
-            bool layerFound = false;
-
-            for(const auto& layerProperties : availableLayers){
-                if(strcmp(layerName, layerProperties.layerName) == 0){
-                    layerFound = true;
-                    break;
-                }
-            }
-
-            if(!layerFound)
-                return false;
-
-        }
-
-        return true;
-
-    }
-
-    std::vector<const char *> VulkanWindow::getRequiredExtensions() {
-
-        /* Enumerate Extensions from GLFW */
-        uint32_t glfwExtensionCount = 0;
-        const char ** glfwExtensions;
-        {
-            glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-            GEOGL_CORE_INFO("GLFW reports {} extensions for Vulkan.", glfwExtensionCount);
-#ifndef NDEBUG
-            for(int i=0; i<glfwExtensionCount; ++i){
-                GEOGL_CORE_INFO("GLFW Extension #{}: {}", i+1, glfwExtensions[i]);
-            }
-#endif
-        }
-
-        std::vector<const char *> extensions(glfwExtensions, glfwExtensions+glfwExtensionCount);
-
-        if(enableValidationLayers){
-            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-        }
-
-        return extensions;
     }
 
 }

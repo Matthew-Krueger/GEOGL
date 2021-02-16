@@ -25,45 +25,56 @@
 
 
 namespace GEOGL{
+    namespace VulkanExtensions {
 
-    VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
+        VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                                                     VkDebugUtilsMessageTypeFlagsEXT messageType,
+                                                     const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
+                                                     void *pUserData) {
 
-        switch(messageSeverity){
+            switch (messageSeverity) {
 
-            case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
-                GEOGL_CORE_INFO("Vulkan Info: {}", pCallbackData->pMessage);
-                break;
-            case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
-                GEOGL_CORE_WARN("Vulkan Warning: {}", pCallbackData->pMessage);
-                break;
-            case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
-                GEOGL_CORE_ERROR("Vulkan ERROR: {}", pCallbackData->pMessage);
-                break;
-            case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
-                break;
-            default:
-                GEOGL_CORE_ERROR("Vulkan Message Unknown severity: {}", pCallbackData->pMessage);
+                case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
+                    GEOGL_CORE_INFO("Vulkan Info: {}", pCallbackData->pMessage);
+                    break;
+                case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
+                    GEOGL_CORE_WARN("Vulkan Warning: {}", pCallbackData->pMessage);
+                    break;
+                case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
+                    GEOGL_CORE_ERROR("Vulkan ERROR: {}", pCallbackData->pMessage);
+                    break;
+                case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
+                    break;
+                default:
+                    GEOGL_CORE_ERROR("Vulkan Message Unknown severity: {}", pCallbackData->pMessage);
+
+            }
+
+            return VK_FALSE;
 
         }
 
-        return VK_FALSE;
+        VkResult
+        createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
+                                     const VkAllocationCallbacks *pAllocator,
+                                     VkDebugUtilsMessengerEXT *pDebugMessenger) {
+            auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance,
+                                                                                   "vkCreateDebugUtilsMessengerEXT");
+            if (func != nullptr) {
+                return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+            } else {
+                return VK_ERROR_EXTENSION_NOT_PRESENT;
+            }
+        }
 
-    }
-
-    VkResult createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger){
-        auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
-        if(func != nullptr){
-            return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
-        }else{
-            return VK_ERROR_EXTENSION_NOT_PRESENT;
+        void destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
+                                           const VkAllocationCallbacks *pAllocator) {
+            auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance,
+                                                                                    "vkDestroyDebugUtilsMessengerEXT");
+            if (func != nullptr) {
+                func(instance, debugMessenger, pAllocator);
+            }
         }
     }
-    void destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator){
-        auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
-        if (func != nullptr) {
-            func(instance, debugMessenger, pAllocator);
-        }
-    }
-
 
 }

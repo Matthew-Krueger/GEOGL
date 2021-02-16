@@ -29,11 +29,41 @@
 
 namespace GEOGL{
 
-    VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
+    /**
+     * Holds information regarding extensions loaded for vulkan
+     */
+    namespace VulkanExtensions {
 
-    VkResult createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
+        /**
+         * \brief Debug callback for validation layers
+         * @param messageSeverity The severity of the message
+         * @param messageType The type of the message
+         * @param pCallbackData The data of the message
+         * @param pUserData The userdata of the message
+         * @return No clue what it is, but it always returns VK_FALSE
+         */
+        VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                                                     VkDebugUtilsMessageTypeFlagsEXT messageType,
+                                                     const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
+                                                     void *pUserData);
 
-    void destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
+        /**
+         * \brief Creates a debug messenger (and loads it from the DLL).
+         * @param instance The instance to attach it to
+         * @param pCreateInfo The Creation info of the debug messenger
+         * @param pAllocator The allocator function
+         * @param pDebugMessenger The debugMessenger pointer
+         * @return VK_SUCCESS if successful, false otherwise
+         */
+        VkResult
+        createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
+                                     const VkAllocationCallbacks *pAllocator,
+                                     VkDebugUtilsMessengerEXT *pDebugMessenger);
+
+        void destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
+                                           const VkAllocationCallbacks *pAllocator);
+
+    }
 
 }
 
