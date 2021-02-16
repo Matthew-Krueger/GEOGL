@@ -51,6 +51,20 @@ namespace GEOGL{
      */
     GEOGL_API enum WindowAPIType determineLowestAPI();
 
+    /**
+     * \brief Determines if the selected API is supported or not.
+     * @param api The API to check.
+     * @return If it is supported.
+     */
+    GEOGL_API bool isAPISupported(enum WindowAPIType api);
+
+    /**
+     * \brief Finds the preferred API if the current one is not supported.
+     * @param preferredAPI The API that the client prefers to use.
+     * @return The API the engine will use.
+     */
+    GEOGL_API enum WindowAPIType findBestPreferredAPI(enum WindowAPIType preferredAPI);
+
 }
 
 #endif //NODIFY_SCREENWRITER_APIMANAGER_HPP

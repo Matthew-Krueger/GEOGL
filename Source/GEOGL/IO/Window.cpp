@@ -33,6 +33,8 @@
 
 #if (GEOGL_BUILD_WITH_VULKAN == 1)
     #include "../Platform/Vulkan/IO/VulkanWindow.hpp"
+#include "../Utils/APIManagment.hpp"
+
 #endif
 
 

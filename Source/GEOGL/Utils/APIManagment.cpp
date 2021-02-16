@@ -1,3 +1,8 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-bool-literals"
+#pragma ide diagnostic ignored "bugprone-branch-clone"
+#pragma ide diagnostic ignored "Simplify"
+
 /*******************************************************************************
  * Copyright (c) 2020 Matthew Krueger                                          *
  *                                                                             *
@@ -34,4 +39,26 @@ namespace GEOGL {
         }
 
     }
+
+    bool isAPISupported(enum WindowAPIType api) {
+        switch (api){
+            case WINDOW_OPENGL_DESKTOP:
+                return (bool) GEOGL_BUILD_WITH_OPENGL;
+            case WINDOW_VULKAN_DESKTOP:
+                return (bool) GEOGL_BUILD_WITH_VULKAN;
+        }
+
+        return false;
+
+    }
+
+    enum WindowAPIType findBestPreferredAPI(enum WindowAPIType preferredAPI) {
+
+        if(isAPISupported(preferredAPI))
+            return preferredAPI;
+
+        return determineLowestAPI();
+
+    }
 }
+#pragma clang diagnostic pop
