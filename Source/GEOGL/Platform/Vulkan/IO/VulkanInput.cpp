@@ -22,22 +22,55 @@
  *                                                                             *
  *******************************************************************************/
 
+#include "VulkanInput.hpp"
 
-#ifndef GEOGL_CALLBACKSPRIVATE_HPP
-#define GEOGL_CALLBACKSPRIVATE_HPP
+#include "../../../Application/Application.hpp"
+#include "../../../Utils/InputCodesConverter.hpp"
 
-/**
- * \brief Provides a callback for OpenGL errors, and uses severe error log
- * @param source OpenGL Provided Value
- * @param type OpenGL Provided Value
- * @param id OpenGL Provided Value
- * @param severity OpenGL Provided Value
- * @param length OpenGL Provided Value
- * @param message OpenGL Provided Value
- * @param userParam OpenGL Provided Value
- */
-GEOGL_API void windowDefaultDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
-                                          const char *message, const void *userParam);
+#include <GLFW/glfw3.h>
+
+namespace GEOGL{
 
 
-#endif //NODIFY_SCREENWRITER_CALLBACKSPRIVATE_HPP
+    bool VulkanInput::isKeyPressedImpl(KeyCode keycode) {
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        auto state = glfwGetKey(window, InputCodesConverter::getNativeKeyCode(keycode));
+
+        return state == GLFW_PRESS || state == GLFW_REPEAT;
+
+    }
+
+    bool VulkanInput::isMouseButtonPressedImpl(MouseCode button) {
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        auto state = glfwGetMouseButton(window, InputCodesConverter::getNativeMouseCode(button));
+
+        return state == GLFW_PRESS;
+
+    }
+
+    bool VulkanInput::getMouseXImpl() {
+
+        return getMousePositionImpl().x;
+
+    }
+
+    bool VulkanInput::getMouseYImpl() {
+
+        return getMousePositionImpl().y;
+
+    }
+
+    glm::vec2 VulkanInput::getMousePositionImpl(){
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        double xpos, ypos;
+
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        return glm::vec2((float)xpos, (float)ypos);
+
+    }
+
+}

@@ -23,72 +23,34 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_APPLICATION_HPP
-#define GEOGL_APPLICATION_HPP
-
-#include "../IO/Window.hpp"
-#include "../IO/Events/ApplicationEvent.hpp"
-#include "../Rendering/LayerStack.hpp"
-#include "../Utils/Settings.hpp"
+#ifndef GEOGL_APIMANAGER_HPP
+#define GEOGL_APIMANAGER_HPP
 
 namespace GEOGL{
 
-    /**
-     * \brief An abstract representation of an application. To be extended in
-     * the client.
-     *
-     * This class represents the abstract Application, and defines the interfaces
-     * that an application must have, as well as stores the variables that an
-     * application must support, such as a LayerStack, a Window, or a running variable.
-     */
-    class GEOGL_API Application{
-    private:
-        static Application* s_Instance;
-
-    public:
-        Application();
-        virtual ~Application();
-
-        /**
-         * Contains the main run loop for the game
-         */
-        void run();
-
-        /**
-         * Handles events for the game
-         * @param e
-         */
-        void onEvent(Event& event);
-
-        void pushLayer(Layer* layer);
-        void pushOverlay(Layer* layer);
-
-        static inline Application& get() { return *Application::s_Instance; };
-        inline Window& getWindow() { return *m_Window; };
-
-    private:
-        /**
-         * Is a callback for when the window is closed
-         * @param event The event that asks for the window to be closed
-         * @return returns true if successful
-         */
-        bool onWindowClose(WindowCloseEvent& event);
-        std::unique_ptr<Window> m_Window;
-        bool m_Running = true;
-        LayerStack m_LayerStack;
-        Settings m_Settings;
-
-
+    enum WindowAPIType {
+        WINDOW_OPENGL_DESKTOP = 0,
+        WINDOW_VULKAN_DESKTOP = 1
     };
 
-    // To be defined in the client.
     /**
-     * Returns a pointer to an application
-     * \note MUST BE IMPLEMENTED IN CLIENT
-     * @return Application pointer
+     * \brief Pretty prints the API Type.
+     * @return The Pretty Printed API type
      */
-    Application* createApplication();
+    GEOGL_API std::string apiPrettyPrint(enum WindowAPIType windowAPI);
+
+    /**
+     * \brief Determines the lowest supported API by the binary
+     *
+     * This function will, using macros, determine the lowest supported API specification (by the binary)
+     * at runtime, and return it when ask during runtime.
+     *
+     * \note The lowest supported API specification is only what the binary supports, not what is actually
+     * supported by the computer.
+     * @return The lowest supported API Specification
+     */
+    GEOGL_API enum WindowAPIType determineLowestAPI();
 
 }
 
-#endif //GEOGL_APPLICATION_HPP
+#endif //NODIFY_SCREENWRITER_APIMANAGER_HPP

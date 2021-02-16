@@ -29,18 +29,13 @@
  *******************************************************************************/
 
 
-/* GLAD */
-#include <glad/glad.h>
-
-/* GLFW */
-#include <GLFW/glfw3.h>
-
-#include "OpenGLWindow.hpp"
+#include "VulkanWindow.hpp"
 #include "../../../IO/Events/ApplicationEvent.hpp"
 #include "../../../IO/Events/MouseEvent.hpp"
 #include "../../../IO/Events/KeyEvent.hpp"
-#include "OpenGLInput.hpp"
-#include "OpenGLKeyCodes.hpp"
+#include "VulkanInput.hpp"
+#include "VulkanKeyCodes.hpp"
+#include <GLFW/glfw3.h>
 
 namespace GEOGL {
 
@@ -48,25 +43,25 @@ namespace GEOGL {
     static bool s_GLFWInitialized = false;
     static bool s_GLADInitialized = false;
 
-    static void glfwErrorCallbackOpenGL(int errorCode, const char * errorText){
+    static void glfwErrorCallbackVulkan(int errorCode, const char * errorText){
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
     }
 
-    OpenGLWindow::OpenGLWindow(const WindowProps& props){
+    VulkanWindow::VulkanWindow(const WindowProps& props){
         init(props);
     }
 
-    OpenGLWindow::~OpenGLWindow(){
+    VulkanWindow::~VulkanWindow(){
         shutdown();
     }
 
-    void OpenGLWindow::init(const WindowProps& props){
+    void VulkanWindow::init(const WindowProps& props){
 
-        /* Initialize Input for OpenGLWindow */
-        Input::init(new OpenGLInput());
+        /* Initialize Input for VulkanWindow */
+        Input::init(new VulkanInput());
 
         /* Initialize Input Polling */
-        InputCodesConverter::init(new OpenGLKeyCodes());
+        InputCodesConverter::init(new VulkanKeyCodes());
 
         /* Set the data of the window */
         m_Data.title = props.title;
@@ -76,44 +71,15 @@ namespace GEOGL {
 
         /* Check if GLFW has been initialized, if not, load GLFW */
         if (!s_GLFWInitialized){
-            // TODO: glfwTerminate on system shutdown
             GEOGL_CORE_INFO("Initializing GLFW");
             int success = glfwInit();
             GEOGL_CORE_ASSERT_NOSTRIP(success, "Could not intialize GLFW!");
-            glfwSetErrorCallback(&glfwErrorCallbackOpenGL);
+            glfwSetErrorCallback(&glfwErrorCallbackVulkan);
 
             s_GLFWInitialized = true;
         }
 
-
-        /* Do window hints for GLFW */
-        GEOGL_CORE_INFO("Creating Window with OpenGL Context");
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-        /* Creating the window */
-        m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
-        glfwMakeContextCurrent(m_Window);
-        glfwSetWindowUserPointer(m_Window, &m_Data);
-        setVSync(true);
-
-        ++currentWindows;
-        GEOGL_CORE_INFO("Successfully created window, noting the current window count is {}.", currentWindows);
-
-        /* Check if higher level openGl funcitons have been loaded */
-        if(!s_GLADInitialized) {
-            GEOGL_CORE_INFO("Loading higher OpenGL functions with GLAD.");
-            int gladStatus = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
-            GEOGL_CORE_ASSERT_NOSTRIP(gladStatus, "Failed to load higher OpenGL functions with GLAD.");
-        }
-
-        /* Set glViewport to what we were given */
-        glViewport(0, 0, props.width, props.height);
-
-        GEOGL_CORE_INFO_NOSTRIP("OpenGL Version: {}.", (const char *)glGetString(GL_VERSION));
-        GEOGL_CORE_INFO_NOSTRIP("GLSL Supported version {}.", (const char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
+        GEOGL_CORE_ASSERT_NOSTRIP(false,"Crashing here");
 
         /* Set up callbacks for GLFW window events */
         glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height){
@@ -123,7 +89,7 @@ namespace GEOGL {
             data->height = height;
 
             /* Set the viewport before we get further. Better to do now then later */
-            glViewport(0,0,width,height);
+            //glViewport(0,0,width,height);
 
             WindowResizeEvent event(width, height);
             data->EventCallback(event);
@@ -145,7 +111,7 @@ namespace GEOGL {
                     break;
                 }
                 case GLFW_RELEASE:{
-                    KeyReleasedEvent event(InputCodesConverter::getGEOGLKeyCode(key));
+                    KeyReleasedEvent event((InputCodesConverter::getGEOGLKeyCode(key)));
                     data->EventCallback(event);
                     break;
                 }
@@ -173,12 +139,12 @@ namespace GEOGL {
             auto data = (WindowData*) glfwGetWindowUserPointer(window);
             switch(action){
                 case GLFW_PRESS:{
-                    MouseButtonPressedEvent event(InputCodesConverter::getGEOGLMouseCode(button));
+                    MouseButtonPressedEvent event((InputCodesConverter::getGEOGLMouseCode(button)));
                     data->EventCallback(event);
                     break;
                 }
                 case GLFW_RELEASE:{
-                    MouseButtonReleasedEvent event(InputCodesConverter::getGEOGLMouseCode(button));
+                    MouseButtonReleasedEvent event((InputCodesConverter::getGEOGLMouseCode(button)));
                     data->EventCallback(event);
                     break;
                 }
@@ -207,7 +173,7 @@ namespace GEOGL {
 
     }
 
-    void OpenGLWindow::shutdown(){
+    void VulkanWindow::shutdown(){
         --currentWindows;
         glfwDestroyWindow(m_Window);
         GEOGL_CORE_INFO("Quit a window. Noting the current window count is {}.", currentWindows);
@@ -222,12 +188,12 @@ namespace GEOGL {
 
     }
 
-    void OpenGLWindow::onUpdate(){
+    void VulkanWindow::onUpdate(){
         glfwPollEvents();
         glfwSwapBuffers(m_Window);
     }
 
-    void OpenGLWindow::setVSync(bool enabled){
+    void VulkanWindow::setVSync(bool enabled){
         if (enabled)
             glfwSwapInterval(1);
         else
@@ -236,7 +202,7 @@ namespace GEOGL {
         m_Data.vSync = enabled;
     }
 
-    bool OpenGLWindow::isVSync() const{
+    bool VulkanWindow::isVSync() const{
         return m_Data.vSync;
     }
 
@@ -246,16 +212,14 @@ namespace GEOGL {
 
     }*/
 
-    enum WindowAPIType OpenGLWindow::type(){
+    enum WindowAPIType VulkanWindow::type(){
 
         return WindowAPIType::WINDOW_OPENGL_DESKTOP;
 
     }
 
-    void OpenGLWindow::clearColor() {
-
-        glClearColor(1,0,1,1);
-        glClear(GL_COLOR_BUFFER_BIT);
+    void VulkanWindow::clearColor() {
 
     }
+
 }

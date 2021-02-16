@@ -26,7 +26,14 @@
 #include "Window.hpp"
 
 //#if (GEOGL_BUILD_WITH_OPENGL == true)
-#include "../Platform/OpenGL/IO/OpenGLWindow.hpp"
+
+#if (GEOGL_BUILD_WITH_OPENGL == 1)
+    #include "../Platform/OpenGL/IO/OpenGLWindow.hpp"
+#endif
+
+#if (GEOGL_BUILD_WITH_VULKAN == 1)
+    #include "../Platform/Vulkan/IO/VulkanWindow.hpp"
+#endif
 
 
 namespace GEOGL{
@@ -44,8 +51,30 @@ namespace GEOGL{
 
     }
 
-    Window* Window::create(const WindowProps& props){
-        return new OpenGLWindow(props);
+    Window* Window::create(enum WindowAPIType api,const WindowProps& props){
+
+        bool vulkanSupported = GEOGL_BUILD_WITH_VULKAN;
+        bool openGLSupported = GEOGL_BUILD_WITH_OPENGL;
+
+        switch(api){
+            case WINDOW_OPENGL_DESKTOP:
+                GEOGL_CORE_ASSERT_NOSTRIP(openGLSupported, "OpenGL is selected as the API, but does not appear to be supported.");
+#if GEOGL_BUILD_WITH_OPENGL == true
+                return new OpenGLWindow(props);
+#endif
+                break;
+            case WINDOW_VULKAN_DESKTOP:
+                GEOGL_CORE_ASSERT_NOSTRIP(vulkanSupported, "Vulkan is selected as the API, but does not appear to be supported.");
+#if GEOGL_BUILD_WITH_VULKAN == true
+                return new VulkanWindow(props);
+#endif
+                break;
+            default:
+                GEOGL_CORE_ASSERT_NOSTRIP(false, "No api is selected. Exiting.");
+        }
+
+        return nullptr;
+
     }
 
 }

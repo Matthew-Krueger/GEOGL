@@ -22,73 +22,24 @@
  *                                                                             *
  *******************************************************************************/
 
-
-#ifndef GEOGL_APPLICATION_HPP
-#define GEOGL_APPLICATION_HPP
-
-#include "../IO/Window.hpp"
-#include "../IO/Events/ApplicationEvent.hpp"
-#include "../Rendering/LayerStack.hpp"
-#include "../Utils/Settings.hpp"
+#include "VulkanKeyCodes.hpp"
 
 namespace GEOGL{
 
-    /**
-     * \brief An abstract representation of an application. To be extended in
-     * the client.
-     *
-     * This class represents the abstract Application, and defines the interfaces
-     * that an application must have, as well as stores the variables that an
-     * application must support, such as a LayerStack, a Window, or a running variable.
-     */
-    class GEOGL_API Application{
-    private:
-        static Application* s_Instance;
 
-    public:
-        Application();
-        virtual ~Application();
+    int VulkanKeyCodes::getNativeKeyCodeImpl(KeyCode key) {
+        return static_cast<int>(key);
+    }
 
-        /**
-         * Contains the main run loop for the game
-         */
-        void run();
+    int VulkanKeyCodes::getNativeMouseCodeImpl(MouseCode button) {
+        return static_cast<int>(button);
+    }
 
-        /**
-         * Handles events for the game
-         * @param e
-         */
-        void onEvent(Event& event);
+    KeyCode VulkanKeyCodes::getGEOGLKeyCodeImpl(int nativeKeyCode) {
+        return static_cast<KeyCode> (nativeKeyCode);
+    }
 
-        void pushLayer(Layer* layer);
-        void pushOverlay(Layer* layer);
-
-        static inline Application& get() { return *Application::s_Instance; };
-        inline Window& getWindow() { return *m_Window; };
-
-    private:
-        /**
-         * Is a callback for when the window is closed
-         * @param event The event that asks for the window to be closed
-         * @return returns true if successful
-         */
-        bool onWindowClose(WindowCloseEvent& event);
-        std::unique_ptr<Window> m_Window;
-        bool m_Running = true;
-        LayerStack m_LayerStack;
-        Settings m_Settings;
-
-
-    };
-
-    // To be defined in the client.
-    /**
-     * Returns a pointer to an application
-     * \note MUST BE IMPLEMENTED IN CLIENT
-     * @return Application pointer
-     */
-    Application* createApplication();
-
+    MouseCode VulkanKeyCodes::getGEOGLMouseCodeImpl(int nativeMouseCode) {
+        return static_cast<MouseCode> (nativeMouseCode);
+    }
 }
-
-#endif //GEOGL_APPLICATION_HPP

@@ -22,14 +22,9 @@
  *                                                                             *
  *******************************************************************************/
 
-/*******************************************************************************
- *                                                                             *
- * This code was based heavily off the Cherno game engine series               *
- *                                                                             *
- *******************************************************************************/
 
-#ifndef GEOGL_OPENGLWINDOW_HPP
-#define GEOGL_OPENGLWINDOW_HPP
+#ifndef GEOGL_VULKANWINDOW_HPP
+#define GEOGL_VULKANWINDOW_HPP
 
 #include "../../../IO/Window.hpp"
 
@@ -47,15 +42,16 @@ namespace GEOGL {
      * the OpenGL code required to load the OpenGL extensions from the graphics
      * driver, open the window, and update the frame.
      */
-    class OpenGLWindow : public Window
-    {
+    class VulkanWindow : public Window {
     public:
-        OpenGLWindow(const WindowProps& props);
-        virtual ~OpenGLWindow();
+        VulkanWindow(const WindowProps &props);
+
+        virtual ~VulkanWindow();
 
         void onUpdate() override;
 
         inline unsigned int getWidth() const override { return m_Data.width; }
+
         inline unsigned int getHeight() const override { return m_Data.height; }
 
         // Window attributes
@@ -64,7 +60,7 @@ namespace GEOGL {
          * driver.
          * @param callback The callback function to set.
          */
-        inline void setEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+        inline void setEventCallback(const EventCallbackFn &callback) override { m_Data.EventCallback = callback; }
 
         /**
          * Sets whether or not VSync is enabled
@@ -78,7 +74,7 @@ namespace GEOGL {
          */
         bool isVSync() const override;
 
-        inline void* getNativeWindow() const override { return m_Window; };
+        inline void *getNativeWindow() const override { return m_Window; };
 
         void clearColor() override;
 
@@ -89,14 +85,14 @@ namespace GEOGL {
         enum WindowAPIType type() override;
 
     private:
-        void init(const WindowProps& props);
+        void init(const WindowProps &props);
+
         void shutdown();
 
     private:
-        GLFWwindow* m_Window;
+        GLFWwindow *m_Window;
 
-        struct WindowData
-        {
+        struct WindowData {
             std::string title;
             unsigned int width, height;
             bool vSync;
@@ -108,5 +104,4 @@ namespace GEOGL {
     };
 
 }
-
-#endif //NODIFY_SCREENWRITER_OPENGLWINDOW_HPP
+#endif //NODIFY_SCREENWRITER_VULKANWINDOW_HPP

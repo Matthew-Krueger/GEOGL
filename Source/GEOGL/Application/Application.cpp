@@ -24,20 +24,9 @@
 
 
 #include "Application.hpp"
-#include <GLFW/glfw3.h>
 #include <fstream>
 
 namespace GEOGL{
-
-    enum WindowAPIType determineLowestAPI(){
-
-        if(GEOGL_BUILD_WITH_OPENGL){
-            return WindowAPIType::WINDOW_OPENGL_DESKTOP;
-        }else if(GEOGL_BUILD_WITH_VULKAN){
-            return WindowAPIType::WINDOW_VULKAN_DESKTOP;
-        }
-
-    }
 
     Application* Application::s_Instance = nullptr;
 
@@ -52,13 +41,25 @@ namespace GEOGL{
 
         }
 
+        /* Make sure the API works */
+        switch ((WindowAPIType) m_Settings.data()["api"]){
+            case WindowAPIType::WINDOW_OPENGL_DESKTOP:
+                GEOGL_CORE_ASSERT_NOSTRIP(GEOGL_BUILD_WITH_OPENGL, "OpenGL Selected, but not supported.");
+                break;
+            case WindowAPIType::WINDOW_VULKAN_DESKTOP:
+                GEOGL_CORE_ASSERT_NOSTRIP(GEOGL_BUILD_WITH_VULKAN, "Vulkan Selected, but not supported.");
+                break;
+            default:
+                GEOGL_CORE_ASSERT_NOSTRIP(false, "No API Selected. Exiting. Set api flag in settings.json");
+        }
+
         GEOGL_CORE_INFO_NOSTRIP("Selected Graphics API: {}", apiPrettyPrint(m_Settings.data()["api"]));
 
         GEOGL_CORE_ASSERT_NOSTRIP(!s_Instance,"An application already exists.");
         s_Instance = this;
 
         /* Create window */
-        m_Window = std::unique_ptr<Window>(Window::create());
+        m_Window = std::unique_ptr<Window>(Window::create((WindowAPIType)m_Settings.data()["api"]));
         m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
 
         /* Initialize input class */
@@ -72,8 +73,8 @@ namespace GEOGL{
         GEOGL_CORE_INFO_NOSTRIP("Successfully started application. Entering Loop.");
 
         while(m_Running){
-            glClearColor(1,0,1,1);
-            glClear(GL_COLOR_BUFFER_BIT);
+
+            m_Window->clearColor();
 
             for(Layer* layer : m_LayerStack){
                 layer->onUpdate();

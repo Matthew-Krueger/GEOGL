@@ -38,6 +38,7 @@ using json = nlohmann::json;
 #include <vector>
 #include <memory>
 #include <functional>
+#include <iostream>
 
 /* spdlog */
 #include <spdlog/spdlog.h>

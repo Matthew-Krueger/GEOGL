@@ -1,15 +1,15 @@
 set(MODULE_NAME ${PROJECT_NAME}_Engine_${GEOGL_VERSION_FULL})
 
 # Build the DLL
-add_library(${MODULE_NAME} SHARED include/GEOGL/Core.hpp IO/Window.hpp Application/Application.cpp Application/Application.hpp Utils/Headers/PCH.cpp Utils/Headers/PCH.hpp Logging/PrivateLog.hpp Logging/PublicLog.hpp Logging/LoggingFunctions.cpp Win32Exports.hpp include/GEOGL/Core.hpp Utils/Callbacks.cpp Utils/Callbacks.hpp include/GEOGL/MainCreator.hpp Utils/Headers/Dependencies.hpp IO/Events/Event.hpp IO/Events/ApplicationEvent.hpp IO/Events/KeyEvent.hpp IO/Events/MouseEvent.hpp Utils/CallbacksPrivate.hpp Rendering/Layer.cpp Rendering/Layer.hpp Rendering/LayerStack.cpp Rendering/LayerStack.hpp ImGui/ImGuiLayer.cpp ImGui/ImGuiLayer.hpp IO/Window.cpp Utils/Settings.cpp Utils/Settings.hpp IO/Input.hpp IO/Input.cpp Utils/InputCodes.hpp "Utils/InputCodesConverter.cpp" "Utils/InputCodesConverter.hpp")
+add_library(${MODULE_NAME} SHARED include/GEOGL/Core.hpp IO/Window.hpp Application/Application.cpp Application/Application.hpp Utils/Headers/PCH.cpp Utils/Headers/PCH.hpp Logging/PrivateLog.hpp Logging/PublicLog.hpp Logging/LoggingFunctions.cpp Win32Exports.hpp include/GEOGL/Core.hpp Utils/Callbacks.cpp Utils/Callbacks.hpp include/GEOGL/MainCreator.hpp Utils/Headers/Dependencies.hpp IO/Events/Event.hpp IO/Events/ApplicationEvent.hpp IO/Events/KeyEvent.hpp IO/Events/MouseEvent.hpp Rendering/Layer.cpp Rendering/Layer.hpp Rendering/LayerStack.cpp Rendering/LayerStack.hpp ImGui/ImGuiLayer.cpp ImGui/ImGuiLayer.hpp IO/Window.cpp Utils/Settings.cpp Utils/Settings.hpp IO/Input.hpp IO/Input.cpp Utils/InputCodes.hpp "Utils/InputCodesConverter.cpp" "Utils/InputCodesConverter.hpp" Utils/APIManagment.cpp Utils/APIManagment.hpp)
 
 # Include Platforms
 add_subdirectory(Platform)
 
 # Optional Platform Libs
 set(GEOGL_PLATFORM_LIBS "")
-set(GEOGL_OGL_BUILD_FLAG false)
-set(GEOGL_VULKAN_BUILD_FLAG false)
+set(GEOGL_OGL_BUILD_FLAG 0)
+set(GEOGL_VULKAN_BUILD_FLAG 0)
 
 
 if(GEOGL_BUILD_WITH_OPENGL)
@@ -18,7 +18,7 @@ if(GEOGL_BUILD_WITH_OPENGL)
     find_library(OpenGL REQUIRED)
 
     # Set up GEOGL's platform Libs
-    set(GEOGL_PLATFORM_LIBS ${GEOGL_PLATFORM_LIBS}GEOGL::Platform::OpenGL)
+    set(GEOGL_PLATFORM_LIBS ${GEOGL_PLATFORM_LIBS}GEOGL::Platform::OpenGL GLAD)
 
     # Add OpenGL libs
     if(WIN32)
@@ -27,7 +27,7 @@ if(GEOGL_BUILD_WITH_OPENGL)
         set(GEOGL_PLATFORM_LIBS_ADDITIONAL GL)
     endif(WIN32)
 
-    set(GEOGL_OGL_BUILD_FLAG true)
+    set(GEOGL_OGL_BUILD_FLAG 1)
 
     set(GEOGL_PLATFORM_EXISTS TRUE)
     message("-- Building GEOGL::Engine with OpenGL support.")
@@ -35,7 +35,8 @@ endif(GEOGL_BUILD_WITH_OPENGL)
 if(GEOGL_BUILD_WITH_VULKAN)
     set(GEOGL_PLATFORM_LIBS ${GEOGL_PLATFORM_LIBS} GEOGL::Platform::Vulkan)
     set(GEOGL_PLATFORM_EXISTS TRUE)
-    set(GEOGL_VULKAN_BUILD_FLAG true)
+    set(GEOGL_VULKAN_BUILD_FLAG 1)
+    set(GEOGL_PLATFORM_LIBS_ADDITIONAL ${VULKAN_LIB_LIST})
     message("-- Building GEOGL::Engine with Vulkan support.")
 endif(GEOGL_BUILD_WITH_VULKAN)
 
@@ -45,8 +46,8 @@ if (NOT(GEOGL_PLATFORM_EXISTS STREQUAL "TRUE"))
 endif(NOT(GEOGL_PLATFORM_EXISTS STREQUAL "TRUE"))
 
 # Add Dependencies
-add_dependencies(${MODULE_NAME} glfw STB_LIB spdlog GLAD ImGui ${GEOGL_PLATFORM_LIBS})
-target_link_libraries(${MODULE_NAME} glfw STB_LIB spdlog GLAD ImGui ${GEOGL_PLATFORM_LIBS} ${GEOGL_PLATFORM_LIBS_ADDITIONAL})
+add_dependencies(${MODULE_NAME} glfw STB_LIB spdlog ImGui ${GEOGL_PLATFORM_LIBS})
+target_link_libraries(${MODULE_NAME} glfw STB_LIB spdlog ImGui ${GEOGL_PLATFORM_LIBS} ${GEOGL_PLATFORM_LIBS_ADDITIONAL})
 
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_BUILD_LIBRARY)
 target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_VERSION_MAJOR=${GEOGL_VERSION_MAJOR})

@@ -32,18 +32,9 @@
 #define GEOGL_WINDOW_HPP
 
 #include "../IO/Events/Event.hpp"
+#include "../Utils/APIManagment.hpp"
+
 namespace GEOGL {
-
-    enum WindowAPIType {
-        WINDOW_OPENGL_DESKTOP = 0,
-        WINDOW_VULKAN_DESKTOP = 1
-    };
-
-    /**
-     * Pretty prints the API Type.
-     * @return The Pretty Printed API type
-     */
-    GEOGL_API std::string apiPrettyPrint(enum WindowAPIType windowAPI);
 
     /**
      * Holds the properties of a window when it is created
@@ -120,6 +111,8 @@ namespace GEOGL {
          */
         virtual void* getNativeWindow() const = 0;
 
+        virtual void clearColor() = 0;
+
         /**
          * Queries the window type.
          * \note Must be implemented in each platform.
@@ -127,7 +120,7 @@ namespace GEOGL {
          */
         virtual enum WindowAPIType type() = 0;
 
-        static Window* create(const WindowProps& props = WindowProps());
+        static Window* create(enum WindowAPIType api, const WindowProps& props = WindowProps());
     };
 
 }

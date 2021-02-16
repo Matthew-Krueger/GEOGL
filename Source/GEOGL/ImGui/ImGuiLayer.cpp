@@ -32,6 +32,7 @@
 
 #include "ImGuiLayer.hpp"
 #include <ImGui/imgui.h>
+#include <GLFW/glfw3.h>
 #include "../Platform/OpenGL/imgui_impl_opengl3.h"
 #include "../Application/Application.hpp"
 namespace GEOGL{
@@ -80,8 +81,9 @@ namespace GEOGL{
         io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
         io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
 
+#if GEOGL_BUILD_WITH_OPENGL
         ImGui_ImplOpenGL3_Init("#version 410");
-
+#endif
         GEOGL_CORE_INFO("Attached ImGui layer.");
 
     }
@@ -92,6 +94,7 @@ namespace GEOGL{
 
     void ImGuiLayer::onUpdate() {
 
+#if GEOGL_BUILD_WITH_OPENGL
         ImGuiIO& io = ImGui::GetIO();
         Application& app = Application::get();
 
@@ -109,6 +112,7 @@ namespace GEOGL{
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+#endif
 
     }
 
