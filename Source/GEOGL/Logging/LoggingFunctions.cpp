@@ -52,8 +52,8 @@ namespace GEOGL{
         coreLogger = std::make_shared<spdlog::logger>(GEOGL_ENGINE_NAME, spdlog::sinks_init_list{console_sink, file_sink});
         clientLogger = std::make_shared<spdlog::logger>(clientName + " Client", spdlog::sinks_init_list{console_sink, file_sink});
 
-        coreLogger->flush_on(spdlog::level::trace);
-        clientLogger->flush_on(spdlog::level::trace);
+        coreLogger->flush_on(spdlog::level::debug);
+        clientLogger->flush_on(spdlog::level::debug);
 
         /*{
             auto core_console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();

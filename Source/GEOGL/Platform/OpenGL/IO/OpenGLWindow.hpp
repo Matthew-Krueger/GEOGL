@@ -47,7 +47,7 @@ namespace GEOGL {
      * the OpenGL code required to load the OpenGL extensions from the graphics
      * driver, open the window, and update the frame.
      */
-    class OpenGLWindow : public Window
+    class GEOGL_API_HIDDEN OpenGLWindow : public Window
     {
     public:
         OpenGLWindow(const WindowProps& props);

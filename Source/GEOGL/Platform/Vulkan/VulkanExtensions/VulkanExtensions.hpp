@@ -22,40 +22,19 @@
  *                                                                             *
  *******************************************************************************/
 
+#ifndef GEOGL_VULKANEXTENSIONS_HPP
+#define GEOGL_VULKANEXTENSIONS_HPP
 
-#ifndef GEOGL_DEPENDENCIES_HPP
-#define GEOGL_DEPENDENCIES_HPP
+#include <vulkan/vulkan.h>
 
-#include "../Win32Exports.hpp"
+namespace GEOGL{
 
-/* JSON */
-#include <Nlohmann/json.hpp>
-using json = nlohmann::json;
+    VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
 
-/* STDLIB */
-#include <string>
-#include <sstream>
-#include <vector>
-#include <memory>
-#include <functional>
-#include <iostream>
+    VkResult createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
 
-/* spdlog */
-#include <spdlog/spdlog.h>
+    void destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 
-/* glm */
-#define GLM_FORCE_RADIANS
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
+}
 
-/* Stb Image */
-#include <STB/stb_image.h>
-
-#define BIT(x) (1 << x)
-
-
-#endif
+#endif //NODIFY_SCREENWRITER_VULKANEXTENSIONS_HPP

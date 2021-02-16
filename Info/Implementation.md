@@ -30,6 +30,23 @@ public:
     ~SandboxApp() override;
 };
 ```
+## Cmake
+Please make sure to include the following as part of your cmake
+root.
+```
+set(PATH_TO_GEOGL Dependencies/GEOGL)
+add_subdirectory(${PATH_TO_GEOGL})
+include_directories(
+    ${PATH_TO_GEOGL}/Dependencies/Nlohmann/JSON/include
+    ${PATH_TO_GEOGL}/Dependencies/GLFW/include
+    ${PATH_TO_GEOGL}/Dependencies/GLAD/include
+    ${PATH_TO_GEOGL}/Dependencies/spdlog/include
+    ${PATH_TO_GEOGL}/Dependencies/STB/include
+    ${PATH_TO_GEOGL}/Dependencies/GLM
+    ${PATH_TO_GEOGL}/Source/GEOGL/include
+)
+
+```
 
 ## Using GEOGL in multiple files
 All you need to use GEOGL in another project

@@ -118,7 +118,7 @@ if(GEOGL_BUILD_WITH_VULKAN)
     endif()
 
     # Add any required preprocessor definitions here
-    add_definitions(-DVK_USE_PLATFORM_WIN32_KHR)
+    #add_definitions(-DVK_USE_PLATFORM_WIN32_KHR)
 
     # vulkan-1 library for build Vulkan application.
     if(EXISTS ${Vulkan_LIBRARY})

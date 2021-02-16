@@ -41,10 +41,17 @@ namespace GEOGL {
      */
     struct WindowProps
     {
+
+        std::string applicationName;
+
         /**
          * The title of the window to be created
          */
         std::string title;
+
+        unsigned int versionMajor;
+        unsigned int versionMinor;
+        unsigned int versionPatch;
 
         /**
          * The width of the window to be created
@@ -58,14 +65,26 @@ namespace GEOGL {
 
         /**
          * Constructs a WindowProps to be passed to the \link Window.create \endlink function.
-         * @param title The title of the window to create (Default: GEOGL Engine")
+         * @param appName The title of the window to create (Default: GEOGL Engine")
          * @param width The width of the window to create (Default: 1280 px)
          * @param height The height of the window to create (Default: 720 px)
+         * @param appVersionMajor The major version of the app
+         * @param appVersionMinor The minor version of the app
+         * @param appVersionPatch The patch version of the app
          */
-        WindowProps(const std::string& title = "GEOGL Engine",
+        WindowProps(const std::string& appName = "GEOGL Engine",
                     unsigned int width = 1280,
-                    unsigned int height = 720)
-                : title(title), width(width), height(height)
+                    unsigned int height = 720,
+                    unsigned int appVersionMajor = 0,
+                    unsigned int appVersionMinor =0,
+                    unsigned int appVersionPatch =1)
+                : applicationName(std::move(appName)),
+                versionMajor(appVersionMajor),
+                versionMinor(appVersionMinor),
+                versionPatch(appVersionPatch),
+                title(std::move(appName)),
+                width(width),
+                height(height)
         {
         }
     };

@@ -27,6 +27,7 @@
 #define GEOGL_VULKANWINDOW_HPP
 
 #include "../../../IO/Window.hpp"
+#include <vulkan/vulkan.h>
 
 /**
  * Forward declaration of GLFWwindow, as we need not know how it works.
@@ -42,16 +43,13 @@ namespace GEOGL {
      * the OpenGL code required to load the OpenGL extensions from the graphics
      * driver, open the window, and update the frame.
      */
-    class VulkanWindow : public Window {
+    class GEOGL_API_HIDDEN VulkanWindow : public Window {
     public:
-        VulkanWindow(const WindowProps &props);
-
-        virtual ~VulkanWindow();
+        explicit VulkanWindow(const WindowProps &props);
+        ~VulkanWindow() override;
 
         void onUpdate() override;
-
         inline unsigned int getWidth() const override { return m_Data.width; }
-
         inline unsigned int getHeight() const override { return m_Data.height; }
 
         // Window attributes
@@ -86,12 +84,21 @@ namespace GEOGL {
 
     private:
         void init(const WindowProps &props);
-
         void shutdown();
 
+        bool checkValidationLayerSupport(const std::vector<const char*>& layers) const;
+        void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+        std::vector<const char*> getRequiredExtensions();
+
     private:
+        /**
+         * Holds the window ptr.
+         */
         GLFWwindow *m_Window;
 
+        /**
+         * Represents the data held by the window pointer
+         */
         struct WindowData {
             std::string title;
             unsigned int width, height;
@@ -100,7 +107,15 @@ namespace GEOGL {
             EventCallbackFn EventCallback;
         };
 
+        /**
+         * The data held by the window pointer
+         */
         WindowData m_Data;
+
+    private:
+        VkInstance m_VulkanInstance;
+        VkDebugUtilsMessengerEXT m_VulkanDebugMessenger;
+
     };
 
 }

@@ -53,6 +53,7 @@ namespace GEOGL{
 }
 
 // client log macros
+#define GEOGL_FORMAT(...)           ::fmt::format(__VA_ARGS__)
 #ifdef NDEBUG
 //#   define GEOGL_TRACE
 #   define GEOGL_INFO
@@ -64,7 +65,7 @@ namespace GEOGL{
  * Enables asserts when compiling in debug mode
  */
 #   define GEOGL_ENABLE_ASSERTS
-//#   define GEOGL_TRACE(...)       ::GEOGL::Log::getClientLogger()->trace(__VA_ARGS__)
+#   define GEOGL_TRACE(...)       ::GEOGL::Log::getClientLogger()->trace(__VA_ARGS__)
 #   define GEOGL_INFO(...)          ::GEOGL::Log::getClientLogger()->info(__VA_ARGS__)
 #   define GEOGL_WARN(...)          ::GEOGL::Log::getClientLogger()->warn(__VA_ARGS__)
 #   define GEOGL_ERROR(...)         ::GEOGL::Log::getClientLogger()->error(__VA_ARGS__)
@@ -78,15 +79,13 @@ namespace GEOGL{
 #define GEOGL_FATAL_CRITICAL(...)   ::GEOGL::Log::getClientLogger()->critical(__VA_ARGS__)
 
 #ifdef GEOGL_ENABLE_ASSERTS
-#   define GEOGL_ASSERT(x, ...) { if(!(x)) { GEOGL_ERROR_NOSTRIP("Assertion Failed: {0}", __VA_ARGS__); GEOGL_DEBUG_BREAK(); } } (void(0))
+#   define GEOGL_ASSERT(x, ...) { if(!(x)) { GEOGL_ERROR_NOSTRIP("Assertion Failed: {0}", GEOGL_FORMAT(__VA_ARGS__)); GEOGL_DEBUG_BREAK(); } } (void(0))
 #else
 #   define GEOGL_ASSERT(x, ...) { x; } (void(0))
 #endif
 /**
  * Forms a non-stripping assert. If not launched with a debugger, this causes a hard crash
  */
-#define GEOGL_ASSERT_NOSTRIP(x, ...) { if(!(x)) { GEOGL_ERROR_NOSTRIP("Assertion Failed: {0}", __VA_ARGS__); GEOGL_DEBUG_BREAK(); } } (void(0))
-
-#define GEOGL_FORMAT(...)           ::fmt::format(__VA_ARGS__)
+#define GEOGL_ASSERT_NOSTRIP(x, ...) { if(!(x)) { GEOGL_ERROR_NOSTRIP("Assertion Failed: {0}", GEOGL_FORMAT(__VA_ARGS__)); GEOGL_DEBUG_BREAK(); } } (void(0))
 
 #endif //VG_ENGINE_PUBLICLOG_HPP
