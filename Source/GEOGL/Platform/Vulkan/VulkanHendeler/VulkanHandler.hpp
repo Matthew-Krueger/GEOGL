@@ -27,8 +27,18 @@
 
 #include "../../../IO/Window.hpp"
 #include <vulkan/vulkan.h>
+#include <optional>
 
 namespace GEOGL::VulkanHandler{
+
+        struct QueueFamilyIndices{
+            std::optional<uint32_t> graphicsFamly;
+
+            [[nodiscard]] inline bool isComplete() const{
+                return graphicsFamly.has_value();
+            }
+
+        };
 
         GEOGL_API_HIDDEN void createInstance(VkInstance* instanceHandle, VkPhysicalDevice* physicalDeviceHandle, const char* windowTitle, const GEOGL::WindowProps& windowProps, VkDebugUtilsMessengerEXT* vulkanDebugMessengerHandle = nullptr);
 
@@ -38,6 +48,9 @@ namespace GEOGL::VulkanHandler{
         GEOGL_API_HIDDEN void pickPhysicalDevice(VkInstance* vulkanInstanceHandle, VkPhysicalDevice* vkPhysicalDeviceHandle);
         GEOGL_API_HIDDEN bool isDeviceSuitable(VkPhysicalDevice device);
         GEOGL_API_HIDDEN uint64_t rateDeviceSuitablty(VkPhysicalDevice device);
+
+        // Queue Family Functions
+        GEOGL_API_HIDDEN QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 
         // DEBUG FUNCTIONS
         GEOGL_API_HIDDEN bool checkValidationLayerSupport(const std::vector<const char*>& layers);
