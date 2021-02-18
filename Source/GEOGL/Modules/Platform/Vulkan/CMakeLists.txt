@@ -25,8 +25,8 @@ set(GEOGL_LIBRARY_NAME GEOGL_Platform_Vulkan)
 ######################################
 #         Linker Dependencies        #
 ######################################
-add_dependencies("${GEOGL_LIBRARY_NAME}" GEOGL::Utils)
-target_link_libraries("${GEOGL_LIBRARY_NAME}" GEOGL::Utils)
+add_dependencies("${GEOGL_LIBRARY_NAME}" GEOGL::Utils glfw)
+target_link_libraries("${GEOGL_LIBRARY_NAME}" GEOGL::Utils glfw)
 
 ######################################
 #      Parse if IGPU is allowed      #

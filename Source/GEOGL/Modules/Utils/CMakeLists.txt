@@ -32,8 +32,8 @@ set(GEOGL_LIBRARY_NAME GEOGL_Utils)
 ######################################
 #         Linker Dependencies        #
 ######################################
-add_dependencies("${GEOGL_LIBRARY_NAME}" glfw STB_LIB spdlog ImGui)
-target_link_libraries("${GEOGL_LIBRARY_NAME}" glfw STB_LIB spdlog ImGui)
+add_dependencies("${GEOGL_LIBRARY_NAME}" STB_LIB spdlog ImGui)
+target_link_libraries("${GEOGL_LIBRARY_NAME}" STB_LIB spdlog ImGui)
 
 ######################################
 #      PreProcessor Definitions      #

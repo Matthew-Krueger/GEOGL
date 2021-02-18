@@ -36,7 +36,7 @@ set(GEOGL_VERSION_FULL "${GEOGL_VERSION}.${GEOGL_VERSION_PATCH}-${GEOGL_VERSION_
 ###################################
 set(GEOGL_INCLUDE_DIRECTORIES
         Dependencies/Nlohmann/JSON/include
-        Dependencies/GLFW/include
+        Dependencies/glfw-3.3.2/include
         Dependencies/GLAD/include
         Dependencies/spdlog/include
         Dependencies/STB/include
@@ -48,8 +48,8 @@ set(GEOGL_INCLUDE_DIRECTORIES
 include_directories(Dependencies/Nlohmann/JSON/include)
 
 # GLFW
-add_subdirectory(Dependencies/GLFW)
-include_directories(Dependencies/GLFW/include)
+add_subdirectory(Dependencies/glfw-3.3.2)
+include_directories(Dependencies/glfw-3.3.2/include)
 
 # GLAD
 add_subdirectory(Dependencies/GLAD)
