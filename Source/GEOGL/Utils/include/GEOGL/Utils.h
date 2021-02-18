@@ -1,8 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "modernize-use-bool-literals"
-#pragma ide diagnostic ignored "bugprone-branch-clone"
-#pragma ide diagnostic ignored "Simplify"
-
 /*******************************************************************************
  * Copyright (c) 2020 Matthew Krueger                                          *
  *                                                                             *
@@ -27,38 +22,19 @@
  *                                                                             *
  *******************************************************************************/
 
+#ifndef GEOGL_UTILS_H
+#define GEOGL_UTILS_H
 
-#include "APIManagment.hpp"
-namespace GEOGL {
-    enum WindowAPIType determineLowestAPI() {
 
-        if (GEOGL_BUILD_WITH_OPENGL) {
-            return WindowAPIType::WINDOW_OPENGL_DESKTOP;
-        } else if (GEOGL_BUILD_WITH_VULKAN) {
-            return WindowAPIType::WINDOW_VULKAN_DESKTOP;
-        }
+#include "../../Win32Exports.hpp"
 
-    }
+#include "../../Headers/Dependencies.hpp"
 
-    bool isAPISupported(enum WindowAPIType api) {
-        switch (api){
-            case WINDOW_OPENGL_DESKTOP:
-                return (bool) GEOGL_BUILD_WITH_OPENGL;
-            case WINDOW_VULKAN_DESKTOP:
-                return (bool) GEOGL_BUILD_WITH_VULKAN;
-        }
+#include "../../Logging/PublicLog.hpp"
+#include "../../APIManagement.hpp"
+#include "../../Callbacks.hpp"
+#include "../../InputCodes.hpp"
+#include "../../InputCodesConverter.hpp"
+#include "../../Settings.hpp"
 
-        return false;
-
-    }
-
-    enum WindowAPIType findBestPreferredAPI(enum WindowAPIType preferredAPI) {
-
-        if(isAPISupported(preferredAPI))
-            return preferredAPI;
-
-        return determineLowestAPI();
-
-    }
-}
-#pragma clang diagnostic pop
+#endif //NODIFY_SCREENWRITER_UTILS_H

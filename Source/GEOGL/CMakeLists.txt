@@ -1,11 +1,9 @@
 set(MODULE_NAME ${PROJECT_NAME}_Engine_${GEOGL_VERSION_FULL})
 
-# Build the DLL
-add_library(${MODULE_NAME} SHARED include/GEOGL/Core.hpp IO/Window.hpp Application/Application.cpp Application/Application.hpp Utils/Headers/PCH.cpp Utils/Headers/PCH.hpp Logging/PrivateLog.hpp Logging/PublicLog.hpp Logging/LoggingFunctions.cpp Win32Exports.hpp include/GEOGL/Core.hpp Utils/Callbacks.cpp Utils/Callbacks.hpp include/GEOGL/MainCreator.hpp Utils/Headers/Dependencies.hpp IO/Events/Event.hpp IO/Events/ApplicationEvent.hpp IO/Events/KeyEvent.hpp IO/Events/MouseEvent.hpp Rendering/Layer.cpp Rendering/Layer.hpp Rendering/LayerStack.cpp Rendering/LayerStack.hpp ImGui/ImGuiLayer.cpp ImGui/ImGuiLayer.hpp IO/Window.cpp Utils/Settings.cpp Utils/Settings.hpp IO/Input.hpp IO/Input.cpp Utils/InputCodes.hpp "Utils/InputCodesConverter.cpp" "Utils/InputCodesConverter.hpp" Utils/APIManagment.cpp Utils/APIManagment.hpp)
 
-# Include Platforms
-add_subdirectory(Platform)
-
+#######################################################################
+#       Configure Optional Dependencies Depending on Build Flags      #
+#######################################################################
 # Optional Platform Libs
 set(GEOGL_PLATFORM_LIBS "")
 set(GEOGL_OGL_BUILD_FLAG 0)
@@ -40,24 +38,53 @@ if(GEOGL_BUILD_WITH_VULKAN)
     message("-- Building GEOGL::Engine with Vulkan support.")
 endif(GEOGL_BUILD_WITH_VULKAN)
 
+
+#######################################################################
+#                      Build all Dependency DLLs                      #
+#######################################################################
+
+# Include Utils And Dependencies
+add_subdirectory(Utils)
+
+# Include Platforms
+add_subdirectory(Platform)
+
+# Build the GEOGL_DLL
+add_library(${MODULE_NAME} SHARED
+        Application/Application.cpp
+        Application/Application.hpp
+
+        IO/Events/ApplicationEvent.hpp
+        IO/Events/Event.hpp
+        IO/Events/KeyEvent.hpp
+        IO/Events/MouseEvent.hpp
+        IO/Input.cpp
+        IO/Input.hpp
+        IO/Window.cpp
+        IO/Window.hpp
+
+        ImGui/ImGuiLayer.cpp
+        ImGui/ImGuiLayer.hpp
+
+        Rendering/Layer.cpp
+        Rendering/Layer.hpp
+        Rendering/LayerStack.cpp
+        Rendering/LayerStack.hpp
+
+        Utils/Win32Exports.hpp
+
+        include/GEOGL/Core.hpp
+        include/GEOGL/MainCreator.hpp
+        )
+
 # make sure a platform is selected. If not, error
 if (NOT(GEOGL_PLATFORM_EXISTS STREQUAL "TRUE"))
     message(FATAL_ERROR "No platform selected for GEOGL. Please select a platform.")
 endif(NOT(GEOGL_PLATFORM_EXISTS STREQUAL "TRUE"))
 
 # Add Dependencies
-add_dependencies(${MODULE_NAME} glfw STB_LIB spdlog ImGui ${GEOGL_PLATFORM_LIBS})
-target_link_libraries(${MODULE_NAME} glfw STB_LIB spdlog ImGui ${GEOGL_PLATFORM_LIBS} ${GEOGL_PLATFORM_LIBS_ADDITIONAL})
-
-target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_BUILD_LIBRARY)
-target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_VERSION_MAJOR=${GEOGL_VERSION_MAJOR})
-target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_VERSION_MINOR=${GEOGL_VERSION_MINOR})
-target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_VERSION_PATCH=${GEOGL_VERSION_PATCH})
-target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_VERSION_FULL="${GEOGL_VERSION_FULL}")
-target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_ENGINE_NAME="GEOGL-Engine-${GEOGL_VERSION_FULL}")
-target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_ENGINE_NAME_NO_VERSION="GEOGL Engine")
-target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_BUILD_WITH_VULKAN=${GEOGL_VULKAN_BUILD_FLAG})
-target_compile_definitions("${MODULE_NAME}" PRIVATE GEOGL_BUILD_WITH_OPENGL=${GEOGL_OGL_BUILD_FLAG})
+add_dependencies(${MODULE_NAME} GEOGL::Utils ${GEOGL_PLATFORM_LIBS})
+target_link_libraries(${MODULE_NAME} GEOGL_Utils ${GEOGL_PLATFORM_LIBS} ${GEOGL_PLATFORM_LIBS_ADDITIONAL})
 
 #target_include_directories("${MODULE_NAME}" PUBLIC ${GEOGL_INCLUDE_DIRECTORIES})
 

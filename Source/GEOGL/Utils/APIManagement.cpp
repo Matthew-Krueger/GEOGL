@@ -1,3 +1,8 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-bool-literals"
+#pragma ide diagnostic ignored "bugprone-branch-clone"
+#pragma ide diagnostic ignored "Simplify"
+
 /*******************************************************************************
  * Copyright (c) 2020 Matthew Krueger                                          *
  *                                                                             *
@@ -23,60 +28,37 @@
  *******************************************************************************/
 
 
-#include "Window.hpp"
+#include "APIManagement.hpp"
+namespace GEOGL {
+    enum WindowAPIType determineLowestAPI() {
 
-//#if (GEOGL_BUILD_WITH_OPENGL == true)
-
-#if (GEOGL_BUILD_WITH_OPENGL == 1)
-    #include "../Platform/OpenGL/IO/Window.hpp"
-#endif
-
-#if (GEOGL_BUILD_WITH_VULKAN == 1)
-    #include "../Platform/Vulkan/IO/Window.hpp"
-#include "../Utils/APIManagement.hpp"
-
-#endif
-
-
-namespace GEOGL{
-
-    std::string apiPrettyPrint(enum WindowAPIType windowAPI){
-
-        switch(windowAPI){
-            case WindowAPIType::WINDOW_OPENGL_DESKTOP:
-                return std::string("OpenGL");
-            case WindowAPIType::WINDOW_VULKAN_DESKTOP:
-                return std::string("Vulkan");
-            default:
-                return std::string("Unknown");
+        if (GEOGL_BUILD_WITH_OPENGL) {
+            return WindowAPIType::WINDOW_OPENGL_DESKTOP;
+        } else if (GEOGL_BUILD_WITH_VULKAN) {
+            return WindowAPIType::WINDOW_VULKAN_DESKTOP;
         }
 
     }
 
-    Window* Window::create(enum WindowAPIType api,const WindowProps& props){
-
-        bool vulkanSupported = GEOGL_BUILD_WITH_VULKAN;
-        bool openGLSupported = GEOGL_BUILD_WITH_OPENGL;
-
-        switch(api){
+    bool isAPISupported(enum WindowAPIType api) {
+        switch (api){
             case WINDOW_OPENGL_DESKTOP:
-                GEOGL_CORE_ASSERT_NOSTRIP(openGLSupported, "OpenGL is selected as the API, but does not appear to be supported.");
-#if GEOGL_BUILD_WITH_OPENGL == true
-                return new GEOGL::Platform::OpenGL::Window(props);
-#endif
-                break;
+                return (bool) GEOGL_BUILD_WITH_OPENGL;
             case WINDOW_VULKAN_DESKTOP:
-                GEOGL_CORE_ASSERT_NOSTRIP(vulkanSupported, "Vulkan is selected as the API, but does not appear to be supported.");
-#if GEOGL_BUILD_WITH_VULKAN == true
-                return new GEOGL::Platform::Vulkan::Window(props);
-#endif
-                break;
-            default:
-                GEOGL_CORE_ASSERT_NOSTRIP(false, "No api is selected. Exiting.");
+                return (bool) GEOGL_BUILD_WITH_VULKAN;
         }
 
-        return nullptr;
+        return false;
 
     }
 
+    enum WindowAPIType findBestPreferredAPI(enum WindowAPIType preferredAPI) {
+
+        if(isAPISupported(preferredAPI))
+            return preferredAPI;
+
+        return determineLowestAPI();
+
+    }
 }
+#pragma clang diagnostic pop
