@@ -42,8 +42,6 @@ namespace GEOGL {
     struct WindowProps
     {
 
-        std::string applicationName;
-
         /**
          * The title of the window to be created
          */
@@ -56,12 +54,12 @@ namespace GEOGL {
         /**
          * The width of the window to be created
          */
-        unsigned int width;
+        uint16_t width;
 
         /**
          * The height of the window to be created
          */
-        unsigned int height;
+        uint16_t height;
 
         /**
          * Constructs a WindowProps to be passed to the \link Window.create \endlink function.
@@ -73,16 +71,15 @@ namespace GEOGL {
          * @param appVersionPatch The patch version of the app
          */
         WindowProps(const std::string& appName = "GEOGL Engine",
-                    unsigned int width = 1280,
-                    unsigned int height = 720,
+                    uint16_t width = 1280,
+                    uint16_t height = 720,
                     unsigned int appVersionMajor = 0,
                     unsigned int appVersionMinor =0,
                     unsigned int appVersionPatch =1)
-                : applicationName(std::move(appName)),
+                : title(std::move(appName)),
                 versionMajor(appVersionMajor),
                 versionMinor(appVersionMinor),
                 versionPatch(appVersionPatch),
-                title(std::move(appName)),
                 width(width),
                 height(height)
         {
@@ -139,6 +136,12 @@ namespace GEOGL {
          */
         virtual enum WindowAPIType type() = 0;
 
+        /**
+         * Creates a window with the selected API.
+         * @param api
+         * @param props
+         * @return
+         */
         static Window* create(enum WindowAPIType api, const WindowProps& props = WindowProps());
     };
 

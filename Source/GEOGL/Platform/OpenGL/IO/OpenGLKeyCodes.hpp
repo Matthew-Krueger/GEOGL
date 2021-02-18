@@ -34,7 +34,7 @@
 #include "../../../Utils/InputCodes.hpp"
 #include "../../../Utils/InputCodesConverter.hpp"
 
-namespace GEOGL{
+namespace GEOGL::Platform::OpenGL{
 
     /**
      * \brief A wrapper for GLFW Key Codes.

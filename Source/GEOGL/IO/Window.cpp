@@ -62,13 +62,13 @@ namespace GEOGL{
             case WINDOW_OPENGL_DESKTOP:
                 GEOGL_CORE_ASSERT_NOSTRIP(openGLSupported, "OpenGL is selected as the API, but does not appear to be supported.");
 #if GEOGL_BUILD_WITH_OPENGL == true
-                return new OpenGLWindow(props);
+                return new GEOGL::Platform::OpenGL::OpenGLWindow(props);
 #endif
                 break;
             case WINDOW_VULKAN_DESKTOP:
                 GEOGL_CORE_ASSERT_NOSTRIP(vulkanSupported, "Vulkan is selected as the API, but does not appear to be supported.");
 #if GEOGL_BUILD_WITH_VULKAN == true
-                return new VulkanWindow(props);
+                return new GEOGL::VulkanWindow(props);
 #endif
                 break;
             default:

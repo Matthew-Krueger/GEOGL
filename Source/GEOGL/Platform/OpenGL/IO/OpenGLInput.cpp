@@ -34,7 +34,7 @@
 
 #include <GLFW/glfw3.h>
 
-namespace GEOGL{
+namespace GEOGL::Platform::OpenGL{
 
 
     bool OpenGLInput::isKeyPressedImpl(KeyCode keycode) {

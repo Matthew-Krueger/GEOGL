@@ -42,7 +42,7 @@
 #include "OpenGLInput.hpp"
 #include "OpenGLKeyCodes.hpp"
 
-namespace GEOGL {
+namespace GEOGL::Platform::OpenGL{
 
     static uint8_t currentWindows = 0;
     static bool s_GLFWInitialized = false;
@@ -53,14 +53,8 @@ namespace GEOGL {
     }
 
     OpenGLWindow::OpenGLWindow(const WindowProps& props){
-        init(props);
-    }
+        m_Window = nullptr;
 
-    OpenGLWindow::~OpenGLWindow(){
-        shutdown();
-    }
-
-    void OpenGLWindow::init(const WindowProps& props){
 
         /* Initialize Input for OpenGLWindow */
         Input::init(new OpenGLInput());
@@ -97,7 +91,12 @@ namespace GEOGL {
         m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
         glfwMakeContextCurrent(m_Window);
         glfwSetWindowUserPointer(m_Window, &m_Data);
-        setVSync(true);
+
+        /* Set VSync true. Evidently, no virtual member functions from the constructor. */
+        {
+            glfwSwapInterval(1); // set vsync true
+            m_Data.vSync = true;
+        }
 
         ++currentWindows;
         GEOGL_CORE_INFO("Successfully created window, noting the current window count is {}.", currentWindows);
@@ -117,99 +116,13 @@ namespace GEOGL {
 
         /* Set up callbacks for GLFW window events */
         {
-            glfwSetWindowSizeCallback(m_Window, [](GLFWwindow *window, int width, int height) {
-                auto *data = (WindowData *) glfwGetWindowUserPointer(window);
-
-                data->width = width;
-                data->height = height;
-
-                /* Set the viewport before we get further. Better to do now then later */
-                glViewport(0, 0, width, height);
-
-                WindowResizeEvent event(width, height);
-                data->EventCallback(event);
-            });
-
-            glfwSetWindowCloseCallback(m_Window, [](GLFWwindow *window) {
-                auto *data = (WindowData *) glfwGetWindowUserPointer(window);
-                WindowCloseEvent event;
-                data->EventCallback(event);
-            });
-
-            glfwSetKeyCallback(m_Window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
-                auto *data = (WindowData *) glfwGetWindowUserPointer(window);
-
-                switch (action) {
-                    case GLFW_PRESS: {
-                        KeyPressedEvent event(InputCodesConverter::getGEOGLKeyCode(key), 0);
-                        data->EventCallback(event);
-                        break;
-                    }
-                    case GLFW_RELEASE: {
-                        KeyReleasedEvent event(InputCodesConverter::getGEOGLKeyCode(key));
-                        data->EventCallback(event);
-                        break;
-                    }
-                    case GLFW_REPEAT: {
-                        KeyPressedEvent event(InputCodesConverter::getGEOGLKeyCode(key), 1);
-                        data->EventCallback(event);
-                        break;
-                    }
-                    default:
-                        GEOGL_CORE_CRITICAL_NOSTRIP("Unable to determine key action.");
-                        break;
-                }
-            });
-
-            glfwSetCharCallback(m_Window, [](GLFWwindow *window, unsigned int character) {
-
-                auto data = (WindowData *) glfwGetWindowUserPointer(window);
-
-                KeyTypedEvent event(character);
-                data->EventCallback(event);
-
-            });
-
-            glfwSetMouseButtonCallback(m_Window, [](GLFWwindow *window, int button, int action, int mods) {
-                auto data = (WindowData *) glfwGetWindowUserPointer(window);
-                switch (action) {
-                    case GLFW_PRESS: {
-                        MouseButtonPressedEvent event(InputCodesConverter::getGEOGLMouseCode(button));
-                        data->EventCallback(event);
-                        break;
-                    }
-                    case GLFW_RELEASE: {
-                        MouseButtonReleasedEvent event(InputCodesConverter::getGEOGLMouseCode(button));
-                        data->EventCallback(event);
-                        break;
-                    }
-                    default:
-                        GEOGL_CORE_CRITICAL_NOSTRIP("Unable to determine mouse action.");
-                        break;
-                }
-            });
-
-            glfwSetScrollCallback(m_Window, [](GLFWwindow *window, double xOffset, double yOffset) {
-
-                auto data = (WindowData *) glfwGetWindowUserPointer(window);
-
-                MouseScrolledEvent event((float) xOffset, (float) yOffset);
-                data->EventCallback(event);
-
-            });
-
-            glfwSetCursorPosCallback(m_Window, [](GLFWwindow *window, double xPos, double yPos) {
-                auto data = (WindowData *) glfwGetWindowUserPointer(window);
-
-                MouseMovedEvent event((float) xPos, (float) yPos);
-                data->EventCallback(event);
-
-            });
+            setUpEventCallbacks();
         }
 
+        GEOGL_CORE_ASSERT(m_Window, "Did not successfully create the window");
     }
 
-    void OpenGLWindow::shutdown(){
+    OpenGLWindow::~OpenGLWindow(){
         --currentWindows;
         glfwDestroyWindow(m_Window);
         GEOGL_CORE_INFO("Quit a window. Noting the current window count is {}.", currentWindows);
@@ -221,6 +134,12 @@ namespace GEOGL {
             s_GLFWInitialized = false;
             s_GLADInitialized = false;
         }
+    }
+
+    void OpenGLWindow::clearColor() {
+
+        glClearColor(1,0,1,1);
+        glClear(GL_COLOR_BUFFER_BIT);
 
     }
 
@@ -238,26 +157,97 @@ namespace GEOGL {
         m_Data.vSync = enabled;
     }
 
-    bool OpenGLWindow::isVSync() const{
-        return m_Data.vSync;
-    }
+    void OpenGLWindow::setUpEventCallbacks(){
 
-    /*void* OpenGLWindow::getNativeWindow() const{
+        glfwSetWindowSizeCallback(m_Window, [](GLFWwindow *window, int width, int height) {
+            auto *data = (WindowData *) glfwGetWindowUserPointer(window);
 
-        return (void*) m_Window;
+            data->width = width;
+            data->height = height;
 
-    }*/
+            /* Set the viewport before we get further. Better to do now then later */
+            glViewport(0, 0, width, height);
 
-    enum WindowAPIType OpenGLWindow::type(){
+            WindowResizeEvent event(width, height);
+            data->EventCallback(event);
+        });
 
-        return WindowAPIType::WINDOW_OPENGL_DESKTOP;
+        glfwSetWindowCloseCallback(m_Window, [](GLFWwindow *window) {
+            auto *data = (WindowData *) glfwGetWindowUserPointer(window);
+            WindowCloseEvent event;
+            data->EventCallback(event);
+        });
 
-    }
+        glfwSetKeyCallback(m_Window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
+            auto *data = (WindowData *) glfwGetWindowUserPointer(window);
 
-    void OpenGLWindow::clearColor() {
+            switch (action) {
+                case GLFW_PRESS: {
+                    KeyPressedEvent event(InputCodesConverter::getGEOGLKeyCode(key), 0);
+                    data->EventCallback(event);
+                    break;
+                }
+                case GLFW_RELEASE: {
+                    KeyReleasedEvent event(InputCodesConverter::getGEOGLKeyCode(key));
+                    data->EventCallback(event);
+                    break;
+                }
+                case GLFW_REPEAT: {
+                    KeyPressedEvent event(InputCodesConverter::getGEOGLKeyCode(key), 1);
+                    data->EventCallback(event);
+                    break;
+                }
+                default:
+                    GEOGL_CORE_CRITICAL_NOSTRIP("Unable to determine key action.");
+                    break;
+            }
+        });
 
-        glClearColor(1,0,1,1);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glfwSetCharCallback(m_Window, [](GLFWwindow *window, unsigned int character) {
 
-    }
+            auto data = (WindowData *) glfwGetWindowUserPointer(window);
+
+            KeyTypedEvent event(character);
+            data->EventCallback(event);
+
+        });
+
+        glfwSetMouseButtonCallback(m_Window, [](GLFWwindow *window, int button, int action, int mods) {
+            auto data = (WindowData *) glfwGetWindowUserPointer(window);
+            switch (action) {
+                case GLFW_PRESS: {
+                    MouseButtonPressedEvent event(InputCodesConverter::getGEOGLMouseCode(button));
+                    data->EventCallback(event);
+                    break;
+                }
+                case GLFW_RELEASE: {
+                    MouseButtonReleasedEvent event(InputCodesConverter::getGEOGLMouseCode(button));
+                    data->EventCallback(event);
+                    break;
+                }
+                default:
+                    GEOGL_CORE_CRITICAL_NOSTRIP("Unable to determine mouse action.");
+                    break;
+            }
+        });
+
+        glfwSetScrollCallback(m_Window, [](GLFWwindow *window, double xOffset, double yOffset) {
+
+            auto data = (WindowData *) glfwGetWindowUserPointer(window);
+
+            MouseScrolledEvent event((float) xOffset, (float) yOffset);
+            data->EventCallback(event);
+
+        });
+
+        glfwSetCursorPosCallback(m_Window, [](GLFWwindow *window, double xPos, double yPos) {
+            auto data = (WindowData *) glfwGetWindowUserPointer(window);
+
+            MouseMovedEvent event((float) xPos, (float) yPos);
+            data->EventCallback(event);
+
+        });
+
+    };
+
 }

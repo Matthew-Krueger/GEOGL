@@ -34,7 +34,7 @@
 
 #include "../../../IO/Input.hpp"
 
-namespace GEOGL{
+namespace GEOGL::Platform::OpenGL{
 
     class GEOGL_API_HIDDEN OpenGLInput : public GEOGL::Input{
 

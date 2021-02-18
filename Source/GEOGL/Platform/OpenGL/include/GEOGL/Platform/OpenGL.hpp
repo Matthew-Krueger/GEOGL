@@ -25,4 +25,6 @@
 #ifndef GEOGL_OPENGL_HPP
 #define GEOGL_OPENGL_HPP
 
+#include "../../../IO/OpenGLWindow.hpp"
+
 #endif //GEOGL_OPENGL_HPP

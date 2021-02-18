@@ -38,7 +38,7 @@
  */
 struct GLFWwindow;
 
-namespace GEOGL {
+namespace GEOGL::Platform::OpenGL{
 
     /**
      * \brief Represents an actual OpenGL Window, based on GLFW.
@@ -47,16 +47,17 @@ namespace GEOGL {
      * the OpenGL code required to load the OpenGL extensions from the graphics
      * driver, open the window, and update the frame.
      */
-    class GEOGL_API_HIDDEN OpenGLWindow : public Window
-    {
+    class GEOGL_API_HIDDEN OpenGLWindow : public GEOGL::Window{
     public:
-        OpenGLWindow(const WindowProps& props);
-        virtual ~OpenGLWindow();
+        explicit OpenGLWindow(const WindowProps& props);
+        ~OpenGLWindow() override;
 
+        // Update Handles
+        void clearColor() override;
         void onUpdate() override;
 
-        inline unsigned int getWidth() const override { return m_Data.width; }
-        inline unsigned int getHeight() const override { return m_Data.height; }
+        [[nodiscard]] inline unsigned int getWidth() const override { return m_Data.width; }
+        [[nodiscard]] inline unsigned int getHeight() const override { return m_Data.height; }
 
         // Window attributes
         /**
@@ -76,34 +77,67 @@ namespace GEOGL {
          * Asks if VSync is enabled
          * @return Whether or not VSync is enabled.
          */
-        bool isVSync() const override;
-
-        inline void* getNativeWindow() const override { return m_Window; };
-
-        void clearColor() override;
+        [[nodiscard]] inline bool isVSync() const override { return m_Data.vSync; };
 
         /**
-         * Returns that this window is an OpenGL Desktop window
+         * \brief Gets the pointer to the GLFWwindow
+         * @return the GLFWwindow, cast to a void pointer
+         */
+        [[nodiscard]] inline void* getNativeWindow() const override { return (void*) m_Window; };
+
+
+        /**
+         * \brief Gets that this window is an OpenGL Desktop window
          * @return An WINDOW_OPENGL_DESKTOP flag
          */
-        enum WindowAPIType type() override;
+        inline enum WindowAPIType type() override { return WindowAPIType::WINDOW_OPENGL_DESKTOP; };
 
     private:
-        void init(const WindowProps& props);
-        void shutdown();
+        /**
+         * \brief Sets up the event callbacks for GLFW to be dispatched.
+         *
+         * \note Calling this function requires that m_Data.EventCallbackFn is set at the time
+         * of the callback being called.
+         */
+        void setUpEventCallbacks();
 
     private:
+        /**
+         * \brief Holds the GLFWwindow pointer
+         */
         GLFWwindow* m_Window;
 
+        /**
+         * \brief Represents the window data that needs to be held as the user pointer
+         * in GLFW, used for event callbacks.
+         */
         struct WindowData
         {
+
+            /**
+             * \brief The Title of the window
+             */
             std::string title;
+
+            /**
+             * \brief The width and height of the window
+             */
             unsigned int width, height;
+
+            /**
+             * \brief Whether or not the window enabled vSync.
+             */
             bool vSync;
 
+            /**
+             * \brief The callback function that is called when an event happens
+             */
             EventCallbackFn EventCallback;
         };
 
+        /**
+         * \brief
+         */
         WindowData m_Data;
     };
 
