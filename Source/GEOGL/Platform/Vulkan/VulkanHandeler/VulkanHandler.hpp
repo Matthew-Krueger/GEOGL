@@ -31,33 +31,55 @@
 
 namespace GEOGL::VulkanHandler{
 
-        struct QueueFamilyIndices{
-            std::optional<uint32_t> graphicsFamly;
 
-            [[nodiscard]] inline bool isComplete() const{
-                return graphicsFamly.has_value();
-            }
+    struct QueueFamilyIndices{
+        std::optional<uint32_t> graphicsFamly;
+         [[nodiscard]] inline bool isComplete() const{
+            return graphicsFamly.has_value();
+        }
+    };
 
-        };
+    class GEOGL_API_HIDDEN VulkanContext{
 
-        GEOGL_API_HIDDEN void createInstance(VkInstance* instanceHandle, VkPhysicalDevice* physicalDeviceHandle, const char* windowTitle, const GEOGL::WindowProps& windowProps, VkDebugUtilsMessengerEXT* vulkanDebugMessengerHandle = nullptr);
+    public:
+        // Constructor and Destructor
+        VulkanContext(const char* windowTitle, const GEOGL::WindowProps& windowProps);
+        ~VulkanContext();
 
-        GEOGL_API_HIDDEN std::vector<const char*> getRequiredExtensions();
+        // Device Suitability
+        void pickPhysicalDevice();
+        void createLogicalDevice();
 
-        // Device Suitability Functions
-        GEOGL_API_HIDDEN void pickPhysicalDevice(VkInstance* vulkanInstanceHandle, VkPhysicalDevice* vkPhysicalDeviceHandle);
-        GEOGL_API_HIDDEN bool isDeviceSuitable(VkPhysicalDevice device);
-        GEOGL_API_HIDDEN uint64_t rateDeviceSuitablty(VkPhysicalDevice device);
+        // debug functions
+        void setupDebugMessenger();
 
-        // Queue Family Functions
-        GEOGL_API_HIDDEN QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+    private:
+        VkInstance m_VulkanInstance;
+        VkDebugUtilsMessengerEXT m_VulkanDebugMessenger;
+        VkPhysicalDevice m_VulkanPhysicalDevice;
+        VkDevice m_VulkanLogicalDevice;
+        VkQueue m_VulkanGraphicsQueue;
 
-        // DEBUG FUNCTIONS
-        GEOGL_API_HIDDEN bool checkValidationLayerSupport(const std::vector<const char*>& layers);
-        GEOGL_API_HIDDEN void setupDebugMessenger(VkInstance* vulkanInstanceHandle, VkDebugUtilsMessengerEXT* vulkanDebugMessengerHandle);
-        GEOGL_API_HIDDEN void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
-        GEOGL_API_HIDDEN void enumerateExtensions();
+    };
 
-    }
+    //GEOGL_API_HIDDEN void createInstance(VulkanContext* vulkanContext, const char* windowTitle, const GEOGL::WindowProps& windowProps);
+    //GEOGL_API_HIDDEN void destroyInstance(VulkanContext* vulkanContext);
+
+    GEOGL_API_HIDDEN std::vector<const char*> getRequiredExtensions();
+
+    // Device Suitability Functions
+    //GEOGL_API_HIDDEN void pickPhysicalDevice(VulkanContext* vulkanContext);
+    GEOGL_API_HIDDEN bool isDeviceSuitable(VkPhysicalDevice device);
+    GEOGL_API_HIDDEN uint64_t rateDeviceSuitablty(VkPhysicalDevice device);
+
+    // Queue Family Functions
+    GEOGL_API_HIDDEN QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+
+    // DEBUG FUNCTIONS
+    GEOGL_API_HIDDEN bool checkValidationLayerSupport(const std::vector<const char*>& layers);
+    GEOGL_API_HIDDEN void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+    GEOGL_API_HIDDEN void enumerateExtensions();
+
+}
 
 #endif //NODIFY_SCREENWRITER_VULKANHANDLER_HPP

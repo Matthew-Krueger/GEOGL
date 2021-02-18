@@ -32,8 +32,7 @@
 #include <GLFW/glfw3.h>
 
 #include <vulkan/vulkan.h>
-#include "../VulkanHendeler/VulkanHandler.hpp"
-#include "../VulkanExtensions/VulkanExtensions.hpp"
+#include "../VulkanHandeler/VulkanHandler.hpp"
 
 namespace GEOGL {
 
@@ -90,9 +89,7 @@ namespace GEOGL {
 
 
         /* Create Vulkan Instance */
-        {
-            VulkanHandler::createInstance(&m_VulkanInstance, &m_VulkanPhysicalDevice, m_Data.title.c_str(), props, &m_VulkanDebugMessenger);
-        }
+        m_VulkanContext = new VulkanHandler::VulkanContext(m_Data.title.c_str(), props);
 
         /* Enumerate Extensions */
 #if (!defined(NDEBUG) && defined(GEOGL_VULKAN_VERBOSE))
@@ -199,12 +196,7 @@ namespace GEOGL {
         --currentWindows;
 
         /* Clean up vulkan */
-        {
-            VulkanExtensions::destroyDebugUtilsMessengerEXT(m_VulkanInstance, m_VulkanDebugMessenger, nullptr);
-
-            /* Destroy Instance */
-            vkDestroyInstance(m_VulkanInstance, nullptr);
-        }
+        delete m_VulkanContext;
 
         glfwDestroyWindow(m_Window);
         GEOGL_CORE_INFO("Quit a window. Noting the current window count is {}.", currentWindows);

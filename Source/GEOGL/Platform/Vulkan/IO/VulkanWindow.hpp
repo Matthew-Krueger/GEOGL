@@ -27,7 +27,6 @@
 #define GEOGL_VULKANWINDOW_HPP
 
 #include "../../../IO/Window.hpp"
-#include <vulkan/vulkan.h>
 
 /**
  * Forward declaration of GLFWwindow, as we need not know how it works.
@@ -35,6 +34,10 @@
 struct GLFWwindow;
 
 namespace GEOGL {
+
+    namespace VulkanHandler{
+        class VulkanContext;
+    }
 
     /**
      * \brief Represents an actual OpenGL Window, based on GLFW.
@@ -49,8 +52,8 @@ namespace GEOGL {
         ~VulkanWindow() override;
 
         void onUpdate() override;
-        inline unsigned int getWidth() const override { return m_Data.width; }
-        inline unsigned int getHeight() const override { return m_Data.height; }
+        [[nodiscard]] inline unsigned int getWidth() const override { return m_Data.width; }
+        [[nodiscard]] inline unsigned int getHeight() const override { return m_Data.height; }
 
         // Window attributes
         /**
@@ -70,9 +73,9 @@ namespace GEOGL {
          * Asks if VSync is enabled
          * @return Whether or not VSync is enabled.
          */
-        bool isVSync() const override;
+        [[nodiscard]] bool isVSync() const override;
 
-        inline void *getNativeWindow() const override { return m_Window; };
+        [[nodiscard]] inline void *getNativeWindow() const override { return m_Window; };
 
         void clearColor() override;
 
@@ -109,9 +112,15 @@ namespace GEOGL {
         WindowData m_Data;
 
     private:
-        VkInstance m_VulkanInstance;
-        VkDebugUtilsMessengerEXT m_VulkanDebugMessenger;
-        VkPhysicalDevice m_VulkanPhysicalDevice;
+
+        /**
+         * \brief Holds the context of Vulkan.
+         *
+         * Not a shared pointer, even though it would be nice to have, as the object
+         * lifetime must be strictly managed, due to possible GLFW terminations, leading
+         * to undefined behavior.
+         */
+        VulkanHandler::VulkanContext* m_VulkanContext;
 
     };
 
