@@ -18,13 +18,6 @@ if(GEOGL_BUILD_WITH_OPENGL)
     # Set up GEOGL's platform Libs
     set(GEOGL_PLATFORM_LIBS ${GEOGL_PLATFORM_LIBS}GEOGL::Platform::OpenGL GLAD)
 
-    # Add OpenGL libs
-    if(WIN32)
-        set(GEOGL_PLATFORM_LIBS_ADDITIONAL opengl32)
-    else()
-        set(GEOGL_PLATFORM_LIBS_ADDITIONAL GL)
-    endif(WIN32)
-
     set(GEOGL_OGL_BUILD_FLAG 1)
 
     set(GEOGL_PLATFORM_EXISTS TRUE)
@@ -34,7 +27,6 @@ if(GEOGL_BUILD_WITH_VULKAN)
     set(GEOGL_PLATFORM_LIBS ${GEOGL_PLATFORM_LIBS} GEOGL::Platform::Vulkan)
     set(GEOGL_PLATFORM_EXISTS TRUE)
     set(GEOGL_VULKAN_BUILD_FLAG 1)
-    set(GEOGL_PLATFORM_LIBS_ADDITIONAL ${VULKAN_LIB_LIST})
     message("-- Building GEOGL::Engine with Vulkan support.")
 endif(GEOGL_BUILD_WITH_VULKAN)
 

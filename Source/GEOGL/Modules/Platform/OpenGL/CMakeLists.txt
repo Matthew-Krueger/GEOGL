@@ -19,11 +19,18 @@ add_library(GEOGL_Platform_OpenGL SHARED
 ######################################
 set(GEOGL_LIBRARY_NAME GEOGL_Platform_OpenGL)
 
+
+if(WIN32)
+    set(GEOGL_PLATFORM_LIBS_GL opengl32)
+else()
+    set(GEOGL_PLATFORM_LIBS_GL GL)
+endif(WIN32)
+
 ######################################
 #         Linker Dependencies        #
 ######################################
 add_dependencies("${GEOGL_LIBRARY_NAME}" GEOGL::Utils glfw)
-target_link_libraries("${GEOGL_LIBRARY_NAME}" GEOGL::Utils glfw)
+target_link_libraries("${GEOGL_LIBRARY_NAME}" GEOGL::Utils glfw ${GEOGL_PLATFORM_LIBS_GL})
 
 ######################################
 #      Parse if IGPU is allowed      #
