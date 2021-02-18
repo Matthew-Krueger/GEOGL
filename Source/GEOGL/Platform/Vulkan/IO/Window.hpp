@@ -33,11 +33,9 @@
  */
 struct GLFWwindow;
 
-namespace GEOGL {
+namespace GEOGL::Platform::Vulkan{
 
-    namespace VulkanHandler{
-        class VulkanContext;
-    }
+    class Context;
 
     /**
      * \brief Represents an actual OpenGL Window, based on GLFW.
@@ -46,10 +44,10 @@ namespace GEOGL {
      * the OpenGL code required to load the OpenGL extensions from the graphics
      * driver, open the window, and update the frame.
      */
-    class GEOGL_API_HIDDEN VulkanWindow : public Window {
+    class GEOGL_API_HIDDEN Window : public GEOGL::Window {
     public:
-        explicit VulkanWindow(const WindowProps &props);
-        ~VulkanWindow() override;
+        explicit Window(const WindowProps &props);
+        ~Window() override;
 
         void onUpdate() override;
         [[nodiscard]] inline unsigned int getWidth() const override { return m_Data.width; }
@@ -120,7 +118,7 @@ namespace GEOGL {
          * lifetime must be strictly managed, due to possible GLFW terminations, leading
          * to undefined behavior.
          */
-        VulkanHandler::VulkanContext* m_VulkanContext;
+        Context* m_VulkanContext;
 
     };
 

@@ -22,24 +22,55 @@
  *                                                                             *
  *******************************************************************************/
 
-#include "VulkanKeyCodes.hpp"
+#include "Input.hpp"
 
-namespace GEOGL{
+#include "../../../Application/Application.hpp"
+#include "../../../Utils/InputCodesConverter.hpp"
+
+#include <GLFW/glfw3.h>
+
+namespace GEOGL::Platform::Vulkan{
 
 
-    int VulkanKeyCodes::getNativeKeyCodeImpl(KeyCode key) {
-        return static_cast<int>(key);
+    bool Input::isKeyPressedImpl(KeyCode keycode) {
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        auto state = glfwGetKey(window, InputCodesConverter::getNativeKeyCode(keycode));
+
+        return state == GLFW_PRESS || state == GLFW_REPEAT;
+
     }
 
-    int VulkanKeyCodes::getNativeMouseCodeImpl(MouseCode button) {
-        return static_cast<int>(button);
+    bool Input::isMouseButtonPressedImpl(MouseCode button) {
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        auto state = glfwGetMouseButton(window, InputCodesConverter::getNativeMouseCode(button));
+
+        return state == GLFW_PRESS;
+
     }
 
-    KeyCode VulkanKeyCodes::getGEOGLKeyCodeImpl(int nativeKeyCode) {
-        return static_cast<KeyCode> (nativeKeyCode);
+    bool Input::getMouseXImpl() {
+
+        return getMousePositionImpl().x;
+
     }
 
-    MouseCode VulkanKeyCodes::getGEOGLMouseCodeImpl(int nativeMouseCode) {
-        return static_cast<MouseCode> (nativeMouseCode);
+    bool Input::getMouseYImpl() {
+
+        return getMousePositionImpl().y;
+
     }
+
+    glm::vec2 Input::getMousePositionImpl(){
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        double xpos, ypos;
+
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        return glm::vec2((float)xpos, (float)ypos);
+
+    }
+
 }

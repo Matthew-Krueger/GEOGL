@@ -27,9 +27,9 @@
 
 #include "../../../IO/Input.hpp"
 
-namespace GEOGL{
+namespace GEOGL::Platform::Vulkan{
 
-    class GEOGL_API_HIDDEN VulkanInput : public GEOGL::Input{
+    class GEOGL_API_HIDDEN Input : public GEOGL::Input{
 
     protected:
         bool isKeyPressedImpl(KeyCode keycode) override;

@@ -29,7 +29,7 @@
 #include <vulkan/vulkan.h>
 #include <optional>
 
-namespace GEOGL::VulkanHandler{
+namespace GEOGL::Platform::Vulkan{
 
     /**
      * \brief Holds the queue families information to create a queue.
@@ -49,26 +49,26 @@ namespace GEOGL::VulkanHandler{
      * It will create and destroy everything that is necessary to properly interface with vulkan as well.
      * When using this elsewhere, always reference as a raw pointer.
      */
-    class GEOGL_API_HIDDEN VulkanContext{
+    class GEOGL_API_HIDDEN Context{
 
     public:
         // Constructor and Destructor
-        VulkanContext(const char* windowTitle, const GEOGL::WindowProps& windowProps);
-        ~VulkanContext();
+        Context(const char* windowTitle, const GEOGL::WindowProps& windowProps);
+        ~Context();
 
 
     private:
         // Device Suitability
         void pickPhysicalDevice();
         void createLogicalDevice();
-        bool isDeviceSuitable(const VkPhysicalDevice device) const;
-        uint64_t rateDeviceSuitablty(const VkPhysicalDevice device) const;
+        bool isDeviceSuitable(VkPhysicalDevice device) const;
+        uint64_t rateDeviceSuitablty(VkPhysicalDevice device) const;
 
         // Required Extensions
-        std::vector<const char*> getRequiredExtensions() const;
+        [[nodiscard]] std::vector<const char*> getRequiredExtensions() const;
 
         // Queue Family Functions
-        GEOGL_API_HIDDEN QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) const;
+        QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) const;
 
         // debug functions
         bool checkValidationLayerSupport(const std::vector<const char*>& layers) const;

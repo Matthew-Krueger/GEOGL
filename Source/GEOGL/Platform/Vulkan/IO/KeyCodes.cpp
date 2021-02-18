@@ -22,29 +22,24 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_VULKANKEYCODES_HPP
-#define GEOGL_VULKANKEYCODES_HPP
+#include "KeyCodes.hpp"
 
-#include "../../../Utils/InputCodes.hpp"
-#include "../../../Utils/InputCodesConverter.hpp"
+namespace GEOGL::Platform::Vulkan{
 
-namespace GEOGL{
 
-    /**
-     * \brief A wrapper for GLFW Key Codes.
-     *
-     * Since GLFW is identical to our keycodes, these just return the cast to int of the code.
-     */
-    class GEOGL_API_HIDDEN VulkanKeyCodes : public InputCodesConverter{
+    int KeyCodes::getNativeKeyCodeImpl(KeyCode key) {
+        return static_cast<int>(key);
+    }
 
-    int getNativeKeyCodeImpl(KeyCode key) override;
-    int getNativeMouseCodeImpl(MouseCode button) override;
-    KeyCode getGEOGLKeyCodeImpl(int nativeKeyCode) override;
-    MouseCode getGEOGLMouseCodeImpl(int nativeMouseCode) override;
+    int KeyCodes::getNativeMouseCodeImpl(MouseCode button) {
+        return static_cast<int>(button);
+    }
 
-};
+    KeyCode KeyCodes::getGEOGLKeyCodeImpl(int nativeKeyCode) {
+        return static_cast<KeyCode> (nativeKeyCode);
+    }
 
+    MouseCode KeyCodes::getGEOGLMouseCodeImpl(int nativeMouseCode) {
+        return static_cast<MouseCode> (nativeMouseCode);
+    }
 }
-
-
-#endif //NODIFY_SCREENWRITER_VULKANKEYCODES_HPP

@@ -23,18 +23,18 @@
  *******************************************************************************/
 
 
-#include "VulkanWindow.hpp"
-#include "../VulkanHandler/VulkanHandler.hpp"
+#include "Window.hpp"
+#include "../VulkanHandler/Context.hpp"
 #include "../../../IO/Events/ApplicationEvent.hpp"
 #include "../../../IO/Events/MouseEvent.hpp"
 #include "../../../IO/Events/KeyEvent.hpp"
-#include "VulkanInput.hpp"
-#include "VulkanKeyCodes.hpp"
+#include "Input.hpp"
+#include "KeyCodes.hpp"
 #include <GLFW/glfw3.h>
 
 #include <vulkan/vulkan.h>
 
-namespace GEOGL {
+namespace GEOGL::Platform::Vulkan{
 
     static uint8_t currentWindows = 0;
     static bool s_GLFWInitialized = false;
@@ -45,21 +45,21 @@ namespace GEOGL {
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
     }
 
-    VulkanWindow::VulkanWindow(const WindowProps& props){
+    Window::Window(const WindowProps& props){
         init(props);
     }
 
-    VulkanWindow::~VulkanWindow(){
+    Window::~Window(){
         shutdown();
     }
 
-    void VulkanWindow::init(const WindowProps& props){
+    void Window::init(const WindowProps& props){
 
-        /* Initialize Input for VulkanWindow */
-        Input::init(new VulkanInput());
+        /* Initialize Input for Window */
+        Input::init(new Input());
 
         /* Initialize Input Polling */
-        InputCodesConverter::init(new VulkanKeyCodes());
+        InputCodesConverter::init(new KeyCodes());
 
         /* Set the data of the window */
         m_Data.title = props.title;
@@ -89,7 +89,7 @@ namespace GEOGL {
 
 
         /* Create Vulkan Instance */
-        m_VulkanContext = new VulkanHandler::VulkanContext(m_Data.title.c_str(), props);
+        m_VulkanContext = new Context(m_Data.title.c_str(), props);
 
         /* Enumerate Extensions */
 #if (!defined(NDEBUG) && defined(GEOGL_VULKAN_VERBOSE))
@@ -192,7 +192,7 @@ namespace GEOGL {
 
     }
 
-    void VulkanWindow::shutdown(){
+    void Window::shutdown(){
         --currentWindows;
 
         /* Clean up vulkan */
@@ -211,17 +211,17 @@ namespace GEOGL {
 
     }
 
-    void VulkanWindow::onUpdate(){
+    void Window::onUpdate(){
         glfwPollEvents();
     }
 
-    void VulkanWindow::setVSync(bool enabled){
+    void Window::setVSync(bool enabled){
 
         GEOGL_CORE_ERROR("Cannot set vsync yet on vulkan");
 
     }
 
-    bool VulkanWindow::isVSync() const{
+    bool Window::isVSync() const{
         return m_Data.vSync;
     }
 
@@ -231,13 +231,13 @@ namespace GEOGL {
 
     }*/
 
-    enum WindowAPIType VulkanWindow::type(){
+    enum WindowAPIType Window::type(){
 
         return WindowAPIType::WINDOW_VULKAN_DESKTOP;
 
     }
 
-    void VulkanWindow::clearColor() {
+    void Window::clearColor() {
 
     }
 

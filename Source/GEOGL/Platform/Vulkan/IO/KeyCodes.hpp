@@ -22,55 +22,29 @@
  *                                                                             *
  *******************************************************************************/
 
-#include "VulkanInput.hpp"
+#ifndef GEOGL_VULKANKEYCODES_HPP
+#define GEOGL_VULKANKEYCODES_HPP
 
-#include "../../../Application/Application.hpp"
+#include "../../../Utils/InputCodes.hpp"
 #include "../../../Utils/InputCodesConverter.hpp"
 
-#include <GLFW/glfw3.h>
+namespace GEOGL::Platform::Vulkan{
 
-namespace GEOGL{
+    /**
+     * \brief A wrapper for GLFW Key Codes.
+     *
+     * Since GLFW is identical to our keycodes, these just return the cast to int of the code.
+     */
+    class GEOGL_API_HIDDEN KeyCodes : public InputCodesConverter{
 
+    int getNativeKeyCodeImpl(KeyCode key) override;
+    int getNativeMouseCodeImpl(MouseCode button) override;
+    KeyCode getGEOGLKeyCodeImpl(int nativeKeyCode) override;
+    MouseCode getGEOGLMouseCodeImpl(int nativeMouseCode) override;
 
-    bool VulkanInput::isKeyPressedImpl(KeyCode keycode) {
-
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        auto state = glfwGetKey(window, InputCodesConverter::getNativeKeyCode(keycode));
-
-        return state == GLFW_PRESS || state == GLFW_REPEAT;
-
-    }
-
-    bool VulkanInput::isMouseButtonPressedImpl(MouseCode button) {
-
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        auto state = glfwGetMouseButton(window, InputCodesConverter::getNativeMouseCode(button));
-
-        return state == GLFW_PRESS;
-
-    }
-
-    bool VulkanInput::getMouseXImpl() {
-
-        return getMousePositionImpl().x;
-
-    }
-
-    bool VulkanInput::getMouseYImpl() {
-
-        return getMousePositionImpl().y;
-
-    }
-
-    glm::vec2 VulkanInput::getMousePositionImpl(){
-
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        double xpos, ypos;
-
-        glfwGetCursorPos(window, &xpos, &ypos);
-
-        return glm::vec2((float)xpos, (float)ypos);
-
-    }
+};
 
 }
+
+
+#endif //NODIFY_SCREENWRITER_VULKANKEYCODES_HPP

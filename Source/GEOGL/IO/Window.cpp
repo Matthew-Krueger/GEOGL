@@ -32,7 +32,7 @@
 #endif
 
 #if (GEOGL_BUILD_WITH_VULKAN == 1)
-    #include "../Platform/Vulkan/IO/VulkanWindow.hpp"
+    #include "../Platform/Vulkan/IO/Window.hpp"
 #include "../Utils/APIManagment.hpp"
 
 #endif
@@ -68,7 +68,7 @@ namespace GEOGL{
             case WINDOW_VULKAN_DESKTOP:
                 GEOGL_CORE_ASSERT_NOSTRIP(vulkanSupported, "Vulkan is selected as the API, but does not appear to be supported.");
 #if GEOGL_BUILD_WITH_VULKAN == true
-                return new GEOGL::VulkanWindow(props);
+                return new GEOGL::Platform::Vulkan::Window(props);
 #endif
                 break;
             default:
