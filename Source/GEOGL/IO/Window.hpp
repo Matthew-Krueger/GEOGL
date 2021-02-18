@@ -89,7 +89,7 @@ namespace GEOGL {
     /**
      * \brief Interface representing a desktop system based Window
      * Represents a window. The window is not actually represented here, but instead
-     * in the \link OpenGLWindow \endlink class. This is an abstract interface to
+     * in the \link Window \endlink class. This is an abstract interface to
      * represent any window of any system, and the things universally required.
      *
      * An event callback must be set in order to handle events, as there is no other

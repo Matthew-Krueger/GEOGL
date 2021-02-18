@@ -28,7 +28,7 @@
  *                                                                             *
  *******************************************************************************/
 
-#include "OpenGLInput.hpp"
+#include "Input.hpp"
 #include "../../../Application/Application.hpp"
 #include "../../../Utils/InputCodesConverter.hpp"
 
@@ -37,7 +37,7 @@
 namespace GEOGL::Platform::OpenGL{
 
 
-    bool OpenGLInput::isKeyPressedImpl(KeyCode keycode) {
+    bool Input::isKeyPressedImpl(KeyCode keycode) {
 
         auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
         auto state = glfwGetKey(window, InputCodesConverter::getNativeKeyCode(keycode));
@@ -46,7 +46,7 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
-    bool OpenGLInput::isMouseButtonPressedImpl(MouseCode button) {
+    bool Input::isMouseButtonPressedImpl(MouseCode button) {
 
         auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
         auto state = glfwGetMouseButton(window, InputCodesConverter::getNativeMouseCode(button));
@@ -55,19 +55,19 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
-    bool OpenGLInput::getMouseXImpl() {
+    bool Input::getMouseXImpl() {
 
         return getMousePositionImpl().x;
 
     }
 
-    bool OpenGLInput::getMouseYImpl() {
+    bool Input::getMouseYImpl() {
 
         return getMousePositionImpl().y;
 
     }
 
-    glm::vec2 OpenGLInput::getMousePositionImpl(){
+    glm::vec2 Input::getMousePositionImpl(){
 
         auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
         double xpos, ypos;
@@ -80,4 +80,4 @@ namespace GEOGL::Platform::OpenGL{
 
 }
 
-#include "OpenGLInput.hpp"
+#include "Input.hpp"

@@ -35,12 +35,12 @@
 /* GLFW */
 #include <GLFW/glfw3.h>
 
-#include "OpenGLWindow.hpp"
+#include "Window.hpp"
 #include "../../../IO/Events/ApplicationEvent.hpp"
 #include "../../../IO/Events/MouseEvent.hpp"
 #include "../../../IO/Events/KeyEvent.hpp"
-#include "OpenGLInput.hpp"
-#include "OpenGLKeyCodes.hpp"
+#include "Input.hpp"
+#include "KeyCodes.hpp"
 
 namespace GEOGL::Platform::OpenGL{
 
@@ -52,15 +52,15 @@ namespace GEOGL::Platform::OpenGL{
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
     }
 
-    OpenGLWindow::OpenGLWindow(const WindowProps& props){
+    Window::Window(const WindowProps& props){
         m_Window = nullptr;
 
 
-        /* Initialize Input for OpenGLWindow */
-        Input::init(new OpenGLInput());
+        /* Initialize Input for Window */
+        Input::init(new Input());
 
         /* Initialize Input Polling */
-        InputCodesConverter::init(new OpenGLKeyCodes());
+        InputCodesConverter::init(new KeyCodes());
 
         /* Set the data of the window */
         m_Data.title = props.title;
@@ -122,7 +122,7 @@ namespace GEOGL::Platform::OpenGL{
         GEOGL_CORE_ASSERT(m_Window, "Did not successfully create the window");
     }
 
-    OpenGLWindow::~OpenGLWindow(){
+    Window::~Window(){
         --currentWindows;
         glfwDestroyWindow(m_Window);
         GEOGL_CORE_INFO("Quit a window. Noting the current window count is {}.", currentWindows);
@@ -136,19 +136,19 @@ namespace GEOGL::Platform::OpenGL{
         }
     }
 
-    void OpenGLWindow::clearColor() {
+    void Window::clearColor() {
 
         glClearColor(1,0,1,1);
         glClear(GL_COLOR_BUFFER_BIT);
 
     }
 
-    void OpenGLWindow::onUpdate(){
+    void Window::onUpdate(){
         glfwPollEvents();
         glfwSwapBuffers(m_Window);
     }
 
-    void OpenGLWindow::setVSync(bool enabled){
+    void Window::setVSync(bool enabled){
         if (enabled)
             glfwSwapInterval(1);
         else
@@ -157,7 +157,7 @@ namespace GEOGL::Platform::OpenGL{
         m_Data.vSync = enabled;
     }
 
-    void OpenGLWindow::setUpEventCallbacks(){
+    void Window::setUpEventCallbacks(){
 
         glfwSetWindowSizeCallback(m_Window, [](GLFWwindow *window, int width, int height) {
             auto *data = (WindowData *) glfwGetWindowUserPointer(window);

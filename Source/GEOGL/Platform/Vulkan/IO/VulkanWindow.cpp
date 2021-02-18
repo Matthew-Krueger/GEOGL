@@ -225,7 +225,7 @@ namespace GEOGL {
         return m_Data.vSync;
     }
 
-    /*void* OpenGLWindow::getNativeWindow() const{
+    /*void* Window::getNativeWindow() const{
 
         return (void*) m_Window;
 

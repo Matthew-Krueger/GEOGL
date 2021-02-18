@@ -28,7 +28,7 @@
 //#if (GEOGL_BUILD_WITH_OPENGL == true)
 
 #if (GEOGL_BUILD_WITH_OPENGL == 1)
-    #include "../Platform/OpenGL/IO/OpenGLWindow.hpp"
+    #include "../Platform/OpenGL/IO/Window.hpp"
 #endif
 
 #if (GEOGL_BUILD_WITH_VULKAN == 1)
@@ -62,7 +62,7 @@ namespace GEOGL{
             case WINDOW_OPENGL_DESKTOP:
                 GEOGL_CORE_ASSERT_NOSTRIP(openGLSupported, "OpenGL is selected as the API, but does not appear to be supported.");
 #if GEOGL_BUILD_WITH_OPENGL == true
-                return new GEOGL::Platform::OpenGL::OpenGLWindow(props);
+                return new GEOGL::Platform::OpenGL::Window(props);
 #endif
                 break;
             case WINDOW_VULKAN_DESKTOP:

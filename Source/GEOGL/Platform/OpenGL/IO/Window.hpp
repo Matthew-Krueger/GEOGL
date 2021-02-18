@@ -47,10 +47,10 @@ namespace GEOGL::Platform::OpenGL{
      * the OpenGL code required to load the OpenGL extensions from the graphics
      * driver, open the window, and update the frame.
      */
-    class GEOGL_API_HIDDEN OpenGLWindow : public GEOGL::Window{
+    class GEOGL_API_HIDDEN Window : public GEOGL::Window{
     public:
-        explicit OpenGLWindow(const WindowProps& props);
-        ~OpenGLWindow() override;
+        explicit Window(const WindowProps& props);
+        ~Window() override;
 
         // Update Handles
         void clearColor() override;
