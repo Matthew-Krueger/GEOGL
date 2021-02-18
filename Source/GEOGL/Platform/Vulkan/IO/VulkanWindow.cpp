@@ -24,6 +24,7 @@
 
 
 #include "VulkanWindow.hpp"
+#include "../VulkanHandler/VulkanHandler.hpp"
 #include "../../../IO/Events/ApplicationEvent.hpp"
 #include "../../../IO/Events/MouseEvent.hpp"
 #include "../../../IO/Events/KeyEvent.hpp"
@@ -32,7 +33,6 @@
 #include <GLFW/glfw3.h>
 
 #include <vulkan/vulkan.h>
-#include "../VulkanHandeler/VulkanHandler.hpp"
 
 namespace GEOGL {
 

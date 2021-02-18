@@ -2,6 +2,7 @@
 // Created by matth on 2/16/21.
 //
 
+#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 #include "VulkanHandler.hpp"
 #include "../VulkanExtensions/VulkanExtensions.hpp"
@@ -15,6 +16,12 @@ namespace GEOGL::VulkanHandler{
 #endif
 
     static std::vector<const char*> validationLayers;
+
+
+
+    // ///////////////////////////////////////////////
+    //               Public Functions               //
+    // ///////////////////////////////////////////////
 
     VulkanContext::VulkanContext(const char* windowTitle, const GEOGL::WindowProps& windowProps) {
 
@@ -57,7 +64,7 @@ namespace GEOGL::VulkanHandler{
             createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
             createInfo.ppEnabledLayerNames = validationLayers.data();
 
-            VulkanHandler::populateDebugMessengerCreateInfo(debugCreateInfo);
+            populateDebugMessengerCreateInfo(debugCreateInfo);
             createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
 
         }else{
@@ -89,6 +96,12 @@ namespace GEOGL::VulkanHandler{
         vkDestroyInstance(m_VulkanInstance, nullptr);
 
     }
+
+
+
+    // ///////////////////////////////////////////////
+    //              Private Functions               //
+    // ///////////////////////////////////////////////
 
     void VulkanContext::pickPhysicalDevice(){
 
@@ -178,50 +191,7 @@ namespace GEOGL::VulkanHandler{
 
     }
 
-    void VulkanContext::setupDebugMessenger() {
-        if (enableValidationLayers) {
-
-            VkDebugUtilsMessengerCreateInfoEXT createInfo{};
-            populateDebugMessengerCreateInfo(createInfo);
-            VkResult createDebugUtilsResult = VulkanExtensions::createDebugUtilsMessengerEXT(m_VulkanInstance, &createInfo, nullptr,
-                                                                                             &m_VulkanDebugMessenger);
-            GEOGL_CORE_ASSERT_NOSTRIP(createDebugUtilsResult == VK_SUCCESS,
-                                 "Unable to create Debug Messenger. Error #{}", createDebugUtilsResult);
-
-        }
-    }
-
-    // ///////////////////////////////////////////////
-    //              Generic Functions               //
-    // ///////////////////////////////////////////////
-
-    std::vector<const char*> getRequiredExtensions(){
-
-        /* Enumerate Extensions from GLFW */
-        uint32_t glfwExtensionCount = 0;
-        const char ** glfwExtensions;
-        {
-            glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-            GEOGL_CORE_INFO("GLFW reports {} extensions for Vulkan.", glfwExtensionCount);
-#ifndef NDEBUG
-            for(int i=0; i<glfwExtensionCount; ++i){
-                GEOGL_CORE_INFO("GLFW Extension #{}: {}", i+1, glfwExtensions[i]);
-            }
-#endif
-        }
-
-        std::vector<const char *> extensions(glfwExtensions, glfwExtensions+glfwExtensionCount);
-
-        if(enableValidationLayers){
-            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-        }
-
-        return extensions;
-    }
-
-
-
-    bool isDeviceSuitable(VkPhysicalDevice device){
+    bool VulkanContext::isDeviceSuitable(const VkPhysicalDevice device) const{
 
         VkPhysicalDeviceProperties deviceProperties;
         vkGetPhysicalDeviceProperties(device, &deviceProperties);
@@ -235,6 +205,7 @@ namespace GEOGL::VulkanHandler{
             if(deviceProperties.deviceType != VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
                 suitableFlag = false;
         }
+
         if(!deviceFeatures.geometryShader){
             suitableFlag = false;
         }
@@ -251,7 +222,7 @@ namespace GEOGL::VulkanHandler{
 
     }
 
-    uint64_t rateDeviceSuitablty(VkPhysicalDevice device){
+    uint64_t VulkanContext::rateDeviceSuitablty(const VkPhysicalDevice device) const{
 
         VkPhysicalDeviceProperties deviceProperties;
         vkGetPhysicalDeviceProperties(device, &deviceProperties);
@@ -279,7 +250,31 @@ namespace GEOGL::VulkanHandler{
 
     }
 
-    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device){
+    std::vector<const char*> VulkanContext::getRequiredExtensions() const{
+
+        /* Enumerate Extensions from GLFW */
+        uint32_t glfwExtensionCount = 0;
+        const char ** glfwExtensions;
+        {
+            glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+            GEOGL_CORE_INFO("GLFW reports {} extensions for Vulkan.", glfwExtensionCount);
+#ifndef NDEBUG
+            for(int i=0; i<glfwExtensionCount; ++i){
+                GEOGL_CORE_INFO("GLFW Extension #{}: {}", i+1, glfwExtensions[i]);
+            }
+#endif
+        }
+
+        std::vector<const char *> extensions(glfwExtensions, glfwExtensions+glfwExtensionCount);
+
+        if(enableValidationLayers){
+            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+        }
+
+        return extensions;
+    }
+
+    QueueFamilyIndices VulkanContext::findQueueFamilies(VkPhysicalDevice device) const{
 
         QueueFamilyIndices indices;
 
@@ -307,7 +302,7 @@ namespace GEOGL::VulkanHandler{
 
     }
 
-    bool checkValidationLayerSupport(const std::vector<const char*>& layers){
+    bool VulkanContext::checkValidationLayerSupport(const std::vector<const char*>& layers) const{
 
         uint32_t layerCount;
         vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
@@ -334,7 +329,7 @@ namespace GEOGL::VulkanHandler{
 
     }
 
-    void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo) {
+    void VulkanContext::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo) const{
 
         createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
         createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
@@ -344,7 +339,7 @@ namespace GEOGL::VulkanHandler{
 
     }
 
-    void enumerateExtensions(){
+    void VulkanContext::enumerateExtensions() const{
         GEOGL_CORE_INFO("Asking Vulkan how many extensions are supported");
         uint32_t extensionCount =0;
         vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
@@ -361,5 +356,18 @@ namespace GEOGL::VulkanHandler{
 
     }
 
+
+    void VulkanContext::setupDebugMessenger(){
+        if (enableValidationLayers) {
+
+            VkDebugUtilsMessengerCreateInfoEXT createInfo{};
+            populateDebugMessengerCreateInfo(createInfo);
+            VkResult createDebugUtilsResult = VulkanExtensions::createDebugUtilsMessengerEXT(m_VulkanInstance, &createInfo, nullptr,
+                                                                                             &m_VulkanDebugMessenger);
+            GEOGL_CORE_ASSERT_NOSTRIP(createDebugUtilsResult == VK_SUCCESS,
+                                 "Unable to create Debug Messenger. Error #{}", createDebugUtilsResult);
+
+        }
+    }
 
 }
