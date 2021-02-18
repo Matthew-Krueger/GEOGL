@@ -142,7 +142,7 @@ namespace GEOGL::Platform::Vulkan{
         GEOGL_CORE_INFO("Creating logical device");
 
         QueueFamilyIndices indices = findQueueFamilies(m_VulkanPhysicalDevice);
-        GEOGL_CORE_ASSERT(indices.isComplete(), "Cannot find required queue family indices when creating logical device");
+        GEOGL_CORE_ASSERT_NOSTRIP(indices.isComplete(), "Cannot find required queue family indices when creating logical device.");
 
         {
 

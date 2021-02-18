@@ -49,7 +49,10 @@ namespace GEOGL::Platform::Vulkan{
         explicit Window(const WindowProps &props);
         ~Window() override;
 
+        // Update Handles
+        void clearColor() override;
         void onUpdate() override;
+
         [[nodiscard]] inline unsigned int getWidth() const override { return m_Data.width; }
         [[nodiscard]] inline unsigned int getHeight() const override { return m_Data.height; }
 
@@ -71,41 +74,65 @@ namespace GEOGL::Platform::Vulkan{
          * Asks if VSync is enabled
          * @return Whether or not VSync is enabled.
          */
-        [[nodiscard]] bool isVSync() const override;
+        [[nodiscard]] inline bool isVSync() const override { return m_Data.vSync; };
 
-        [[nodiscard]] inline void *getNativeWindow() const override { return m_Window; };
-
-        void clearColor() override;
+        /**
+         * \brief Gets the pointer to the GLFWwindow
+         * @return the GLFWwindow, cast to a void pointer
+         */
+        [[nodiscard]] inline void *getNativeWindow() const override { return (void*) m_Window; };
 
         /**
          * Returns that this window is an OpenGL Desktop window
-         * @return An WINDOW_OPENGL_DESKTOP flag
+         * @return An WINDOW_VULKAN_DESKTOP flag
          */
-        enum WindowAPIType type() override;
-
-    private:
-        void init(const WindowProps &props);
-        void shutdown();
+        inline enum WindowAPIType type() override { return WindowAPIType::WINDOW_VULKAN_DESKTOP; };
 
     private:
         /**
-         * Holds the window ptr.
+         * \brief Sets up the event callbacks for GLFW to be dispatched.
+         *
+         * \note Calling this function requires that m_Data.EventCallbackFn is set at the time
+         * of the callback being called.
          */
-        GLFWwindow *m_Window;
+        void setUpEventCallbacks();
+
+    private:
+        /**
+         * \brief Holds the GLFWwindow pointer
+         */
+        GLFWwindow* m_Window;
 
         /**
-         * Represents the data held by the window pointer
+         * \brief Represents the window data that needs to be held as the user pointer
+         * in GLFW, used for event callbacks.
          */
-        struct WindowData {
+        struct WindowData
+        {
+
+            /**
+             * \brief The Title of the window
+             */
             std::string title;
+
+            /**
+             * \brief The width and height of the window
+             */
             unsigned int width, height;
+
+            /**
+             * \brief Whether or not the window enabled vSync.
+             */
             bool vSync;
 
+            /**
+             * \brief The callback function that is called when an event happens
+             */
             EventCallbackFn EventCallback;
         };
 
         /**
-         * The data held by the window pointer
+         * \brief
          */
         WindowData m_Data;
 

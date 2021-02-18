@@ -38,22 +38,15 @@ namespace GEOGL::Platform::Vulkan{
 
     static uint8_t currentWindows = 0;
     static bool s_GLFWInitialized = false;
-    static bool s_GLADInitialized = false;
-
 
     static void glfwErrorCallbackVulkan(int errorCode, const char * errorText){
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
     }
 
     Window::Window(const WindowProps& props){
-        init(props);
-    }
 
-    Window::~Window(){
-        shutdown();
-    }
+        m_Window = nullptr;
 
-    void Window::init(const WindowProps& props){
 
         /* Initialize Input for Window */
         Input::init(new Input());
@@ -87,6 +80,7 @@ namespace GEOGL::Platform::Vulkan{
             ++currentWindows;
         }
 
+        setUpEventCallbacks();
 
         /* Create Vulkan Instance */
         m_VulkanContext = new Context(m_Data.title.c_str(), props);
@@ -96,103 +90,12 @@ namespace GEOGL::Platform::Vulkan{
         VulkanHandler::enumerateExtensions();
 #endif
 
-        /* Set up callbacks for GLFW window events */
-        {
-            glfwSetWindowSizeCallback(m_Window, [](GLFWwindow *window, int width, int height) {
-                auto *data = (WindowData *) glfwGetWindowUserPointer(window);
-
-                data->width = width;
-                data->height = height;
-
-                /* Set the viewport before we get further. Better to do now then later */
-                //glViewport(0,0,width,height);
-
-                WindowResizeEvent event(width, height);
-                data->EventCallback(event);
-            });
-
-            glfwSetWindowCloseCallback(m_Window, [](GLFWwindow *window) {
-                auto *data = (WindowData *) glfwGetWindowUserPointer(window);
-                WindowCloseEvent event;
-                data->EventCallback(event);
-            });
-
-            glfwSetKeyCallback(m_Window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
-                auto *data = (WindowData *) glfwGetWindowUserPointer(window);
-
-                switch (action) {
-                    case GLFW_PRESS: {
-                        KeyPressedEvent event(InputCodesConverter::getGEOGLKeyCode(key), 0);
-                        data->EventCallback(event);
-                        break;
-                    }
-                    case GLFW_RELEASE: {
-                        KeyReleasedEvent event((InputCodesConverter::getGEOGLKeyCode(key)));
-                        data->EventCallback(event);
-                        break;
-                    }
-                    case GLFW_REPEAT: {
-                        KeyPressedEvent event(InputCodesConverter::getGEOGLKeyCode(key), 1);
-                        data->EventCallback(event);
-                        break;
-                    }
-                    default:
-                        GEOGL_CORE_CRITICAL_NOSTRIP("Unable to determine key action.");
-                        break;
-                }
-            });
-
-            glfwSetCharCallback(m_Window, [](GLFWwindow *window, unsigned int character) {
-
-                auto data = (WindowData *) glfwGetWindowUserPointer(window);
-
-                KeyTypedEvent event(character);
-                data->EventCallback(event);
-
-            });
-
-            glfwSetMouseButtonCallback(m_Window, [](GLFWwindow *window, int button, int action, int mods) {
-                auto data = (WindowData *) glfwGetWindowUserPointer(window);
-                switch (action) {
-                    case GLFW_PRESS: {
-                        MouseButtonPressedEvent event((InputCodesConverter::getGEOGLMouseCode(button)));
-                        data->EventCallback(event);
-                        break;
-                    }
-                    case GLFW_RELEASE: {
-                        MouseButtonReleasedEvent event((InputCodesConverter::getGEOGLMouseCode(button)));
-                        data->EventCallback(event);
-                        break;
-                    }
-                    default:
-                        GEOGL_CORE_CRITICAL_NOSTRIP("Unable to determine mouse action.");
-                        break;
-                }
-            });
-
-            glfwSetScrollCallback(m_Window, [](GLFWwindow *window, double xOffset, double yOffset) {
-
-                auto data = (WindowData *) glfwGetWindowUserPointer(window);
-
-                MouseScrolledEvent event((float) xOffset, (float) yOffset);
-                data->EventCallback(event);
-
-            });
-
-            glfwSetCursorPosCallback(m_Window, [](GLFWwindow *window, double xPos, double yPos) {
-                auto data = (WindowData *) glfwGetWindowUserPointer(window);
-
-                MouseMovedEvent event((float) xPos, (float) yPos);
-                data->EventCallback(event);
-
-            });
-        }
-
-
+        GEOGL_CORE_ASSERT(m_Window, "Unable to create the Window");
 
     }
 
-    void Window::shutdown(){
+    Window::~Window(){
+
         --currentWindows;
 
         /* Clean up vulkan */
@@ -206,8 +109,11 @@ namespace GEOGL::Platform::Vulkan{
             GEOGL_CORE_INFO("Since current windows is {}, terminating GLFW", currentWindows);
             glfwTerminate();
             s_GLFWInitialized = false;
-            s_GLADInitialized = false;
         }
+
+    }
+
+    void Window::clearColor() {
 
     }
 
@@ -221,24 +127,95 @@ namespace GEOGL::Platform::Vulkan{
 
     }
 
-    bool Window::isVSync() const{
-        return m_Data.vSync;
-    }
+    void Window::setUpEventCallbacks(){
+        glfwSetWindowSizeCallback(m_Window, [](GLFWwindow *window, int width, int height) {
+            auto *data = (WindowData *) glfwGetWindowUserPointer(window);
 
-    /*void* Window::getNativeWindow() const{
+            data->width = width;
+            data->height = height;
 
-        return (void*) m_Window;
+            /* Set the viewport before we get further. Better to do now then later */
+            //glViewport(0,0,width,height);
 
-    }*/
+            WindowResizeEvent event(width, height);
+            data->EventCallback(event);
+        });
 
-    enum WindowAPIType Window::type(){
+        glfwSetWindowCloseCallback(m_Window, [](GLFWwindow *window) {
+            auto *data = (WindowData *) glfwGetWindowUserPointer(window);
+            WindowCloseEvent event;
+            data->EventCallback(event);
+        });
 
-        return WindowAPIType::WINDOW_VULKAN_DESKTOP;
+        glfwSetKeyCallback(m_Window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
+            auto *data = (WindowData *) glfwGetWindowUserPointer(window);
 
-    }
+            switch (action) {
+                case GLFW_PRESS: {
+                    KeyPressedEvent event(InputCodesConverter::getGEOGLKeyCode(key), 0);
+                    data->EventCallback(event);
+                    break;
+                }
+                case GLFW_RELEASE: {
+                    KeyReleasedEvent event((InputCodesConverter::getGEOGLKeyCode(key)));
+                    data->EventCallback(event);
+                    break;
+                }
+                case GLFW_REPEAT: {
+                    KeyPressedEvent event(InputCodesConverter::getGEOGLKeyCode(key), 1);
+                    data->EventCallback(event);
+                    break;
+                }
+                default:
+                    GEOGL_CORE_CRITICAL_NOSTRIP("Unable to determine key action.");
+                    break;
+            }
+        });
 
-    void Window::clearColor() {
+        glfwSetCharCallback(m_Window, [](GLFWwindow *window, unsigned int character) {
 
+            auto data = (WindowData *) glfwGetWindowUserPointer(window);
+
+            KeyTypedEvent event(character);
+            data->EventCallback(event);
+
+        });
+
+        glfwSetMouseButtonCallback(m_Window, [](GLFWwindow *window, int button, int action, int mods) {
+            auto data = (WindowData *) glfwGetWindowUserPointer(window);
+            switch (action) {
+                case GLFW_PRESS: {
+                    MouseButtonPressedEvent event((InputCodesConverter::getGEOGLMouseCode(button)));
+                    data->EventCallback(event);
+                    break;
+                }
+                case GLFW_RELEASE: {
+                    MouseButtonReleasedEvent event((InputCodesConverter::getGEOGLMouseCode(button)));
+                    data->EventCallback(event);
+                    break;
+                }
+                default:
+                    GEOGL_CORE_CRITICAL_NOSTRIP("Unable to determine mouse action.");
+                    break;
+            }
+        });
+
+        glfwSetScrollCallback(m_Window, [](GLFWwindow *window, double xOffset, double yOffset) {
+
+            auto data = (WindowData *) glfwGetWindowUserPointer(window);
+
+            MouseScrolledEvent event((float) xOffset, (float) yOffset);
+            data->EventCallback(event);
+
+        });
+
+        glfwSetCursorPosCallback(m_Window, [](GLFWwindow *window, double xPos, double yPos) {
+            auto data = (WindowData *) glfwGetWindowUserPointer(window);
+
+            MouseMovedEvent event((float) xPos, (float) yPos);
+            data->EventCallback(event);
+
+        });
     }
 
 }

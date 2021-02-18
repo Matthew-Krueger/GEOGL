@@ -32,6 +32,14 @@ namespace GEOGL{
 
     Application::Application() {
 
+#ifdef NDEBUG
+        std::string releaseMode("Release");
+#else
+        std::string releaseMode("Debug");
+#endif
+
+        GEOGL_CORE_INFO_NOSTRIP("Starting {}, compiled in {} mode.", GEOGL_ENGINE_NAME, releaseMode);
+
         /* Open settings */
         {
             if(!m_Settings.open("settings.json")) {
