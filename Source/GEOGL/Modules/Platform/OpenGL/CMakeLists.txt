@@ -1,39 +1,37 @@
-
 ######################################
-#         Add Utils Library          #
+#         Add Vulkan Library         #
 ######################################
-add_library(GEOGL_Utils_${GEOGL_VERSION_FULL} SHARED
-        APIManagement.cpp
-        APIManagement.hpp
-        Callbacks.cpp
-        Callbacks.hpp
-        Headers/Dependencies.hpp
-        Headers/PCH.cpp
-        Headers/PCH.hpp
-        InputCodes.hpp
-        InputCodesConverter.cpp
-        InputCodesConverter.hpp
-        Settings.cpp
-        Settings.hpp
-        Win32Exports.hpp
+add_library(GEOGL_Platform_OpenGL SHARED
 
-        Logging/PublicLog.hpp
-        Logging/PrivateLog.hpp
-        Logging/LoggingFunctions.cpp
+        IO/Window.cpp
+        IO/Window.hpp
+        IO/Input.hpp
+        IO/Input.cpp
+        IO/KeyCodes.cpp
+        IO/KeyCodes.hpp
 
-        include/GEOGL/Utils.h
+        imgui_impl_opengl3.h
+        imgui_impl_opengl3.cpp
+
         )
-
 ######################################
 #     Set name for use elsewhere     #
 ######################################
-set(GEOGL_LIBRARY_NAME GEOGL_Utils_${GEOGL_VERSION_FULL})
+set(GEOGL_LIBRARY_NAME GEOGL_Platform_OpenGL)
 
 ######################################
 #         Linker Dependencies        #
 ######################################
-add_dependencies("${GEOGL_LIBRARY_NAME}" glfw STB_LIB spdlog ImGui)
-target_link_libraries("${GEOGL_LIBRARY_NAME}" glfw STB_LIB spdlog ImGui)
+add_dependencies("${GEOGL_LIBRARY_NAME}" GEOGL::Utils)
+target_link_libraries("${GEOGL_LIBRARY_NAME}" GEOGL::Utils)
+
+######################################
+#      Parse if IGPU is allowed      #
+######################################
+set(GEOGL_ENABLE_IGPU_DEF 0)
+if(GEOGL_ENABLE_IGPU)
+    set(GEOGL_ENABLE_IGPU_DEF 1)
+endif()
 
 ######################################
 #      PreProcessor Definitions      #
@@ -47,16 +45,17 @@ target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_ENGINE_NAME="GEO
 target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_ENGINE_NAME_NO_VERSION="GEOGL Engine")
 target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_BUILD_WITH_VULKAN=${GEOGL_VULKAN_BUILD_FLAG})
 target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_BUILD_WITH_OPENGL=${GEOGL_OGL_BUILD_FLAG})
+target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_ENABLE_IGPU=${GEOGL_ENABLE_IGPU_DEF})
 
 ######################################
 #         Precompiled Headers        #
 ######################################
-target_precompile_headers("${GEOGL_LIBRARY_NAME}" PRIVATE Headers/PCH.hpp)
+target_precompile_headers("${GEOGL_LIBRARY_NAME}" PRIVATE ../../Utils/Headers/PCH.hpp)
 
 ######################################
 #     Add to Include Directories     #
 ######################################
-target_include_directories("${GEOGL_LIBRARY_NAME}" PUBLIC include)
+target_include_directories("${GEOGL_LIBRARY_NAME}" PUBLIC include ${GEOGL_INCLUCE_DIRECTORIES})
 
 ######################################
 #         Emit to bin Folder         #
@@ -72,4 +71,4 @@ set_target_properties("${GEOGL_LIBRARY_NAME}" PROPERTIES
 ######################################
 #     Add Alias target for looks     #
 ######################################
-add_library(GEOGL::Utils ALIAS "${GEOGL_LIBRARY_NAME}")
+add_library(GEOGL::Platform::OpenGL ALIAS ${GEOGL_LIBRARY_NAME})

@@ -22,11 +22,9 @@
  *                                                                             *
  *******************************************************************************/
 
+#ifndef GEOGL_VULKAN_HPP
+#define GEOGL_VULKAN_HPP
 
-#include "InputCodesConverter.hpp"
+#include "../../../IO/Window.hpp"
 
-namespace GEOGL{
-
-    InputCodesConverter* InputCodesConverter::s_Instance = nullptr;
-
-}
+#endif //NODIFY_SCREENWRITER_VULKAN_HPP

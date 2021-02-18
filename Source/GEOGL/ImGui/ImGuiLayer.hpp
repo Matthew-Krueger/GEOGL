@@ -33,7 +33,7 @@
 #define NODIFY_SCREENWRITER_IMGUILAYER_HPP
 
 #include "../IO/Events/Event.hpp"
-#include "../Rendering/Layer.hpp"
+#include "../Layers/Layer.hpp"
 
 #include "../IO/Events/KeyEvent.hpp"
 #include "../IO/Events/MouseEvent.hpp"

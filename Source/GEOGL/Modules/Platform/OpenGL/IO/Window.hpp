@@ -22,9 +22,14 @@
  *                                                                             *
  *******************************************************************************/
 
+/*******************************************************************************
+ *                                                                             *
+ * This code was based heavily off the Cherno game engine series               *
+ *                                                                             *
+ *******************************************************************************/
 
-#ifndef GEOGL_VULKANWINDOW_HPP
-#define GEOGL_VULKANWINDOW_HPP
+#ifndef GEOGL_OPENGLWINDOW_HPP
+#define GEOGL_OPENGLWINDOW_HPP
 
 #include "../../../IO/Window.hpp"
 
@@ -33,9 +38,7 @@
  */
 struct GLFWwindow;
 
-namespace GEOGL::Platform::Vulkan{
-
-    class Context;
+namespace GEOGL::Platform::OpenGL{
 
     /**
      * \brief Represents an actual OpenGL Window, based on GLFW.
@@ -44,9 +47,9 @@ namespace GEOGL::Platform::Vulkan{
      * the OpenGL code required to load the OpenGL extensions from the graphics
      * driver, open the window, and update the frame.
      */
-    class GEOGL_API_HIDDEN Window : public GEOGL::Window {
+    class GEOGL_API Window : public GEOGL::Window{
     public:
-        explicit Window(const WindowProps &props);
+        explicit Window(const WindowProps& props);
         ~Window() override;
 
         // Update Handles
@@ -62,7 +65,7 @@ namespace GEOGL::Platform::Vulkan{
          * driver.
          * @param callback The callback function to set.
          */
-        inline void setEventCallback(const EventCallbackFn &callback) override { m_Data.EventCallback = callback; }
+        inline void setEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 
         /**
          * Sets whether or not VSync is enabled
@@ -80,13 +83,14 @@ namespace GEOGL::Platform::Vulkan{
          * \brief Gets the pointer to the GLFWwindow
          * @return the GLFWwindow, cast to a void pointer
          */
-        [[nodiscard]] inline void *getNativeWindow() const override { return (void*) m_Window; };
+        [[nodiscard]] inline void* getNativeWindow() const override { return (void*) m_Window; };
+
 
         /**
-         * Returns that this window is an OpenGL Desktop window
-         * @return An WINDOW_VULKAN_DESKTOP flag
+         * \brief Gets that this window is an OpenGL Desktop window
+         * @return An WINDOW_OPENGL_DESKTOP flag
          */
-        inline enum WindowAPIType type() override { return WindowAPIType::WINDOW_VULKAN_DESKTOP; };
+        inline enum WindowAPIType type() override { return WindowAPIType::WINDOW_OPENGL_DESKTOP; };
 
     private:
         /**
@@ -135,19 +139,8 @@ namespace GEOGL::Platform::Vulkan{
          * \brief
          */
         WindowData m_Data;
-
-    private:
-
-        /**
-         * \brief Holds the context of Vulkan.
-         *
-         * Not a shared pointer, even though it would be nice to have, as the object
-         * lifetime must be strictly managed, due to possible GLFW terminations, leading
-         * to undefined behavior.
-         */
-        Context* m_VulkanContext;
-
     };
 
 }
-#endif //NODIFY_SCREENWRITER_VULKANWINDOW_HPP
+
+#endif //NODIFY_SCREENWRITER_OPENGLWINDOW_HPP

@@ -32,7 +32,7 @@
 #define GEOGL_WINDOW_HPP
 
 #include "../IO/Events/Event.hpp"
-#include "../Utils/APIManagement.hpp"
+#include <GEOGL/Utils.h>
 
 namespace GEOGL {
 

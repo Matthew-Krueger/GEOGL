@@ -1,4 +1,4 @@
-set(MODULE_NAME ${PROJECT_NAME}_Engine_${GEOGL_VERSION_FULL})
+set(MODULE_NAME ${PROJECT_NAME})
 
 
 #######################################################################
@@ -44,10 +44,10 @@ endif(GEOGL_BUILD_WITH_VULKAN)
 #######################################################################
 
 # Include Utils And Dependencies
-add_subdirectory(Utils)
+add_subdirectory(Modules/Utils)
 
 # Include Platforms
-add_subdirectory(Platform)
+add_subdirectory(Modules/Platform)
 
 # Build the GEOGL_DLL
 add_library(${MODULE_NAME} SHARED
@@ -66,12 +66,10 @@ add_library(${MODULE_NAME} SHARED
         ImGui/ImGuiLayer.cpp
         ImGui/ImGuiLayer.hpp
 
-        Rendering/Layer.cpp
-        Rendering/Layer.hpp
-        Rendering/LayerStack.cpp
-        Rendering/LayerStack.hpp
-
-        Utils/Win32Exports.hpp
+        Layers/Layer.cpp
+        Layers/Layer.hpp
+        Layers/LayerStack.cpp
+        Layers/LayerStack.hpp
 
         include/GEOGL/Core.hpp
         include/GEOGL/MainCreator.hpp
@@ -84,12 +82,12 @@ endif(NOT(GEOGL_PLATFORM_EXISTS STREQUAL "TRUE"))
 
 # Add Dependencies
 add_dependencies(${MODULE_NAME} GEOGL::Utils ${GEOGL_PLATFORM_LIBS})
-target_link_libraries(${MODULE_NAME} GEOGL_Utils ${GEOGL_PLATFORM_LIBS} ${GEOGL_PLATFORM_LIBS_ADDITIONAL})
+target_link_libraries(${MODULE_NAME} GEOGL::Utils ${GEOGL_PLATFORM_LIBS} ${GEOGL_PLATFORM_LIBS_ADDITIONAL})
 
 #target_include_directories("${MODULE_NAME}" PUBLIC ${GEOGL_INCLUDE_DIRECTORIES})
 
 
-target_precompile_headers("${MODULE_NAME}" PRIVATE Utils/Headers/PCH.hpp)
+target_precompile_headers("${MODULE_NAME}" PRIVATE Modules/Utils/Headers/PCH.hpp)
 
 set_target_properties(${MODULE_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/

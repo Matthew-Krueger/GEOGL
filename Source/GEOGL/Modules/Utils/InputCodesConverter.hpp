@@ -22,41 +22,41 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_INPUT_HPP
-#define GEOGL_INPUT_HPP
 
-#include <GEOGL/Utils.h>
+#ifndef GEOGL_INPUTCODESCONVERTER_HPP
+#define GEOGL_INPUTCODESCONVERTER_HPP
+
+#include "InputCodes.hpp"
 
 namespace GEOGL{
 
-    class GEOGL_API Input{
+    class InputCodesConverter;
+    extern InputCodesConverter* s_Instance;
+
+    /**
+     * \brief Serves as a wrapper to input codes, converting to other types as may be necessary in the future.
+     */
+    class GEOGL_API InputCodesConverter{
 
     public:
-        /**
-         * Asks GEOGL if the key specified is pressed or not.
-         * @param keycode The key to check
-         * @return Whether or not the key is pressed
-         */
-        inline static bool isKeyPressed(KeyCode keycode){ return s_Instance->isKeyPressedImpl(keycode); };
+        static int getNativeKeyCode(KeyCode key);
+        static int getNativeMouseCode(MouseCode button);
+        static KeyCode getGEOGLKeyCode(int nativeKeyCode);
+        static MouseCode getGEOGLMouseCode(int nativeMouseCode);
 
-        inline static bool isMouseButtonPressed(MouseCode button){ return s_Instance->isMouseButtonPressedImpl(button); };
-        inline static float getMouseX(){return s_Instance->getMouseXImpl(); };
-        inline static float getMouseY(){return s_Instance->getMouseYImpl(); };
-        inline static glm::vec2 getMousePosition(){return s_Instance->getMousePositionImpl();};
+        inline static void init(InputCodesConverter* input){ s_Instance = input; };
 
-        inline static void init(Input* input){s_Instance = input; };
     protected:
-        virtual bool isKeyPressedImpl(KeyCode keycode)=0;
-        virtual bool isMouseButtonPressedImpl(MouseCode button) = 0;
-        virtual bool getMouseXImpl() = 0;
-        virtual bool getMouseYImpl() = 0;
-        virtual glm::vec2 getMousePositionImpl() = 0;
+        virtual int getNativeKeyCodeImpl(KeyCode key) = 0;
+        virtual int getNativeMouseCodeImpl(MouseCode button) = 0;
+        virtual KeyCode getGEOGLKeyCodeImpl(int nativeKeyCode) = 0;
+        virtual MouseCode getGEOGLMouseCodeImpl(int nativeMouseCode) = 0;
 
     private:
-        static Input* s_Instance;
+        static InputCodesConverter* s_Instance;
 
     };
 
 }
 
-#endif //NODIFY_SCREENWRITER_INPUT_HPP
+#endif //NODIFY_SCREENWRITER_INPUTCODESCONVERTER_HPP
