@@ -33,8 +33,9 @@
 #include "ImGuiLayer.hpp"
 #include <ImGui/imgui.h>
 #include <GLFW/glfw3.h>
-#include "../Platform/OpenGL/imgui_impl_opengl3.h"
 #include "../Application/Application.hpp"
+#include "../Modules/Platform/OpenGL/imgui_impl_opengl3.h"
+
 namespace GEOGL{
 
 

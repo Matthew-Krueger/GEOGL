@@ -66,7 +66,7 @@ Index of this file:
 // [SECTION] Example App: Simple overlay / ShowExampleAppSimpleOverlay()
 // [SECTION] Example App: Fullscreen window / ShowExampleAppFullscreen()
 // [SECTION] Example App: Manipulating window titles / ShowExampleAppWindowTitles()
-// [SECTION] Example App: Custom Rendering using ImDrawList API / ShowExampleAppCustomRendering()
+// [SECTION] Example App: Custom Layers using ImDrawList API / ShowExampleAppCustomRendering()
 // [SECTION] Example App: Documents Handling / ShowExampleAppDocuments()
 
 */
@@ -436,7 +436,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
             ImGui::Checkbox("io.ConfigWindowsMoveFromTitleBarOnly", &io.ConfigWindowsMoveFromTitleBarOnly);
             ImGui::Checkbox("io.MouseDrawCursor", &io.MouseDrawCursor);
             ImGui::SameLine(); HelpMarker("Instruct Dear ImGui to render a mouse cursor itself. Note that a mouse cursor rendered via your application GPU rendering path will feel more laggy than hardware cursor, but will be more in sync with your other visuals.\n\nSome desktop applications may use both kinds of cursors (e.g. enable software cursor only when resizing/dragging something).");
-            ImGui::Text("Also see Style->Rendering for rendering options.");
+            ImGui::Text("Also see Style->Layers for rendering options.");
             ImGui::TreePop();
             ImGui::Separator();
         }
@@ -1138,7 +1138,7 @@ static void ShowDemoWindowWidgets()
             }
             ImGui::TreePop();
         }
-        if (ImGui::TreeNode("Rendering more text into the same line"))
+        if (ImGui::TreeNode("Layers more text into the same line"))
         {
             // Using the Selectable() override that takes "bool* p_selected" parameter,
             // this function toggle your bool value automatically.
@@ -6014,7 +6014,7 @@ void ImGui::ShowStyleEditor(ImGuiStyle* ref)
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem("Rendering"))
+        if (ImGui::BeginTabItem("Layers"))
         {
             ImGui::Checkbox("Anti-aliased lines", &style.AntiAliasedLines);
             ImGui::SameLine();
@@ -7097,7 +7097,7 @@ static void ShowExampleAppWindowTitles(bool*)
 }
 
 //-----------------------------------------------------------------------------
-// [SECTION] Example App: Custom Rendering using ImDrawList API / ShowExampleAppCustomRendering()
+// [SECTION] Example App: Custom Layers using ImDrawList API / ShowExampleAppCustomRendering()
 //-----------------------------------------------------------------------------
 
 // Demonstrate using the low-level ImDrawList to draw custom shapes.

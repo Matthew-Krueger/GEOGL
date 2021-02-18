@@ -28,8 +28,8 @@
 
 #include "../IO/Window.hpp"
 #include "../IO/Events/ApplicationEvent.hpp"
-#include "../Rendering/LayerStack.hpp"
-#include "../Utils/Settings.hpp"
+#include "../Layers/LayerStack.hpp"
+#include <GEOGL/Utils.h>
 
 namespace GEOGL{
 

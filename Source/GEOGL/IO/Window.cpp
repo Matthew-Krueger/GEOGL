@@ -28,13 +28,11 @@
 //#if (GEOGL_BUILD_WITH_OPENGL == true)
 
 #if (GEOGL_BUILD_WITH_OPENGL == 1)
-    #include "../Platform/OpenGL/IO/Window.hpp"
+    #include <GEOGL/Platform/OpenGL.hpp>
 #endif
 
 #if (GEOGL_BUILD_WITH_VULKAN == 1)
-    #include "../Platform/Vulkan/IO/Window.hpp"
-#include "../Utils/APIManagment.hpp"
-
+    #include <GEOGL/Platform/Vulkan.hpp>
 #endif
 
 

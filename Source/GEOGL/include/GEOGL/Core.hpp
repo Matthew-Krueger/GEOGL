@@ -26,13 +26,11 @@
 #define GEOGL_CORE_HPP
 
 /* Dependencies */
-#include "../../Utils/Headers/Dependencies.hpp"
+//#include "../../Utils/Headers/Dependencies.hpp"
+#include <GEOGL/Utils.h>
 
 /* Application */
 #include "../../Application/Application.hpp"
-
-/* Logging */
-#include "../../Logging/PublicLog.hpp"
 
 /* Loading and Callbacks */
 #include "../../Utils/Callbacks.hpp"
@@ -47,9 +45,9 @@
 #include "../../IO/Input.hpp"
 #include "../../Utils/InputCodes.hpp"
 
-/* Rendering API */
-#include "../../Rendering/Layer.hpp"
+/* Layers API */
+#include "../../Layers/Layer.hpp"
 #include "../../ImGui/ImGuiLayer.hpp"
-#include "../../Rendering/LayerStack.hpp"
+#include "../../Layers/LayerStack.hpp"
 
 #endif //GEOGL_CORE_HPP

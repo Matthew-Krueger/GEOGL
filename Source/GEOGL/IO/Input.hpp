@@ -25,7 +25,7 @@
 #ifndef GEOGL_INPUT_HPP
 #define GEOGL_INPUT_HPP
 
-#include "../Utils/InputCodes.hpp"
+#include <GEOGL/Utils.h>
 
 namespace GEOGL{
 
