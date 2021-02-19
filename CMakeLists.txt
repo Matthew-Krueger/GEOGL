@@ -10,7 +10,7 @@ project(GEOGL)
 #             Options             #
 ###################################
 option(GEOGL_BUILD_WITH_OPENGL "Build GEOGL with OpenGL support"                ON)
-option(GEOGL_BUILD_WITH_VULKAN "Build GEOGL with Vulkan Support"                ON)
+option(GEOGL_BUILD_WITH_VULKAN "Build GEOGL with Vulkan Support"                OFF)
 option(GEOGL_ENABLE_IGPU       "Build GEOGL to enable IGPU support in Vulkan"   ON)
 
 
