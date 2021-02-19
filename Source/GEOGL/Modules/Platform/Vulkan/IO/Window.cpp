@@ -83,7 +83,7 @@ namespace GEOGL::Platform::Vulkan{
         setUpEventCallbacks();
 
         /* Create Vulkan Instance */
-        m_VulkanContext = new Context(m_Data.title.c_str(), props);
+        m_VulkanContext = new Context(m_Data.title.c_str(),m_Window, props);
 
         /* Enumerate Extensions */
 #if (!defined(NDEBUG) && defined(GEOGL_VULKAN_VERBOSE))

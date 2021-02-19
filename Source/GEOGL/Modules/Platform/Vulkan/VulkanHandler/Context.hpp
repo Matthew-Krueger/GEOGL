@@ -36,11 +36,22 @@ namespace GEOGL::Platform::Vulkan{
      */
     struct QueueFamilyIndices{
         std::optional<uint32_t> graphicsFamly;
+        std::optional<uint32_t> presentFamily;
 
          [[nodiscard]] inline bool isComplete() const{
-            return graphicsFamly.has_value();
+            return graphicsFamly.has_value() && presentFamily.has_value();
         }
     };
+
+    /**
+     * \brief Contains details about the swapchain info
+     */
+    struct SwapChainSupportDetails {
+        VkSurfaceCapabilitiesKHR capabilities;
+        std::vector<VkSurfaceFormatKHR> formats;
+        std::vector<VkPresentModeKHR> presentModes;
+    };
+
 
     /**
      * \brief Holds the state of the vulkan context.
@@ -53,16 +64,27 @@ namespace GEOGL::Platform::Vulkan{
 
     public:
         // Constructor and Destructor
-        Context(const char* windowTitle, const GEOGL::WindowProps& windowProps);
+        Context(const char* windowTitle, GLFWwindow* window, const GEOGL::WindowProps& windowProps);
         ~Context();
 
 
     private:
+        // Surface functions
+        void createSurface(GLFWwindow* window);
+
+        // Swapchain Functions
+        VkSurfaceFormatKHR chooseSwapchainSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+        VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+        VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, GLFWwindow* window);
+        void createSwapChain(GLFWwindow* window);
+
         // Device Suitability
         void pickPhysicalDevice();
         void createLogicalDevice();
         bool isDeviceSuitable(VkPhysicalDevice device) const;
         uint64_t rateDeviceSuitablty(VkPhysicalDevice device) const;
+        bool checkDeviceExtensionSupport(VkPhysicalDevice device) const;
+        SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device) const;
 
         // Required Extensions
         [[nodiscard]] std::vector<const char*> getRequiredExtensions() const;
@@ -71,17 +93,31 @@ namespace GEOGL::Platform::Vulkan{
         QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) const;
 
         // debug functions
-        bool checkValidationLayerSupport(const std::vector<const char*>& layers) const;
+        [[nodiscard]] bool checkValidationLayerSupport(const std::vector<const char*>& layers) const;
         void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) const;
         void enumerateExtensions() const;
         void setupDebugMessenger();
 
     private:
+
+        // Instance and debug
         VkInstance m_VulkanInstance;
         VkDebugUtilsMessengerEXT m_VulkanDebugMessenger;
+
+        // Devices
         VkPhysicalDevice m_VulkanPhysicalDevice;
         VkDevice m_VulkanLogicalDevice;
         VkQueue m_VulkanGraphicsQueue;
+        VkQueue m_VulkanPresentQueue;
+
+        // Surfaces
+        VkSurfaceKHR m_VulkanSurface;
+
+        // Swapchain stuff
+        VkSwapchainKHR m_VulkanSwapchain;
+        std::vector<VkImage> m_SwapChainImages;
+        VkFormat m_SwapChainImageFormat;
+        VkExtent2D m_SwapChainExtent;
 
     };
 

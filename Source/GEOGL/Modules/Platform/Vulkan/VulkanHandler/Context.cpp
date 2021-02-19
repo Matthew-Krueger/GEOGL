@@ -4,8 +4,10 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#include <set>
 #include "Context.hpp"
 #include "../VulkanExtensions/Extensions.hpp"
+#include "../../../../Application/Application.hpp"
 
 namespace GEOGL::Platform::Vulkan{
 
@@ -16,6 +18,7 @@ namespace GEOGL::Platform::Vulkan{
 #endif
 
     static std::vector<const char*> validationLayers;
+    static std::vector<const char*> requiredDeviceExtensions;
 
 
 
@@ -23,10 +26,14 @@ namespace GEOGL::Platform::Vulkan{
     //               Public Functions               //
     // ///////////////////////////////////////////////
 
-    Context::Context(const char* windowTitle, const GEOGL::WindowProps& windowProps) {
+    Context::Context(const char* windowTitle, GLFWwindow* window, const GEOGL::WindowProps& windowProps) {
 
         validationLayers = {
                 "VK_LAYER_KHRONOS_validation"
+        };
+
+        requiredDeviceExtensions = {
+                VK_KHR_SWAPCHAIN_EXTENSION_NAME
         };
 
         /* Check validation layer support */
@@ -80,8 +87,13 @@ namespace GEOGL::Platform::Vulkan{
 
         if(enableValidationLayers) setupDebugMessenger();
 
+        /* Create a surface */
+        createSurface(window);
+
         /* pick physical device */
         pickPhysicalDevice();
+
+        createSwapChain(window);
 
     }
 
@@ -89,8 +101,13 @@ namespace GEOGL::Platform::Vulkan{
 
         Extensions::destroyDebugUtilsMessengerEXT(m_VulkanInstance, m_VulkanDebugMessenger, nullptr);
 
+        vkDestroySwapchainKHR(m_VulkanLogicalDevice, m_VulkanSwapchain, nullptr);
+
         /* Destroy Device */
         vkDestroyDevice(m_VulkanLogicalDevice, nullptr);
+
+        /* Destory surface */
+        vkDestroySurfaceKHR(m_VulkanInstance, m_VulkanSurface, nullptr);
 
         /* Destroy Instance */
         vkDestroyInstance(m_VulkanInstance, nullptr);
@@ -102,6 +119,131 @@ namespace GEOGL::Platform::Vulkan{
     // ///////////////////////////////////////////////
     //              Private Functions               //
     // ///////////////////////////////////////////////
+
+    void Context::createSurface(GLFWwindow* window){
+
+        GEOGL_CORE_INFO("Creating vkSurfaceKHR with GLFW.");
+        VkResult result = glfwCreateWindowSurface(m_VulkanInstance, window, nullptr, &m_VulkanSurface);
+        GEOGL_CORE_ASSERT_NOSTRIP(result == VK_SUCCESS, "Unable to create surface for vulkan rendering. Code {}", result);
+        GEOGL_CORE_INFO("vkSurfaceKHR created!");
+
+    }
+
+    VkSurfaceFormatKHR Context::chooseSwapchainSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats){
+
+        for(const auto& availableFormat: availableFormats){
+            if(availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+                return availableFormat;
+        }
+
+        return availableFormats[0];
+
+    }
+
+    VkPresentModeKHR Context::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes){
+
+        for(const auto& availablePresentMode : availablePresentModes){
+            if(availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR){
+                GEOGL_CORE_INFO("Vulkan Reports that VK_PRESENT_MODE_MAILOX_KHR is supported.");
+                return availablePresentMode;
+            }
+        }
+        GEOGL_CORE_INFO("Vulkan Reports that VK_PRESENT_MODE_MAILBOX_KHR is NOT supported. Defaulting to FIFO.");
+
+        return VK_PRESENT_MODE_MAILBOX_KHR;
+
+    }
+
+    VkExtent2D Context::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, GLFWwindow* window){
+
+        if(capabilities.currentExtent.width != UINT32_MAX){
+            return capabilities.currentExtent;
+        }else{
+            int width, height;
+            glfwGetFramebufferSize(window, &width, &height);
+
+            VkExtent2D actualExtent = {
+                    static_cast<uint32_t>(width),
+                    static_cast<uint32_t>(height)
+            };
+
+            actualExtent.width = std::max(capabilities.minImageExtent.width,
+                                          std::min(capabilities.maxImageExtent.width, actualExtent.width));
+            actualExtent.height = std::max(capabilities.minImageExtent.height,
+                                           std::min(capabilities.maxImageExtent.height, actualExtent.height));
+
+            return actualExtent;
+
+        }
+
+    }
+
+    void Context::createSwapChain(GLFWwindow *window){
+
+        SwapChainSupportDetails swapChainSupportDetails = querySwapChainSupport(m_VulkanPhysicalDevice);
+
+        VkSurfaceFormatKHR surfaceFormatKhr = chooseSwapchainSurfaceFormat(swapChainSupportDetails.formats);
+        VkPresentModeKHR presentModeKhr = chooseSwapPresentMode(swapChainSupportDetails.presentModes);
+        VkExtent2D extent = chooseSwapExtent(swapChainSupportDetails.capabilities, window);
+
+        uint32_t imageCount = swapChainSupportDetails.capabilities.minImageCount;
+        GEOGL_CORE_INFO("Vulkan reports that we must use a minimum of {} images in the swapchain. Using {} instead.", imageCount, imageCount+1);
+        ++imageCount;
+
+        if(swapChainSupportDetails.capabilities.maxImageCount>0 && imageCount > swapChainSupportDetails.capabilities.maxImageCount){
+            imageCount = swapChainSupportDetails.capabilities.maxImageCount;
+            GEOGL_CORE_INFO("Vulkan reports that we can only use a max of {} images. Using that.", imageCount);
+        }
+
+        /* Create the swapchain */
+        {
+
+            QueueFamilyIndices indices = findQueueFamilies(m_VulkanPhysicalDevice);
+            GEOGL_CORE_ASSERT_NOSTRIP(indices.isComplete(), "Cannot find all queue families when creating swapchain.");
+            uint32_t queueFamilyIndices[] = {indices.graphicsFamly.value(), indices.graphicsFamly.value()};
+
+            VkSwapchainCreateInfoKHR createInfo{};
+            createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+            createInfo.surface = m_VulkanSurface;
+
+            createInfo.minImageCount = imageCount;
+            createInfo.imageFormat = surfaceFormatKhr.format;
+            createInfo.imageColorSpace = surfaceFormatKhr.colorSpace;
+            createInfo.imageExtent = extent;
+            createInfo.imageArrayLayers = 1;
+            createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+
+            if(indices.graphicsFamly != indices.presentFamily){
+                createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+                createInfo.queueFamilyIndexCount = 2;
+                createInfo.pQueueFamilyIndices = queueFamilyIndices;
+            }else{
+                createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+                createInfo.queueFamilyIndexCount = 0;
+                createInfo.pQueueFamilyIndices = nullptr;
+            }
+
+            createInfo.preTransform = swapChainSupportDetails.capabilities.currentTransform;
+            createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+            createInfo.presentMode = presentModeKhr;
+            createInfo.clipped = VK_TRUE;
+            createInfo.oldSwapchain = VK_NULL_HANDLE;
+
+            VkResult result = vkCreateSwapchainKHR(m_VulkanLogicalDevice, &createInfo, nullptr, &m_VulkanSwapchain);
+            GEOGL_CORE_ASSERT_NOSTRIP(result == VK_SUCCESS, "Unable to create VkSwapchainKHR, error {}.", result);
+
+        }
+
+        /* Now that the swapchain is created, we can retrieve the handles to
+         * the VkImages */
+        vkGetSwapchainImagesKHR(m_VulkanLogicalDevice, m_VulkanSwapchain, &imageCount, nullptr);
+        m_SwapChainImages.resize(imageCount);
+        vkGetSwapchainImagesKHR(m_VulkanLogicalDevice, m_VulkanSwapchain, &imageCount, m_SwapChainImages.data());
+
+        m_SwapChainImageFormat = surfaceFormatKhr.format;
+        m_SwapChainExtent = extent;
+
+    }
 
     void Context::pickPhysicalDevice(){
 
@@ -146,14 +288,23 @@ namespace GEOGL::Platform::Vulkan{
 
         {
 
-            float queuePriority = 1.0f;
+            std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+            std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamly.value(), indices.presentFamily.value()};
 
-            /* Info on the queues */
-            VkDeviceQueueCreateInfo queueCreateInfo{};
-            queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-            queueCreateInfo.queueFamilyIndex = indices.graphicsFamly.value();
-            queueCreateInfo.queueCount = 1;
-            queueCreateInfo.pQueuePriorities = &queuePriority;
+            float queuePriority = 1.0f;
+            for(uint32_t queueFamily:uniqueQueueFamilies){
+
+                /* Info on the queues */
+
+                VkDeviceQueueCreateInfo queueCreateInfo{};
+                queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+                queueCreateInfo.queueFamilyIndex = queueFamily;
+                queueCreateInfo.queueCount = 1;
+                queueCreateInfo.pQueuePriorities = &queuePriority;
+
+                queueCreateInfos.push_back(queueCreateInfo);
+            }
+
 
             /* Info on the features we want */
             VkPhysicalDeviceFeatures deviceFeatures{};
@@ -164,14 +315,15 @@ namespace GEOGL::Platform::Vulkan{
             deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 
             /* queues */
-            deviceCreateInfo.pQueueCreateInfos = &queueCreateInfo;
-            deviceCreateInfo.queueCreateInfoCount = 1;
+            deviceCreateInfo.pQueueCreateInfos = queueCreateInfos.data();
+            deviceCreateInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 
             /* features */
             deviceCreateInfo.pEnabledFeatures = &deviceFeatures;
 
             /* Extensnions */
-            deviceCreateInfo.enabledExtensionCount = 0;
+            deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(requiredDeviceExtensions.size());
+            deviceCreateInfo.ppEnabledExtensionNames = requiredDeviceExtensions.data();
 
             /* validation layers */
             deviceCreateInfo.enabledLayerCount = 0;
@@ -187,6 +339,7 @@ namespace GEOGL::Platform::Vulkan{
 
         /* Now, since the device is created, we can get the queue from it */
         vkGetDeviceQueue(m_VulkanLogicalDevice, indices.graphicsFamly.value(), 0, &m_VulkanGraphicsQueue);
+        vkGetDeviceQueue(m_VulkanLogicalDevice, indices.presentFamily.value(), 0, &m_VulkanPresentQueue);
         GEOGL_CORE_INFO("Successfully created a logical device and got the queues needed.");
 
     }
@@ -214,6 +367,14 @@ namespace GEOGL::Platform::Vulkan{
         if(!indices.isComplete())
             suitableFlag = false;
 
+        if(!checkDeviceExtensionSupport(device))
+            suitableFlag = false;
+
+        {
+            SwapChainSupportDetails swapChainSupportDetails = querySwapChainSupport(device);
+            if(swapChainSupportDetails.formats.empty() || swapChainSupportDetails.presentModes.empty())
+                suitableFlag = false;
+        }
 
         GEOGL_CORE_INFO("Vulkan reports that {} is {}suitable.", deviceProperties.deviceName, (!suitableFlag) ? std::string("not ") : std::string(""));
 
@@ -247,6 +408,51 @@ namespace GEOGL::Platform::Vulkan{
         GEOGL_CORE_INFO("GPU {} has a score of {}", deviceProperties.deviceName, score);
 
         return score;
+
+    }
+
+    bool Context::checkDeviceExtensionSupport(VkPhysicalDevice device) const{
+
+        uint32_t extensionCount;
+        vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
+
+        std::vector<VkExtensionProperties> availableExtensions(extensionCount);
+        vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+
+        std::set<std::string> requiredExtensions(requiredDeviceExtensions.begin(), requiredDeviceExtensions.end());
+
+        for(const auto& extension: availableExtensions){
+
+            requiredExtensions.erase(extension.extensionName);
+
+        }
+
+        return requiredExtensions.empty();
+
+    }
+
+    SwapChainSupportDetails Context::querySwapChainSupport(VkPhysicalDevice device) const{
+        SwapChainSupportDetails details{};
+
+        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, m_VulkanSurface, &details.capabilities);
+
+        uint32_t formatCount;
+        vkGetPhysicalDeviceSurfaceFormatsKHR(device, m_VulkanSurface, &formatCount, nullptr);
+
+        GEOGL_CORE_ASSERT_NOSTRIP(formatCount, "Vulkan reports that no formats are valid for the current vkSurfaceKHR.");
+        details.formats.resize(formatCount);
+        vkGetPhysicalDeviceSurfaceFormatsKHR(device, m_VulkanSurface, &formatCount, details.formats.data());
+        GEOGL_CORE_INFO("Vulkan reports {} formats are available.", formatCount);
+
+        uint32_t presentModeCount;
+        vkGetPhysicalDeviceSurfacePresentModesKHR(device, m_VulkanSurface, &presentModeCount, nullptr);
+
+        GEOGL_CORE_ASSERT_NOSTRIP(presentModeCount, "Vulkan reports that no present modes are valid for the current vkSurfaceKHR.");
+        details.presentModes.resize(presentModeCount);
+        vkGetPhysicalDeviceSurfacePresentModesKHR(device, m_VulkanSurface, &presentModeCount, details.presentModes.data());
+        GEOGL_CORE_INFO("Vulkan reports {} present modes are available.", presentModeCount);
+
+        return details;
 
     }
 
@@ -285,11 +491,17 @@ namespace GEOGL::Platform::Vulkan{
         std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
         vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
-        unsigned int i=0;
+        uint32_t i=0;
         for(const auto& queueFamily:queueFamilies){
+
+            /* Graphical support */
             if(queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
                 indices.graphicsFamly = i;
 
+            VkBool32 presentSupport = false;
+            vkGetPhysicalDeviceSurfaceSupportKHR(device, i, m_VulkanSurface, &presentSupport);
+            if(presentSupport)
+                indices.presentFamily = i;
 
             if(indices.isComplete())
                 break;
