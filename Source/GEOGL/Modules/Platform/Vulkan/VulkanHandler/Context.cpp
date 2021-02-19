@@ -95,11 +95,15 @@ namespace GEOGL::Platform::Vulkan{
 
         createSwapChain(window);
 
+        createImageViews();
+
     }
 
     Context::~Context(){
 
-        Extensions::destroyDebugUtilsMessengerEXT(m_VulkanInstance, m_VulkanDebugMessenger, nullptr);
+        for(auto imageView:m_VulkanSwapChainImageViews){
+            vkDestroyImageView(m_VulkanLogicalDevice, imageView, nullptr);
+        }
 
         vkDestroySwapchainKHR(m_VulkanLogicalDevice, m_VulkanSwapchain, nullptr);
 
@@ -108,6 +112,8 @@ namespace GEOGL::Platform::Vulkan{
 
         /* Destory surface */
         vkDestroySurfaceKHR(m_VulkanInstance, m_VulkanSurface, nullptr);
+
+        Extensions::destroyDebugUtilsMessengerEXT(m_VulkanInstance, m_VulkanDebugMessenger, nullptr);
 
         /* Destroy Instance */
         vkDestroyInstance(m_VulkanInstance, nullptr);
@@ -180,6 +186,8 @@ namespace GEOGL::Platform::Vulkan{
 
     void Context::createSwapChain(GLFWwindow *window){
 
+        GEOGL_CORE_INFO("Creating Swapchain");
+
         SwapChainSupportDetails swapChainSupportDetails = querySwapChainSupport(m_VulkanPhysicalDevice);
 
         VkSurfaceFormatKHR surfaceFormatKhr = chooseSwapchainSurfaceFormat(swapChainSupportDetails.formats);
@@ -242,6 +250,42 @@ namespace GEOGL::Platform::Vulkan{
 
         m_SwapChainImageFormat = surfaceFormatKhr.format;
         m_SwapChainExtent = extent;
+
+        GEOGL_CORE_INFO("Successfully created swapchain and swapchain images.");
+
+    }
+
+    void Context::createImageViews(){
+
+        GEOGL_CORE_INFO("Creating VkImageViews.");
+        m_VulkanSwapChainImageViews.resize(m_SwapChainImages.size());
+
+        for(size_t i=0; i < m_SwapChainImages.size(); i++){
+
+            VkImageViewCreateInfo vkImageViewCreateInfo{};
+            vkImageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+            vkImageViewCreateInfo.image = m_SwapChainImages[i];
+            vkImageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+            vkImageViewCreateInfo.format = m_SwapChainImageFormat;
+
+            /* Color swizzling identity */
+            vkImageViewCreateInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+            vkImageViewCreateInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+            vkImageViewCreateInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+            vkImageViewCreateInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+
+            vkImageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+            vkImageViewCreateInfo.subresourceRange.baseMipLevel = 0;
+            vkImageViewCreateInfo.subresourceRange.levelCount = 1;
+            vkImageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
+            vkImageViewCreateInfo.subresourceRange.layerCount = 1;
+
+            VkResult swapChainImageViewsResult = vkCreateImageView(m_VulkanLogicalDevice, &vkImageViewCreateInfo, nullptr, &m_VulkanSwapChainImageViews[i]);
+            GEOGL_CORE_ASSERT_NOSTRIP(swapChainImageViewsResult == VK_SUCCESS, "Unable to create Swap chain Image View #{}, error {}", i, swapChainImageViewsResult);
+
+        }
+
+        GEOGL_CORE_INFO("Sucessfully creaded VkImageViews.");
 
     }
 

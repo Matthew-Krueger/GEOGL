@@ -16,7 +16,7 @@ if(GEOGL_BUILD_WITH_OPENGL)
     find_library(OpenGL REQUIRED)
 
     # Set up GEOGL's platform Libs
-    set(GEOGL_PLATFORM_LIBS ${GEOGL_PLATFORM_LIBS}GEOGL::Platform::OpenGL GLAD)
+    set(GEOGL_PLATFORM_LIBS ${GEOGL_PLATFORM_LIBS}GEOGL::Platform::OpenGL)
 
     set(GEOGL_OGL_BUILD_FLAG 1)
 

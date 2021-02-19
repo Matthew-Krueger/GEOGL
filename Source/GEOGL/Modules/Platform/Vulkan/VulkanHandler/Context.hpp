@@ -77,6 +77,7 @@ namespace GEOGL::Platform::Vulkan{
         VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
         VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, GLFWwindow* window);
         void createSwapChain(GLFWwindow* window);
+        void createImageViews();
 
         // Device Suitability
         void pickPhysicalDevice();
@@ -118,6 +119,9 @@ namespace GEOGL::Platform::Vulkan{
         std::vector<VkImage> m_SwapChainImages;
         VkFormat m_SwapChainImageFormat;
         VkExtent2D m_SwapChainExtent;
+
+        // Images
+        std::vector<VkImageView> m_VulkanSwapChainImageViews;
 
     };
 
