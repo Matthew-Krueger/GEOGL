@@ -202,4 +202,4 @@ namespace GEOGL{
 
 }
 
-#endif //NODIFY_SCREENWRITER_KEYCODE_HPP
+#endif //GEOGL_KEYCODE_HPP

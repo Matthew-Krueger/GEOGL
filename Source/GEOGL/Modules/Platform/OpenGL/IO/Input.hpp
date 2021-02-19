@@ -50,4 +50,4 @@ namespace GEOGL::Platform::OpenGL{
 
 }
 
-#endif //NODIFY_SCREENWRITER_OPENGLINPUT_HPP
+#endif //GEOGL_OPENGLINPUT_HPP

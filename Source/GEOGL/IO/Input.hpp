@@ -59,4 +59,4 @@ namespace GEOGL{
 
 }
 
-#endif //NODIFY_SCREENWRITER_INPUT_HPP
+#endif //GEOGL_INPUT_HPP

@@ -45,6 +45,14 @@ using json = nlohmann::json;
 
 /* glm */
 #define GLM_FORCE_RADIANS
+#ifdef GEOGL_BUILD_AVX2
+#define GLM_FORCE_AVX2
+#pragma message("GLM will use AVX2")
+#else
+#define GLM_FORCE_SSE2
+#pragma message("GLM will use SSE2")
+#endif
+#define GLM_FORCE_SWIZZLE
 #include <glm/glm.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/vec2.hpp>
@@ -58,4 +66,4 @@ using json = nlohmann::json;
 #define BIT(x) (1 << x)
 
 
-#endif
+#endif //GEOGL_DEPENDENCIES_HPP

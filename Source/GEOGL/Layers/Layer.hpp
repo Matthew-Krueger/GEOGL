@@ -54,4 +54,4 @@ namespace GEOGL {
 
 }
 
-#endif //NODIFY_SCREENWRITER_LAYER_HPP
+#endif //GEOGL_LAYER_HPP

@@ -127,4 +127,4 @@ namespace GEOGL::Platform::Vulkan{
 
 }
 
-#endif //NODIFY_SCREENWRITER_VULKANHANDLER_HPP
+#endif //GEOGL_VULKANHANDLER_HPP

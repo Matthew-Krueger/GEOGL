@@ -52,4 +52,4 @@ namespace GEOGL::Platform::OpenGL{
 
 }
 
-#endif //NODIFY_SCREENWRITER_OPENGLKEYCODES_HPP
+#endif //GEOGL_OPENGLKEYCODES_HPP

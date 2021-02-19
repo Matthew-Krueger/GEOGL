@@ -147,4 +147,4 @@ namespace GEOGL {
 
 }
 
-#endif //NODIFY_SCREENWRITER_WINDOW_HPP
+#endif //GEOGL_WINDOW_HPP

@@ -150,4 +150,4 @@ namespace GEOGL::Platform::Vulkan{
     };
 
 }
-#endif //NODIFY_SCREENWRITER_VULKANWINDOW_HPP
+#endif //GEOGL_VULKANWINDOW_HPP

@@ -143,4 +143,4 @@ namespace GEOGL::Platform::OpenGL{
 
 }
 
-#endif //NODIFY_SCREENWRITER_OPENGLWINDOW_HPP
+#endif //GEOGL_OPENGLWINDOW_HPP

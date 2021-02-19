@@ -113,4 +113,4 @@ static inline void GEOGL_DEBUG_BREAK(void) { __asm__ __volatile__(".inst 0xde01"
 #  endif
 #endif
 
-#endif
+#endif //GEOGL_WIN32EXPORTS
