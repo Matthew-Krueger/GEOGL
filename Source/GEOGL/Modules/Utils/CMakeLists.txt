@@ -56,7 +56,17 @@ target_precompile_headers("${GEOGL_LIBRARY_NAME}" PRIVATE Headers/PCH.hpp)
 ######################################
 #     Add to Include Directories     #
 ######################################
-target_include_directories("${GEOGL_LIBRARY_NAME}" PUBLIC include ${GEOGL_INCLUCE_DIRECTORIES})
+target_include_directories("${GEOGL_LIBRARY_NAME}" PUBLIC include
+        ../../../../Dependencies/Nlohmann/JSON/include
+        ../../../../Dependencies/spdlog-1.8.2/include
+        ../../../../Dependencies/STB/include
+        ../../../../Dependencies/GLM)
+
+target_include_directories(${GEOGL_LIBRARY_NAME} PRIVATE
+        ../../../../Dependencies/glfw-3.3.2/include
+        ../../../../Dependencies/GLAD/include
+        ../../../../Dependencies/ImGui-1.81/include
+        )
 
 ######################################
 #         Emit to bin Folder         #

@@ -125,7 +125,13 @@ target_precompile_headers("${GEOGL_LIBRARY_NAME}" PRIVATE ../../Utils/Headers/PC
 ######################################
 #     Add to Include Directories     #
 ######################################
-target_include_directories("${GEOGL_LIBRARY_NAME}" PUBLIC include ${GEOGL_INCLUCE_DIRECTORIES})
+target_include_directories("${GEOGL_LIBRARY_NAME}" PUBLIC include ../../Utils/include)
+
+target_include_directories("${GEOGL_LIBRARY_NAME}" PRIVATE
+        ../../../../../Dependencies/glfw-3.3.2/include
+        ../../../../../Dependencies/ImGui-1.81/include
+        )
+
 
 
 ######################################

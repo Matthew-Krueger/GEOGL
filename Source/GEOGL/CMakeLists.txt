@@ -76,7 +76,12 @@ endif(NOT(GEOGL_PLATFORM_EXISTS STREQUAL "TRUE"))
 add_dependencies(${MODULE_NAME} GEOGL::Utils ${GEOGL_PLATFORM_LIBS})
 target_link_libraries(${MODULE_NAME} GEOGL::Utils ${GEOGL_PLATFORM_LIBS} ${GEOGL_PLATFORM_LIBS_ADDITIONAL})
 
-#target_include_directories("${MODULE_NAME}" PUBLIC ${GEOGL_INCLUDE_DIRECTORIES})
+target_include_directories("${MODULE_NAME}" PUBLIC include)
+
+target_include_directories("${MODULE_NAME}" PRIVATE
+        ../../Dependencies/GLAD/include # glad needs to stay here until imgui is on our render
+        ../../Dependencies/ImGui-1.81/include
+        )
 
 
 target_precompile_headers("${MODULE_NAME}" PRIVATE Modules/Utils/Headers/PCH.hpp)

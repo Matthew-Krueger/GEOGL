@@ -34,42 +34,27 @@ set(GEOGL_VERSION_FULL "${GEOGL_VERSION}.${GEOGL_VERSION_PATCH}-${GEOGL_VERSION_
 ###################################
 #           Dependencies          #
 ###################################
-set(GEOGL_INCLUDE_DIRECTORIES
-        Dependencies/Nlohmann/JSON/include
-        Dependencies/glfw-3.3.2/include
-        Dependencies/GLAD/include
-        Dependencies/spdlog-1.8.2/include
-        Dependencies/STB/include
-        Dependencies/GLM
-        Dependencies/ImGui-1.81/include
-)
 
 # JSON
 include_directories(Dependencies/Nlohmann/JSON/include)
 
 # GLFW
 add_subdirectory(Dependencies/glfw-3.3.2)
-include_directories(Dependencies/glfw-3.3.2/include)
 
 # GLAD
 add_subdirectory(Dependencies/GLAD)
-include_directories(Dependencies/GLAD/include)
 
 # spdlog
 add_subdirectory(Dependencies/spdlog-1.8.2)
-include_directories(Dependencies/spdlog-1.8.2/include)
 set_property(TARGET spdlog PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 # stbimage
 add_subdirectory(Dependencies/STB)
-include_directories(Dependencies/STB/include)
 
 # GLM
-include_directories(Dependencies/GLM)
 
 # ImGui
 add_subdirectory(Dependencies/ImGui-1.81)
-include_directories(Dependencies/ImGui-1.81/include)
 
 ###################################
 #          Build GEOGL            #
