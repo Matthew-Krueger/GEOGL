@@ -70,7 +70,9 @@ namespace GEOGL{
         m_Window = std::unique_ptr<Window>(Window::create((WindowAPIType)m_Settings.data()["api"]));
         m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
 
-        /* Initialize input class */
+        /* Initialize ImGuiLayer */
+        m_ImGuiLayer = new ImGuiLayer;
+        pushOverlay(m_ImGuiLayer);
 
     }
 
@@ -87,6 +89,12 @@ namespace GEOGL{
             for(Layer* layer : m_LayerStack){
                 layer->onUpdate();
             }
+
+            m_ImGuiLayer->begin();
+            for(Layer* layer : m_LayerStack){
+                layer->onImGuiRender();
+            }
+            m_ImGuiLayer->end();
 
             m_Window->onUpdate();
         }

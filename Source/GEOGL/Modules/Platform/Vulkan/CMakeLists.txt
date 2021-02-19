@@ -129,7 +129,7 @@ target_include_directories("${GEOGL_LIBRARY_NAME}" PUBLIC include ../../Utils/in
 
 target_include_directories("${GEOGL_LIBRARY_NAME}" PRIVATE
         ../../../../../Dependencies/glfw-3.3.2/include
-        ../../../../../Dependencies/ImGui-1.81/include
+        ../../../../../Dependencies/imgui-docking/include
         )
 
 

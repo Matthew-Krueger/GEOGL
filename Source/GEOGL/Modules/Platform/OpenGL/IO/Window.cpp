@@ -248,6 +248,6 @@ namespace GEOGL::Platform::OpenGL{
 
         });
 
-    };
+    }
 
 }

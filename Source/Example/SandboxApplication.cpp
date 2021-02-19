@@ -27,13 +27,32 @@
 #include <GEOGL/MainCreator.hpp>
 
 #include "SandboxApplication.hpp"
+#include "../../Dependencies/imgui-docking/include/ImGui/imgui.h"
 
 namespace Sandbox{
+
+class ExampleLayer: public GEOGL::Layer{
+
+public:
+    ExampleLayer():Layer("Example Layer"){};
+
+    void onImGuiRender() override{
+        static bool show = true;
+        ImGui::ShowDemoWindow(&show);
+        ImGui::Begin("Test");
+        ImGui::Text("Hello World!");
+        ImGui::End();
+    }
+
+};
+
+
 
     SandboxApp::SandboxApp() {
 
         GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
-        pushOverlay(new GEOGL::ImGuiLayer());
+        pushLayer(new ExampleLayer);
+        getWindow().setVSync(false);
 
     }
 

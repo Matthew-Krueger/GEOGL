@@ -29,6 +29,7 @@
 #include "../IO/Window.hpp"
 #include "../IO/Events/ApplicationEvent.hpp"
 #include "../Layers/LayerStack.hpp"
+#include "../ImGui/ImGuiLayer.hpp"
 #include <GEOGL/Utils.h>
 
 namespace GEOGL{
@@ -77,6 +78,8 @@ namespace GEOGL{
         bool m_Running = true;
         LayerStack m_LayerStack;
         Settings m_Settings;
+
+        ImGuiLayer* m_ImGuiLayer;
 
 
     };

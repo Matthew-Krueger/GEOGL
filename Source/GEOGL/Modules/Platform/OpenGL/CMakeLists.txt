@@ -10,8 +10,10 @@ add_library(GEOGL_Platform_OpenGL SHARED
         IO/KeyCodes.cpp
         IO/KeyCodes.hpp
 
-        imgui_impl_opengl3.h
-        imgui_impl_opengl3.cpp
+        ImGuiImpl/imgui_impl_opengl3.h
+        ImGuiImpl/imgui_impl_opengl3.cpp
+        ImGuiImpl/imgui_impl_glfw.cpp
+        ImGuiImpl/imgui_impl_glfw.h
 
         )
 ######################################
@@ -53,6 +55,7 @@ target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_ENGINE_NAME_NO_V
 target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_BUILD_WITH_VULKAN=${GEOGL_VULKAN_BUILD_FLAG})
 target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_BUILD_WITH_OPENGL=${GEOGL_OGL_BUILD_FLAG})
 target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_ENABLE_IGPU=${GEOGL_ENABLE_IGPU_DEF})
+target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLAD="GLAD")
 
 ######################################
 #         Precompiled Headers        #
@@ -67,7 +70,7 @@ target_include_directories("${GEOGL_LIBRARY_NAME}" PUBLIC include ../../Utils/in
 target_include_directories("${GEOGL_LIBRARY_NAME}" PRIVATE
         ../../../../../Dependencies/glfw-3.3.2/include
         ../../../../../Dependencies/GLAD/include
-        ../../../../../Dependencies/ImGui-1.81/include
+        ../../../../../Dependencies/imgui-docking/include
         )
 
 ######################################

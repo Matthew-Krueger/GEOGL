@@ -35,6 +35,8 @@ set(GEOGL_VERSION_FULL "${GEOGL_VERSION}.${GEOGL_VERSION_PATCH}-${GEOGL_VERSION_
 #           Dependencies          #
 ###################################
 
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+
 # JSON
 include_directories(Dependencies/Nlohmann/JSON/include)
 
@@ -54,7 +56,7 @@ add_subdirectory(Dependencies/STB)
 # GLM
 
 # ImGui
-add_subdirectory(Dependencies/ImGui-1.81)
+add_subdirectory(Dependencies/imgui-docking)
 
 ###################################
 #          Build GEOGL            #

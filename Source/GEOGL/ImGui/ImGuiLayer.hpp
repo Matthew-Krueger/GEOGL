@@ -49,18 +49,9 @@ namespace GEOGL{
 
         void onAttach() override;
         void onDetach() override;
-        void onUpdate() override;
-        void onEvent(Event& event) override;
 
-    private: // functions
-        bool onMouseButtonPressedEvent(MouseButtonPressedEvent& event);
-        bool onMouseButtonReleasedEvent(MouseButtonReleasedEvent& event);
-        bool onMouseMovedEvent(MouseMovedEvent& event);
-        bool onMouseScrolledEvent(MouseScrolledEvent& event);
-        bool onKeyPressedEvent(KeyPressedEvent& event);
-        bool onKeyReleasedEvent(KeyReleasedEvent& event);
-        bool onKeyTypedEvent(KeyTypedEvent& event);
-        bool onWindowResizedEvent(WindowResizeEvent& event);
+        void begin();
+        void end();
 
     private:
         float m_Time = 0;

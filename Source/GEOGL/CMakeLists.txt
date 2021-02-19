@@ -80,7 +80,7 @@ target_include_directories("${MODULE_NAME}" PUBLIC include)
 
 target_include_directories("${MODULE_NAME}" PRIVATE
         ../../Dependencies/GLAD/include # glad needs to stay here until imgui is on our render
-        ../../Dependencies/ImGui-1.81/include
+        ../../Dependencies/imgui-docking/include
         )
 
 
