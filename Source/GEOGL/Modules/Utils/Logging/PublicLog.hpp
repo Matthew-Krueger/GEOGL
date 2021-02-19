@@ -29,7 +29,6 @@
 #define GEOGL_PUBLICLOG_HPP
 
 #include <spdlog/spdlog.h>
-#include "../Win32Exports.hpp"
 
 namespace GEOGL{
 

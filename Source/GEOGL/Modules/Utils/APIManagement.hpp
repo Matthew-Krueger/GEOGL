@@ -26,6 +26,7 @@
 #ifndef GEOGL_APIMANAGER_HPP
 #define GEOGL_APIMANAGER_HPP
 
+
 namespace GEOGL{
 
     enum WindowAPIType {

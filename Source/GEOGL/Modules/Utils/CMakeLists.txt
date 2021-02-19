@@ -2,26 +2,28 @@
 ######################################
 #         Add Utils Library          #
 ######################################
-add_library(GEOGL_Utils SHARED
+add_library(GEOGL_Utils ${GEOGL_LIBRARY_TYPE}
         APIManagement.cpp
         APIManagement.hpp
         Callbacks.cpp
         Callbacks.hpp
         Headers/Dependencies.hpp
-        Headers/PCH.cpp
-        Headers/PCH.hpp
         InputCodes.hpp
         InputCodesConverter.cpp
         InputCodesConverter.hpp
         Settings.cpp
         Settings.hpp
-        Win32Exports.hpp
+        include/GEOGL/API_Utils/DLLExportsAndTraps.hpp
 
         Logging/PublicLog.hpp
         Logging/PrivateLog.hpp
         Logging/LoggingFunctions.cpp
 
         include/GEOGL/Utils.h
+        include/GEOGL/Dependencies.hpp
+
+        Headers/PCH.cpp
+        Headers/PCH.hpp
         )
 
 ######################################
@@ -32,22 +34,13 @@ set(GEOGL_LIBRARY_NAME GEOGL_Utils)
 ######################################
 #         Linker Dependencies        #
 ######################################
-add_dependencies("${GEOGL_LIBRARY_NAME}" STB_LIB spdlog ImGui)
-target_link_libraries("${GEOGL_LIBRARY_NAME}" STB_LIB spdlog ImGui)
+add_dependencies("${GEOGL_LIBRARY_NAME}" STB_LIB spdlog ImGui GEOGL_Interface)
+target_link_libraries("${GEOGL_LIBRARY_NAME}" STB_LIB spdlog ImGui GEOGL_Interface)
 
 ######################################
 #      PreProcessor Definitions      #
 ######################################
 target_compile_definitions("${GEOGL_LIBRARY_NAME}" PRIVATE GEOGL_BUILD_LIBRARY)
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_VERSION_MAJOR=${GEOGL_VERSION_MAJOR})
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_VERSION_MINOR=${GEOGL_VERSION_MINOR})
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_VERSION_PATCH=${GEOGL_VERSION_PATCH})
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_VERSION_FULL="${GEOGL_VERSION_FULL}")
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_ENGINE_NAME="GEOGL-Engine-${GEOGL_VERSION_FULL}")
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_ENGINE_NAME_NO_VERSION="GEOGL Engine")
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_BUILD_WITH_VULKAN=${GEOGL_VULKAN_BUILD_FLAG})
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_BUILD_WITH_OPENGL=${GEOGL_OGL_BUILD_FLAG})
-
 ######################################
 #         Precompiled Headers        #
 ######################################
@@ -56,11 +49,6 @@ target_precompile_headers("${GEOGL_LIBRARY_NAME}" PRIVATE Headers/PCH.hpp)
 ######################################
 #     Add to Include Directories     #
 ######################################
-target_include_directories("${GEOGL_LIBRARY_NAME}" PUBLIC include
-        ../../../../Dependencies/Nlohmann/JSON/include
-        ../../../../Dependencies/spdlog-1.8.2/include
-        ../../../../Dependencies/STB/include
-        ../../../../Dependencies/GLM)
 
 target_include_directories(${GEOGL_LIBRARY_NAME} PRIVATE
         ../../../../Dependencies/glfw-3.3.2/include

@@ -70,7 +70,7 @@ endif()
 ######################################
 #         Add Vulkan Library         #
 ######################################
-add_library(GEOGL_Platform_Vulkan SHARED
+add_library(GEOGL_Platform_Vulkan ${GEOGL_LIBRARY_TYPE}
         IO/Input.cpp
         IO/Input.hpp
         IO/KeyCodes.cpp
@@ -120,7 +120,7 @@ target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_ENABLE_IGPU=${GE
 ######################################
 #         Precompiled Headers        #
 ######################################
-target_precompile_headers("${GEOGL_LIBRARY_NAME}" PRIVATE ../../Utils/Headers/PCH.hpp)
+#target_precompile_headers("${GEOGL_LIBRARY_NAME}" PRIVATE ../../Utils/Headers/PCH.hpp)
 
 ######################################
 #     Add to Include Directories     #

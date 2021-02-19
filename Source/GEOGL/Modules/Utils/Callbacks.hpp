@@ -24,6 +24,7 @@
 
 #ifndef GEOGL_CALLBACKS_HPP
 #define GEOGL_CALLBACKS_HPP
+
 namespace GEOGL {
 
     /**

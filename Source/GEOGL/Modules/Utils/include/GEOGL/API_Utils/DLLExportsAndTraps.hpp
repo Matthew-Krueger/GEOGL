@@ -25,6 +25,7 @@
 #ifndef GEOGL_WIN32EXPORTS
 #define GEOGL_WIN32EXPORTS
 
+#ifdef GEOGL_BUILD_STATIC
 #if defined _WIN32 || defined __CYGWIN__
 #   ifdef GEOGL_BUILD_LIBRARY
 // Exporting...
@@ -50,6 +51,10 @@
 #       define GEOGL_API_HIDDEN
 #       error Problem configuring
 #   endif
+#endif
+#else
+#define GEOGL_API
+#define GEOGL_API_HIDDEN
 #endif
 
 /* Debugging assertions and traps
