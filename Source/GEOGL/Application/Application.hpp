@@ -31,7 +31,6 @@
 #include "../Layers/LayerStack.hpp"
 #include "../ImGui/ImGuiLayer.hpp"
 #include <GEOGL/Utils.h>
-#include "../Modules/Utils/Headers/PCH.hpp"
 
 
 namespace GEOGL{

@@ -22,8 +22,6 @@
  *                                                                             *
  *******************************************************************************/
 
-#include <GEOGL/Core.hpp>
-
 #ifndef GEOGL_SANDBOXAPPLICATION_HPP
 #define GEOGL_SANDBOXAPPLICATION_HPP
 
