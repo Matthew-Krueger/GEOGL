@@ -25,6 +25,8 @@
 #ifndef GEOGL_SANDBOXAPPLICATION_HPP
 #define GEOGL_SANDBOXAPPLICATION_HPP
 
+#include <GEOGL/Core.hpp>
+
 namespace Sandbox {
     class SandboxApp : public GEOGL::Application {
     public:

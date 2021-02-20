@@ -27,7 +27,7 @@
 
 /* Dependencies */
 //#include "../../Utils/Headers/Dependencies.hpp"
-#include <GEOGL/Utils.h>
+#include <GEOGL/Utils.hpp>
 
 /* Application */
 #include "../../Application/Application.hpp"

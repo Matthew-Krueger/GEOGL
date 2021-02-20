@@ -37,7 +37,6 @@ public:
     ExampleLayer():Layer("Example Layer"){};
 
     void onImGuiRender() override{
-        GEOGL_CORE_INFO("Test");
         static bool show = true;
         ImGui::ShowDemoWindow(&show);
         ImGui::Begin("Test");

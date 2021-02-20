@@ -19,7 +19,7 @@ add_library(GEOGL_Utils ${GEOGL_LIBRARY_TYPE}
         Logging/PrivateLog.hpp
         Logging/LoggingFunctions.cpp
 
-        include/GEOGL/Utils.h
+        include/GEOGL/Utils.hpp
         include/GEOGL/Dependencies.hpp
 
         Headers/PCH.cpp

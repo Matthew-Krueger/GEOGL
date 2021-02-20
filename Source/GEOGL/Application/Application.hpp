@@ -30,7 +30,7 @@
 #include "../IO/Events/ApplicationEvent.hpp"
 #include "../Layers/LayerStack.hpp"
 #include "../ImGui/ImGuiLayer.hpp"
-#include <GEOGL/Utils.h>
+#include <GEOGL/Utils.hpp>
 
 
 namespace GEOGL{

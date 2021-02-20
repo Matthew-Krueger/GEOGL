@@ -22,8 +22,8 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_UTILS_H
-#define GEOGL_UTILS_H
+#ifndef GEOGL_UTILS_HPP
+#define GEOGL_UTILS_HPP
 
 
 #include "GEOGL/API_Utils/DLLExportsAndTraps.hpp"
