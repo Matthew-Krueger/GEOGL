@@ -38,6 +38,9 @@ namespace GEOGL {
             return WindowAPIType::WINDOW_VULKAN_DESKTOP;
         }
 
+        GEOGL_CORE_ASSERT_NOSTRIP(false, "NO API Support detected.");
+        exit(-1);
+
     }
 
     bool isAPISupported(enum WindowAPIType api) {

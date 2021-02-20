@@ -34,13 +34,15 @@ set(GEOGL_LIBRARY_NAME GEOGL_Utils)
 ######################################
 #         Linker Dependencies        #
 ######################################
-add_dependencies("${GEOGL_LIBRARY_NAME}" STB_LIB spdlog ImGui GEOGL_Interface)
-target_link_libraries("${GEOGL_LIBRARY_NAME}" STB_LIB spdlog ImGui GEOGL_Interface)
+# STB_LIB spdlog ImGui GEOGL_Interface
+add_dependencies(${GEOGL_LIBRARY_NAME} STB_LIB spdlog ImGui GEOGL_Interface)
+target_link_libraries(${GEOGL_LIBRARY_NAME} STB_LIB spdlog ImGui GEOGL_Interface)
 
 ######################################
 #      PreProcessor Definitions      #
 ######################################
 target_compile_definitions("${GEOGL_LIBRARY_NAME}" PRIVATE GEOGL_BUILD_LIBRARY)
+
 ######################################
 #         Precompiled Headers        #
 ######################################
@@ -50,11 +52,11 @@ target_precompile_headers("${GEOGL_LIBRARY_NAME}" PRIVATE Headers/PCH.hpp)
 #     Add to Include Directories     #
 ######################################
 
-target_include_directories(${GEOGL_LIBRARY_NAME} PRIVATE
-        ../../../../Dependencies/glfw-3.3.2/include
-        ../../../../Dependencies/GLAD/include
-        ../../../../Dependencies/imgui-docking/include
-        )
+#target_include_directories(${GEOGL_LIBRARY_NAME} PRIVATE
+#        ../../../../Dependencies/glfw-3.3.2/include
+#        ../../../../Dependencies/GLAD/include
+#        ../../../../Dependencies/imgui-docking/include
+#        )
 
 ######################################
 #         Emit to bin Folder         #
