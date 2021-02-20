@@ -47,4 +47,4 @@ namespace GEOGL::Platform::Vulkan{
 }
 
 
-#endif //NODIFY_SCREENWRITER_VULKANKEYCODES_HPP
+#endif //GEOGL_VULKANKEYCODES_HPP

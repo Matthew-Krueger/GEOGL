@@ -26,7 +26,7 @@
 #define GEOGL_UTILS_H
 
 
-#include "../../Win32Exports.hpp"
+#include "GEOGL/API_Utils/DLLExportsAndTraps.hpp"
 
 #include "../../Headers/Dependencies.hpp"
 

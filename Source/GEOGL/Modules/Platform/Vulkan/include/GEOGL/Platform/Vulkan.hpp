@@ -27,4 +27,4 @@
 
 #include "../../../IO/Window.hpp"
 
-#endif //NODIFY_SCREENWRITER_VULKAN_HPP
+#endif //GEOGL_VULKAN_HPP

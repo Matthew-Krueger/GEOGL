@@ -25,6 +25,7 @@
 #ifndef GEOGL_WIN32EXPORTS
 #define GEOGL_WIN32EXPORTS
 
+#ifndef GEOGL_BUILD_STATIC
 #if defined _WIN32 || defined __CYGWIN__
 #   ifdef GEOGL_BUILD_LIBRARY
 // Exporting...
@@ -50,6 +51,10 @@
 #       define GEOGL_API_HIDDEN
 #       error Problem configuring
 #   endif
+#endif
+#else
+#define GEOGL_API
+#define GEOGL_API_HIDDEN
 #endif
 
 /* Debugging assertions and traps
@@ -113,4 +118,4 @@ static inline void GEOGL_DEBUG_BREAK(void) { __asm__ __volatile__(".inst 0xde01"
 #  endif
 #endif
 
-#endif
+#endif //GEOGL_WIN32EXPORTS

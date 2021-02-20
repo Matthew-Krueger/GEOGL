@@ -9,9 +9,10 @@ project(GEOGL)
 ###################################
 #             Options             #
 ###################################
-option(GEOGL_BUILD_WITH_OPENGL "Build GEOGL with OpenGL support"                ON)
-option(GEOGL_BUILD_WITH_VULKAN "Build GEOGL with Vulkan Support"                OFF)
-option(GEOGL_ENABLE_IGPU       "Build GEOGL to enable IGPU support in Vulkan"   ON)
+option(BUILD_SHARED_LIBS       "Build shared libraries of DLL and Dependencies"     OFF)
+option(GEOGL_BUILD_WITH_OPENGL "Build GEOGL with OpenGL support"                    ON)
+option(GEOGL_BUILD_WITH_VULKAN "Build GEOGL with Vulkan Support"                    OFF)
+option(GEOGL_ENABLE_IGPU       "Build GEOGL to enable IGPU support in Vulkan"       ON)
 
 
 set(CMAKE_CXX_STANDARD 17)

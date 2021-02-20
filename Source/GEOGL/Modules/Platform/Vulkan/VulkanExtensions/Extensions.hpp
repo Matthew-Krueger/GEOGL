@@ -60,4 +60,4 @@ namespace GEOGL::Platform::Vulkan::Extensions {
 
 }
 
-#endif //NODIFY_SCREENWRITER_VULKANEXTENSIONS_HPP
+#endif //GEOGL_VULKANEXTENSIONS_HPP

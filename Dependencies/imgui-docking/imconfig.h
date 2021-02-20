@@ -24,7 +24,7 @@
 //#define IMGUI_API __declspec( dllexport )
 //#define IMGUI_API __declspec( dllimport )
 
-#include "../../../../Source/GEOGL/Modules/Utils/Win32Exports.hpp"
+#include "../../Source/GEOGL/Modules/Utils/include/GEOGL/API_Utils/DLLExportsAndTraps.hpp"
 #define IMGUI_API GEOGL_API
 
 //---- Don't define obsolete functions/enums/behaviors. Consider enabling from time to time after updating to avoid using soon-to-be obsolete function/names.

@@ -27,6 +27,8 @@
 #ifndef GEOGL_EVENT_HPP
 #define GEOGL_EVENT_HPP
 
+#include "../Modules/Utils/Headers/PCH.hpp"
+
 namespace GEOGL{
 
 #define GEOGL_BIND_EVENT_FN(function) std::bind(&function, this, std::placeholders::_1)

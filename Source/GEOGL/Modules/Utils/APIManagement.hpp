@@ -26,6 +26,7 @@
 #ifndef GEOGL_APIMANAGER_HPP
 #define GEOGL_APIMANAGER_HPP
 
+
 namespace GEOGL{
 
     enum WindowAPIType {
@@ -67,4 +68,4 @@ namespace GEOGL{
 
 }
 
-#endif //NODIFY_SCREENWRITER_APIMANAGER_HPP
+#endif //GEOGL_APIMANAGER_HPP

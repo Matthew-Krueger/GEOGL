@@ -23,45 +23,9 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_DEPENDENCIES_SOURCE_HPP
-#define GEOGL_DEPENDENCIES_SOURCE_HPP
+#ifndef GEOGL_DEPENDENCIES_HPP
+#define GEOGL_DEPENDENCIES_HPP
 
-#include <GEOGL/API_Utils/DLLExportsAndTraps.hpp>
-
-/* JSON */
-#include <Nlohmann/json.hpp>
-using json = nlohmann::json;
-
-/* STDLIB */
-#include <string>
-#include <sstream>
-#include <vector>
-#include <memory>
-#include <functional>
-#include <iostream>
-
-/* spdlog */
-#include <spdlog/spdlog.h>
-
-/* glm */
-#define GLM_FORCE_RADIANS
-#ifdef GEOGL_BUILD_AVX2
-#define GLM_FORCE_AVX2
-#else
-#define GLM_FORCE_SSE2
-#endif
-#define GLM_FORCE_SWIZZLE
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
-
-/* Stb Image */
-#include <STB/stb_image.h>
-
-#define BIT(x) (1 << x)
-
+#include "../../Headers/Dependencies.hpp"
 
 #endif //GEOGL_DEPENDENCIES_HPP

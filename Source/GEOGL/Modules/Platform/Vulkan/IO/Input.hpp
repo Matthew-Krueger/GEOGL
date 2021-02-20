@@ -43,4 +43,4 @@ namespace GEOGL::Platform::Vulkan{
 
 }
 
-#endif //NODIFY_SCREENWRITER_VULKANINPUT_HPP
+#endif //GEOGL_VULKANINPUT_HPP

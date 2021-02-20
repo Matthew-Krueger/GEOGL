@@ -29,8 +29,8 @@
  *******************************************************************************/
 
 
-#ifndef NODIFY_SCREENWRITER_IMGUILAYER_HPP
-#define NODIFY_SCREENWRITER_IMGUILAYER_HPP
+#ifndef GEOGL_IMGUILAYER_HPP
+#define GEOGL_IMGUILAYER_HPP
 
 #include "../IO/Events/Event.hpp"
 #include "../Layers/Layer.hpp"
@@ -38,6 +38,8 @@
 #include "../IO/Events/KeyEvent.hpp"
 #include "../IO/Events/MouseEvent.hpp"
 #include "../IO/Events/ApplicationEvent.hpp"
+#include "../Modules/Utils/Headers/PCH.hpp"
+
 
 
 namespace GEOGL{
@@ -60,4 +62,4 @@ namespace GEOGL{
 
 }
 
-#endif //NODIFY_SCREENWRITER_IMGUILAYER_HPP
+#endif //GEOGL_IMGUILAYER_HPP

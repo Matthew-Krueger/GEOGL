@@ -59,4 +59,4 @@
 #define GEOGL_CORE_ASSERT_NOSTRIP(x, ...) { if(!(x)) { GEOGL_CORE_ERROR_NOSTRIP("Assertion Failed: {0}", GEOGL_FORMAT(__VA_ARGS__)); GEOGL_DEBUG_BREAK(); } } (void(0))
 
 
-#endif //VG_ENGINE_PRIVATELOG_HPP
+#endif //GEOGL_ENGINE_PRIVATELOG_HPP

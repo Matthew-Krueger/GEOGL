@@ -22,11 +22,11 @@
  *                                                                             *
  *******************************************************************************/
 
+
 #ifndef GEOGL_PCH_HPP
 #define GEOGL_PCH_HPP
 
 #include "Dependencies.hpp"
-
 #include "../Logging/PrivateLog.hpp"
 
 #endif //GEOGL_PCH_HPP

@@ -70,7 +70,7 @@ endif()
 ######################################
 #         Add Vulkan Library         #
 ######################################
-add_library(GEOGL_Platform_Vulkan SHARED
+add_library(GEOGL_Platform_Vulkan ${GEOGL_LIBRARY_TYPE}
         IO/Input.cpp
         IO/Input.hpp
         IO/KeyCodes.cpp
@@ -107,32 +107,11 @@ endif()
 #      PreProcessor Definitions      #
 ######################################
 target_compile_definitions("${GEOGL_LIBRARY_NAME}" PRIVATE GEOGL_BUILD_LIBRARY)
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_VERSION_MAJOR=${GEOGL_VERSION_MAJOR})
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_VERSION_MINOR=${GEOGL_VERSION_MINOR})
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_VERSION_PATCH=${GEOGL_VERSION_PATCH})
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_VERSION_FULL="${GEOGL_VERSION_FULL}")
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_ENGINE_NAME="GEOGL-Engine-${GEOGL_VERSION_FULL}")
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_ENGINE_NAME_NO_VERSION="GEOGL Engine")
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_BUILD_WITH_VULKAN=${GEOGL_VULKAN_BUILD_FLAG})
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_BUILD_WITH_OPENGL=${GEOGL_OGL_BUILD_FLAG})
-target_compile_definitions("${GEOGL_LIBRARY_NAME}" PUBLIC GEOGL_ENABLE_IGPU=${GEOGL_ENABLE_IGPU_DEF})
 
 ######################################
 #         Precompiled Headers        #
 ######################################
 target_precompile_headers("${GEOGL_LIBRARY_NAME}" PRIVATE ../../Utils/Headers/PCH.hpp)
-
-######################################
-#     Add to Include Directories     #
-######################################
-target_include_directories("${GEOGL_LIBRARY_NAME}" PUBLIC include ../../Utils/include)
-
-target_include_directories("${GEOGL_LIBRARY_NAME}" PRIVATE
-        ../../../../../Dependencies/glfw-3.3.2/include
-        ../../../../../Dependencies/imgui-docking/include
-        )
-
-
 
 ######################################
 #         Emit to bin Folder         #
