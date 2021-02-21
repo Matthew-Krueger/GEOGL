@@ -37,8 +37,8 @@ public:
     ExampleLayer():Layer("Example Layer"){};
 
     void onImGuiRender() override{
-        static bool show = true;
-        ImGui::ShowDemoWindow(&show);
+        //static bool show = true;
+        //ImGui::ShowDemoWindow(&show);
         ImGui::Begin("Test");
         ImGui::Text("Hello World!");
         ImGui::End();

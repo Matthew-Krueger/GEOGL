@@ -67,6 +67,13 @@ namespace GEOGL{
         m_ImGuiLayer = new ImGuiLayer;
         pushOverlay(m_ImGuiLayer);
 
+        // hack together openGL
+        // Vertex Array
+
+        // Vertex BUffer
+        // Index Buffer
+
+
     }
 
     Application::~Application() = default;
