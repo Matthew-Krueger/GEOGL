@@ -38,6 +38,12 @@ namespace GEOGL {
                 return std::string("OpenGL");
             case RenderingAPIType::API_VULKAN_DESKTOP:
                 return std::string("Vulkan");
+            case RenderingAPIType::API_DIRECTX11_DESKTOP:
+                return std::string("DirectX 11");
+            case RenderingAPIType::API_DIRECTX12_DESKTOP:
+                return std::string("DirectX 12");
+            case RenderingAPIType::API_METAL_DESKTOP:
+                return std::string("Apple Metal");
             default:
                 return std::string("Unknown");
         }
@@ -74,9 +80,9 @@ namespace GEOGL {
     bool isAPISupported(enum RenderingAPIType api) {
         switch (api){
             case API_OPENGL_DESKTOP:
-                return (bool) GEOGL_BUILD_WITH_OPENGL;
+                return (bool) GEOGL_BUILD_WITH_OPENGL && (bool) GEOGL_BUILD_WITH_GLFW;
             case API_VULKAN_DESKTOP:
-                return (bool) GEOGL_BUILD_WITH_VULKAN;
+                return (bool) GEOGL_BUILD_WITH_VULKAN && (bool) GEOGL_BUILD_WITH_GLFW;
             default:
                 return false;
         }
@@ -88,7 +94,10 @@ namespace GEOGL {
         if(isAPISupported(preferredAPI))
             return preferredAPI;
 
-        return determineLowestAPI();
+        GEOGL_CORE_ERROR_NOSTRIP("The selected api: {} is not available. Finding a new one.", apiPrettyPrint(preferredAPI));
+        enum RenderingAPIType api = determineLowestAPI();
+        GEOGL_CORE_ERROR_NOSTRIP("The new api will be {}.", apiPrettyPrint(api));
+        return api;
 
     }
 

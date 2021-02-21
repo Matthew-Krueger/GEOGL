@@ -35,6 +35,7 @@ set(GEOGL_LIBRARY_NAME GEOGL_Utils)
 #         Linker Dependencies        #
 ######################################
 # STB_LIB spdlog ImGui GEOGL_Interface
+set_target_properties(${GEOGL_LIBRARY_NAME} PROPERTIES POSITION_INDEPENDENT_CODE on)
 add_dependencies(${GEOGL_LIBRARY_NAME} STB_LIB spdlog ImGui GEOGL_Interface)
 target_link_libraries(${GEOGL_LIBRARY_NAME} STB_LIB spdlog ImGui GEOGL_Interface)
 

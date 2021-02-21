@@ -33,13 +33,17 @@ namespace GEOGL{
         API_INVALID = 0,
         API_OPENGL_DESKTOP = BIT(0),
         API_VULKAN_DESKTOP = BIT(1),
-        API_DIRECTX_DESKTOP = BIT(3)
+        API_DIRECTX11_DESKTOP = BIT(2),
+        API_DIRECTX12_DESKTOP = BIT(3),
+        API_METAL_DESKTOP = BIT(4),
     };
 
     enum WindowingType {
 
         WINDOWING_INVALID = 0,
-        WINDOWING_GLFW_DESKTOP = BIT(0) | BIT(1)
+        WINDOWING_GLFW_DESKTOP = BIT(0) | BIT(1),
+        WINDOWING_WIN32_DESKTOP = BIT(2) | BIT(3),
+        WINDOWING_METAL_DESKTOP = BIT(4)
 
     };
 

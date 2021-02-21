@@ -23,6 +23,7 @@ set(GEOGL_LIBRARY_NAME GEOGL_GLFW)
 #         Linker Dependencies        #
 ######################################
 # Utils, glfw, GLAD
+set_target_properties(${GEOGL_LIBRARY_NAME} PROPERTIES POSITION_INDEPENDENT_CODE on)
 add_dependencies(${GEOGL_LIBRARY_NAME} GEOGL::Utils glfw ${GEOGL_PLATFORM_DEPS})
 target_link_libraries(${GEOGL_LIBRARY_NAME} GEOGL::Utils glfw ${GEOGL_PLATFORM_DEPS})
 

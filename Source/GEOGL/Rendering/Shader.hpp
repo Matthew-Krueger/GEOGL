@@ -22,68 +22,27 @@
  *                                                                             *
  *******************************************************************************/
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <GL/gl.h>
-#include "OpenGLGraphicsContext.hpp"
 
-namespace GEOGL::Platform::OpenGL{
+#ifndef GEOGL_SHADER_HPP
+#define GEOGL_SHADER_HPP
 
-    static bool s_GLADInitialized = false;
+namespace GEOGL{
 
-    GraphicsContext::GraphicsContext(GLFWwindow* windowHandle) : m_WindowHandle(windowHandle){
+    class GEOGL_API Shader{
+    public:
+        Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
+        ~Shader();
 
-        GEOGL_CORE_ASSERT(windowHandle, "Window Handle cannot be NULL.");
+        void bind() const;
+        void unbind() const;
 
-        glfwMakeContextCurrent(m_WindowHandle);
+    private:
+        uint32_t m_ShaderID;
+        uint32_t m_VertexID;
+        uint32_t m_FragmentID;
 
-        /* Check if higher level openGl funcitons have been loaded */
-        if(!s_GLADInitialized) {
-            GEOGL_CORE_INFO("Loading higher OpenGL functions with GLAD.");
-            int gladStatus = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
-            GEOGL_CORE_ASSERT_NOSTRIP(gladStatus, "Failed to load higher OpenGL functions with GLAD.");
-        }
+    };
 
-        GEOGL_CORE_INFO_NOSTRIP("OpenGL Info:");
-        GEOGL_CORE_INFO_NOSTRIP("   Vendor: {}", glGetString(GL_VENDOR));
-        GEOGL_CORE_INFO_NOSTRIP("   Renderer: {}", glGetString(GL_RENDERER));
-        GEOGL_CORE_INFO_NOSTRIP("   OpenGL Version: {}.", (const char *)glGetString(GL_VERSION));
-        GEOGL_CORE_INFO_NOSTRIP("   GLSL Version {}.", (const char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
-
-    }
-
-    GraphicsContext::~GraphicsContext() {
-
-    }
-
-    void GraphicsContext::setViewport(glm::vec2& topLeftCorner, glm::vec2& dimensions){
-        glViewport(topLeftCorner.x, topLeftCorner.y, dimensions.x, dimensions.y);
-    }
-
-    void GraphicsContext::clearColor(){
-
-        glClearColor(.1f,.1f,.1f,1);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-    }
-
-    void GraphicsContext::setVSync(bool* vSyncStatus){
-
-        glfwSwapInterval(*vSyncStatus);
-
-    }
-
-    void GraphicsContext::swapBuffers() {
-
-
-
-        glfwSwapBuffers(m_WindowHandle);
-
-    }
-
-    void GraphicsContext::deInitGlad(){
-
-        s_GLADInitialized = false;
-
-    }
 }
+
+#endif //GEOGL_SHADER_HPP

@@ -26,6 +26,9 @@
 #ifndef GEOGL_APPLICATION_HPP
 #define GEOGL_APPLICATION_HPP
 
+#include "../Rendering/Shader.hpp"
+
+
 #include "../IO/Window.hpp"
 #include "../IO/Events/ApplicationEvent.hpp"
 #include "../Layers/LayerStack.hpp"
@@ -48,7 +51,7 @@ namespace GEOGL{
         static Application* s_Instance;
 
     public:
-        Application();
+        Application(const WindowProps& props = WindowProps());
         virtual ~Application();
 
         /**
@@ -79,9 +82,12 @@ namespace GEOGL{
         bool m_Running = true;
         LayerStack m_LayerStack;
         Settings m_Settings;
-        APIManager m_APIManager;
+        std::unique_ptr<APIManager> m_APIManager;
 
         ImGuiLayer* m_ImGuiLayer;
+
+        unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+        std::unique_ptr<Shader> m_Shader;
 
 
     };

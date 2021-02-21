@@ -118,6 +118,9 @@ namespace GEOGL::Platform::GLFW{
         glfwSetWindowUserPointer(m_Window, &m_Data);
         m_Data.graphicsContext = m_GraphicsContext;
 
+        /* Load the window icon */
+        setWindowIcon(props.iconPath);
+
         /* Set VSync true. Evidently, no virtual member functions from the constructor. */
         {
             bool vsync = true;
@@ -173,6 +176,17 @@ namespace GEOGL::Platform::GLFW{
 
         m_GraphicsContext->setVSync(&enabled);
         m_Data.vSync = enabled;
+
+    }
+
+    void Window::setWindowIcon(const std::string& windowIcon){
+
+        if(windowIcon.empty())
+            return;
+        GLFWimage image[1];
+        image->pixels = stbi_load(windowIcon.c_str(), &image->width, &image->height, 0,4);
+        glfwSetWindowIcon(m_Window, 1, image);
+        stbi_image_free(image->pixels);
 
     }
 

@@ -130,7 +130,7 @@ add_library(GEOGL ${GEOGL_MAIN_LIBRARY_TYPE}
         include/GEOGL/Core.hpp
         include/GEOGL/MainCreator.hpp
 
-        Rendering/GraphicsContext.cpp Rendering/GraphicsContext.hpp)
+        Rendering/GraphicsContext.cpp Rendering/GraphicsContext.hpp Rendering/Shader.cpp Rendering/Shader.hpp)
 
 
 set(GEOGL_LIBRARY_NAME GEOGL)
@@ -162,5 +162,7 @@ set_target_properties(${GEOGL_LIBRARY_NAME} PROPERTIES
 set_target_properties(${GEOGL_LIBRARY_NAME} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/
         )
+
+set_target_properties(${GEOGL_LIBRARY_NAME} PROPERTIES POSITION_INDEPENDENT_CODE on)
 
 add_library(GEOGL::Engine ALIAS ${GEOGL_LIBRARY_NAME})

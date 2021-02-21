@@ -48,12 +48,17 @@ public:
 
 
 
-    SandboxApp::SandboxApp() {
-        GEOGL::APIManager manager;
-
+    SandboxApp::SandboxApp() : GEOGL::Application(
+            GEOGL::WindowProps(
+                    "GEOGL Example",
+                    1920,
+                    1080,
+                    "Resources/Runtime-Icon.png"
+            )) {
 
         GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
         pushLayer(new ExampleLayer);
+        //getWindow().setVSync(false);
 
     }
 

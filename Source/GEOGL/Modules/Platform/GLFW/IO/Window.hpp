@@ -78,6 +78,8 @@ namespace GEOGL::Platform::GLFW{
          */
         void setVSync(bool enabled) override;
 
+        void setWindowIcon(const std::string& windowIcon) override;
+
         /**
          * Asks if VSync is enabled
          * @return Whether or not VSync is enabled.

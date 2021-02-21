@@ -28,6 +28,7 @@ endif(WIN32)
 #         Linker Dependencies        #
 ######################################
 # Utils, glfw, GLAD
+set_target_properties(${GEOGL_LIBRARY_NAME} PROPERTIES POSITION_INDEPENDENT_CODE on)
 add_dependencies(${GEOGL_LIBRARY_NAME} GEOGL::Utils glfw GLAD)
 target_link_libraries(${GEOGL_LIBRARY_NAME} GEOGL::Utils glfw GLAD ${GEOGL_PLATFORM_LIBS_GL})
 

@@ -47,6 +47,8 @@ namespace GEOGL {
          */
         std::string title;
 
+        std::string iconPath;
+
         unsigned int versionMajor;
         unsigned int versionMinor;
         unsigned int versionPatch;
@@ -70,13 +72,15 @@ namespace GEOGL {
          * @param appVersionMinor The minor version of the app
          * @param appVersionPatch The patch version of the app
          */
-        explicit WindowProps(const std::string& appName = "GEOGL Engine",
+        explicit WindowProps(std::string appName = "GEOGL Engine",
                     uint16_t width = 1280,
                     uint16_t height = 720,
+                    std::string imagePath = "",
                     unsigned int appVersionMajor = 0,
                     unsigned int appVersionMinor =0,
                     unsigned int appVersionPatch =1)
                 : title(std::move(appName)),
+                iconPath(std::move(imagePath)),
                 versionMajor(appVersionMajor),
                 versionMinor(appVersionMinor),
                 versionPatch(appVersionPatch),
@@ -121,6 +125,7 @@ namespace GEOGL {
         virtual void setEventCallback(const EventCallbackFn& callback) = 0;
         virtual void setVSync(bool enabled) = 0;
         virtual bool isVSync() const = 0;
+        virtual void setWindowIcon(const std::string& windowIcon) = 0;
 
         /**
          * Gets the native window as a pointer

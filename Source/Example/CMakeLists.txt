@@ -10,7 +10,7 @@ if(WIN32)
         SET(OPTIONS WIN32)
     endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-    set(ADDITIONAL_WIN32_FILES Resources/imageIcon.rc)
+    set(ADDITIONAL_WIN32_FILES Icons/imageIcon.rc)
 
 endif(WIN32)
 
@@ -23,3 +23,10 @@ target_link_libraries(${MODULE_NAME} GEOGL::Engine)
 set_target_properties(${MODULE_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/
         )
+
+
+add_custom_command(
+        TARGET ${MODULE_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/${PATH_TO_GEOGL}/Source/Example/Resources" "${CMAKE_BINARY_DIR}/bin/Resources"
+        COMMENT "Copying resources to bin directory"
+)
