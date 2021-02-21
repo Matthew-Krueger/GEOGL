@@ -22,8 +22,36 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGL_HPP
-#define GEOGL_OPENGL_HPP
+#ifndef GEOGL_OPENGLGRAPHICSCONTEXT_HPP
+#define GEOGL_OPENGLGRAPHICSCONTEXT_HPP
 
+#include "../../../../Rendering/GraphicsContext.hpp"
 
-#endif //GEOGL_OPENGL_HPP
+struct GLFWwindow;
+
+namespace GEOGL::Platform::OpenGL{
+
+    /**
+     * \brief Implements the Graphics context for OpenGL
+     */
+    class GEOGL_API GraphicsContext : public GEOGL::GraphicsContext{
+    public:
+        GraphicsContext(GLFWwindow* windowHandle);
+        ~GraphicsContext();
+
+        void clearColor() override;
+
+        void setViewport(glm::vec2& topLeftCorner, glm::vec2& dimensions) override;
+        void setVSync(bool* vSyncStatus) override;
+        void swapBuffers() override;
+
+        void deInitGlad();
+
+    private:
+        GLFWwindow* m_WindowHandle;
+
+    };
+
+}
+
+#endif //GEOGL_OPENGLGRAPHICSCONTEXT_HPP

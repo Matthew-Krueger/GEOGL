@@ -29,16 +29,27 @@
 
 namespace GEOGL{
 
-    enum WindowAPIType {
-        WINDOW_OPENGL_DESKTOP = 0,
-        WINDOW_VULKAN_DESKTOP = 1
+    enum RenderingAPIType {
+        API_INVALID = 0,
+        API_OPENGL_DESKTOP = BIT(0),
+        API_VULKAN_DESKTOP = BIT(1),
+        API_DIRECTX_DESKTOP = BIT(3)
+    };
+
+    enum WindowingType {
+
+        WINDOWING_INVALID = 0,
+        WINDOWING_GLFW_DESKTOP = BIT(0) | BIT(1)
+
     };
 
     /**
      * \brief Pretty prints the API Type.
      * @return The Pretty Printed API type
      */
-    GEOGL_API std::string apiPrettyPrint(enum WindowAPIType windowAPI);
+    GEOGL_API std::string apiPrettyPrint(enum RenderingAPIType API);
+
+    GEOGL_API std::string windowingPrettyPrint(enum WindowingType windowing);
 
     /**
      * \brief Determines the lowest supported API by the binary
@@ -50,21 +61,34 @@ namespace GEOGL{
      * supported by the computer.
      * @return The lowest supported API Specification
      */
-    GEOGL_API enum WindowAPIType determineLowestAPI();
+    GEOGL_API enum RenderingAPIType determineLowestAPI();
 
     /**
      * \brief Determines if the selected API is supported or not.
      * @param api The API to check.
      * @return If it is supported.
      */
-    GEOGL_API bool isAPISupported(enum WindowAPIType api);
+    GEOGL_API bool isAPISupported(enum RenderingAPIType api);
 
     /**
      * \brief Finds the preferred API if the current one is not supported.
      * @param preferredAPI The API that the client prefers to use.
      * @return The API the engine will use.
      */
-    GEOGL_API enum WindowAPIType findBestPreferredAPI(enum WindowAPIType preferredAPI);
+    GEOGL_API enum RenderingAPIType findBestPreferredAPI(enum RenderingAPIType preferredAPI);
+
+    class GEOGL_API APIManager{
+    public:
+        APIManager(enum RenderingAPIType api = RenderingAPIType::API_INVALID);
+        ~APIManager();
+
+        enum WindowingType getWindowingType();
+        enum RenderingAPIType getRenderAPIType();
+
+    private:
+        enum RenderingAPIType m_RenderAPI;
+
+    };
 
 }
 

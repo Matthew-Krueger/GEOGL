@@ -29,12 +29,12 @@
  *******************************************************************************/
 
 #include "Input.hpp"
-#include "../../../Application/Application.hpp"
+#include "../../../../Application/Application.hpp"
 #include "../../../Utils/InputCodesConverter.hpp"
 
 #include <GLFW/glfw3.h>
 
-namespace GEOGL::Platform::OpenGL{
+namespace GEOGL::Platform::GLFW{
 
 
     bool Input::isKeyPressedImpl(KeyCode keycode) {

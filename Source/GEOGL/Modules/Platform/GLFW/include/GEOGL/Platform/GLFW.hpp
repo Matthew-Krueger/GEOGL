@@ -22,8 +22,10 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGL_HPP
-#define GEOGL_OPENGL_HPP
 
+#ifndef GEOGL_GLFW_HPP
+#define GEOGL_GLFW_HPP
 
-#endif //GEOGL_OPENGL_HPP
+#include "../../../IO/Window.hpp"
+
+#endif //GEOGL_GLFW_HPP

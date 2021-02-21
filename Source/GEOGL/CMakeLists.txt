@@ -4,6 +4,8 @@
 # Optional Platform Libs
 set(GEOGL_OPENGL_BUILD_FLAG 0)
 set(GEOGL_VULKAN_BUILD_FLAG 0)
+set(GEOGL_PLATFORM_DEPS "")
+set(GEOGL_PLATFORM_DEPS_WINDOWING "")
 
 if(BUILD_SHARED_LIBS)
     set(GEOGL_LIBRARY_TYPE SHARED)
@@ -27,6 +29,11 @@ endif()
 #######################################################################
 #                           SELECT PLATFORM                           #
 #######################################################################
+
+if(GEOGL_BUILD_WITH_OPENGL OR GEOGL_BUILD_WITH_VULKAN)
+    set(GEOGL_GLFW_BUILD_FLAG 1)
+    set(GEOGL_PLATFORM_DPES_WINDOWING ${GEOGL_PLATFORM_DEPS_WINDOWING} GEOGL::Platform::GLFW)
+endif()
 
 if(GEOGL_BUILD_WITH_OPENGL)
     message("-- Building GEOGL with OpenGL Support")
@@ -66,6 +73,7 @@ target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_ENGINE_NAME_NO_VERS
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_VULKAN=${GEOGL_VULKAN_BUILD_FLAG})
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_OPENGL=${GEOGL_OPENGL_BUILD_FLAG})
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_ENABLE_IGPU=${GEOGL_ENABLE_IGPU_DEF})
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_GLFW=${GEOGL_GLFW_BUILD_FLAG})
 if(NOT BUILD_SHARED_LIBS)
     target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_STATIC)
 endif(NOT BUILD_SHARED_LIBS)
@@ -73,6 +81,7 @@ endif(NOT BUILD_SHARED_LIBS)
 target_include_directories("GEOGL_Interface" INTERFACE include
         Modules/Platform/OpenGL/include
         Modules/Platform/Vulkan/include
+        Modules/Platform/GLFW/include
         Modules/Utils/include
         ../../Dependencies/Nlohmann/JSON/include
         ../../Dependencies/glfw-3.3.2/include
@@ -121,14 +130,14 @@ add_library(GEOGL ${GEOGL_MAIN_LIBRARY_TYPE}
         include/GEOGL/Core.hpp
         include/GEOGL/MainCreator.hpp
 
-        )
+        Rendering/GraphicsContext.cpp Rendering/GraphicsContext.hpp)
 
 
 set(GEOGL_LIBRARY_NAME GEOGL)
 
 # Add Dependencies
-add_dependencies(${GEOGL_LIBRARY_NAME} GEOGL::Utils ${GEOGL_PLATFORM_DEPS})
-target_link_libraries(${GEOGL_LIBRARY_NAME} GEOGL::Utils ${GEOGL_PLATFORM_DEPS})
+add_dependencies(${GEOGL_LIBRARY_NAME} GEOGL::Utils ${GEOGL_PLATFORM_DEPS} ${GEOGL_PLATFORM_DPES_WINDOWING})
+target_link_libraries(${GEOGL_LIBRARY_NAME} GEOGL::Utils ${GEOGL_PLATFORM_DEPS} ${GEOGL_PLATFORM_DPES_WINDOWING})
 
 target_include_directories(${GEOGL_LIBRARY_NAME} INTERFACE include
         Modules/Platform/OpenGL/include

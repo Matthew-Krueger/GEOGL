@@ -42,19 +42,19 @@
 #include "Input.hpp"
 #include "KeyCodes.hpp"
 
-namespace GEOGL::Platform::OpenGL{
+#include "../../OpenGL/Rendering/OpenGLGraphicsContext.hpp"
+
+namespace GEOGL::Platform::GLFW{
 
     static uint8_t currentWindows = 0;
     static bool s_GLFWInitialized = false;
-    static bool s_GLADInitialized = false;
 
     static void glfwErrorCallbackOpenGL(int errorCode, const char * errorText){
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
     }
 
-    Window::Window(const WindowProps& props){
+    Window::Window(APIManager& api, const WindowProps& props) : m_apiManager(api){
         m_Window = nullptr;
-
 
         /* Initialize Input for Window */
         Input::init(new Input());
@@ -79,40 +79,59 @@ namespace GEOGL::Platform::OpenGL{
             s_GLFWInitialized = true;
         }
 
+        /* Guard against incompatible apis */
+        if(((!glfwVulkanSupported())||(!GEOGL_BUILD_WITH_VULKAN))&&(api.getRenderAPIType() == API_VULKAN_DESKTOP)){
+            GEOGL_CORE_CRITICAL("Vulkan selected but not supported.");
+            exit(1);
+        }
+        if(!((api.getRenderAPIType() == API_OPENGL_DESKTOP) && (GEOGL_BUILD_WITH_OPENGL))){
+            GEOGL_CORE_CRITICAL("OpenGL selected but not supported.");
+            exit(1);
+        }
 
         /* Do window hints for GLFW */
-        GEOGL_CORE_INFO("Creating Window with OpenGL Context");
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        switch(api.getRenderAPIType()){
+            case API_OPENGL_DESKTOP:
 
+                GEOGL_CORE_INFO("Creating Window with OpenGL Context");
+                glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+                glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+                glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+                glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+                break;
+            case API_VULKAN_DESKTOP:
+
+                glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+                glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+                break;
+            default:
+                GEOGL_CORE_CRITICAL("Error. No valid Graphics API selected. Please select {} for OpenGL in settings.json.", API_OPENGL_DESKTOP);
+                exit(1);
+
+        }
         /* Creating the window */
         m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
-        glfwMakeContextCurrent(m_Window);
+
+        /* Create context */
+        m_GraphicsContext = new GEOGL::Platform::OpenGL::GraphicsContext(m_Window);
         glfwSetWindowUserPointer(m_Window, &m_Data);
+        m_Data.graphicsContext = m_GraphicsContext;
 
         /* Set VSync true. Evidently, no virtual member functions from the constructor. */
         {
-            glfwSwapInterval(1); // set vsync true
-            m_Data.vSync = true;
+            bool vsync = true;
+            m_GraphicsContext->setVSync(&vsync); // set vsync true
+            m_Data.vSync = vsync;
         }
 
         ++currentWindows;
         GEOGL_CORE_INFO("Successfully created window, noting the current window count is {}.", currentWindows);
 
-        /* Check if higher level openGl funcitons have been loaded */
-        if(!s_GLADInitialized) {
-            GEOGL_CORE_INFO("Loading higher OpenGL functions with GLAD.");
-            int gladStatus = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
-            GEOGL_CORE_ASSERT_NOSTRIP(gladStatus, "Failed to load higher OpenGL functions with GLAD.");
-        }
-
         /* Set glViewport to what we were given */
-        glViewport(0, 0, props.width, props.height);
-
-        GEOGL_CORE_INFO_NOSTRIP("OpenGL Version: {}.", (const char *)glGetString(GL_VERSION));
-        GEOGL_CORE_INFO_NOSTRIP("GLSL Supported version {}.", (const char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
+        glm::vec2 topLeft(0,0);
+        glm::vec2 dimensions(props.width, props.height);
+        m_GraphicsContext->setViewport(topLeft, dimensions);
 
         /* Set up callbacks for GLFW window events */
         {
@@ -132,29 +151,29 @@ namespace GEOGL::Platform::OpenGL{
             GEOGL_CORE_INFO("Since current windows is {}, terminating GLFW", currentWindows);
             glfwTerminate();
             s_GLFWInitialized = false;
-            s_GLADInitialized = false;
+            if(m_apiManager.getRenderAPIType() == API_OPENGL_DESKTOP)
+                ((GEOGL::Platform::OpenGL::GraphicsContext*)m_GraphicsContext)->deInitGlad();
         }
+
+        delete m_GraphicsContext;
     }
 
     void Window::clearColor() {
 
-        glClearColor(1,0,1,1);
-        glClear(GL_COLOR_BUFFER_BIT);
+        m_GraphicsContext->clearColor();
 
     }
 
     void Window::onUpdate(){
         glfwPollEvents();
-        glfwSwapBuffers(m_Window);
+        m_GraphicsContext->swapBuffers();
     }
 
     void Window::setVSync(bool enabled){
-        if (enabled)
-            glfwSwapInterval(1);
-        else
-            glfwSwapInterval(0);
 
+        m_GraphicsContext->setVSync(&enabled);
         m_Data.vSync = enabled;
+
     }
 
     void Window::setUpEventCallbacks(){
@@ -166,7 +185,9 @@ namespace GEOGL::Platform::OpenGL{
             data->height = height;
 
             /* Set the viewport before we get further. Better to do now then later */
-            glViewport(0, 0, width, height);
+            glm::vec2 topLeft(0,0);
+            glm::vec2 dimensions(width, height);
+            data->graphicsContext->setViewport(topLeft, dimensions);
 
             WindowResizeEvent event(width, height);
             data->EventCallback(event);

@@ -49,10 +49,11 @@ public:
 
 
     SandboxApp::SandboxApp() {
+        GEOGL::APIManager manager;
+
 
         GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
         pushLayer(new ExampleLayer);
-        getWindow().setVSync(false);
 
     }
 

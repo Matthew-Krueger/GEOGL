@@ -28,26 +28,28 @@
  *                                                                             *
  *******************************************************************************/
 
+#ifndef GEOGL_OPENGLKEYCODES_HPP
+#define GEOGL_OPENGLKEYCODES_HPP
 
-#ifndef GEOGL_OPENGLINPUT_HPP
-#define GEOGL_OPENGLINPUT_HPP
+#include "../../../Utils/InputCodes.hpp"
+#include "../../../Utils/InputCodesConverter.hpp"
 
-#include "../../../IO/Input.hpp"
+namespace GEOGL::Platform::GLFW{
 
-namespace GEOGL::Platform::OpenGL{
-
-    class GEOGL_API_HIDDEN Input : public GEOGL::Input{
-
-    protected:
-        bool isKeyPressedImpl(KeyCode keycode) override;
-
-        bool isMouseButtonPressedImpl(MouseCode button) override;
-        bool getMouseXImpl() override;
-        bool getMouseYImpl() override;
-        glm::vec2 getMousePositionImpl() override;
+    /**
+     * \brief A wrapper for GLFW Key Codes.
+     *
+     * Since GLFW is identical to our keycodes, these just return the cast to int of the code.
+     */
+    class GEOGL_API_HIDDEN KeyCodes : public GEOGL::InputCodesConverter{
+    private:
+        int getNativeKeyCodeImpl(KeyCode key) override;
+        int getNativeMouseCodeImpl(MouseCode button) override;
+        KeyCode getGEOGLKeyCodeImpl(int nativeKeyCode) override;
+        MouseCode getGEOGLMouseCodeImpl(int nativeMouseCode) override;
 
     };
 
 }
 
-#endif //GEOGL_OPENGLINPUT_HPP
+#endif //GEOGL_OPENGLKEYCODES_HPP

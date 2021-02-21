@@ -1,35 +1,30 @@
-######################################
-#         Add Vulkan Library         #
-######################################
-add_library(GEOGL_Platform_OpenGL ${GEOGL_LIBRARY_TYPE}
+#######################################
+#         Add GLFW Library            #
+#######################################
+add_library(GEOGL_GLFW ${GEOGL_LIBRARY_TYPE}
 
-        ImGuiImpl/imgui_impl_opengl3.h
-        ImGuiImpl/imgui_impl_opengl3.cpp
-        ImGuiImpl/imgui_impl_glfw.cpp
-        ImGuiImpl/imgui_impl_glfw.h
+        IO/Input.hpp
+        IO/Input.cpp
+        IO/KeyCodes.hpp
+        IO/KeyCodes.cpp
+        IO/Window.hpp
+        IO/Window.cpp
 
-        Rendering/OpenGLGraphicsContext.cpp
-        Rendering/OpenGLGraphicsContext.hpp
+        include/GEOGL/Platform/GLFW.hpp
 
         )
+
 ######################################
 #     Set name for use elsewhere     #
 ######################################
-set(GEOGL_LIBRARY_NAME GEOGL_Platform_OpenGL)
-
-
-if(WIN32)
-    set(GEOGL_PLATFORM_LIBS_GL opengl32)
-else()
-    set(GEOGL_PLATFORM_LIBS_GL GL)
-endif(WIN32)
+set(GEOGL_LIBRARY_NAME GEOGL_GLFW)
 
 ######################################
 #         Linker Dependencies        #
 ######################################
 # Utils, glfw, GLAD
-add_dependencies(${GEOGL_LIBRARY_NAME} GEOGL::Utils glfw GLAD)
-target_link_libraries(${GEOGL_LIBRARY_NAME} GEOGL::Utils glfw GLAD ${GEOGL_PLATFORM_LIBS_GL})
+add_dependencies(${GEOGL_LIBRARY_NAME} GEOGL::Utils glfw ${GEOGL_PLATFORM_DEPS})
+target_link_libraries(${GEOGL_LIBRARY_NAME} GEOGL::Utils glfw ${GEOGL_PLATFORM_DEPS})
 
 ######################################
 #      PreProcessor Definitions      #
@@ -55,4 +50,4 @@ set_target_properties("${GEOGL_LIBRARY_NAME}" PROPERTIES
 ######################################
 #     Add Alias target for looks     #
 ######################################
-add_library(GEOGL::Platform::OpenGL ALIAS ${GEOGL_LIBRARY_NAME})
+add_library(GEOGL::Platform::GLFW ALIAS ${GEOGL_LIBRARY_NAME})

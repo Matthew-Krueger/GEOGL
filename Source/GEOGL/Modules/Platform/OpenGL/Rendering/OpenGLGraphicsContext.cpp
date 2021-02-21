@@ -22,34 +22,65 @@
  *                                                                             *
  *******************************************************************************/
 
-/*******************************************************************************
- *                                                                             *
- * This code was based heavily off the Cherno game engine series               *
- *                                                                             *
- *******************************************************************************/
-
-#ifndef GEOGL_OPENGLKEYCODES_HPP
-#define GEOGL_OPENGLKEYCODES_HPP
-
-#include "../../../Utils/InputCodes.hpp"
-#include "../../../Utils/InputCodesConverter.hpp"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <GL/gl.h>
+#include "OpenGLGraphicsContext.hpp"
 
 namespace GEOGL::Platform::OpenGL{
 
-    /**
-     * \brief A wrapper for GLFW Key Codes.
-     *
-     * Since GLFW is identical to our keycodes, these just return the cast to int of the code.
-     */
-    class GEOGL_API_HIDDEN KeyCodes : public GEOGL::InputCodesConverter{
-    private:
-        int getNativeKeyCodeImpl(KeyCode key) override;
-        int getNativeMouseCodeImpl(MouseCode button) override;
-        KeyCode getGEOGLKeyCodeImpl(int nativeKeyCode) override;
-        MouseCode getGEOGLMouseCodeImpl(int nativeMouseCode) override;
+    static bool s_GLADInitialized = false;
 
-    };
+    GraphicsContext::GraphicsContext(GLFWwindow* windowHandle) : m_WindowHandle(windowHandle){
 
+        GEOGL_CORE_ASSERT(windowHandle, "Window Handle cannot be NULL.");
+
+        glfwMakeContextCurrent(m_WindowHandle);
+
+        /* Check if higher level openGl funcitons have been loaded */
+        if(!s_GLADInitialized) {
+            GEOGL_CORE_INFO("Loading higher OpenGL functions with GLAD.");
+            int gladStatus = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+            GEOGL_CORE_ASSERT_NOSTRIP(gladStatus, "Failed to load higher OpenGL functions with GLAD.");
+        }
+
+        GEOGL_CORE_INFO_NOSTRIP("OpenGL Version: {}.", (const char *)glGetString(GL_VERSION));
+        GEOGL_CORE_INFO_NOSTRIP("GLSL Supported version {}.", (const char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
+
+    }
+
+    GraphicsContext::~GraphicsContext() {
+
+    }
+
+    void GraphicsContext::setViewport(glm::vec2& topLeftCorner, glm::vec2& dimensions){
+        glViewport(topLeftCorner.x, topLeftCorner.y, dimensions.x, dimensions.y);
+    }
+
+    void GraphicsContext::clearColor(){
+
+        glClearColor(.1f,.1f,.1f,1);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+    }
+
+    void GraphicsContext::setVSync(bool* vSyncStatus){
+
+        glfwSwapInterval(*vSyncStatus);
+
+    }
+
+    void GraphicsContext::swapBuffers() {
+
+
+
+        glfwSwapBuffers(m_WindowHandle);
+
+    }
+
+    void GraphicsContext::deInitGlad(){
+
+        s_GLADInitialized = false;
+
+    }
 }
-
-#endif //GEOGL_OPENGLKEYCODES_HPP

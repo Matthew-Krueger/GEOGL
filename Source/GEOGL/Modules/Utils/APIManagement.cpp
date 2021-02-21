@@ -30,12 +30,40 @@
 
 #include "APIManagement.hpp"
 namespace GEOGL {
-    enum WindowAPIType determineLowestAPI() {
+
+    std::string apiPrettyPrint(enum RenderingAPIType windowAPI){
+
+        switch(windowAPI){
+            case RenderingAPIType::API_OPENGL_DESKTOP:
+                return std::string("OpenGL");
+            case RenderingAPIType::API_VULKAN_DESKTOP:
+                return std::string("Vulkan");
+            default:
+                return std::string("Unknown");
+        }
+
+    }
+
+    std::string windowingPrettyPrint(enum WindowingType windowing){
+
+        switch(windowing){
+
+            case WindowingType::WINDOWING_GLFW_DESKTOP:
+                return std::string("GLFW");
+            default:
+                return std::string("Unknown");
+
+        }
+
+    }
+
+
+    enum RenderingAPIType determineLowestAPI() {
 
         if (GEOGL_BUILD_WITH_OPENGL) {
-            return WindowAPIType::WINDOW_OPENGL_DESKTOP;
+            return RenderingAPIType::API_OPENGL_DESKTOP;
         } else if (GEOGL_BUILD_WITH_VULKAN) {
-            return WindowAPIType::WINDOW_VULKAN_DESKTOP;
+            return RenderingAPIType::API_VULKAN_DESKTOP;
         }
 
         GEOGL_CORE_ASSERT_NOSTRIP(false, "NO API Support detected.");
@@ -43,24 +71,47 @@ namespace GEOGL {
 
     }
 
-    bool isAPISupported(enum WindowAPIType api) {
+    bool isAPISupported(enum RenderingAPIType api) {
         switch (api){
-            case WINDOW_OPENGL_DESKTOP:
+            case API_OPENGL_DESKTOP:
                 return (bool) GEOGL_BUILD_WITH_OPENGL;
-            case WINDOW_VULKAN_DESKTOP:
+            case API_VULKAN_DESKTOP:
                 return (bool) GEOGL_BUILD_WITH_VULKAN;
+            default:
+                return false;
         }
-
-        return false;
 
     }
 
-    enum WindowAPIType findBestPreferredAPI(enum WindowAPIType preferredAPI) {
+    enum RenderingAPIType findBestPreferredAPI(enum RenderingAPIType preferredAPI) {
 
         if(isAPISupported(preferredAPI))
             return preferredAPI;
 
         return determineLowestAPI();
+
+    }
+
+    APIManager::APIManager(enum RenderingAPIType api){
+
+        m_RenderAPI = findBestPreferredAPI(api);
+
+    }
+
+    APIManager::~APIManager(){}
+
+    enum WindowingType APIManager::getWindowingType() {
+
+        if(WINDOWING_GLFW_DESKTOP & m_RenderAPI)
+            return WINDOWING_GLFW_DESKTOP;
+
+        return WINDOWING_INVALID;
+
+    }
+
+    enum RenderingAPIType APIManager::getRenderAPIType() {
+
+        return m_RenderAPI;
 
     }
 }

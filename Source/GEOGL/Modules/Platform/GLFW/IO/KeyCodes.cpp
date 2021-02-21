@@ -4,7 +4,7 @@
 
 #include "KeyCodes.hpp"
 
-namespace GEOGL::Platform::OpenGL{
+namespace GEOGL::Platform::GLFW{
 
 
     int KeyCodes::getNativeKeyCodeImpl(KeyCode key) {

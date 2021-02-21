@@ -49,25 +49,18 @@ namespace GEOGL{
 
         }
 
-        /* Make sure the API works */
-        switch ((WindowAPIType) m_Settings.data()["api"]){
-            case WindowAPIType::WINDOW_OPENGL_DESKTOP:
-                GEOGL_CORE_ASSERT_NOSTRIP(GEOGL_BUILD_WITH_OPENGL, "OpenGL Selected, but not supported.");
-                break;
-            case WindowAPIType::WINDOW_VULKAN_DESKTOP:
-                GEOGL_CORE_ASSERT_NOSTRIP(GEOGL_BUILD_WITH_VULKAN, "Vulkan Selected, but not supported.");
-                break;
-            default:
-                GEOGL_CORE_ASSERT_NOSTRIP(false, "No API Selected. Exiting. Set api flag in settings.json");
-        }
+        m_APIManager = APIManager(m_Settings.data()["api"]);
+        m_Settings.data()["api"] = m_APIManager.getRenderAPIType();
+        m_Settings.flush();
 
-        GEOGL_CORE_INFO_NOSTRIP("Selected Graphics API: {}", apiPrettyPrint(m_Settings.data()["api"]));
+        GEOGL_CORE_INFO_NOSTRIP("Selected Graphics API: {}", apiPrettyPrint(m_APIManager.getRenderAPIType()));
+        GEOGL_CORE_INFO_NOSTRIP("Calculated best Windowing API: {}", windowingPrettyPrint(m_APIManager.getWindowingType()));
 
         GEOGL_CORE_ASSERT_NOSTRIP(!s_Instance,"An application already exists.");
         s_Instance = this;
 
         /* Create window */
-        m_Window = std::unique_ptr<Window>(Window::create((WindowAPIType)m_Settings.data()["api"]));
+        m_Window = std::unique_ptr<Window>(Window::create(m_APIManager));
         m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
 
         /* Initialize ImGuiLayer */

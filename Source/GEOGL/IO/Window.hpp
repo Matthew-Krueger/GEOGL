@@ -70,7 +70,7 @@ namespace GEOGL {
          * @param appVersionMinor The minor version of the app
          * @param appVersionPatch The patch version of the app
          */
-        WindowProps(const std::string& appName = "GEOGL Engine",
+        explicit WindowProps(const std::string& appName = "GEOGL Engine",
                     uint16_t width = 1280,
                     uint16_t height = 720,
                     unsigned int appVersionMajor = 0,
@@ -102,6 +102,7 @@ namespace GEOGL {
     public:
         using EventCallbackFn = std::function<void(Event&)>;
 
+        Window(){};
         virtual ~Window() {}
         virtual void onUpdate() = 0;
 
@@ -134,7 +135,7 @@ namespace GEOGL {
          * \note Must be implemented in each platform.
          * @return The type of the window
          */
-        virtual enum WindowAPIType type() = 0;
+        virtual enum RenderingAPIType type() = 0;
 
         /**
          * Creates a window with the selected API.
@@ -142,7 +143,7 @@ namespace GEOGL {
          * @param props
          * @return
          */
-        static Window* create(enum WindowAPIType api, const WindowProps& props = WindowProps());
+        static Window* create(APIManager& api, const WindowProps& props = WindowProps());
     };
 
 }

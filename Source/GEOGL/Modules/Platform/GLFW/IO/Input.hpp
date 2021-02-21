@@ -22,8 +22,32 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGL_HPP
-#define GEOGL_OPENGL_HPP
+/*******************************************************************************
+ *                                                                             *
+ * This code was based heavily off the Cherno game engine series               *
+ *                                                                             *
+ *******************************************************************************/
 
 
-#endif //GEOGL_OPENGL_HPP
+#ifndef GEOGL_OPENGLINPUT_HPP
+#define GEOGL_OPENGLINPUT_HPP
+
+#include "../../../../IO/Input.hpp"
+
+namespace GEOGL::Platform::GLFW{
+
+    class GEOGL_API_HIDDEN Input : public GEOGL::Input{
+
+    protected:
+        bool isKeyPressedImpl(KeyCode keycode) override;
+
+        bool isMouseButtonPressedImpl(MouseCode button) override;
+        bool getMouseXImpl() override;
+        bool getMouseYImpl() override;
+        glm::vec2 getMousePositionImpl() override;
+
+    };
+
+}
+
+#endif //GEOGL_OPENGLINPUT_HPP

@@ -22,8 +22,30 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGL_HPP
-#define GEOGL_OPENGL_HPP
+#ifndef GEOGL_GRAPHICSCONTEXT_HPP
+#define GEOGL_GRAPHICSCONTEXT_HPP
 
+namespace GEOGL{
 
-#endif //GEOGL_OPENGL_HPP
+    /**
+     * \brief Represents a a rendering context
+     */
+    class GEOGL_API GraphicsContext{
+    public:
+        GraphicsContext() = default;
+        GraphicsContext(GraphicsContext& context) = delete;
+        virtual ~GraphicsContext() = default;
+
+        virtual void clearColor() = 0;
+
+        virtual void setViewport(glm::vec2& topLeftCorner, glm::vec2& dimensions) = 0;
+        virtual void setVSync(bool* vSyncStatus) = 0;
+        virtual void swapBuffers() = 0;
+
+    private:
+
+    };
+
+}
+
+#endif //GEOGL_GRAPHICSCONTEXT_HPP

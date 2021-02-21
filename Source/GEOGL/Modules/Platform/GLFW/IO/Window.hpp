@@ -28,10 +28,11 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLWINDOW_HPP
-#define GEOGL_OPENGLWINDOW_HPP
+#ifndef GEOGL_GLFWWINDOW_HPP
+#define GEOGL_GLFWWINDOW_HPP
 
 #include "../../../IO/Window.hpp"
+#include "../../OpenGL/Rendering/OpenGLGraphicsContext.hpp"
 
 /**
  * Forward declaration of GLFWwindow, as we need not know how it works.
@@ -39,6 +40,10 @@
 struct GLFWwindow;
 
 namespace GEOGL::Platform::OpenGL{
+    class GraphicsContext;
+}
+
+namespace GEOGL::Platform::GLFW{
 
     /**
      * \brief Represents an actual OpenGL Window, based on GLFW.
@@ -49,7 +54,7 @@ namespace GEOGL::Platform::OpenGL{
      */
     class GEOGL_API Window : public GEOGL::Window{
     public:
-        explicit Window(const WindowProps& props);
+        explicit Window(APIManager& api, const WindowProps& props);
         ~Window() override;
 
         // Update Handles
@@ -90,7 +95,7 @@ namespace GEOGL::Platform::OpenGL{
          * \brief Gets that this window is an OpenGL Desktop window
          * @return An WINDOW_OPENGL_DESKTOP flag
          */
-        inline enum WindowAPIType type() override { return WindowAPIType::WINDOW_OPENGL_DESKTOP; };
+        inline enum RenderingAPIType type() override { return RenderingAPIType::API_OPENGL_DESKTOP; };
 
     private:
         /**
@@ -133,12 +138,18 @@ namespace GEOGL::Platform::OpenGL{
              * \brief The callback function that is called when an event happens
              */
             EventCallbackFn EventCallback;
+
+            GEOGL::Platform::OpenGL::GraphicsContext* graphicsContext;
         };
 
         /**
          * \brief
          */
         WindowData m_Data;
+
+        GEOGL::Platform::OpenGL::GraphicsContext* m_GraphicsContext;
+        APIManager& m_apiManager;
+
     };
 
 }

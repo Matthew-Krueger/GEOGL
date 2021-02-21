@@ -79,6 +79,7 @@ namespace GEOGL{
         bool m_Running = true;
         LayerStack m_LayerStack;
         Settings m_Settings;
+        APIManager m_APIManager;
 
         ImGuiLayer* m_ImGuiLayer;
 

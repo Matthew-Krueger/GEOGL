@@ -25,50 +25,24 @@
 
 #include "Window.hpp"
 
-//#if (GEOGL_BUILD_WITH_OPENGL == true)
-
-#if (GEOGL_BUILD_WITH_OPENGL == 1)
-    #include <GEOGL/Platform/OpenGL.hpp>
+#if (GEOGL_BUILD_WITH_GLFW == 1)
+#include <GEOGL/Platform/GLFW.hpp>
+#else
+#error No windowing LIB found
 #endif
-
-#if (GEOGL_BUILD_WITH_VULKAN == 1)
-    #include <GEOGL/Platform/Vulkan.hpp>
-#endif
-
 
 namespace GEOGL{
 
-    std::string apiPrettyPrint(enum WindowAPIType windowAPI){
+    Window* Window::create(APIManager& api, const WindowProps& props){
 
-        switch(windowAPI){
-            case WindowAPIType::WINDOW_OPENGL_DESKTOP:
-                return std::string("OpenGL");
-            case WindowAPIType::WINDOW_VULKAN_DESKTOP:
-                return std::string("Vulkan");
-            default:
-                return std::string("Unknown");
-        }
-
-    }
-
-    Window* Window::create(enum WindowAPIType api,const WindowProps& props){
-
-        bool vulkanSupported = GEOGL_BUILD_WITH_VULKAN;
-        bool openGLSupported = GEOGL_BUILD_WITH_OPENGL;
-
-        switch(api){
-            case WINDOW_OPENGL_DESKTOP:
-                GEOGL_CORE_ASSERT_NOSTRIP(openGLSupported, "OpenGL is selected as the API, but does not appear to be supported.");
-#if GEOGL_BUILD_WITH_OPENGL == true
-                return new GEOGL::Platform::OpenGL::Window(props);
-#endif
-                break;
-            case WINDOW_VULKAN_DESKTOP:
-                GEOGL_CORE_ASSERT_NOSTRIP(vulkanSupported, "Vulkan is selected as the API, but does not appear to be supported.");
-#if GEOGL_BUILD_WITH_VULKAN == true
-                return new GEOGL::Platform::Vulkan::Window(props);
-#endif
-                break;
+        switch(api.getWindowingType()){
+            case WINDOWING_GLFW_DESKTOP:
+                if(GEOGL_BUILD_WITH_GLFW) {
+                    return new GEOGL::Platform::GLFW::Window(api, props);
+                }else{
+                    GEOGL_CORE_ASSERT_NOSTRIP(false, "GLFW is not supported. Exiting.");
+                    exit(-1);
+                }
             default:
                 GEOGL_CORE_ASSERT_NOSTRIP(false, "No api is selected. Exiting.");
         }

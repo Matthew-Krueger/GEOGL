@@ -2,6 +2,11 @@
 #          GEOGL Platform          #
 ####################################
 
+
+if(GEOGL_BUILD_WITH_OPENGL OR GEOGL_BUILD_WITH_VULKAN)
+    add_subdirectory(GLFW)
+endif()
+
 if(GEOGL_BUILD_WITH_OPENGL)
     #find OpenGL
     find_library(OpenGL REQUIRED)
