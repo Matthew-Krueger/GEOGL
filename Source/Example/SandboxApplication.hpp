@@ -31,8 +31,8 @@ namespace Sandbox {
     class SandboxApp : public GEOGL::Application {
     public:
         SandboxApp();
-
         ~SandboxApp() override;
+
     };
 }
 

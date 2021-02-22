@@ -96,14 +96,6 @@ add_dependencies("${GEOGL_LIBRARY_NAME}" GEOGL::Utils glfw )
 target_link_libraries("${GEOGL_LIBRARY_NAME}" GEOGL::Utils glfw ${VULKAN_LIB_LIST})
 
 ######################################
-#      Parse if IGPU is allowed      #
-######################################
-set(GEOGL_ENABLE_IGPU_DEF 0)
-if(GEOGL_ENABLE_IGPU)
-    set(GEOGL_ENABLE_IGPU_DEF 1)
-endif()
-
-######################################
 #      PreProcessor Definitions      #
 ######################################
 target_compile_definitions("${GEOGL_LIBRARY_NAME}" PRIVATE GEOGL_BUILD_LIBRARY)
@@ -123,16 +115,6 @@ set_target_properties("${GEOGL_LIBRARY_NAME}" PROPERTIES
 set_target_properties("${GEOGL_LIBRARY_NAME}" PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/
         )
-
-
-######################################
-#  PostBuild Copy VK_LAYER_SETTINGS  #
-######################################
-add_custom_command(
-        TARGET ${GEOGL_LIBRARY_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/${PATH_TO_GEOGL}/Source/GEOGL/Modules/Platform/Vulkan/vk_layer_settings.txt" "${CMAKE_BINARY_DIR}/bin/vk_layer_settings.txt"
-        COMMENT "Copying vk_layer_settings.txt to build directory"
-)
 
 ######################################
 #     Add Alias target for looks     #

@@ -99,12 +99,6 @@ target_include_directories("GEOGL_Interface" INTERFACE include
 #                      Build all Dependency DLLs                      #
 #######################################################################
 
-# Include Utils And Dependencies
-add_subdirectory(Modules/Utils)
-
-# Include Platforms
-add_subdirectory(Modules/Platform)
-
 # Build the GEOGL_DLL
 add_library(GEOGL ${GEOGL_MAIN_LIBRARY_TYPE}
         Application/Application.cpp
@@ -132,6 +126,12 @@ add_library(GEOGL ${GEOGL_MAIN_LIBRARY_TYPE}
 
         Rendering/GraphicsContext.cpp Rendering/GraphicsContext.hpp Rendering/Shader.cpp Rendering/Shader.hpp)
 
+
+# Include Utils And Dependencies
+add_subdirectory(Modules/Utils)
+
+# Include Platforms
+add_subdirectory(Modules/Platform)
 
 set(GEOGL_LIBRARY_NAME GEOGL)
 
@@ -165,4 +165,17 @@ set_target_properties(${GEOGL_LIBRARY_NAME} PROPERTIES
 
 set_target_properties(${GEOGL_LIBRARY_NAME} PROPERTIES POSITION_INDEPENDENT_CODE on)
 
+######################################
+#  PostBuild Copy VK_LAYER_SETTINGS  #
+######################################
+if(GEOGL_BUILD_WITH_VULKAN)
+    add_custom_command(
+            TARGET ${GEOGL_LIBRARY_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/${PATH_TO_GEOGL}/Source/GEOGL/Modules/Platform/Vulkan/vk_layer_settings.txt" "${CMAKE_BINARY_DIR}/bin/vk_layer_settings.txt"
+            COMMENT "Copying vk_layer_settings.txt to build directory"
+    )
+endif()
+
 add_library(GEOGL::Engine ALIAS ${GEOGL_LIBRARY_NAME})
+
+

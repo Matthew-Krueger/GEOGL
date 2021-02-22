@@ -86,7 +86,7 @@ namespace GEOGL::Platform::Vulkan{
          * Returns that this window is an OpenGL Desktop window
          * @return An WINDOW_VULKAN_DESKTOP flag
          */
-        inline enum WindowAPIType type() override { return WindowAPIType::WINDOW_VULKAN_DESKTOP; };
+        inline enum RenderingAPIType type() override { return RenderingAPIType::API_VULKAN_DESKTOP; };
 
     private:
         /**

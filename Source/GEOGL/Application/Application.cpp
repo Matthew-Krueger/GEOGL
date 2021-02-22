@@ -44,15 +44,20 @@ namespace GEOGL{
         /* Open settings */
         {
             if(!m_Settings.open("settings.json")) {
-                m_Settings.data()["api"] = determineLowestAPI();
+                RenderingAPIType api = determineLowestAPI();
+                GEOGL_CORE_WARN_NOSTRIP("Settings file not found. Setting lowest API");
+                m_Settings.data["api"] = determineLowestAPI();
                 m_Settings.flush();
             }
 
         }
 
-        m_APIManager = std::make_unique<APIManager>(APIManager(m_Settings.data()["api"]));
-        m_Settings.data()["api"] = m_APIManager->getRenderAPIType();
-        m_Settings.flush();
+        m_APIManager = std::make_unique<APIManager>(APIManager(static_cast<RenderingAPIType>(m_Settings.data["api"])));
+        if(static_cast<RenderingAPIType>(m_Settings.data["api"]) != m_APIManager->getRenderAPIType()) {
+            GEOGL_CORE_WARN_NOSTRIP("API Stored as {} does not match engine selected api {}. Setting property.", apiPrettyPrint(m_Settings.data["api"]), apiPrettyPrint(m_APIManager->getRenderAPIType()));
+            m_Settings.data["api"] = m_APIManager->getRenderAPIType();
+            m_Settings.flush();
+        }
 
         GEOGL_CORE_INFO_NOSTRIP("Selected Graphics API: {}", apiPrettyPrint(m_APIManager->getRenderAPIType()));
         GEOGL_CORE_INFO_NOSTRIP("Calculated best Windowing API: {}", windowingPrettyPrint(m_APIManager->getWindowingType()));
@@ -153,27 +158,22 @@ namespace GEOGL{
 
         /* Bind a Window Close Event to Application::onWindowClose() */
         dispatcher.dispatch<WindowCloseEvent>(GEOGL_BIND_EVENT_FN(Application::onWindowClose)); // NOLINT(modernize-avoid-bind)
-
+        if(event.Handled)
+            return;
         for(auto it = m_LayerStack.end(); it != m_LayerStack.begin();){
             (*--it)->onEvent(event);
-            if(event.Handled)
+            if(event.Handled){
                 break;
+            }
         }
 
         //GEOGL_CORE_INFO("{}", event.toString());
 
     }
 
-    void Application::pushLayer(Layer *layer) {
-        m_LayerStack.pushLayer(layer);
-    }
-
-    void Application::pushOverlay(Layer *layer) {
-        m_LayerStack.pushOverlay(layer);
-    }
-
     bool Application::onWindowClose(WindowCloseEvent& event){
         m_Running = false;
+        event.Handled = true;
         return true;
     }
 

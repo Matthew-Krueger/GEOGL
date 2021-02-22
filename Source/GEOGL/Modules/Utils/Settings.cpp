@@ -57,9 +57,9 @@ namespace GEOGL{
             return false;
 
         /* now, load the json */
-        settingsFile >> m_Json;
+        settingsFile >> data;
 
-        return !m_Json.empty();
+        return !data.empty();
 
     }
 
@@ -68,7 +68,7 @@ namespace GEOGL{
         std::ofstream outputFile;
         outputFile.open(m_FilePath, std::ios::out | std::ios::trunc);
         GEOGL_CORE_ASSERT_NOSTRIP(outputFile, "Filed to save settings {}", m_FilePath);
-        outputFile << std::setw(4) << m_Json << std::endl;
+        outputFile << std::setw(4) << data << std::endl;
         outputFile.flush();
         outputFile.close();
         bool reloadStatus = reload();

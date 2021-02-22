@@ -48,6 +48,7 @@ namespace GEOGL::Platform::GLFW{
 
     static uint8_t currentWindows = 0;
     static bool s_GLFWInitialized = false;
+    static bool s_UsedGLAD = false;
 
     static void glfwErrorCallbackOpenGL(int errorCode, const char * errorText){
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
@@ -99,6 +100,8 @@ namespace GEOGL::Platform::GLFW{
                 glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
                 glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
+                s_UsedGLAD = true;
+
                 break;
             case API_VULKAN_DESKTOP:
 
@@ -142,6 +145,7 @@ namespace GEOGL::Platform::GLFW{
         }
 
         GEOGL_CORE_ASSERT(m_Window, "Did not successfully create the window");
+
     }
 
     Window::~Window(){
@@ -154,7 +158,7 @@ namespace GEOGL::Platform::GLFW{
             GEOGL_CORE_INFO("Since current windows is {}, terminating GLFW", currentWindows);
             glfwTerminate();
             s_GLFWInitialized = false;
-            if(m_apiManager.getRenderAPIType() == API_OPENGL_DESKTOP)
+            if(s_UsedGLAD)
                 ((GEOGL::Platform::OpenGL::GraphicsContext*)m_GraphicsContext)->deInitGlad();
         }
 

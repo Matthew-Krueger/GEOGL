@@ -40,13 +40,7 @@ namespace GEOGL{
         ~Settings();
 
         /**
-         * \brief Gets the data for reading/
-         * @return The Json data. Access using array access following Nlohmann json
-         */
-        inline json& data(){ return m_Json; };
-
-        /**
-         * Opens the specified file and loads it into m_Json.
+         * Opens the specified file and loads it into data.
          * @param filePath
          * @return TRUE if reading succeeded, FALSE otherwise.
          */
@@ -63,9 +57,11 @@ namespace GEOGL{
          */
         void flush();
 
+    public:
+        json data;
+
     private:
         std::string m_FilePath;
-        json m_Json;
 
     };
 
