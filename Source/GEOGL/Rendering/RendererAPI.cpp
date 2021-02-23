@@ -28,7 +28,7 @@
  *******************************************************************************/
 
 
-#include "APIManagement.hpp"
+#include "RendererAPI.hpp"
 namespace GEOGL {
 
     std::string apiPrettyPrint(enum RenderingAPIType windowAPI){
@@ -101,15 +101,15 @@ namespace GEOGL {
 
     }
 
-    APIManager::APIManager(enum RenderingAPIType api){
+    RendererAPI::RendererAPI(enum RenderingAPIType api){
 
         m_RenderAPI = findBestPreferredAPI(api);
 
     }
 
-    APIManager::~APIManager(){}
+    RendererAPI::~RendererAPI(){}
 
-    enum WindowingType APIManager::getWindowingType() {
+    enum WindowingType RendererAPI::getWindowingType() const{
 
         if(WINDOWING_GLFW_DESKTOP & m_RenderAPI)
             return WINDOWING_GLFW_DESKTOP;
@@ -118,7 +118,7 @@ namespace GEOGL {
 
     }
 
-    enum RenderingAPIType APIManager::getRenderAPIType() {
+    enum RenderingAPIType RendererAPI::getRenderAPIType() const{
 
         return m_RenderAPI;
 

@@ -31,6 +31,29 @@ namespace GEOGL::Platform::OpenGL{
 
     static bool s_GLADInitialized = false;
 
+    /*
+     * Error Callback
+     */
+
+    void GLAPIENTRY
+    MessageCallback( GLenum source,
+                     GLenum type,
+                     GLuint id,
+                     GLenum severity,
+                     GLsizei length,
+                     const GLchar* message,
+                     const void* userParam ){
+
+        GEOGL_CORE_WARN_NOSTRIP("OpenGL {}:", glGetString(severity));
+        GEOGL_CORE_WARN_NOSTRIP("   Type: {}", glGetString(type));
+        GEOGL_CORE_WARN_NOSTRIP("   Source: {}", glGetString(source));
+        GEOGL_CORE_WARN_NOSTRIP("   Message: {}", message);
+
+    }
+
+    /*
+     * Graphics context
+     */
     GraphicsContext::GraphicsContext(GLFWwindow* windowHandle) : m_WindowHandle(windowHandle){
 
         GEOGL_CORE_ASSERT(windowHandle, "Window Handle cannot be NULL.");
@@ -42,11 +65,15 @@ namespace GEOGL::Platform::OpenGL{
             GEOGL_CORE_INFO("Loading higher OpenGL functions with GLAD.");
             int gladStatus = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
             GEOGL_CORE_ASSERT_NOSTRIP(gladStatus, "Failed to load higher OpenGL functions with GLAD.");
+
+            /* now, set the debug callback */
+            glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+            glDebugMessageCallback(MessageCallback,0);
         }
 
         GEOGL_CORE_INFO_NOSTRIP("OpenGL Info:");
         GEOGL_CORE_INFO_NOSTRIP("   Vendor: {}", glGetString(GL_VENDOR));
-        GEOGL_CORE_INFO_NOSTRIP("   Renderer: {}", glGetString(GL_RENDERER));
+        GEOGL_CORE_INFO_NOSTRIP("   RendererAPI: {}", glGetString(GL_RENDERER));
         GEOGL_CORE_INFO_NOSTRIP("   OpenGL Version: {}.", (const char *)glGetString(GL_VERSION));
         GEOGL_CORE_INFO_NOSTRIP("   GLSL Version {}.", (const char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
 

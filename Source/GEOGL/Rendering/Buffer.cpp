@@ -22,33 +22,49 @@
  *                                                                             *
  *******************************************************************************/
 
-
-#include "Window.hpp"
-
-#if (GEOGL_BUILD_WITH_GLFW == 1)
-#include <GEOGL/Platform/GLFW.hpp>
-#else
-#error No windowing LIB found
+#include "Buffer.hpp"
+#include "../Application/Application.hpp"
+#ifdef GEOGL_BUILD_WITH_OPENGL
+#include "../Modules/Platform/OpenGL/Rendering/OpenGLBuffer.hpp"
 #endif
 
 namespace GEOGL{
 
-    Window* Window::create(RendererAPI& api, const WindowProps& props){
 
-        switch(api.getWindowingType()){
-            case WINDOWING_GLFW_DESKTOP:
-                if(GEOGL_BUILD_WITH_GLFW) {
-                    return new GEOGL::Platform::GLFW::Window(api, props);
-                }else{
-                    GEOGL_CORE_ASSERT_NOSTRIP(false, "GLFW is not supported. Exiting.");
-                    exit(-1);
-                }
+    std::shared_ptr<VertexBuffer> VertexBuffer::create(const std::vector<glm::vec3> &vertices) {
+        const RendererAPI& api = Application::get().getAPIManager();
+
+        std::shared_ptr<VertexBuffer> result;
+        switch(api.getRenderAPIType()){
+            case API_OPENGL_DESKTOP:
+#ifdef GEOGL_BUILD_WITH_OPENGL
+                result.reset(new GEOGL::Platform::OpenGL::VertexBuffer(vertices));
+                return result;
+#else
+                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
+#endif
             default:
-                GEOGL_CORE_ASSERT_NOSTRIP(false, "No api is selected. Exiting.");
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", apiPrettyPrint(api.getRenderAPIType()));
+                return nullptr;
         }
-
-        return nullptr;
 
     }
 
+    std::shared_ptr<IndexBuffer> IndexBuffer::create(const std::vector<uint32_t> &indices) {
+        const RendererAPI& api = Application::get().getAPIManager();
+
+        std::shared_ptr<IndexBuffer> result;
+        switch(api.getRenderAPIType()){
+            case API_OPENGL_DESKTOP:
+#ifdef GEOGL_BUILD_WITH_OPENGL
+                result.reset(new GEOGL::Platform::OpenGL::IndexBuffer(indices));
+                return result;
+#else
+                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
+#endif
+            default:
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", apiPrettyPrint(api.getRenderAPIType()));
+                return nullptr;
+        }
+    }
 }

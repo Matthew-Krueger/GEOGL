@@ -22,33 +22,45 @@
  *                                                                             *
  *******************************************************************************/
 
+#ifndef GEOGL_OPENGLBUFFER_HPP
+#define GEOGL_OPENGLBUFFER_HPP
 
-#include "Window.hpp"
+#include "../../../../Rendering/Buffer.hpp"
 
-#if (GEOGL_BUILD_WITH_GLFW == 1)
-#include <GEOGL/Platform/GLFW.hpp>
-#else
-#error No windowing LIB found
-#endif
+namespace GEOGL::Platform::OpenGL{
 
-namespace GEOGL{
+    class GEOGL_API VertexBuffer : public GEOGL::VertexBuffer{
+    public:
+        VertexBuffer(const std::vector<glm::vec3>& vertices);
+        virtual ~VertexBuffer();
 
-    Window* Window::create(RendererAPI& api, const WindowProps& props){
+        virtual void bind() const override;
+        virtual void unbind() const override;
 
-        switch(api.getWindowingType()){
-            case WINDOWING_GLFW_DESKTOP:
-                if(GEOGL_BUILD_WITH_GLFW) {
-                    return new GEOGL::Platform::GLFW::Window(api, props);
-                }else{
-                    GEOGL_CORE_ASSERT_NOSTRIP(false, "GLFW is not supported. Exiting.");
-                    exit(-1);
-                }
-            default:
-                GEOGL_CORE_ASSERT_NOSTRIP(false, "No api is selected. Exiting.");
-        }
+    private:
+        std::vector<glm::vec3> m_CPUData;
+        uint32_t m_VBOID;
 
-        return nullptr;
+    };
 
-    }
+
+    class GEOGL_API IndexBuffer : public GEOGL::IndexBuffer{
+    public:
+        IndexBuffer(const std::vector<uint32_t>& indices);
+        virtual ~IndexBuffer();
+
+        virtual void bind() const override;
+        virtual void unbind() const override;
+
+        virtual inline uint32_t getCount() const override {return m_CPUDataSizeCache; };
+
+    private:
+        std::vector<uint32_t> m_CPUData;
+        uint32_t m_CPUDataSizeCache;
+        uint32_t m_IndexBufferID;
+
+    };
 
 }
+
+#endif //GEOGL_OPENGLBUFFER_HPP

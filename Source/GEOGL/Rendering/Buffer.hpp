@@ -22,33 +22,35 @@
  *                                                                             *
  *******************************************************************************/
 
-
-#include "Window.hpp"
-
-#if (GEOGL_BUILD_WITH_GLFW == 1)
-#include <GEOGL/Platform/GLFW.hpp>
-#else
-#error No windowing LIB found
-#endif
+#ifndef GEOGL_BUFFER_HPP
+#define GEOGL_BUFFER_HPP
 
 namespace GEOGL{
 
-    Window* Window::create(RendererAPI& api, const WindowProps& props){
+    class GEOGL_API VertexBuffer{
+    public:
+        virtual ~VertexBuffer(){};
 
-        switch(api.getWindowingType()){
-            case WINDOWING_GLFW_DESKTOP:
-                if(GEOGL_BUILD_WITH_GLFW) {
-                    return new GEOGL::Platform::GLFW::Window(api, props);
-                }else{
-                    GEOGL_CORE_ASSERT_NOSTRIP(false, "GLFW is not supported. Exiting.");
-                    exit(-1);
-                }
-            default:
-                GEOGL_CORE_ASSERT_NOSTRIP(false, "No api is selected. Exiting.");
-        }
+        virtual void bind() const = 0;
+        virtual void unbind() const = 0;
 
-        return nullptr;
+        static std::shared_ptr<VertexBuffer> create(const std::vector<glm::vec3>& vertices);
+    };
 
-    }
+
+    class GEOGL_API IndexBuffer{
+    public:
+        virtual ~IndexBuffer(){};
+
+        virtual void bind() const = 0;
+        virtual void unbind() const = 0;
+
+        virtual uint32_t getCount() const = 0;
+
+        static std::shared_ptr<IndexBuffer> create(const std::vector<uint32_t>& indices);
+
+    };
 
 }
+
+#endif //GEOGL_BUFFER_HPP

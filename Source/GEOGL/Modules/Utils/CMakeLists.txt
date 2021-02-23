@@ -3,8 +3,6 @@
 #         Add Utils Library          #
 ######################################
 add_library(GEOGL_Utils ${GEOGL_LIBRARY_TYPE}
-        APIManagement.cpp
-        APIManagement.hpp
         Callbacks.cpp
         Callbacks.hpp
         Headers/Dependencies.hpp

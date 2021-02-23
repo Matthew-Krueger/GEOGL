@@ -124,7 +124,16 @@ add_library(GEOGL ${GEOGL_MAIN_LIBRARY_TYPE}
         include/GEOGL/Core.hpp
         include/GEOGL/MainCreator.hpp
 
-        Rendering/GraphicsContext.cpp Rendering/GraphicsContext.hpp Rendering/Shader.cpp Rendering/Shader.hpp)
+        Rendering/GraphicsContext.cpp
+        Rendering/GraphicsContext.hpp
+        Rendering/Shader.cpp
+        Rendering/Shader.hpp
+        Rendering/Buffer.cpp
+        Rendering/Buffer.hpp
+        Rendering/RendererAPI.cpp
+        Rendering/RendererAPI.hpp
+
+        )
 
 
 # Include Utils And Dependencies

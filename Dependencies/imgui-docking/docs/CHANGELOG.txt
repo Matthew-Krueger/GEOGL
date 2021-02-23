@@ -94,7 +94,7 @@ Other changes:
 - Added io.MouseHoveredViewport (optional _even_ for multi-viewport support, tied to ImGuiBackendFlags_HasMouseHoveredViewport flag).
 - Expanded ImGuiViewport structure, ImGuiViewportFlags flags.
 - Added ImGuiWindowClass and SetNextWindowClass() for passing viewport related hints to the OS/platform back-end.
-- Examples: Renderer: OpenGL2, OpenGL3, DirectX9, DirectX10, DirectX11, DirectX12, Vulkan: Added support for multi-viewports.
+- Examples: RendererAPI: OpenGL2, OpenGL3, DirectX9, DirectX10, DirectX11, DirectX12, Vulkan: Added support for multi-viewports.
 - Examples: Platforms: Win32, GLFW, SDL2: Added support for multi-viewports.
   Note that Linux/Mac still have inconsistent support for multi-viewports. If you want to help see https://github.com/ocornut/imgui/issues/2117.
 
@@ -1653,7 +1653,7 @@ Other Changes:
 
 - Examples backends have been refactored to separate the platform code (e.g. Win32, Glfw, SDL2) from the renderer code (e.g. DirectX11, OpenGL3, Vulkan).
   The "Platform" backends are in charge of: mouse/keyboard/gamepad inputs, cursor shape, timing, etc.
-  The "Renderer" backends are in charge of: creating the main font texture, rendering imgui draw data.
+  The "RendererAPI" backends are in charge of: creating the main font texture, rendering imgui draw data.
       before: imgui_impl_dx11.cpp        --> after: imgui_impl_win32.cpp + imgui_impl_dx11.cpp
       before: imgui_impl_dx12.cpp        --> after: imgui_impl_win32.cpp + imgui_impl_dx12.cpp
       before: imgui_impl_glfw_gl3.cpp    --> after: imgui_impl_glfw.cpp + imgui_impl_opengl2.cpp
@@ -1664,7 +1664,7 @@ Other Changes:
     smaller and more reusable. Integration of imgui into a new/custom engine may also be easier as there is less overlap
     between "windowing / inputs" and "rendering" code, so you may study or grab one half of the code and not the other.
   - This change was motivated by the fact that adding support for the upcoming multi-viewport feature requires more work
-    from the Platform and Renderer backends, and the amount of redundancy across files was becoming too difficult to
+    from the Platform and RendererAPI backends, and the amount of redundancy across files was becoming too difficult to
     maintain. If you use default backends, you'll benefit from an easy update path to support multi-viewports later
     (for future ImGui 1.7x).
   - This is not strictly a breaking change if you keep your old backends, but when you'll want to fully update your backends,

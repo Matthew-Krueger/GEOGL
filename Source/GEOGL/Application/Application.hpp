@@ -33,6 +33,7 @@
 #include "../IO/Events/ApplicationEvent.hpp"
 #include "../Layers/LayerStack.hpp"
 #include "../ImGui/ImGuiLayer.hpp"
+#include "../Rendering/Buffer.hpp"
 #include <GEOGL/Utils.hpp>
 
 
@@ -71,6 +72,7 @@ namespace GEOGL{
         inline void popOverlay(Layer* layer) { m_LayerStack.popOverlay(layer); };
 
         static inline Application& get() { return *Application::s_Instance; };
+        inline const RendererAPI& getAPIManager(){ return *m_APIManager; };
         inline Window& getWindow() { return *m_Window; };
 
     private:
@@ -84,12 +86,14 @@ namespace GEOGL{
         bool m_Running = true;
         LayerStack m_LayerStack;
         Settings m_Settings;
-        std::unique_ptr<APIManager> m_APIManager;
+        std::unique_ptr<RendererAPI> m_APIManager;
 
         ImGuiLayer* m_ImGuiLayer;
 
-        unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
-        std::unique_ptr<Shader> m_Shader;
+        unsigned int m_VertexArray;
+        std::shared_ptr<Shader> m_Shader;
+        std::shared_ptr<VertexBuffer> m_VertexBuffer;
+        std::shared_ptr<IndexBuffer> m_IndexBuffer;
 
 
     };

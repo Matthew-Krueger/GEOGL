@@ -54,7 +54,7 @@ namespace GEOGL::Platform::GLFW{
      */
     class GEOGL_API Window : public GEOGL::Window{
     public:
-        explicit Window(APIManager& api, const WindowProps& props);
+        explicit Window(RendererAPI& api, const WindowProps& props);
         ~Window() override;
 
         // Update Handles
@@ -150,7 +150,7 @@ namespace GEOGL::Platform::GLFW{
         WindowData m_Data;
 
         GEOGL::Platform::OpenGL::GraphicsContext* m_GraphicsContext;
-        APIManager& m_apiManager;
+        RendererAPI& m_apiManager;
 
     };
 

@@ -11,7 +11,7 @@ add_library(GEOGL_Platform_OpenGL ${GEOGL_LIBRARY_TYPE}
         Rendering/OpenGLGraphicsContext.cpp
         Rendering/OpenGLGraphicsContext.hpp
 
-        )
+        Rendering/OpenGLBuffer.cpp Rendering/OpenGLBuffer.hpp Rendering/OpenGLShader.cpp Rendering/OpenGLShader.hpp)
 ######################################
 #     Set name for use elsewhere     #
 ######################################

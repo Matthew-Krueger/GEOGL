@@ -54,7 +54,7 @@ namespace GEOGL::Platform::GLFW{
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
     }
 
-    Window::Window(APIManager& api, const WindowProps& props) : m_apiManager(api){
+    Window::Window(RendererAPI& api, const WindowProps& props) : m_apiManager(api){
         m_Window = nullptr;
 
         /* Initialize Input for Window */

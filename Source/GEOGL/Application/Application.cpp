@@ -52,7 +52,7 @@ namespace GEOGL{
 
         }
 
-        m_APIManager = std::make_unique<APIManager>(APIManager(static_cast<RenderingAPIType>(m_Settings.data["api"])));
+        m_APIManager = std::make_unique<RendererAPI>(RendererAPI(static_cast<RenderingAPIType>(m_Settings.data["api"])));
         if(static_cast<RenderingAPIType>(m_Settings.data["api"]) != m_APIManager->getRenderAPIType()) {
             GEOGL_CORE_WARN_NOSTRIP("API Stored as {} does not match engine selected api {}. Setting property.", apiPrettyPrint(m_Settings.data["api"]), apiPrettyPrint(m_APIManager->getRenderAPIType()));
             m_Settings.data["api"] = m_APIManager->getRenderAPIType();
@@ -76,25 +76,27 @@ namespace GEOGL{
         glGenVertexArrays(1, &m_VertexArray);
         glBindVertexArray(m_VertexArray);
 
-        glGenBuffers(1, &m_VertexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
+        //glGenBuffers(1, &m_VertexBuffer);
+        //glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
 
-        float vertices[3 * 3] = {
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-                0.0f,  0.5f, 0.0f
-        };
+        std::vector<glm::vec3> vertices = {{-0.5f,-0.5f, 0.0f},{0.5f, -0.5f, 0.0f},
+                                           {0.0f,  0.5f, 0.0f}};
 
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
+        m_VertexBuffer = VertexBuffer::create(vertices);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+        glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(float), nullptr);
+        m_VertexBuffer->bind();
 
-        glGenBuffers(1, &m_IndexBuffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
+        //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-        unsigned int indices[3] = { 0, 1, 2 };
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        std::vector<uint32_t> indices = {0,1,2};
+        m_IndexBuffer = IndexBuffer::create(indices);
+
+        //glGenBuffers(1, &m_IndexBuffer);
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
+
+        //unsigned int indices[3] = { 0, 1, 2 };
+        //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
         std::string vertexSrc = R"(
 			#version 330 core
@@ -119,7 +121,7 @@ namespace GEOGL{
 			}
 		)";
 
-        m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
+        m_Shader = Shader::create(vertexSrc, fragmentSrc);
     }
 
     Application::~Application() = default;
@@ -133,8 +135,10 @@ namespace GEOGL{
             m_Window->clearColor();
 
             m_Shader->bind();
-            glBindVertexArray(m_VertexArray);
-            glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+            //glBindVertexArray(m_VertexArray);
+            //m_VertexBuffer->bind();
+            //m_IndexBuffer->bind();
+            glDrawElements(GL_TRIANGLES, m_IndexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
 
             for(Layer* layer : m_LayerStack){
                 layer->onUpdate();

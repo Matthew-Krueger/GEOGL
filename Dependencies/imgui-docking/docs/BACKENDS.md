@@ -8,13 +8,13 @@ your application or engine to easily integrate Dear ImGui.** Each backend is typ
 - The 'Platform' backends are in charge of: mouse/keyboard/gamepad inputs, cursor shape, timing, windowing.<BR>
   e.g. Windows ([imgui_impl_win32.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_win32.cpp)), GLFW ([imgui_impl_glfw.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_glfw.cpp)), SDL2 ([imgui_impl_sdl.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_sdl.cpp)), etc.
 
-- The 'Renderer' backends are in charge of: creating atlas texture, rendering imgui draw data.<BR>
+- The 'RendererAPI' backends are in charge of: creating atlas texture, rendering imgui draw data.<BR>
   e.g. DirectX11 ([imgui_impl_dx11.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_dx11.cpp)), OpenGL/WebGL ([imgui_impl_opengl3.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_opengl3.cpp), Vulkan ([imgui_impl_vulkan.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_vulkan.cpp), etc.
 
-- For some high-level frameworks, a single backend usually handle both 'Platform' and 'Renderer' parts.<BR>
+- For some high-level frameworks, a single backend usually handle both 'Platform' and 'RendererAPI' parts.<BR>
   e.g. Allegro 5 ([imgui_impl_allegro5.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_allegro5.cpp)), Marmalade ([imgui_impl_marmalade.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_marmalade.cpp)). If you end up creating a custom backend for your engine, you may want to do the same.
 
-An application usually combines 1 Platform backend + 1 Renderer backend + main Dear ImGui sources.
+An application usually combines 1 Platform backend + 1 RendererAPI backend + main Dear ImGui sources.
 For example, the [example_win32_directx11](https://github.com/ocornut/imgui/tree/master/examples/example_win32_directx11) application combines imgui_impl_win32.cpp + imgui_impl_dx11.cpp. There are 20+ examples in the [examples/](https://github.com/ocornut/imgui/blob/master/examples/) folder. See [EXAMPLES.MD](https://github.com/ocornut/imgui/blob/master/docs/EXAMPLES.md) for details.
 
 
@@ -63,7 +63,7 @@ List of Platforms Backends:
     imgui_impl_win32.cpp      ; Win32 native API (Windows)
     imgui_impl_glut.cpp       ; GLUT/FreeGLUT (this is prehistoric software and absolutely not recommended today!)
 
-List of Renderer Backends:
+List of RendererAPI Backends:
 
     imgui_impl_dx9.cpp        ; DirectX9
     imgui_impl_dx10.cpp       ; DirectX10
@@ -75,7 +75,7 @@ List of Renderer Backends:
     imgui_impl_vulkan.cpp     ; Vulkan
     imgui_impl_wgpu.cpp       ; WebGPU
 
-List of high-level Frameworks Backends (combining Platform + Renderer):
+List of high-level Frameworks Backends (combining Platform + RendererAPI):
 
     imgui_impl_allegro5.cpp
     imgui_impl_marmalade.cpp
@@ -129,7 +129,7 @@ how Dear ImGui works and is setup. You can then rewrite a custom backend using y
 Also:
 The [multi-viewports feature](https://github.com/ocornut/imgui/issues/1542) of the 'docking' branch allows
 Dear ImGui windows to be seamlessly detached from the main application window. This is achieved using an
-extra layer to the Platform and Renderer backends, which allows Dear ImGui to communicate platform-specific
+extra layer to the Platform and RendererAPI backends, which allows Dear ImGui to communicate platform-specific
 requests such as: "create an additional OS window", "create a render context", "get the OS position of this
 window" etc. See 'ImGuiPlatformIO' for details.
 Supporting the multi-viewports feature correctly using 100% of your own abstractions is more difficult

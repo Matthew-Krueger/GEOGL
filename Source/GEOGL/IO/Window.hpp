@@ -148,7 +148,7 @@ namespace GEOGL {
          * @param props
          * @return
          */
-        static Window* create(APIManager& api, const WindowProps& props = WindowProps());
+        static Window* create(RendererAPI& api, const WindowProps& props = WindowProps());
     };
 
 }

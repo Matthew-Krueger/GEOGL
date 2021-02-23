@@ -81,13 +81,13 @@ namespace GEOGL{
      */
     GEOGL_API enum RenderingAPIType findBestPreferredAPI(enum RenderingAPIType preferredAPI);
 
-    class GEOGL_API APIManager{
+    class GEOGL_API RendererAPI{
     public:
-        APIManager(enum RenderingAPIType api = RenderingAPIType::API_INVALID);
-        ~APIManager();
+        RendererAPI(enum RenderingAPIType api = RenderingAPIType::API_INVALID);
+        ~RendererAPI();
 
-        enum WindowingType getWindowingType();
-        enum RenderingAPIType getRenderAPIType();
+        enum WindowingType getWindowingType() const;
+        enum RenderingAPIType getRenderAPIType() const;
 
     private:
         enum RenderingAPIType m_RenderAPI;

@@ -25,136 +25,34 @@
 
 #include <glad/glad.h>
 #include "Shader.hpp"
+#include "RendererAPI.hpp"
+#include "../Application/Application.hpp"
+
+#ifdef GEOGL_BUILD_WITH_OPENGL
+#include "../Modules/Platform/OpenGL/Rendering/OpenGLShader.hpp"
+#endif
 
 namespace GEOGL{
 
 
-    Shader::Shader(const std::string &vertexSrc, const std::string &fragmentSrc) {
+    std::shared_ptr<Shader> Shader::create(const std::string &vertexSrc, const std::string &fragmentSrc) {
 
-        /* Create an empty vertex shader handle */
-        m_VertexID = glCreateShader(GL_VERTEX_SHADER);
+        const RendererAPI& api = Application::get().getAPIManager();
 
-        /* Send the vertex shader source code to GL */
-        const GLchar *source = vertexSrc.c_str();
-        glShaderSource(m_VertexID, 1, &source, 0);
-
-        /* Compile the vertex shader */
-        glCompileShader(m_VertexID);
-
-        GLint isCompiled = 0;
-        glGetShaderiv(m_VertexID, GL_COMPILE_STATUS, &isCompiled);
-        if(isCompiled == GL_FALSE)
-        {
-            GLint maxLength = 0;
-            glGetShaderiv(m_VertexID, GL_INFO_LOG_LENGTH, &maxLength);
-
-            // The maxLength includes the NULL character
-            std::string infoLog;
-            infoLog.resize(maxLength);
-            glGetShaderInfoLog(m_VertexID, maxLength, &maxLength, infoLog.data());
-
-            // We don't need the shader anymore.
-            glDeleteShader(m_VertexID);
-
-            // Use the infoLog as you see fit.
-            GEOGL_CORE_CRITICAL_NOSTRIP("Unable to compile Vertex Shader: {}", infoLog);
-
-            // In this simple m_RenderID, we'll just leave
-            exit(2);
+        std::shared_ptr<Shader> result;
+        switch(api.getRenderAPIType()){
+            case API_OPENGL_DESKTOP:
+#ifdef GEOGL_BUILD_WITH_OPENGL
+            result.reset(new GEOGL::Platform::OpenGL::Shader(vertexSrc, fragmentSrc));
+            return result;
+#else
+                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
+#endif
+            default:
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", apiPrettyPrint(api.getRenderAPIType()));
+                return result;
         }
 
-        /* Create an empty fragment shader handle */
-        m_FragmentID = glCreateShader(GL_FRAGMENT_SHADER);
-
-        /* Send the fragment shader source code to GL */
-        source = (const GLchar *)fragmentSrc.c_str();
-        glShaderSource(m_FragmentID, 1, &source, 0);
-
-        /* Compile the fragment shader */
-        glCompileShader(m_FragmentID);
-
-        /* Ensure it compiles */
-        glGetShaderiv(m_FragmentID, GL_COMPILE_STATUS, &isCompiled);
-        if (isCompiled == GL_FALSE){
-            GLint maxLength = 0;
-            glGetShaderiv(m_FragmentID, GL_INFO_LOG_LENGTH, &maxLength);
-
-            /* The maxLength includes the NULL character */
-            std::string infoLog;
-            infoLog.resize(maxLength);
-            glGetShaderInfoLog(m_FragmentID, maxLength, &maxLength, infoLog.data());
-
-            /* We don't need the shader anymore. */
-            glDeleteShader(m_FragmentID);
-            glDeleteShader(m_VertexID);
-
-            /* Log compile error */
-            GEOGL_CORE_CRITICAL_NOSTRIP("Unable to compile Fragment Shader: {}", infoLog);
-
-            exit(2);
-        }
-
-        /* Vertex and fragment shaders are successfully compiled.
-         * Now time to link them together into a m_RenderID.
-         * Get a m_RenderID object. */
-        m_ShaderID = glCreateProgram();
-
-        /* Attach our shaders to our m_RenderID */
-        glAttachShader(m_ShaderID, m_VertexID);
-        glAttachShader(m_ShaderID, m_FragmentID);
-
-        /* Link our m_RenderID */
-        glLinkProgram(m_ShaderID);
-
-        /* Note the different functions here: glGetProgram* instead of glGetShader* */
-        GLint isLinked = 0;
-        glGetProgramiv(m_ShaderID, GL_LINK_STATUS, (int *)&isLinked);
-        if (isLinked == GL_FALSE){
-            GLint maxLength = 0;
-            glGetProgramiv(m_ShaderID, GL_INFO_LOG_LENGTH, &maxLength);
-
-            /* The maxLength includes the NULL character */
-            std::string infoLog;
-            infoLog.resize(maxLength);
-            glGetProgramInfoLog(m_ShaderID, maxLength, &maxLength, infoLog.data());
-
-            /* We don't need the m_RenderID anymore. */
-            glDeleteProgram(m_ShaderID);
-            glDeleteShader(m_ShaderID);
-            glDeleteShader(m_FragmentID);
-
-            GEOGL_CORE_CRITICAL_NOSTRIP("Unable to Link Vertex and Fragment shaders: {}", infoLog);
-
-            exit(2);
-
-        }
-
-        /* Always detach shaders after a successful link. */
-        glDetachShader(m_ShaderID, m_VertexID);
-        glDetachShader(m_ShaderID, m_FragmentID);
-
-    }
-
-    Shader::~Shader() {
-        glDetachShader(m_ShaderID, m_VertexID);
-        glDetachShader(m_ShaderID, m_FragmentID);
-
-        glDeleteShader(m_VertexID);
-        glDeleteShader(m_FragmentID);
-
-        glDeleteProgram(m_ShaderID);
-
-    }
-
-    void Shader::bind() const {
-
-        glUseProgram(m_ShaderID);
-
-    }
-
-    void Shader::unbind() const {
-
-        glUseProgram(0);
 
     }
 }

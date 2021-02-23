@@ -22,33 +22,28 @@
  *                                                                             *
  *******************************************************************************/
 
+#ifndef GEOGL_OPENGLSHADER_HPP
+#define GEOGL_OPENGLSHADER_HPP
 
-#include "Window.hpp"
+#include "../../../../Rendering/Shader.hpp"
 
-#if (GEOGL_BUILD_WITH_GLFW == 1)
-#include <GEOGL/Platform/GLFW.hpp>
-#else
-#error No windowing LIB found
-#endif
+namespace GEOGL::Platform::OpenGL{
 
-namespace GEOGL{
+    class GEOGL_API Shader : public GEOGL::Shader{
+    public:
+        Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
+        virtual ~Shader();
 
-    Window* Window::create(RendererAPI& api, const WindowProps& props){
+        void bind() const override;
+        void unbind() const override;
 
-        switch(api.getWindowingType()){
-            case WINDOWING_GLFW_DESKTOP:
-                if(GEOGL_BUILD_WITH_GLFW) {
-                    return new GEOGL::Platform::GLFW::Window(api, props);
-                }else{
-                    GEOGL_CORE_ASSERT_NOSTRIP(false, "GLFW is not supported. Exiting.");
-                    exit(-1);
-                }
-            default:
-                GEOGL_CORE_ASSERT_NOSTRIP(false, "No api is selected. Exiting.");
-        }
+    private:
+        uint32_t m_ShaderID;
+        uint32_t m_VertexID;
+        uint32_t m_FragmentID;
 
-        return nullptr;
-
-    }
+    };
 
 }
+
+#endif //GEOGL_OPENGLSHADER_HPP
