@@ -50,4 +50,10 @@
 #include "../../ImGui/ImGuiLayer.hpp"
 #include "../../Layers/LayerStack.hpp"
 
+/* Render api */
+#include "../../Rendering/Buffer.hpp"
+#include "../../Rendering/GraphicsContext.hpp"
+#include "../../Rendering/Shader.hpp"
+#include "../../Rendering/RendererAPI.hpp"
+
 #endif //GEOGL_CORE_HPP

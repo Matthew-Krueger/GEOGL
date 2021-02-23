@@ -26,6 +26,8 @@
 #include "../Application/Application.hpp"
 #ifdef GEOGL_BUILD_WITH_OPENGL
 #include "../Modules/Platform/OpenGL/Rendering/OpenGLBuffer.hpp"
+#include "RendererAPI.hpp"
+
 #endif
 
 namespace GEOGL{
