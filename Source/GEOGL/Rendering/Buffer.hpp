@@ -27,6 +27,61 @@
 
 namespace GEOGL{
 
+    enum class GEOGL_API ShaderDataType{
+        NONE = 0,
+        FLOAT,
+        FLOAT2,
+        FLOAT3,
+        FLOAT4,
+        MAT3,
+        MAT4,
+        INT,
+        INT2,
+        INT3,
+        INT4,
+        BOOLEAN
+    };
+
+    GEOGL_API uint32_t shaderDataTypeSize(ShaderDataType type);
+
+    struct GEOGL_API BufferElement{
+
+        std::string name;
+        ShaderDataType dataType;
+        uint32_t offset;
+        uint32_t size;
+        bool normalized;
+
+        BufferElement() = default;
+        inline BufferElement(ShaderDataType dataType, const std::string& name, bool normalized = false)
+            : name(name), dataType(dataType) , size(shaderDataTypeSize(dataType)), offset(0), normalized(normalized){};
+
+        uint32_t getComponentCount() const;
+    };
+
+    class GEOGL_API BufferLayout{
+    public:
+        BufferLayout() = default;
+        inline BufferLayout(const std::initializer_list<BufferElement>& elements) : m_Elements(elements) {
+
+            calculateOffsetAndStride();
+
+        };
+
+        inline uint32_t getStride() const { return m_Stride; };
+        inline const std::vector<BufferElement>& getElements() const {return m_Elements;};
+
+        inline std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); };
+        inline std::vector<BufferElement>::iterator end() { return m_Elements.end(); };
+        inline std::vector<BufferElement>::const_iterator begin() const { return m_Elements.begin(); };
+        inline std::vector<BufferElement>::const_iterator end() const { return m_Elements.end(); };
+    private:
+        void calculateOffsetAndStride();
+        std::vector<BufferElement> m_Elements;
+        uint32_t m_Stride;
+
+    };
+
     class GEOGL_API VertexBuffer{
     public:
         virtual ~VertexBuffer(){};
@@ -34,7 +89,10 @@ namespace GEOGL{
         virtual void bind() const = 0;
         virtual void unbind() const = 0;
 
-        static std::shared_ptr<VertexBuffer> create(const std::vector<glm::vec3>& vertices);
+        virtual void setLayout(const BufferLayout& layout) = 0;
+        virtual const BufferLayout& getLayout() const = 0;
+
+        static std::shared_ptr<VertexBuffer> create(const std::vector<float>& vertices);
     };
 
 

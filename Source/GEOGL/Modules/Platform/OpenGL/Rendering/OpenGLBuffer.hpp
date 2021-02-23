@@ -31,15 +31,20 @@ namespace GEOGL::Platform::OpenGL{
 
     class GEOGL_API VertexBuffer : public GEOGL::VertexBuffer{
     public:
-        VertexBuffer(const std::vector<glm::vec3>& vertices);
+        VertexBuffer(const std::vector<float>& vertices);
         virtual ~VertexBuffer();
 
         virtual void bind() const override;
         virtual void unbind() const override;
 
+        inline void setLayout(const BufferLayout& layout) override { m_Layout = layout; };
+        inline const BufferLayout& getLayout() const override { return m_Layout; };
+
+
     private:
-        std::vector<glm::vec3> m_CPUData;
+        std::vector<float> m_CPUData;
         uint32_t m_VBOID;
+        BufferLayout m_Layout;
 
     };
 

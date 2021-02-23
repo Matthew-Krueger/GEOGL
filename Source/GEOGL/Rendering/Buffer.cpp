@@ -32,8 +32,77 @@
 
 namespace GEOGL{
 
+    uint32_t shaderDataTypeSize(ShaderDataType type){
+        switch(type){
+            case ShaderDataType::FLOAT:
+                return 4;
+            case ShaderDataType::FLOAT2:
+                return 4*2;
+            case ShaderDataType::FLOAT3:
+                return 4*3;
+            case ShaderDataType::FLOAT4:
+                return 4*4;
+            case ShaderDataType::MAT3:
+                return 4*3*3;
+            case ShaderDataType::MAT4:
+                return 4*4*4;
+            case ShaderDataType::INT:
+                return 4;
+            case ShaderDataType::INT2:
+                return 4*2;
+            case ShaderDataType::INT3:
+                return 4*3;
+            case ShaderDataType::INT4:
+                return 4*4;
+            case ShaderDataType::BOOLEAN:
+                return 1;
+            default:
+            GEOGL_CORE_ASSERT(false, "Unknown shader DataType");
+                return 0;
+        }
+    }
 
-    std::shared_ptr<VertexBuffer> VertexBuffer::create(const std::vector<glm::vec3> &vertices) {
+    uint32_t BufferElement::getComponentCount() const{
+        switch(dataType){
+            case ShaderDataType::FLOAT:
+                return 1;
+            case ShaderDataType::FLOAT2:
+                return 2;
+            case ShaderDataType::FLOAT3:
+                return 3;
+            case ShaderDataType::FLOAT4:
+                return 4;
+            case ShaderDataType::MAT3:
+                return 3*3;
+            case ShaderDataType::MAT4:
+                return 4*4;
+            case ShaderDataType::INT:
+                return 1;
+            case ShaderDataType::INT2:
+                return 2;
+            case ShaderDataType::INT3:
+                return 3;
+            case ShaderDataType::INT4:
+                return 4;
+            case ShaderDataType::BOOLEAN:
+                return 1;
+            default:
+            GEOGL_CORE_ASSERT(false, "Unknown shader DataType");
+                return 0;
+        }
+    }
+
+    void BufferLayout::calculateOffsetAndStride(){
+        uint32_t offset = 0;
+        m_Stride = 0;
+        for(auto& element: m_Elements){
+            element.offset = offset;
+            offset += element.size;
+            m_Stride += element.size;
+        }
+    }
+
+    std::shared_ptr<VertexBuffer> VertexBuffer::create(const std::vector<float> &vertices) {
         const RendererAPI& api = Application::get().getAPIManager();
 
         std::shared_ptr<VertexBuffer> result;

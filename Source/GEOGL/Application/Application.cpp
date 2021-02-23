@@ -31,6 +31,28 @@ namespace GEOGL{
 
     Application* Application::s_Instance = nullptr;
 
+    static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type){
+        switch(type){
+            case ShaderDataType::FLOAT:
+            case ShaderDataType::FLOAT2:
+            case ShaderDataType::FLOAT3:
+            case ShaderDataType::FLOAT4:
+            case ShaderDataType::MAT3:
+            case ShaderDataType::MAT4:
+                return GL_FLOAT;
+            case ShaderDataType::INT:
+            case ShaderDataType::INT2:
+            case ShaderDataType::INT3:
+            case ShaderDataType::INT4:
+                return GL_INT;
+            case ShaderDataType::BOOLEAN:
+                return GL_BOOL;
+            default:
+            GEOGL_CORE_ASSERT(false, "Unknown shader DataType");
+                return 0;
+        }
+    }
+
     Application::Application(const WindowProps& props) {
 
 #ifdef NDEBUG
@@ -79,33 +101,52 @@ namespace GEOGL{
         //glGenBuffers(1, &m_VertexBuffer);
         //glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
 
-        std::vector<glm::vec3> vertices = {{-0.5f,-0.5f, 0.0f},{0.5f, -0.5f, 0.0f},
-                                           {0.0f,  0.5f, 0.0f}};
+        std::vector<float> vertices = {-0.5f,-0.5f, 0.0f, 0.8f, 0.0f, 0.0f, 1.0f,
+                                         0.5f, -0.5f, 0.0f, 0.0f, 0.8f, 0.0f, 1.0f,
+                                         0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 0.8f, 1.0f};
 
         m_VertexBuffer = VertexBuffer::create(vertices);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(float), nullptr);
-        m_VertexBuffer->bind();
+        {
+            BufferLayout layout = {
+                    {ShaderDataType::FLOAT3, "a_Position"},
+                    {ShaderDataType::FLOAT4, "a_Color"}
+            };
 
-        //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+            m_VertexBuffer->setLayout(layout);
+        }
+
+
+        uint32_t index = 0;
+        for(const BufferElement& element : m_VertexBuffer->getLayout()){
+
+            /* Hopefully this doesn't crash */
+            void* elementOffsetPtr = reinterpret_cast<void*>(element.offset);
+
+            glEnableVertexAttribArray(index);
+            glVertexAttribPointer(
+                    index,
+                    element.getComponentCount(),
+                    ShaderDataTypeToOpenGLBaseType(element.dataType),
+                    element.normalized ? GL_TRUE : GL_FALSE,
+                    m_VertexBuffer->getLayout().getStride(),
+                    elementOffsetPtr);
+
+            index++;
+        }
+
 
         std::vector<uint32_t> indices = {0,1,2};
         m_IndexBuffer = IndexBuffer::create(indices);
-
-        //glGenBuffers(1, &m_IndexBuffer);
-        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
-
-        //unsigned int indices[3] = { 0, 1, 2 };
-        //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
         std::string vertexSrc = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
-			out vec3 v_Position;
+            layout(location = 1) in vec4 a_Color;
+			out vec4 v_Position;
 			void main()
 			{
-				v_Position = a_Position;
+				v_Position = a_Color;
 				gl_Position = vec4(a_Position, 1.0);
 			}
 		)";
@@ -114,10 +155,10 @@ namespace GEOGL{
 			#version 330 core
 
 			layout(location = 0) out vec4 color;
-			in vec3 v_Position;
+			in vec4 v_Position;
 			void main()
 			{
-				color = vec4(v_Position * 0.5 + 0.5, 1.0);
+				color = v_Position;
 			}
 		)";
 

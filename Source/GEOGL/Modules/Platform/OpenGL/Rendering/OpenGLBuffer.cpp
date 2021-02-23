@@ -33,14 +33,14 @@ namespace GEOGL::Platform::OpenGL{
      * Vertex Buffer
      */
 
-    VertexBuffer::VertexBuffer(const std::vector<glm::vec3> &vertices) {
+    VertexBuffer::VertexBuffer(const std::vector<float> &vertices) {
 
         /* Obtain a copy of vertices */
         m_CPUData = vertices;
 
         /* Do some evil pointer manipulation to get a void* to the data, so I can access GLM's memory */
         void* vector = (void*)m_CPUData.data();
-        uint32_t vectorSizeBytes = m_CPUData.size() * sizeof(glm::vec3); // Times size of glm::vec3 component vector.
+        uint32_t vectorSizeBytes = m_CPUData.size() * sizeof(float); // Times size of glm::vec3 component vector.
 
         /* Now, upload to the GPU */
         glCreateBuffers(1, &m_VBOID);
