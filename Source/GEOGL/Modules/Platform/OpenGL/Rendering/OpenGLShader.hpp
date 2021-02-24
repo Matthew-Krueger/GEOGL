@@ -29,6 +29,8 @@
 
 namespace GEOGL::Platform::OpenGL{
 
+    GEOGL_API GLenum shaderDataTypeToOpenGLBaseType(enum ShaderDataType type);
+
     class GEOGL_API Shader : public GEOGL::Shader{
     public:
         Shader(const std::string& vertexSrc, const std::string& fragmentSrc);

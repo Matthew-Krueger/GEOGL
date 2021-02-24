@@ -31,27 +31,7 @@ namespace GEOGL{
 
     Application* Application::s_Instance = nullptr;
 
-    static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type){
-        switch(type){
-            case ShaderDataType::FLOAT:
-            case ShaderDataType::FLOAT2:
-            case ShaderDataType::FLOAT3:
-            case ShaderDataType::FLOAT4:
-            case ShaderDataType::MAT3:
-            case ShaderDataType::MAT4:
-                return GL_FLOAT;
-            case ShaderDataType::INT:
-            case ShaderDataType::INT2:
-            case ShaderDataType::INT3:
-            case ShaderDataType::INT4:
-                return GL_INT;
-            case ShaderDataType::BOOLEAN:
-                return GL_BOOL;
-            default:
-            GEOGL_CORE_ASSERT(false, "Unknown shader DataType");
-                return 0;
-        }
-    }
+
 
     Application::Application(const WindowProps& props) {
 
@@ -66,7 +46,6 @@ namespace GEOGL{
         /* Open settings */
         {
             if(!m_Settings.open("settings.json")) {
-                RenderingAPIType api = determineLowestAPI();
                 GEOGL_CORE_WARN_NOSTRIP("Settings file not found. Setting lowest API");
                 m_Settings.data["api"] = determineLowestAPI();
                 m_Settings.flush();
@@ -95,48 +74,61 @@ namespace GEOGL{
         m_ImGuiLayer = new ImGuiLayer;
         pushOverlay(m_ImGuiLayer);
 
-        glGenVertexArrays(1, &m_VertexArray);
-        glBindVertexArray(m_VertexArray);
 
-        //glGenBuffers(1, &m_VertexBuffer);
-        //glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
-
-        std::vector<float> vertices = {-0.5f,-0.5f, 0.0f, 0.8f, 0.0f, 0.0f, 1.0f,
-                                         0.5f, -0.5f, 0.0f, 0.0f, 0.8f, 0.0f, 1.0f,
-                                         0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 0.8f, 1.0f};
-
-        m_VertexBuffer = VertexBuffer::create(vertices);
+        /* set up the triangle */
         {
-            m_VertexBuffer->setLayout({
-                                              {ShaderDataType::FLOAT3, "a_Position"},
-                                              {ShaderDataType::FLOAT4, "a_Color"}
-                                      });
+
+            /* Create a vertex array */
+            m_VertexArray = VertexArray::create();
+
+            std::vector<float> vertices = {-0.5f,-0.5f, 0.0f, 0.8f, 0.0f, 0.0f, 1.0f,
+                                           0.5f, -0.5f, 0.0f, 0.0f, 0.8f, 0.0f, 1.0f,
+                                           0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 0.8f, 1.0f};
+
+            auto vertexBuffer = VertexBuffer::create(vertices);
+            {
+                vertexBuffer->setLayout({
+                                                  {ShaderDataType::FLOAT3, "a_Position"},
+                                                  {ShaderDataType::FLOAT4, "a_Color"}
+                                          });
+            }
+
+            std::vector<uint32_t> indices = {0,1,2};
+            auto indexBuffer = IndexBuffer::create(indices);
+
+            m_VertexArray->addVertexBuffer(vertexBuffer);
+            m_VertexArray->setIndexBuffer(indexBuffer);
+
         }
 
+        /* set up the square */
+        {
 
-        uint32_t index = 0;
-        for(const BufferElement& element : m_VertexBuffer->getLayout()){
+            /* Create a vertex array */
+            m_VertexArray2 = VertexArray::create();
 
-            /* Hopefully this doesn't crash */
-            void* elementOffsetPtr = reinterpret_cast<void*>(element.offset);
+            std::vector<float> vertices = {-0.75f, -0.75f, 0.0f,
+                                            0.75f, -0.75f, 0.0f,
+                                            0.75f,  0.75f, 0.0f,
+                                           -0.75f,  0.75f, 0.0f};
 
-            glEnableVertexAttribArray(index);
-            glVertexAttribPointer(
-                    index,
-                    element.getComponentCount(),
-                    ShaderDataTypeToOpenGLBaseType(element.dataType),
-                    element.normalized ? GL_TRUE : GL_FALSE,
-                    m_VertexBuffer->getLayout().getStride(),
-                    elementOffsetPtr);
+            auto vertexBuffer = VertexBuffer::create(vertices);
+            {
+                vertexBuffer->setLayout({
+                                                {ShaderDataType::FLOAT3, "a_Position"},
+                                        });
+            }
 
-            index++;
+            std::vector<uint32_t> indices = {0,1,2,0,2,3};
+            auto indexBuffer = IndexBuffer::create(indices);
+
+            m_VertexArray2->addVertexBuffer(vertexBuffer);
+            m_VertexArray2->setIndexBuffer(indexBuffer);
+
         }
 
-
-        std::vector<uint32_t> indices = {0,1,2};
-        m_IndexBuffer = IndexBuffer::create(indices);
-
-        std::string vertexSrc = R"(
+        {
+            std::string vertexSrc = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
@@ -149,7 +141,7 @@ namespace GEOGL{
 			}
 		)";
 
-        std::string fragmentSrc = R"(
+            std::string fragmentSrc = R"(
 			#version 330 core
 
 			layout(location = 0) out vec4 color;
@@ -160,7 +152,34 @@ namespace GEOGL{
 			}
 		)";
 
-        m_Shader = Shader::create(vertexSrc, fragmentSrc);
+            m_Shader = Shader::create(vertexSrc, fragmentSrc);
+        }
+
+        {
+            std::string vertexSrc = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+			void main()
+			{
+				gl_Position = vec4(a_Position, 1.0);
+			}
+		)";
+
+            std::string fragmentSrc = R"(
+			#version 330 core
+
+
+			layout(location = 0) out vec4 color;
+
+			void main()
+			{
+				color = vec4(0.03,0.03,0.2,1.0);
+			}
+		)";
+
+            blueShader = Shader::create(vertexSrc, fragmentSrc);
+        }
     }
 
     Application::~Application() = default;
@@ -173,11 +192,13 @@ namespace GEOGL{
 
             m_Window->clearColor();
 
+            blueShader->bind();
+            m_VertexArray2->bind();
+            glDrawElements(GL_TRIANGLES, m_VertexArray2->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+
             m_Shader->bind();
-            //glBindVertexArray(m_VertexArray);
-            //m_VertexBuffer->bind();
-            //m_IndexBuffer->bind();
-            glDrawElements(GL_TRIANGLES, m_IndexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
+            m_VertexArray->bind();
+            glDrawElements(GL_TRIANGLES, m_VertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 
             for(Layer* layer : m_LayerStack){
                 layer->onUpdate();

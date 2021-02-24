@@ -22,59 +22,34 @@
  *                                                                             *
  *******************************************************************************/
 
-#define GEOGL_INCLUDE_MAIN
-#define GEOGL_INCLUDE_WIN_MAIN
-#include <GEOGL/MainCreator.hpp>
+#ifndef GEOGL_OPENGLVERTEXARRAY_HPP
+#define GEOGL_OPENGLVERTEXARRAY_HPP
 
-#include "SandboxApplication.hpp"
-#include "../../Dependencies/imgui-docking/include/ImGui/imgui.h"
+#include "../../../../Rendering/VertexArray.hpp"
 
-static bool show = true;
+namespace GEOGL::Platform::OpenGL{
 
-namespace Sandbox{
-
-class ExampleLayer: public GEOGL::Layer{
-
+    class GEOGL_API VertexArray : public GEOGL::VertexArray{
     public:
-        ExampleLayer():Layer("Example Layer"){};
+        VertexArray();
+        virtual ~VertexArray();
 
-        /*void onImGuiRender() override{
-            ImGui::ShowDemoWindow(&show);
-            ImGui::Begin("Test");
-            ImGui::Text("Hello World!");
-            ImGui::End();
-        }*/
+        void bind() const override;
+        void unbind() const override;
+
+        void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) override;
+        void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) override;
+
+        inline const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const { return m_VertexBuffers; };
+        inline const std::shared_ptr<IndexBuffer>& getIndexBuffer() const { return m_IndexBuffer; } ;
+
+    private:
+        uint32_t m_RendererID;
+        std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
+        std::shared_ptr<IndexBuffer> m_IndexBuffer;
 
     };
 
-
-
-    SandboxApp::SandboxApp() : GEOGL::Application(
-            GEOGL::WindowProps(
-                    "GEOGL Example",
-                    1920,
-                    1080,
-                    "Resources/Runtime-Icon.png"
-            )) {
-
-
-        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
-        pushLayer(new ExampleLayer);
-        //getWindow().setVSync(false);
-
-    }
-
-    SandboxApp::~SandboxApp(){
-
-        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
-
-    }
-
 }
 
-GEOGL::Application* GEOGL::createApplication(){
-
-    GEOGL::Log::Init("log.txt", "Sandbox");
-    return new Sandbox::SandboxApp();
-
-}
+#endif //GEOGL_OPENGLVERTEXARRAY_HPP

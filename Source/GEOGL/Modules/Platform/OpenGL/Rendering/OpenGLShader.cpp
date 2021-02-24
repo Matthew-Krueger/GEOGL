@@ -27,6 +27,27 @@
 
 namespace GEOGL::Platform::OpenGL{
 
+    GLenum shaderDataTypeToOpenGLBaseType(enum ShaderDataType type){
+        switch(type){
+            case ShaderDataType::FLOAT:
+            case ShaderDataType::FLOAT2:
+            case ShaderDataType::FLOAT3:
+            case ShaderDataType::FLOAT4:
+            case ShaderDataType::MAT3:
+            case ShaderDataType::MAT4:
+                return GL_FLOAT;
+            case ShaderDataType::INT:
+            case ShaderDataType::INT2:
+            case ShaderDataType::INT3:
+            case ShaderDataType::INT4:
+                return GL_INT;
+            case ShaderDataType::BOOLEAN:
+                return GL_BOOL;
+            default:
+            GEOGL_CORE_ASSERT(false, "Unknown shader DataType");
+                return 0;
+        }
+    }
 
     Shader::Shader(const std::string &vertexSrc, const std::string &fragmentSrc) {
 

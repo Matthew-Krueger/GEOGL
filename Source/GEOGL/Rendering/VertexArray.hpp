@@ -22,59 +22,30 @@
  *                                                                             *
  *******************************************************************************/
 
-#define GEOGL_INCLUDE_MAIN
-#define GEOGL_INCLUDE_WIN_MAIN
-#include <GEOGL/MainCreator.hpp>
 
-#include "SandboxApplication.hpp"
-#include "../../Dependencies/imgui-docking/include/ImGui/imgui.h"
+#ifndef GEOGL_VERTEXARRAY_HPP
+#define GEOGL_VERTEXARRAY_HPP
 
-static bool show = true;
+#include "Buffer.hpp"
 
-namespace Sandbox{
+namespace GEOGL{
 
-class ExampleLayer: public GEOGL::Layer{
-
+    class GEOGL_API VertexArray{
     public:
-        ExampleLayer():Layer("Example Layer"){};
+        virtual ~VertexArray(){};
 
-        /*void onImGuiRender() override{
-            ImGui::ShowDemoWindow(&show);
-            ImGui::Begin("Test");
-            ImGui::Text("Hello World!");
-            ImGui::End();
-        }*/
+        virtual void bind() const = 0;
+        virtual void unbind() const = 0;
 
+        virtual void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) = 0;
+        virtual void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) = 0;
+
+        virtual const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const = 0;
+        virtual const std::shared_ptr<IndexBuffer>& getIndexBuffer() const = 0;
+
+        static std::shared_ptr<VertexArray> create();
     };
 
-
-
-    SandboxApp::SandboxApp() : GEOGL::Application(
-            GEOGL::WindowProps(
-                    "GEOGL Example",
-                    1920,
-                    1080,
-                    "Resources/Runtime-Icon.png"
-            )) {
-
-
-        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
-        pushLayer(new ExampleLayer);
-        //getWindow().setVSync(false);
-
-    }
-
-    SandboxApp::~SandboxApp(){
-
-        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
-
-    }
-
 }
 
-GEOGL::Application* GEOGL::createApplication(){
-
-    GEOGL::Log::Init("log.txt", "Sandbox");
-    return new Sandbox::SandboxApp();
-
-}
+#endif //GEOGL_VERTEXARRAY_HPP

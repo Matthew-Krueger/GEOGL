@@ -22,59 +22,29 @@
  *                                                                             *
  *******************************************************************************/
 
-#define GEOGL_INCLUDE_MAIN
-#define GEOGL_INCLUDE_WIN_MAIN
-#include <GEOGL/MainCreator.hpp>
 
-#include "SandboxApplication.hpp"
-#include "../../Dependencies/imgui-docking/include/ImGui/imgui.h"
+#include "VertexArray.hpp"
+#include "../Application/Application.hpp"
+#include "../Modules/Platform/OpenGL/Rendering/OpenGLVertexArray.hpp"
 
-static bool show = true;
-
-namespace Sandbox{
-
-class ExampleLayer: public GEOGL::Layer{
-
-    public:
-        ExampleLayer():Layer("Example Layer"){};
-
-        /*void onImGuiRender() override{
-            ImGui::ShowDemoWindow(&show);
-            ImGui::Begin("Test");
-            ImGui::Text("Hello World!");
-            ImGui::End();
-        }*/
-
-    };
+namespace GEOGL{
 
 
+    std::shared_ptr<VertexArray> VertexArray::create() {
+        const RendererAPI& api = Application::get().getAPIManager();
 
-    SandboxApp::SandboxApp() : GEOGL::Application(
-            GEOGL::WindowProps(
-                    "GEOGL Example",
-                    1920,
-                    1080,
-                    "Resources/Runtime-Icon.png"
-            )) {
-
-
-        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
-        pushLayer(new ExampleLayer);
-        //getWindow().setVSync(false);
-
+        std::shared_ptr<VertexArray> result;
+        switch(api.getRenderAPIType()){
+            case API_OPENGL_DESKTOP:
+#ifdef GEOGL_BUILD_WITH_OPENGL
+                result.reset(new GEOGL::Platform::OpenGL::VertexArray());
+                return result;
+#else
+                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
+#endif
+            default:
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", apiPrettyPrint(api.getRenderAPIType()));
+                return result;
+        }
     }
-
-    SandboxApp::~SandboxApp(){
-
-        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
-
-    }
-
-}
-
-GEOGL::Application* GEOGL::createApplication(){
-
-    GEOGL::Log::Init("log.txt", "Sandbox");
-    return new Sandbox::SandboxApp();
-
 }

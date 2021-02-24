@@ -53,7 +53,7 @@ namespace GEOGL::Platform::OpenGL{
 
     VertexBuffer::~VertexBuffer() {
 
-        unbind();
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
         glDeleteBuffers(1, &m_VBOID);
 
     }
@@ -91,7 +91,7 @@ namespace GEOGL::Platform::OpenGL{
 
     IndexBuffer::~IndexBuffer() {
 
-        unbind();
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glDeleteBuffers(1, &m_IndexBufferID);
 
     }

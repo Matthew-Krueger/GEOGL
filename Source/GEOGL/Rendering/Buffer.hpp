@@ -25,24 +25,9 @@
 #ifndef GEOGL_BUFFER_HPP
 #define GEOGL_BUFFER_HPP
 
+#include "Shader.hpp"
+
 namespace GEOGL{
-
-    enum class GEOGL_API ShaderDataType{
-        NONE = 0,
-        FLOAT,
-        FLOAT2,
-        FLOAT3,
-        FLOAT4,
-        MAT3,
-        MAT4,
-        INT,
-        INT2,
-        INT3,
-        INT4,
-        BOOLEAN
-    };
-
-    GEOGL_API uint32_t shaderDataTypeSize(ShaderDataType type);
 
     struct GEOGL_API BufferElement{
 

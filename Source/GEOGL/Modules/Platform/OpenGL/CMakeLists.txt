@@ -11,7 +11,7 @@ add_library(GEOGL_Platform_OpenGL ${GEOGL_LIBRARY_TYPE}
         Rendering/OpenGLGraphicsContext.cpp
         Rendering/OpenGLGraphicsContext.hpp
 
-        Rendering/OpenGLBuffer.cpp Rendering/OpenGLBuffer.hpp Rendering/OpenGLShader.cpp Rendering/OpenGLShader.hpp)
+        Rendering/OpenGLBuffer.cpp Rendering/OpenGLBuffer.hpp Rendering/OpenGLShader.cpp Rendering/OpenGLShader.hpp Rendering/OpenGLVertexArray.cpp Rendering/OpenGLVertexArray.hpp)
 ######################################
 #     Set name for use elsewhere     #
 ######################################
@@ -30,7 +30,7 @@ endif(WIN32)
 # Utils, glfw, GLAD
 set_target_properties(${GEOGL_LIBRARY_NAME} PROPERTIES POSITION_INDEPENDENT_CODE on)
 add_dependencies(${GEOGL_LIBRARY_NAME} GEOGL::Utils glfw GLAD)
-target_link_libraries(${GEOGL_LIBRARY_NAME} GEOGL::Utils glfw GLAD ${GEOGL_PLATFORM_LIBS_GL})
+target_link_libraries(${GEOGL_LIBRARY_NAME} GEOGL::Utils glfw GLAD ${GEOGL_PLATFORM_LIBS_GL} ${CMAKE_DL_LIBS})
 
 ######################################
 #      PreProcessor Definitions      #

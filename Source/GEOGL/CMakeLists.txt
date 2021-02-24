@@ -133,7 +133,7 @@ add_library(GEOGL ${GEOGL_MAIN_LIBRARY_TYPE}
         Rendering/RendererAPI.cpp
         Rendering/RendererAPI.hpp
 
-        )
+        Rendering/VertexArray.cpp Rendering/VertexArray.hpp)
 
 
 # Include Utils And Dependencies

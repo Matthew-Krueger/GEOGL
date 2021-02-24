@@ -34,6 +34,7 @@
 #include "../Layers/LayerStack.hpp"
 #include "../ImGui/ImGuiLayer.hpp"
 #include "../Rendering/Buffer.hpp"
+#include "../Rendering/VertexArray.hpp"
 #include <GEOGL/Utils.hpp>
 
 
@@ -90,10 +91,12 @@ namespace GEOGL{
 
         ImGuiLayer* m_ImGuiLayer;
 
-        unsigned int m_VertexArray;
+        std::shared_ptr<VertexArray> m_VertexArray;
+        std::shared_ptr<VertexArray> m_VertexArray2;
+
         std::shared_ptr<Shader> m_Shader;
-        std::shared_ptr<VertexBuffer> m_VertexBuffer;
-        std::shared_ptr<IndexBuffer> m_IndexBuffer;
+        std::shared_ptr<Shader> blueShader;
+
 
 
     };
