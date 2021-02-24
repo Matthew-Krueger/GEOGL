@@ -29,6 +29,12 @@
 
 namespace GEOGL{
 
+    /**
+     * \brief Represents the rendering API to be used
+     *
+     * Uses bit shifting to be able to deduce the correct windowing api. for instance, the binary of API_OPENGL_DESKTOP
+     * is 0001 while API
+     */
     enum RenderingAPIType {
         API_INVALID = 0,
         API_OPENGL_DESKTOP = BIT(0),

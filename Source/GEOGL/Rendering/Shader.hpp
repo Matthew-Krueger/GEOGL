@@ -28,6 +28,9 @@
 
 namespace GEOGL{
 
+    /**
+     * \brief Represents the data types that can be uploaded to a shader
+     */
     enum class GEOGL_API ShaderDataType{
         NONE = 0,
         FLOAT,
@@ -43,15 +46,41 @@ namespace GEOGL{
         BOOLEAN
     };
 
+    /**
+     * \brief Gets the size (in bytes) of each ShaderDataType
+     * @param type The ShaderDataType to check
+     * @return The size in bytes of the ShaderDataType
+     */
     GEOGL_API uint32_t shaderDataTypeSize(ShaderDataType type);
 
+    /**
+     * \brief Represents a Shader interface. This defines all of the methods used to upload shaders.
+     */
     class GEOGL_API Shader{
     public:
         virtual ~Shader() =default;
 
+        /**
+         * \brief Binds a shader to be used.
+         */
         virtual void bind() const = 0;
+
+        /**
+         * \brief Unbinds a shader.
+         * \note A shader should generally not be unbound.
+         */
         virtual void unbind() const = 0;
 
+        /**
+         * Creates a shader from source files.
+         * \todo Change from vertexSrc and fragmentSrc to a more robust way. Maybe a struct with some bools describing the data? Just trying to think about vulkan in the future with SPIR-V and how we can impliment it with OpenGL.
+         * \note If the shader source does not compile, there is no mechanism to catch the error.
+         * This method will hard crash the program with an exit code of 2.
+         *
+         * @param vertexSrc The literal source for the vertex shader
+         * @param fragmentSrc The literal source for the fragment shader
+         * @return A shared_ptr of the newly created shader. Ready for use.
+         */
         static std::shared_ptr<Shader> create(const std::string& vertexSrc, const std::string& fragmentSrc);
 
     };
