@@ -107,12 +107,10 @@ namespace GEOGL{
 
         m_VertexBuffer = VertexBuffer::create(vertices);
         {
-            BufferLayout layout = {
-                    {ShaderDataType::FLOAT3, "a_Position"},
-                    {ShaderDataType::FLOAT4, "a_Color"}
-            };
-
-            m_VertexBuffer->setLayout(layout);
+            m_VertexBuffer->setLayout({
+                                              {ShaderDataType::FLOAT3, "a_Position"},
+                                              {ShaderDataType::FLOAT4, "a_Color"}
+                                      });
         }
 
 
