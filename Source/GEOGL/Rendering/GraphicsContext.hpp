@@ -28,18 +28,51 @@
 namespace GEOGL{
 
     /**
-     * \brief Represents a a rendering context
+     * \brief Represents a Graphical context interface.
      */
     class GEOGL_API GraphicsContext{
     public:
+
         GraphicsContext() = default;
+        /**
+         * \brief Deletes any possibility of a copy constructor. Avoids weirdness.
+         * @param context The graphics context
+         */
         GraphicsContext(GraphicsContext& context) = delete;
         virtual ~GraphicsContext() = default;
 
+        /**
+         * \brief Clears the color of the screen.
+         * \todo Maybe move this to RendererAPI?? I think that may fit slightly better.
+         */
         virtual void clearColor() = 0;
 
-        virtual void setViewport(glm::vec2& topLeftCorner, glm::vec2& dimensions) = 0;
+        /**
+         * \brief Sets the viewport of the window
+         *
+         * Sets the viewport of the window. Each vector taken is taken as reference. I believe that initializer lists
+         * work as well.
+         *
+         * \note This is NOT a top left and bottom right corner function. It is top left and dimensions FROM THAT POINT.
+         *
+         * @param topLeftCorner The top left corner of the viewport
+         * @param dimensions The dimensions of the viewport
+         */
+        virtual void setViewport(const glm::vec2& topLeftCorner, const glm::vec2& dimensions) = 0;
+
+        /**
+         * \brief Sets whether or not to run in vSync mode.
+         *
+         * \note This function takes a pointer as it will mutate the bool to the value set. This functionality is used
+         * to deny the switch to vSync mode in the event that it is not supported for any reason.
+         *
+         * @param vSyncStatus A pointer to a boolean that contains the vsync set state.
+         */
         virtual void setVSync(bool* vSyncStatus) = 0;
+
+        /**
+         * \brief Swaps the swapchain buffers to present the image to the screen.
+         */
         virtual void swapBuffers() = 0;
 
     private:

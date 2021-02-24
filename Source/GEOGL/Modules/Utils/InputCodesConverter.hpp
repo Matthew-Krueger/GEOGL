@@ -35,13 +35,39 @@ namespace GEOGL{
 
     /**
      * \brief Serves as a wrapper to input codes, converting to other types as may be necessary in the future.
+     *
+     * \note This is a singleton. Just call InputCodesConverter::function() to convert anywhere in the program. Creating
+     * this is handled by the window.
+     *
+     * \todo Do we want to move this to the Application class as it seems to handle the other singletons?
      */
     class GEOGL_API InputCodesConverter{
 
     public:
+
+        /**
+         * \brief Converts a GEOGL KeyCode to a native keycode.
+         * @param key The GEOGL Code
+         * @return The Native code
+         */
         static int getNativeKeyCode(KeyCode key);
+        /**
+         * \brief Converts a GEOGL MouseCode to a native mousecode.
+         * @param key The GEOGL Code
+         * @return The Native code
+         */
         static int getNativeMouseCode(MouseCode button);
+        /**
+         * \brief Converts a native keycode to a GEOGL KeyCode.
+         * @param key The Native Code
+         * @return The GEOGL code
+         */
         static KeyCode getGEOGLKeyCode(int nativeKeyCode);
+        /**
+         * \brief Converts a native mousecode to a GEOGL MouseCode.
+         * @param key The Native Code
+         * @return The GEOGL code
+         */
         static MouseCode getGEOGLMouseCode(int nativeMouseCode);
 
         inline static void init(InputCodesConverter* input){ s_Instance = input; };

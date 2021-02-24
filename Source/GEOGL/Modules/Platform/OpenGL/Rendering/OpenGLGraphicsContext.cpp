@@ -83,7 +83,7 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
-    void GraphicsContext::setViewport(glm::vec2& topLeftCorner, glm::vec2& dimensions){
+    void GraphicsContext::setViewport(const glm::vec2& topLeftCorner, const glm::vec2& dimensions){
         glViewport(topLeftCorner.x, topLeftCorner.y, dimensions.x, dimensions.y);
     }
 

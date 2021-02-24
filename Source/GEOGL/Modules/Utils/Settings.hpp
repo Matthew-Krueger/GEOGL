@@ -58,9 +58,15 @@ namespace GEOGL{
         void flush();
 
     public:
+        /**
+         * \brief The settings data
+         */
         json data;
 
     private:
+        /**
+         * The filePath to the setting file.
+         */
         std::string m_FilePath;
 
     };

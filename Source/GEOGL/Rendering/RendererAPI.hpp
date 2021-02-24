@@ -59,6 +59,11 @@ namespace GEOGL{
      */
     GEOGL_API std::string apiPrettyPrint(enum RenderingAPIType API);
 
+    /**
+     * \brief Pretty prints the WindowingType (i.e. win32, GLFW, etc.)
+     * @param windowing The WindowingType value
+     * @return The pretty printed Windowing API name.
+     */
     GEOGL_API std::string windowingPrettyPrint(enum WindowingType windowing);
 
     /**
@@ -87,15 +92,38 @@ namespace GEOGL{
      */
     GEOGL_API enum RenderingAPIType findBestPreferredAPI(enum RenderingAPIType preferredAPI);
 
+    /**
+     * \brief Manages the rendering api.
+     */
     class GEOGL_API RendererAPI{
     public:
+        /**
+         * \brief Creates a new RendererAPI with the selected API.
+         *
+         * \note There should only be one RendererAPI, managed by Application. The user should NEVER create an instance
+         * of this class.
+         *
+         * @param api The API on which to base all other API specific components.
+         */
         RendererAPI(enum RenderingAPIType api = RenderingAPIType::API_INVALID);
         ~RendererAPI();
 
+        /**
+         * \brief Gets the WindowingType (e.g. WIN32 or GLFW) to be used for window creation.
+         * @return The API to be used for window creation
+         */
         enum WindowingType getWindowingType() const;
+
+        /**
+         * \brief Gets the RenderingApiType used for Rendering
+         * @return the RenderingAPIType
+         */
         enum RenderingAPIType getRenderAPIType() const;
 
     private:
+        /**
+         * \breif Stores the RenderingAPIType that is used for rendering.
+         */
         enum RenderingAPIType m_RenderAPI;
 
     };

@@ -41,7 +41,7 @@ namespace GEOGL::Platform::OpenGL{
 
         void clearColor() override;
 
-        void setViewport(glm::vec2& topLeftCorner, glm::vec2& dimensions) override;
+        void setViewport(const glm::vec2& topLeftCorner, const glm::vec2& dimensions) override;
         void setVSync(bool* vSyncStatus) override;
         void swapBuffers() override;
 
