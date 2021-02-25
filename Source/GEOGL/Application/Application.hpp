@@ -35,6 +35,7 @@
 #include "../ImGui/ImGuiLayer.hpp"
 #include "../Rendering/Buffer.hpp"
 #include "../Rendering/VertexArray.hpp"
+#include "../Rendering/RendererAPI.hpp"
 #include <GEOGL/Utils.hpp>
 
 
@@ -73,7 +74,6 @@ namespace GEOGL{
         inline void popOverlay(Layer* layer) { m_LayerStack.popOverlay(layer); };
 
         static inline Application& get() { return *Application::s_Instance; };
-        inline const RendererAPI& getAPIManager(){ return *m_APIManager; };
         inline Window& getWindow() { return *m_Window; };
 
     private:
@@ -87,15 +87,14 @@ namespace GEOGL{
         bool m_Running = true;
         LayerStack m_LayerStack;
         Settings m_Settings;
-        std::unique_ptr<RendererAPI> m_APIManager;
 
         ImGuiLayer* m_ImGuiLayer;
 
-        std::shared_ptr<VertexArray> m_VertexArray;
-        std::shared_ptr<VertexArray> m_VertexArray2;
+        std::shared_ptr<VertexArray> m_VertexArrayTrianglePerVColor;
+        std::shared_ptr<VertexArray> m_VertexArraySquare;
 
-        std::shared_ptr<Shader> m_Shader;
-        std::shared_ptr<Shader> blueShader;
+        std::shared_ptr<Shader> m_PerVertexShader;
+        std::shared_ptr<Shader> m_BlueShader;
 
 
 

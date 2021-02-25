@@ -23,29 +23,40 @@
  *******************************************************************************/
 
 
-#include "VertexArray.hpp"
-#include "../Application/Application.hpp"
-#include "../Modules/Platform/OpenGL/Rendering/OpenGLVertexArray.hpp"
-#include "Renderer.hpp"
+#ifndef GEOGL_RENDERER_HPP
+#define GEOGL_RENDERER_HPP
+
+#include "RenderCommand.hpp"
 
 namespace GEOGL{
 
+    class GEOGL_API Renderer{
+    public:
 
-    std::shared_ptr<VertexArray> VertexArray::create() {
-        const auto renderer = Renderer::getRendererAPI();
+        inline static void setClearColor(const glm::vec4& color){ RenderCommand::setClearColor(color); };
 
-        std::shared_ptr<VertexArray> result;
-        switch(renderer->getRenderingAPI()){
-            case RendererAPI::RENDERING_OPENGL_DESKTOP:
-#ifdef GEOGL_BUILD_WITH_OPENGL
-                result.reset(new GEOGL::Platform::OpenGL::VertexArray());
-                return result;
-#else
-                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
-#endif
-            default:
-                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
-                return result;
-        }
-    }
+        /**
+         * \brief Begins the scene, setting up the renderer
+         */
+        static void beginScene();
+
+        /**
+         * \brief Ends the scene (and will eventually dispatch on the rendercommandque)
+         */
+        static void endScene();
+
+        /**
+         * \brief Submit a VertexArray for drawing
+         * @param vertexArray The vertex array to submit
+         */
+        static void submit(const std::shared_ptr<VertexArray>& vertexArray);
+
+        inline static const std::shared_ptr<RendererAPI>& getRendererAPI() { return RenderCommand::getRendererAPI(); };
+        inline static void setRendererAPI(std::shared_ptr<RendererAPI> rendererApi) { RenderCommand::setRendererAPI(rendererApi); };
+
+
+    };
+
 }
+
+#endif //GEOGL_RENDERER_HPP

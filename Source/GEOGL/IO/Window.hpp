@@ -134,14 +134,13 @@ namespace GEOGL {
          */
         virtual void* getNativeWindow() const = 0;
 
-        virtual void clearColor() = 0;
 
         /**
          * Queries the window type.
          * \note Must be implemented in each platform.
          * @return The type of the window
          */
-        virtual enum RenderingAPIType type() = 0;
+        virtual RendererAPI::WindowingAPI type() = 0;
 
         /**
          * Creates a window with the selected API.
@@ -149,7 +148,7 @@ namespace GEOGL {
          * @param props
          * @return
          */
-        static Window* create(RendererAPI& api, const WindowProps& props = WindowProps());
+        static Window* create(const WindowProps& props = WindowProps());
     };
 
 }

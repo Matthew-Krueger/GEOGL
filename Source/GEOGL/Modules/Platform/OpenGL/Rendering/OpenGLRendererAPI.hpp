@@ -22,30 +22,39 @@
  *                                                                             *
  *******************************************************************************/
 
+#ifndef GEOGL_OPENGLRENDERERAPI_HPP
+#define GEOGL_OPENGLRENDERERAPI_HPP
 
-#include "VertexArray.hpp"
-#include "../Application/Application.hpp"
-#include "../Modules/Platform/OpenGL/Rendering/OpenGLVertexArray.hpp"
-#include "Renderer.hpp"
+#include "../../../../Rendering/RendererAPI.hpp"
+#include "../../../../Rendering/VertexArray.hpp"
 
-namespace GEOGL{
+namespace GEOGL::Platform::OpenGL{
+
+    /**
+     * \brief Describes an OpenGL RendererAPI.
+     */
+    class GEOGL_API RendererAPI : public GEOGL::RendererAPI{
+    public:
+        /**
+         * Constructs a RendererAPI with the specified RenderingAPI. The implementation is free to ignore this however.
+         * @param preferredAPI The preferred api to use for rendering
+         */
+        RendererAPI();
+        virtual ~RendererAPI();
+
+        void setClearColor(const glm::vec4& color) override;
+        void clear() override;
+
+        virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
+
+    private:
+        glm::vec4 m_ClearColor;
 
 
-    std::shared_ptr<VertexArray> VertexArray::create() {
-        const auto renderer = Renderer::getRendererAPI();
+    };
 
-        std::shared_ptr<VertexArray> result;
-        switch(renderer->getRenderingAPI()){
-            case RendererAPI::RENDERING_OPENGL_DESKTOP:
-#ifdef GEOGL_BUILD_WITH_OPENGL
-                result.reset(new GEOGL::Platform::OpenGL::VertexArray());
-                return result;
-#else
-                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
-#endif
-            default:
-                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
-                return result;
-        }
-    }
+
 }
+
+
+#endif //GEOGL_OPENGLRENDERERAPI_HPP

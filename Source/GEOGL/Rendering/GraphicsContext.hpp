@@ -43,7 +43,7 @@ namespace GEOGL{
 
         /**
          * \brief Clears the color of the screen.
-         * \todo Maybe move this to RendererAPI?? I think that may fit slightly better.
+         * \todo Maybe move this to Renderer?? I think that may fit slightly better.
          */
         virtual void clearColor() = 0;
 

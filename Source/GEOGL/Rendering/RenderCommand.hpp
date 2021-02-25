@@ -22,30 +22,29 @@
  *                                                                             *
  *******************************************************************************/
 
+#ifndef GEOGL_RENDERCOMMAND_HPP
+#define GEOGL_RENDERCOMMAND_HPP
 
 #include "VertexArray.hpp"
-#include "../Application/Application.hpp"
-#include "../Modules/Platform/OpenGL/Rendering/OpenGLVertexArray.hpp"
-#include "Renderer.hpp"
+#include "RendererAPI.hpp"
 
 namespace GEOGL{
 
+    class GEOGL_API RenderCommand{
+    public:
 
-    std::shared_ptr<VertexArray> VertexArray::create() {
-        const auto renderer = Renderer::getRendererAPI();
+        inline static void setClearColor(const glm::vec4& color){ s_RendererAPI->setClearColor(color); };
+        inline static void clear(){ s_RendererAPI->clear(); };
 
-        std::shared_ptr<VertexArray> result;
-        switch(renderer->getRenderingAPI()){
-            case RendererAPI::RENDERING_OPENGL_DESKTOP:
-#ifdef GEOGL_BUILD_WITH_OPENGL
-                result.reset(new GEOGL::Platform::OpenGL::VertexArray());
-                return result;
-#else
-                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
-#endif
-            default:
-                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
-                return result;
-        }
-    }
+        inline static void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray){ s_RendererAPI->drawIndexed(vertexArray); };
+
+        inline static const std::shared_ptr<RendererAPI>& getRendererAPI() { return s_RendererAPI; };
+        inline static void setRendererAPI(std::shared_ptr<RendererAPI>& rendererApi) { s_RendererAPI = rendererApi; };
+
+    private:
+        static std::shared_ptr<RendererAPI> s_RendererAPI;
+    };
+
 }
+
+#endif //GEOGL_RENDERCOMMAND_HPP

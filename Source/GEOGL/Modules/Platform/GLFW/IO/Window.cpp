@@ -43,6 +43,7 @@
 #include "KeyCodes.hpp"
 
 #include "../../OpenGL/Rendering/OpenGLGraphicsContext.hpp"
+#include "../../../../Rendering/Renderer.hpp"
 
 namespace GEOGL::Platform::GLFW{
 
@@ -54,8 +55,11 @@ namespace GEOGL::Platform::GLFW{
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
     }
 
-    Window::Window(RendererAPI& api, const WindowProps& props) : m_apiManager(api){
+    Window::Window(const WindowProps& props){
         m_Window = nullptr;
+
+        /* Get all of the rendering api data */
+        auto renderingAPI = Renderer::getRendererAPI()->getRenderingAPI();
 
         /* Initialize Input for Window */
         Input::init(new Input());
@@ -81,18 +85,18 @@ namespace GEOGL::Platform::GLFW{
         }
 
         /* Guard against incompatible apis */
-        if(((!glfwVulkanSupported())||(!GEOGL_BUILD_WITH_VULKAN))&&(api.getRenderAPIType() == API_VULKAN_DESKTOP)){
+        if((renderingAPI == RendererAPI::RENDERING_VULKAN_DESKTOP)&&((!glfwVulkanSupported())||(!GEOGL_BUILD_WITH_VULKAN))){
             GEOGL_CORE_CRITICAL("Vulkan selected but not supported.");
             exit(1);
         }
-        if(!((api.getRenderAPIType() == API_OPENGL_DESKTOP) && (GEOGL_BUILD_WITH_OPENGL))){
+        if(!((renderingAPI == RendererAPI::RENDERING_OPENGL_DESKTOP) && (GEOGL_BUILD_WITH_OPENGL))){
             GEOGL_CORE_CRITICAL("OpenGL selected but not supported.");
             exit(1);
         }
 
         /* Do window hints for GLFW */
-        switch(api.getRenderAPIType()){
-            case API_OPENGL_DESKTOP:
+        switch(renderingAPI){
+            case RendererAPI::RENDERING_OPENGL_DESKTOP:
 
                 GEOGL_CORE_INFO("Creating Window with OpenGL Context");
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -103,13 +107,13 @@ namespace GEOGL::Platform::GLFW{
                 s_UsedGLAD = true;
 
                 break;
-            case API_VULKAN_DESKTOP:
+            case RendererAPI::RENDERING_VULKAN_DESKTOP:
 
                 glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
                 glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
                 break;
             default:
-                GEOGL_CORE_CRITICAL("Error. No valid Graphics API selected. Please select {} for OpenGL in settings.json.", API_OPENGL_DESKTOP);
+                GEOGL_CORE_CRITICAL("Error. No valid Graphics API selected. Please select {} for OpenGL in settings.json.", RendererAPI::RENDERING_VULKAN_DESKTOP);
                 exit(1);
 
         }
@@ -163,12 +167,6 @@ namespace GEOGL::Platform::GLFW{
         }
 
         delete m_GraphicsContext;
-    }
-
-    void Window::clearColor() {
-
-        m_GraphicsContext->clearColor();
-
     }
 
     void Window::onUpdate(){

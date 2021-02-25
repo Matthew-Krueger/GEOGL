@@ -23,7 +23,7 @@ Integration in a typical existing application, should take <20 lines when using 
 
     At the end of your frame:
       call ImGui::Render()
-      call ImGui_ImplXXXX_RenderDrawData() for your RendererAPI backend.
+      call ImGui_ImplXXXX_RenderDrawData() for your Renderer backend.
 
     At shutdown:
       call ImGui_ImplXXXX_Shutdown() for each backend.
@@ -36,14 +36,14 @@ Example (using [backends/imgui_impl_win32.cpp](https://github.com/ocornut/imgui/
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable some options
 
-    // Initialize Platform + RendererAPI backends (here: using imgui_impl_win32.cpp + imgui_impl_dx11.cpp)
+    // Initialize Platform + Renderer backends (here: using imgui_impl_win32.cpp + imgui_impl_dx11.cpp)
     ImGui_ImplWin32_Init(my_hwnd);
     ImGui_ImplDX11_Init(my_d3d_device, my_d3d_device_context);
 
     // Application main loop
     while (true)
     {
-        // Beginning of frame: update RendererAPI + Platform backend, start Dear ImGui frame
+        // Beginning of frame: update Renderer + Platform backend, start Dear ImGui frame
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();

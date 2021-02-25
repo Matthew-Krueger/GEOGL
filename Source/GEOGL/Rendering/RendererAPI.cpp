@@ -1,8 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "modernize-use-bool-literals"
-#pragma ide diagnostic ignored "bugprone-branch-clone"
-#pragma ide diagnostic ignored "Simplify"
-
 /*******************************************************************************
  * Copyright (c) 2020 Matthew Krueger                                          *
  *                                                                             *
@@ -29,20 +24,23 @@
 
 
 #include "RendererAPI.hpp"
-namespace GEOGL {
+#include "../Modules/Platform/OpenGL/Rendering/OpenGLRendererAPI.hpp"
 
-    std::string apiPrettyPrint(enum RenderingAPIType windowAPI){
+namespace GEOGL{
 
-        switch(windowAPI){
-            case RenderingAPIType::API_OPENGL_DESKTOP:
+
+    std::string RendererAPI::getRenderingAPIName(RendererAPI::RenderingAPI api) {
+
+        switch(api){
+            case RendererAPI::RENDERING_OPENGL_DESKTOP:
                 return std::string("OpenGL");
-            case RenderingAPIType::API_VULKAN_DESKTOP:
+            case RenderingAPI::RENDERING_VULKAN_DESKTOP:
                 return std::string("Vulkan");
-            case RenderingAPIType::API_DIRECTX11_DESKTOP:
+            case RenderingAPI::RENDERING_DIRECTX11_DESKTOP:
                 return std::string("DirectX 11");
-            case RenderingAPIType::API_DIRECTX12_DESKTOP:
+            case RenderingAPI::RENDERING_DIRECTX12_DESKTOP:
                 return std::string("DirectX 12");
-            case RenderingAPIType::API_METAL_DESKTOP:
+            case RenderingAPI::RENDERING_METAL_DESKTOP:
                 return std::string("Apple Metal");
             default:
                 return std::string("Unknown");
@@ -50,11 +48,11 @@ namespace GEOGL {
 
     }
 
-    std::string windowingPrettyPrint(enum WindowingType windowing){
+    std::string RendererAPI::getWindowingAPIName(RendererAPI::WindowingAPI api) {
 
-        switch(windowing){
+        switch(api){
 
-            case WindowingType::WINDOWING_GLFW_DESKTOP:
+            case WindowingAPI::WINDOWING_GLFW_DESKTOP:
                 return std::string("GLFW");
             default:
                 return std::string("Unknown");
@@ -63,25 +61,11 @@ namespace GEOGL {
 
     }
 
-
-    enum RenderingAPIType determineLowestAPI() {
-
-        if (GEOGL_BUILD_WITH_OPENGL) {
-            return RenderingAPIType::API_OPENGL_DESKTOP;
-        } else if (GEOGL_BUILD_WITH_VULKAN) {
-            return RenderingAPIType::API_VULKAN_DESKTOP;
-        }
-
-        GEOGL_CORE_ASSERT_NOSTRIP(false, "NO API Support detected.");
-        exit(-1);
-
-    }
-
-    bool isAPISupported(enum RenderingAPIType api) {
+    bool RendererAPI::isAPISupported(RendererAPI::RenderingAPI api) {
         switch (api){
-            case API_OPENGL_DESKTOP:
+            case RenderingAPI::RENDERING_OPENGL_DESKTOP:
                 return (bool) GEOGL_BUILD_WITH_OPENGL && (bool) GEOGL_BUILD_WITH_GLFW;
-            case API_VULKAN_DESKTOP:
+            case RenderingAPI::RENDERING_VULKAN_DESKTOP:
                 return (bool) GEOGL_BUILD_WITH_VULKAN && (bool) GEOGL_BUILD_WITH_GLFW;
             default:
                 return false;
@@ -89,39 +73,63 @@ namespace GEOGL {
 
     }
 
-    enum RenderingAPIType findBestPreferredAPI(enum RenderingAPIType preferredAPI) {
+    std::shared_ptr<RendererAPI> RendererAPI::create(RendererAPI::RenderingAPI preferredAPI) {
+        /* get the best API */
+        RendererAPI::RenderingAPI api = RenderingAPI::RENDERING_INVALID;
 
-        if(isAPISupported(preferredAPI))
-            return preferredAPI;
+        if(isAPISupported(preferredAPI)){
+            api = preferredAPI;
+        }else{
 
-        GEOGL_CORE_ERROR_NOSTRIP("The selected api: {} is not available. Finding a new one.", apiPrettyPrint(preferredAPI));
-        enum RenderingAPIType api = determineLowestAPI();
-        GEOGL_CORE_ERROR_NOSTRIP("The new api will be {}.", apiPrettyPrint(api));
-        return api;
+            GEOGL_CORE_ERROR_NOSTRIP("The preferred API {} is not available. Selecting one that is.", getRenderingAPIName(preferredAPI));
+
+            /* Select most cross platform API supported */
+            if(isAPISupported(RenderingAPI::RENDERING_OPENGL_DESKTOP)){
+                api = RenderingAPI::RENDERING_OPENGL_DESKTOP;
+            }else if(isAPISupported(RenderingAPI::RENDERING_METAL_DESKTOP)){
+                api = RenderingAPI::RENDERING_METAL_DESKTOP;
+            }else if(isAPISupported(RenderingAPI::RENDERING_VULKAN_DESKTOP)){
+                api = RenderingAPI::RENDERING_VULKAN_DESKTOP;
+            }else if(isAPISupported(RenderingAPI::RENDERING_DIRECTX11_DESKTOP)){
+                api = RenderingAPI::RENDERING_DIRECTX11_DESKTOP;
+            }else if(isAPISupported(RenderingAPI::RENDERING_DIRECTX12_DESKTOP)){
+                api = RenderingAPI::RENDERING_DIRECTX12_DESKTOP;
+            }
+
+        }
+
+        GEOGL_CORE_ASSERT_NOSTRIP(api != RenderingAPI::RENDERING_INVALID, "Unable to find a suitable Rendering API.");
+        GEOGL_CORE_INFO_NOSTRIP("Using {} for Rendering.", getRenderingAPIName(api));
+
+        std::shared_ptr<RendererAPI> result;
+        switch(api){
+            case RendererAPI::RenderingAPI::RENDERING_OPENGL_DESKTOP:
+#ifdef GEOGL_BUILD_WITH_OPENGL
+                result.reset(new GEOGL::Platform::OpenGL::RendererAPI());
+                return result;
+#else
+                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
+#endif
+            default:
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(api));
+                return nullptr;
+        }
 
     }
 
-    RendererAPI::RendererAPI(enum RenderingAPIType api){
+    RendererAPI::RendererAPI(RendererAPI::RenderingAPI preferredAPI) : m_API(preferredAPI){
 
-        m_RenderAPI = findBestPreferredAPI(api);
 
     }
 
-    RendererAPI::~RendererAPI(){}
+    RendererAPI::WindowingAPI RendererAPI::getWindowingAPI(){
 
-    enum WindowingType RendererAPI::getWindowingType() const{
-
-        if(WINDOWING_GLFW_DESKTOP & m_RenderAPI)
-            return WINDOWING_GLFW_DESKTOP;
+        if(WindowingAPI::WINDOWING_GLFW_DESKTOP & m_API)
+            return WindowingAPI::WINDOWING_GLFW_DESKTOP;
 
         return WINDOWING_INVALID;
 
     }
 
-    enum RenderingAPIType RendererAPI::getRenderAPIType() const{
 
-        return m_RenderAPI;
-
-    }
 }
-#pragma clang diagnostic pop

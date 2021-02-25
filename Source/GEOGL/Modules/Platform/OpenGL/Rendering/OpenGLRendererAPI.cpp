@@ -21,31 +21,35 @@
  *    distribution.                                                            *
  *                                                                             *
  *******************************************************************************/
+#include <glad/glad.h>
+#include "OpenGLRendererAPI.hpp"
+
+namespace GEOGL::Platform::OpenGL{
 
 
-#include "VertexArray.hpp"
-#include "../Application/Application.hpp"
-#include "../Modules/Platform/OpenGL/Rendering/OpenGLVertexArray.hpp"
-#include "Renderer.hpp"
+    /* Since this is the OpenGL Rendering api, we know the api is OpenGL */
+    RendererAPI::RendererAPI() : GEOGL::RendererAPI(RENDERING_OPENGL_DESKTOP){
 
-namespace GEOGL{
+    }
 
+    RendererAPI::~RendererAPI() {
 
-    std::shared_ptr<VertexArray> VertexArray::create() {
-        const auto renderer = Renderer::getRendererAPI();
+    }
 
-        std::shared_ptr<VertexArray> result;
-        switch(renderer->getRenderingAPI()){
-            case RendererAPI::RENDERING_OPENGL_DESKTOP:
-#ifdef GEOGL_BUILD_WITH_OPENGL
-                result.reset(new GEOGL::Platform::OpenGL::VertexArray());
-                return result;
-#else
-                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
-#endif
-            default:
-                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
-                return result;
-        }
+    void RendererAPI::setClearColor(const glm::vec4 &color) {
+        m_ClearColor = color;
+    }
+
+    void RendererAPI::clear() {
+
+        glClearColor(m_ClearColor.r, m_ClearColor.g, m_ClearColor.b, m_ClearColor.a);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    }
+
+    void RendererAPI::drawIndexed(const std::shared_ptr<VertexArray> &vertexArray) {
+
+        glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+
     }
 }

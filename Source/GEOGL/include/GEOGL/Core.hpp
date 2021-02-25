@@ -54,6 +54,6 @@
 #include "../../Rendering/Buffer.hpp"
 #include "../../Rendering/GraphicsContext.hpp"
 #include "../../Rendering/Shader.hpp"
-#include "../../Rendering/RendererAPI.hpp"
+#include "../../Rendering/Renderer.hpp"
 
 #endif //GEOGL_CORE_HPP

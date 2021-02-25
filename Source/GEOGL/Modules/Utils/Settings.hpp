@@ -25,6 +25,8 @@
 #ifndef GEOGL_SETTINGS_HPP
 #define GEOGL_SETTINGS_HPP
 
+#include "../../Rendering/RendererAPI.hpp"
+
 namespace GEOGL{
 
     /**
@@ -38,6 +40,9 @@ namespace GEOGL{
          */
         Settings();
         ~Settings();
+
+        inline RendererAPI::RenderingAPI getRenderingAPI() const { return static_cast<RendererAPI::RenderingAPI>(data["RenderingAPI"]); };
+        inline void setRenderingAPI(RendererAPI::RenderingAPI api) { data["RenderingAPI"] = static_cast<uint32_t>(api); };
 
         /**
          * Opens the specified file and loads it into data.

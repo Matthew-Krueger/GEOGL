@@ -23,29 +23,21 @@
  *******************************************************************************/
 
 
-#include "VertexArray.hpp"
-#include "../Application/Application.hpp"
-#include "../Modules/Platform/OpenGL/Rendering/OpenGLVertexArray.hpp"
 #include "Renderer.hpp"
 
 namespace GEOGL{
 
 
-    std::shared_ptr<VertexArray> VertexArray::create() {
-        const auto renderer = Renderer::getRendererAPI();
+    void Renderer::beginScene() {
+        RenderCommand::clear();
+    }
 
-        std::shared_ptr<VertexArray> result;
-        switch(renderer->getRenderingAPI()){
-            case RendererAPI::RENDERING_OPENGL_DESKTOP:
-#ifdef GEOGL_BUILD_WITH_OPENGL
-                result.reset(new GEOGL::Platform::OpenGL::VertexArray());
-                return result;
-#else
-                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
-#endif
-            default:
-                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
-                return result;
-        }
+    void Renderer::endScene() {
+
+    }
+
+    void Renderer::submit(const std::shared_ptr<VertexArray>& vertexArray) {
+        vertexArray->bind();
+        RenderCommand::drawIndexed(vertexArray);
     }
 }

@@ -24,8 +24,8 @@
 
 
 #include "Application.hpp"
+#include "../Rendering/Renderer.hpp"
 #include <fstream>
-#include <glad/glad.h>
 
 namespace GEOGL{
 
@@ -46,28 +46,30 @@ namespace GEOGL{
         /* Open settings */
         {
             if(!m_Settings.open("settings.json")) {
-                GEOGL_CORE_WARN_NOSTRIP("Settings file not found. Setting lowest API");
-                m_Settings.data["api"] = determineLowestAPI();
+                GEOGL_CORE_WARN_NOSTRIP("Settings file not found. Treating OpenGL as the lowest API");
+                m_Settings.setRenderingAPI(RendererAPI::RENDERING_OPENGL_DESKTOP);
                 m_Settings.flush();
             }
 
         }
 
-        m_APIManager = std::make_unique<RendererAPI>(RendererAPI(static_cast<RenderingAPIType>(m_Settings.data["api"])));
-        if(static_cast<RenderingAPIType>(m_Settings.data["api"]) != m_APIManager->getRenderAPIType()) {
-            GEOGL_CORE_WARN_NOSTRIP("API Stored as {} does not match engine selected api {}. Setting property.", apiPrettyPrint(m_Settings.data["api"]), apiPrettyPrint(m_APIManager->getRenderAPIType()));
-            m_Settings.data["api"] = m_APIManager->getRenderAPIType();
+        Renderer::setRendererAPI(RendererAPI::create(m_Settings.getRenderingAPI()));
+        auto renderAPI = Renderer::getRendererAPI();
+
+        if(m_Settings.getRenderingAPI() != Renderer::getRendererAPI()->getRenderingAPI()) {
+            GEOGL_CORE_WARN_NOSTRIP("API Stored as {} does not match engine selected api {}. Setting property.", RendererAPI::getRenderingAPIName(m_Settings.getRenderingAPI()), RendererAPI::getRenderingAPIName(Renderer::getRendererAPI()->getRenderingAPI()));
+            m_Settings.setRenderingAPI(Renderer::getRendererAPI()->getRenderingAPI());
             m_Settings.flush();
         }
 
-        GEOGL_CORE_INFO_NOSTRIP("Selected Graphics API: {}", apiPrettyPrint(m_APIManager->getRenderAPIType()));
-        GEOGL_CORE_INFO_NOSTRIP("Calculated best Windowing API: {}", windowingPrettyPrint(m_APIManager->getWindowingType()));
+        GEOGL_CORE_INFO_NOSTRIP("Selected Graphics API: {}", RendererAPI::getRenderingAPIName(Renderer::getRendererAPI()->getRenderingAPI()));
+        GEOGL_CORE_INFO_NOSTRIP("Calculated best Windowing API: {}", RendererAPI::getWindowingAPIName(Renderer::getRendererAPI()->getWindowingAPI()));
 
         GEOGL_CORE_ASSERT_NOSTRIP(!s_Instance,"An application already exists.");
         s_Instance = this;
 
         /* Create window */
-        m_Window = std::unique_ptr<Window>(Window::create(*m_APIManager.get(), props));
+        m_Window = std::unique_ptr<Window>(Window::create(props));
         m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
 
         /* Initialize ImGuiLayer */
@@ -79,7 +81,7 @@ namespace GEOGL{
         {
 
             /* Create a vertex array */
-            m_VertexArray = VertexArray::create();
+            m_VertexArrayTrianglePerVColor = VertexArray::create();
 
             std::vector<float> vertices = {-0.5f,-0.5f, 0.0f, 0.8f, 0.0f, 0.0f, 1.0f,
                                            0.5f, -0.5f, 0.0f, 0.0f, 0.8f, 0.0f, 1.0f,
@@ -96,8 +98,8 @@ namespace GEOGL{
             std::vector<uint32_t> indices = {0,1,2};
             auto indexBuffer = IndexBuffer::create(indices);
 
-            m_VertexArray->addVertexBuffer(vertexBuffer);
-            m_VertexArray->setIndexBuffer(indexBuffer);
+            m_VertexArrayTrianglePerVColor->addVertexBuffer(vertexBuffer);
+            m_VertexArrayTrianglePerVColor->setIndexBuffer(indexBuffer);
 
         }
 
@@ -105,7 +107,7 @@ namespace GEOGL{
         {
 
             /* Create a vertex array */
-            m_VertexArray2 = VertexArray::create();
+            m_VertexArraySquare = VertexArray::create();
 
             std::vector<float> vertices = {-0.75f, -0.75f, 0.0f,
                                             0.75f, -0.75f, 0.0f,
@@ -122,8 +124,8 @@ namespace GEOGL{
             std::vector<uint32_t> indices = {0,1,2,0,2,3};
             auto indexBuffer = IndexBuffer::create(indices);
 
-            m_VertexArray2->addVertexBuffer(vertexBuffer);
-            m_VertexArray2->setIndexBuffer(indexBuffer);
+            m_VertexArraySquare->addVertexBuffer(vertexBuffer);
+            m_VertexArraySquare->setIndexBuffer(indexBuffer);
 
         }
 
@@ -152,7 +154,7 @@ namespace GEOGL{
 			}
 		)";
 
-            m_Shader = Shader::create(vertexSrc, fragmentSrc);
+            m_PerVertexShader = Shader::create(vertexSrc, fragmentSrc);
         }
 
         {
@@ -178,8 +180,11 @@ namespace GEOGL{
 			}
 		)";
 
-            blueShader = Shader::create(vertexSrc, fragmentSrc);
+            m_BlueShader = Shader::create(vertexSrc, fragmentSrc);
         }
+
+        Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
+
     }
 
     Application::~Application() = default;
@@ -190,15 +195,17 @@ namespace GEOGL{
 
         while(m_Running){
 
-            m_Window->clearColor();
+            Renderer::beginScene();
 
-            blueShader->bind();
-            m_VertexArray2->bind();
-            glDrawElements(GL_TRIANGLES, m_VertexArray2->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+            m_BlueShader->bind();
+            Renderer::submit(m_VertexArraySquare);
 
-            m_Shader->bind();
-            m_VertexArray->bind();
-            glDrawElements(GL_TRIANGLES, m_VertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+            m_PerVertexShader->bind();
+            Renderer::submit(m_VertexArrayTrianglePerVColor);
+
+
+            Renderer::endScene();
+
 
             for(Layer* layer : m_LayerStack){
                 layer->onUpdate();

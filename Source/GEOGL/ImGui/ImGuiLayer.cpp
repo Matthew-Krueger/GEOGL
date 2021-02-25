@@ -79,7 +79,7 @@ namespace GEOGL{
         Application& app = Application::get();
         auto* window = static_cast<GLFWwindow*>(app.getWindow().getNativeWindow());
 
-        // Setup Platform/RendererAPI bindings
+        // Setup Platform/Renderer bindings
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 410");
 

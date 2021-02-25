@@ -30,6 +30,8 @@
 
 #ifdef GEOGL_BUILD_WITH_OPENGL
 #include "../Modules/Platform/OpenGL/Rendering/OpenGLShader.hpp"
+#include "Renderer.hpp"
+
 #endif
 
 namespace GEOGL{
@@ -66,11 +68,11 @@ namespace GEOGL{
 
     std::shared_ptr<Shader> Shader::create(const std::string &vertexSrc, const std::string &fragmentSrc) {
 
-        const RendererAPI& api = Application::get().getAPIManager();
+        const auto renderer = Renderer::getRendererAPI();
 
         std::shared_ptr<Shader> result;
-        switch(api.getRenderAPIType()){
-            case API_OPENGL_DESKTOP:
+        switch(renderer->getRenderingAPI()){
+            case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL
             result.reset(new GEOGL::Platform::OpenGL::Shader(vertexSrc, fragmentSrc));
             return result;
@@ -78,7 +80,7 @@ namespace GEOGL{
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
 #endif
             default:
-                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", apiPrettyPrint(api.getRenderAPIType()));
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
                 return result;
         }
 

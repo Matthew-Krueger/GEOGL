@@ -24,6 +24,7 @@
 
 
 #include "Window.hpp"
+#include "../Rendering/Renderer.hpp"
 
 #if (GEOGL_BUILD_WITH_GLFW == 1)
 #include <GEOGL/Platform/GLFW.hpp>
@@ -33,12 +34,12 @@
 
 namespace GEOGL{
 
-    Window* Window::create(RendererAPI& api, const WindowProps& props){
+    Window* Window::create(const WindowProps& props){
 
-        switch(api.getWindowingType()){
-            case WINDOWING_GLFW_DESKTOP:
+        switch(Renderer::getRendererAPI()->getWindowingAPI()){
+            case RendererAPI::WINDOWING_GLFW_DESKTOP:
                 if(GEOGL_BUILD_WITH_GLFW) {
-                    return new GEOGL::Platform::GLFW::Window(api, props);
+                    return new GEOGL::Platform::GLFW::Window(props);
                 }else{
                     GEOGL_CORE_ASSERT_NOSTRIP(false, "GLFW is not supported. Exiting.");
                     exit(-1);

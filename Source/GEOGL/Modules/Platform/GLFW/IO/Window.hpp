@@ -54,11 +54,9 @@ namespace GEOGL::Platform::GLFW{
      */
     class GEOGL_API Window : public GEOGL::Window{
     public:
-        explicit Window(RendererAPI& api, const WindowProps& props);
+        explicit Window(const WindowProps& props);
         ~Window() override;
 
-        // Update Handles
-        void clearColor() override;
         void onUpdate() override;
 
         [[nodiscard]] inline unsigned int getWidth() const override { return m_Data.width; }
@@ -95,9 +93,9 @@ namespace GEOGL::Platform::GLFW{
 
         /**
          * \brief Gets that this window is an OpenGL Desktop window
-         * @return An WINDOW_OPENGL_DESKTOP flag
+         * @return An GLFW_DESKTOP flag
          */
-        inline enum RenderingAPIType type() override { return RenderingAPIType::API_OPENGL_DESKTOP; };
+        inline RendererAPI::WindowingAPI type() override { return RendererAPI::WINDOWING_GLFW_DESKTOP; };
 
     private:
         /**
@@ -150,7 +148,6 @@ namespace GEOGL::Platform::GLFW{
         WindowData m_Data;
 
         GEOGL::Platform::OpenGL::GraphicsContext* m_GraphicsContext;
-        RendererAPI& m_apiManager;
 
     };
 

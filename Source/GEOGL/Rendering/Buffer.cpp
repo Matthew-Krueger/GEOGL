@@ -27,6 +27,7 @@
 #ifdef GEOGL_BUILD_WITH_OPENGL
 #include "../Modules/Platform/OpenGL/Rendering/OpenGLBuffer.hpp"
 #include "RendererAPI.hpp"
+#include "Renderer.hpp"
 
 #endif
 
@@ -75,11 +76,11 @@ namespace GEOGL{
     }
 
     std::shared_ptr<VertexBuffer> VertexBuffer::create(const std::vector<float> &vertices) {
-        const RendererAPI& api = Application::get().getAPIManager();
+        const auto renderer = Renderer::getRendererAPI();
 
         std::shared_ptr<VertexBuffer> result;
-        switch(api.getRenderAPIType()){
-            case API_OPENGL_DESKTOP:
+        switch(renderer->getRenderingAPI()){
+            case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL
                 result.reset(new GEOGL::Platform::OpenGL::VertexBuffer(vertices));
                 return result;
@@ -87,18 +88,18 @@ namespace GEOGL{
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
 #endif
             default:
-                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", apiPrettyPrint(api.getRenderAPIType()));
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
                 return nullptr;
         }
 
     }
 
     std::shared_ptr<IndexBuffer> IndexBuffer::create(const std::vector<uint32_t> &indices) {
-        const RendererAPI& api = Application::get().getAPIManager();
+        const auto renderer = Renderer::getRendererAPI();
 
         std::shared_ptr<IndexBuffer> result;
-        switch(api.getRenderAPIType()){
-            case API_OPENGL_DESKTOP:
+        switch(renderer->getRenderingAPI()){
+            case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL
                 result.reset(new GEOGL::Platform::OpenGL::IndexBuffer(indices));
                 return result;
@@ -106,7 +107,7 @@ namespace GEOGL{
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
 #endif
             default:
-                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", apiPrettyPrint(api.getRenderAPIType()));
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
                 return nullptr;
         }
     }
