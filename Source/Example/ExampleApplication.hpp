@@ -22,59 +22,18 @@
  *                                                                             *
  *******************************************************************************/
 
-#define GEOGL_INCLUDE_MAIN
-#define GEOGL_INCLUDE_WIN_MAIN
-#include <GEOGL/MainCreator.hpp>
+#ifndef GEOGL_EXAMPLEAPPLICATION_HPP
+#define GEOGL_EXAMPLEAPPLICATION_HPP
 
-#include "SandboxApplication.hpp"
-#include "../../Dependencies/imgui-docking/include/ImGui/imgui.h"
+#include <GEOGL/Core.hpp>
 
-static bool show = true;
-
-namespace Sandbox{
-
-class ExampleLayer: public GEOGL::Layer{
-
+namespace Example {
+    class ExampleApp : public GEOGL::Application {
     public:
-        ExampleLayer():Layer("Example Layer"){};
-
-        /*void onImGuiRender() override{
-            ImGui::ShowDemoWindow(&show);
-            ImGui::Begin("Test");
-            ImGui::Text("Hello World!");
-            ImGui::End();
-        }*/
+        ExampleApp();
+        ~ExampleApp() override;
 
     };
-
-
-
-    SandboxApp::SandboxApp() : GEOGL::Application(
-            GEOGL::WindowProps(
-                    "GEOGL Example",
-                    1920,
-                    1080,
-                    "Resources/Runtime-Icon.png"
-            )) {
-
-
-        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
-        pushLayer(new ExampleLayer);
-        //getWindow().setVSync(false);
-
-    }
-
-    SandboxApp::~SandboxApp(){
-
-        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
-
-    }
-
 }
 
-GEOGL::Application* GEOGL::createApplication(){
-
-    GEOGL::Log::Init("log.txt", "Sandbox");
-    return new Sandbox::SandboxApp();
-
-}
+#endif //GEOGL_EXAMPLEAPPLICATION_HPP

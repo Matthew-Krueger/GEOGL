@@ -29,18 +29,18 @@
 namespace GEOGL{
 
 
-    std::string RendererAPI::getRenderingAPIName(RendererAPI::RenderingAPI api) {
+    std::string RendererAPI::getRenderingAPIName(RendererAPI::RenderingAPIEnum api) {
 
         switch(api){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
                 return std::string("OpenGL");
-            case RenderingAPI::RENDERING_VULKAN_DESKTOP:
+            case RenderingAPIEnum::RENDERING_VULKAN_DESKTOP:
                 return std::string("Vulkan");
-            case RenderingAPI::RENDERING_DIRECTX11_DESKTOP:
+            case RenderingAPIEnum::RENDERING_DIRECTX11_DESKTOP:
                 return std::string("DirectX 11");
-            case RenderingAPI::RENDERING_DIRECTX12_DESKTOP:
+            case RenderingAPIEnum::RENDERING_DIRECTX12_DESKTOP:
                 return std::string("DirectX 12");
-            case RenderingAPI::RENDERING_METAL_DESKTOP:
+            case RenderingAPIEnum::RENDERING_METAL_DESKTOP:
                 return std::string("Apple Metal");
             default:
                 return std::string("Unknown");
@@ -48,11 +48,11 @@ namespace GEOGL{
 
     }
 
-    std::string RendererAPI::getWindowingAPIName(RendererAPI::WindowingAPI api) {
+    std::string RendererAPI::getWindowingAPIName(RendererAPI::WindowingAPIEnum api) {
 
         switch(api){
 
-            case WindowingAPI::WINDOWING_GLFW_DESKTOP:
+            case WindowingAPIEnum::WINDOWING_GLFW_DESKTOP:
                 return std::string("GLFW");
             default:
                 return std::string("Unknown");
@@ -61,11 +61,11 @@ namespace GEOGL{
 
     }
 
-    bool RendererAPI::isAPISupported(RendererAPI::RenderingAPI api) {
+    bool RendererAPI::isAPISupported(RendererAPI::RenderingAPIEnum api) {
         switch (api){
-            case RenderingAPI::RENDERING_OPENGL_DESKTOP:
+            case RenderingAPIEnum::RENDERING_OPENGL_DESKTOP:
                 return (bool) GEOGL_BUILD_WITH_OPENGL && (bool) GEOGL_BUILD_WITH_GLFW;
-            case RenderingAPI::RENDERING_VULKAN_DESKTOP:
+            case RenderingAPIEnum::RENDERING_VULKAN_DESKTOP:
                 return (bool) GEOGL_BUILD_WITH_VULKAN && (bool) GEOGL_BUILD_WITH_GLFW;
             default:
                 return false;
@@ -73,9 +73,9 @@ namespace GEOGL{
 
     }
 
-    std::shared_ptr<RendererAPI> RendererAPI::create(RendererAPI::RenderingAPI preferredAPI) {
+    std::shared_ptr<RendererAPI> RendererAPI::create(RendererAPI::RenderingAPIEnum preferredAPI) {
         /* get the best API */
-        RendererAPI::RenderingAPI api = RenderingAPI::RENDERING_INVALID;
+        RendererAPI::RenderingAPIEnum api = RenderingAPIEnum::RENDERING_INVALID;
 
         if(isAPISupported(preferredAPI)){
             api = preferredAPI;
@@ -84,26 +84,26 @@ namespace GEOGL{
             GEOGL_CORE_ERROR_NOSTRIP("The preferred API {} is not available. Selecting one that is.", getRenderingAPIName(preferredAPI));
 
             /* Select most cross platform API supported */
-            if(isAPISupported(RenderingAPI::RENDERING_OPENGL_DESKTOP)){
-                api = RenderingAPI::RENDERING_OPENGL_DESKTOP;
-            }else if(isAPISupported(RenderingAPI::RENDERING_METAL_DESKTOP)){
-                api = RenderingAPI::RENDERING_METAL_DESKTOP;
-            }else if(isAPISupported(RenderingAPI::RENDERING_VULKAN_DESKTOP)){
-                api = RenderingAPI::RENDERING_VULKAN_DESKTOP;
-            }else if(isAPISupported(RenderingAPI::RENDERING_DIRECTX11_DESKTOP)){
-                api = RenderingAPI::RENDERING_DIRECTX11_DESKTOP;
-            }else if(isAPISupported(RenderingAPI::RENDERING_DIRECTX12_DESKTOP)){
-                api = RenderingAPI::RENDERING_DIRECTX12_DESKTOP;
+            if(isAPISupported(RenderingAPIEnum::RENDERING_OPENGL_DESKTOP)){
+                api = RenderingAPIEnum::RENDERING_OPENGL_DESKTOP;
+            }else if(isAPISupported(RenderingAPIEnum::RENDERING_METAL_DESKTOP)){
+                api = RenderingAPIEnum::RENDERING_METAL_DESKTOP;
+            }else if(isAPISupported(RenderingAPIEnum::RENDERING_VULKAN_DESKTOP)){
+                api = RenderingAPIEnum::RENDERING_VULKAN_DESKTOP;
+            }else if(isAPISupported(RenderingAPIEnum::RENDERING_DIRECTX11_DESKTOP)){
+                api = RenderingAPIEnum::RENDERING_DIRECTX11_DESKTOP;
+            }else if(isAPISupported(RenderingAPIEnum::RENDERING_DIRECTX12_DESKTOP)){
+                api = RenderingAPIEnum::RENDERING_DIRECTX12_DESKTOP;
             }
 
         }
 
-        GEOGL_CORE_ASSERT_NOSTRIP(api != RenderingAPI::RENDERING_INVALID, "Unable to find a suitable Rendering API.");
+        GEOGL_CORE_ASSERT_NOSTRIP(api != RenderingAPIEnum::RENDERING_INVALID, "Unable to find a suitable Rendering API.");
         GEOGL_CORE_INFO_NOSTRIP("Using {} for Rendering.", getRenderingAPIName(api));
 
         std::shared_ptr<RendererAPI> result;
         switch(api){
-            case RendererAPI::RenderingAPI::RENDERING_OPENGL_DESKTOP:
+            case RendererAPI::RenderingAPIEnum::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL
                 result.reset(new GEOGL::Platform::OpenGL::RendererAPI());
                 return result;
@@ -117,15 +117,15 @@ namespace GEOGL{
 
     }
 
-    RendererAPI::RendererAPI(RendererAPI::RenderingAPI preferredAPI) : m_API(preferredAPI){
+    RendererAPI::RendererAPI(RendererAPI::RenderingAPIEnum preferredAPI) : m_API(preferredAPI){
 
 
     }
 
-    RendererAPI::WindowingAPI RendererAPI::getWindowingAPI(){
+    RendererAPI::WindowingAPIEnum RendererAPI::getWindowingAPI(){
 
-        if(WindowingAPI::WINDOWING_GLFW_DESKTOP & m_API)
-            return WindowingAPI::WINDOWING_GLFW_DESKTOP;
+        if(WindowingAPIEnum::WINDOWING_GLFW_DESKTOP & m_API)
+            return WindowingAPIEnum::WINDOWING_GLFW_DESKTOP;
 
         return WINDOWING_INVALID;
 

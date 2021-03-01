@@ -27,16 +27,21 @@
 
 namespace GEOGL{
 
+    Renderer::SceneData* Renderer::m_SceneData = new SceneData;
 
-    void Renderer::beginScene() {
-        RenderCommand::clear();
+    void Renderer::beginScene(const OrthographicCamera& camera) {
+
+        m_SceneData->projectionViewMatrix = camera.getProjectionViewMatrix();
+
     }
 
     void Renderer::endScene() {
 
     }
 
-    void Renderer::submit(const std::shared_ptr<VertexArray>& vertexArray) {
+    void Renderer::submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray) {
+        shader->bind();
+        shader->uploadUniformMat4("u_ProjectionViewMatrix", m_SceneData->projectionViewMatrix);
         vertexArray->bind();
         RenderCommand::drawIndexed(vertexArray);
     }

@@ -26,19 +26,27 @@
 #ifndef GEOGL_RENDERER_HPP
 #define GEOGL_RENDERER_HPP
 
+#include "Camera.hpp"
 #include "RenderCommand.hpp"
+#include "Shader.hpp"
 
 namespace GEOGL{
 
     class GEOGL_API Renderer{
     public:
 
+        /**
+         * Sets the clear color
+         * @param color
+         */
         inline static void setClearColor(const glm::vec4& color){ RenderCommand::setClearColor(color); };
+
+        inline static void clear(){ RenderCommand::clear(); };
 
         /**
          * \brief Begins the scene, setting up the renderer
          */
-        static void beginScene();
+        static void beginScene(const OrthographicCamera& camera);
 
         /**
          * \brief Ends the scene (and will eventually dispatch on the rendercommandque)
@@ -49,11 +57,26 @@ namespace GEOGL{
          * \brief Submit a VertexArray for drawing
          * @param vertexArray The vertex array to submit
          */
-        static void submit(const std::shared_ptr<VertexArray>& vertexArray);
+        static void submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray);
 
+        /**
+         * Gets the rendererAPI
+         * @return
+         */
         inline static const std::shared_ptr<RendererAPI>& getRendererAPI() { return RenderCommand::getRendererAPI(); };
+
+        /**
+         * Sets the rendererAPI
+         * @param rendererApi the Api Instance to set
+         */
         inline static void setRendererAPI(std::shared_ptr<RendererAPI> rendererApi) { RenderCommand::setRendererAPI(rendererApi); };
 
+    private:
+        struct SceneData{
+            glm::mat4 projectionViewMatrix;
+        };
+
+        static SceneData* m_SceneData;
 
     };
 

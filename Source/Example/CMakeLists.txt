@@ -14,7 +14,7 @@ if(WIN32)
 
 endif(WIN32)
 
-add_executable(${MODULE_NAME} ${OPTIONS} SandboxApplication.cpp SandboxApplication.hpp ${ADDITIONAL_WIN32_FILES})
+add_executable(${MODULE_NAME} ${OPTIONS} ExampleApplication.cpp ExampleApplication.hpp ${ADDITIONAL_WIN32_FILES} 3DLayer.cpp 3DLayer.hpp)
 
 add_dependencies(${MODULE_NAME} GEOGL::Engine)
 target_link_libraries(${MODULE_NAME} GEOGL::Engine)

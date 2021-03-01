@@ -33,7 +33,7 @@
 #include "../../Application/Application.hpp"
 
 /* Loading and Callbacks */
-#include "../../Utils/Callbacks.hpp"
+#include "../../Modules/Utils/Callbacks.hpp"
 
 /* Events */
 #include "../../IO/Events/Event.hpp"
@@ -43,7 +43,7 @@
 
 /* Input Polling Section */
 #include "../../IO/Input.hpp"
-#include "../../Utils/InputCodes.hpp"
+#include "../../Modules/Utils/InputCodes.hpp"
 
 /* Layers API */
 #include "../../Layers/Layer.hpp"
@@ -51,9 +51,14 @@
 #include "../../Layers/LayerStack.hpp"
 
 /* Render api */
-#include "../../Rendering/Buffer.hpp"
-#include "../../Rendering/GraphicsContext.hpp"
-#include "../../Rendering/Shader.hpp"
 #include "../../Rendering/Renderer.hpp"
+#include "../../Rendering/RenderCommand.hpp"
+#include "../../Rendering/GraphicsContext.hpp"
+
+#include "../../Rendering/VertexArray.hpp"
+#include "../../Rendering/Buffer.hpp"
+#include "../../Rendering/Shader.hpp"
+#include "../../Rendering/Camera.hpp"
+
 
 #endif //GEOGL_CORE_HPP

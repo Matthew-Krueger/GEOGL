@@ -33,12 +33,33 @@ namespace GEOGL{
     class GEOGL_API RenderCommand{
     public:
 
+        /**
+         * Executes a set clear color command
+         * @param color
+         */
         inline static void setClearColor(const glm::vec4& color){ s_RendererAPI->setClearColor(color); };
+
+        /**
+         * Executes a clear command
+         */
         inline static void clear(){ s_RendererAPI->clear(); };
 
+        /**
+         * Draws an index vertexArray
+         * @param vertexArray
+         */
         inline static void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray){ s_RendererAPI->drawIndexed(vertexArray); };
 
+        /**
+         * Gets the rendererAPI
+         * @return
+         */
         inline static const std::shared_ptr<RendererAPI>& getRendererAPI() { return s_RendererAPI; };
+
+        /**
+         * Sets the RendererAPI.
+         * @param rendererApi
+         */
         inline static void setRendererAPI(std::shared_ptr<RendererAPI>& rendererApi) { s_RendererAPI = rendererApi; };
 
     private:

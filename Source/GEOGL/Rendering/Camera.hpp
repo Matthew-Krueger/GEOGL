@@ -22,39 +22,38 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLRENDERERAPI_HPP
-#define GEOGL_OPENGLRENDERERAPI_HPP
 
-#include "../../../../Rendering/RendererAPI.hpp"
-#include "../../../../Rendering/VertexArray.hpp"
+#ifndef GEOGL_CAMERA_HPP
+#define GEOGL_CAMERA_HPP
 
-namespace GEOGL::Platform::OpenGL{
 
-    /**
-     * \brief Describes an OpenGL RendererAPI.
-     */
-    class GEOGL_API RendererAPI : public GEOGL::RendererAPI{
+namespace GEOGL{
+
+    class GEOGL_API OrthographicCamera{
     public:
-        /**
-         * Constructs a RendererAPI with the specified RenderingAPIEnum. The implementation is free to ignore this however.
-         * @param preferredAPI The preferred api to use for rendering
-         */
-        RendererAPI();
-        virtual ~RendererAPI();
+        OrthographicCamera(float left, float right, float bottom, float top);
 
-        void setClearColor(const glm::vec4& color) override;
-        void clear() override;
+        const glm::vec3& getPosition() const { return m_Position; };
+        inline void setPosition(const glm::vec3& position){ m_Position = position; recalculateViewMatrix(); };
 
-        virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
+        float getRotationZ() const { return m_RotationZ; };
+        inline void setRotationZ(float zRotation){ if(zRotation>360) { m_RotationZ = zRotation-360; }else if (zRotation < 0){ m_RotationZ = zRotation+360; }else{m_RotationZ = zRotation; } recalculateViewMatrix(); };
+
+        inline const glm::mat4& getProjectionMatrix() const { return m_Projectionmatrix; };
+        inline const glm::mat4& getViewMatrix() const { return m_ViewMatrix; };
+        inline const glm::mat4& getProjectionViewMatrix() const { return m_ProjectionViewMatrix; };
 
     private:
-        glm::vec4 m_ClearColor;
+        void recalculateViewMatrix();
+    private:
+        glm::mat4 m_Projectionmatrix;
+        glm::mat4 m_ViewMatrix;
+        glm::mat4 m_ProjectionViewMatrix;
 
-
+        glm::vec3 m_Position = {0.0f,0.0f,0.0f};
+        float m_RotationZ = 0.0f;
     };
-
 
 }
 
-
-#endif //GEOGL_OPENGLRENDERERAPI_HPP
+#endif //GEOGL_CAMERA_HPP

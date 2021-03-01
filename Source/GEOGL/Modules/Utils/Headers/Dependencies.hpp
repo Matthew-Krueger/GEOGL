@@ -39,6 +39,7 @@ using json = nlohmann::json;
 #include <memory>
 #include <functional>
 #include <iostream>
+#include <map>
 
 /* spdlog */
 #include <spdlog/spdlog.h>

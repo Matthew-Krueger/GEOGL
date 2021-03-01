@@ -22,39 +22,45 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLRENDERERAPI_HPP
-#define GEOGL_OPENGLRENDERERAPI_HPP
+#define GEOGL_INCLUDE_MAIN
+#define GEOGL_INCLUDE_WIN_MAIN
+#include <GEOGL/MainCreator.hpp>
 
-#include "../../../../Rendering/RendererAPI.hpp"
-#include "../../../../Rendering/VertexArray.hpp"
+#include "ExampleApplication.hpp"
+#include "3DLayer.hpp"
 
-namespace GEOGL::Platform::OpenGL{
+static bool show = true;
 
-    /**
-     * \brief Describes an OpenGL RendererAPI.
-     */
-    class GEOGL_API RendererAPI : public GEOGL::RendererAPI{
-    public:
-        /**
-         * Constructs a RendererAPI with the specified RenderingAPIEnum. The implementation is free to ignore this however.
-         * @param preferredAPI The preferred api to use for rendering
-         */
-        RendererAPI();
-        virtual ~RendererAPI();
+namespace Example{
 
-        void setClearColor(const glm::vec4& color) override;
-        void clear() override;
-
-        virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
-
-    private:
-        glm::vec4 m_ClearColor;
+    ExampleApp::ExampleApp() : GEOGL::Application(
+            GEOGL::WindowProps(
+                    "GEOGL Example",
+                    1920,
+                    1080,
+                    "Resources/Runtime-Icon.png"
+            )) {
 
 
-    };
+        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
+        pushLayer(new TwoDLayer());
+        GEOGL::Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
 
+        //getWindow().setVSync(false);
+
+    }
+
+    ExampleApp::~ExampleApp(){
+
+        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
+
+    }
 
 }
 
+GEOGL::Application* GEOGL::createApplication(){
 
-#endif //GEOGL_OPENGLRENDERERAPI_HPP
+    GEOGL::Log::Init("example-app-log.txt", "Example App");
+    return new Example::ExampleApp();
+
+}

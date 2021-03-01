@@ -22,6 +22,9 @@ set(CMAKE_C_STANDARD 11)
 #              Info               #
 ###################################
 
+message(STATUS "-- GEOGL Build type: ${CMAKE_BUILD_TYPE}")
+
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
 set(GEOGL_VERSION_MAJOR "0")
 set(GEOGL_VERSION_MINOR "0")

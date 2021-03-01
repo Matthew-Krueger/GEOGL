@@ -41,7 +41,7 @@ namespace GEOGL{
          * Uses bit shifting to be able to deduce the correct windowing api. for instance, the binary of API_OPENGL_DESKTOP
          * is 0001 while API
          */
-        enum GEOGL_API RenderingAPI {
+        enum GEOGL_API RenderingAPIEnum {
             RENDERING_INVALID = 0,
             RENDERING_OPENGL_DESKTOP = BIT(0),
             RENDERING_VULKAN_DESKTOP = BIT(1),
@@ -53,7 +53,7 @@ namespace GEOGL{
         /**
          * \brief Represents the api to be used for windowing (i.e. win32, glfw, etc)
          */
-        enum GEOGL_API WindowingAPI {
+        enum GEOGL_API WindowingAPIEnum {
 
             WINDOWING_INVALID = 0,
             WINDOWING_GLFW_DESKTOP = BIT(0) | BIT(1),
@@ -68,17 +68,17 @@ namespace GEOGL{
          * @param api The api of which to get the name
          * @return The human readable name.
          */
-        static std::string getRenderingAPIName(RenderingAPI api);
+        static std::string getRenderingAPIName(RenderingAPIEnum api);
 
         /**
          * \brief Gets the name of the Windowing API
          * @param api The api of which to get the name
          * @return The human readable name.
          */
-        static std::string getWindowingAPIName(WindowingAPI api);
-        static bool isAPISupported(RenderingAPI api);
+        static std::string getWindowingAPIName(WindowingAPIEnum api);
+        static bool isAPISupported(RenderingAPIEnum api);
 
-        static std::shared_ptr<RendererAPI> create(RendererAPI::RenderingAPI preferredAPI);
+        static std::shared_ptr<RendererAPI> create(RendererAPI::RenderingAPIEnum preferredAPI);
 
     public:
 
@@ -101,18 +101,18 @@ namespace GEOGL{
          */
         virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
 
-        inline RenderingAPI getRenderingAPI() { return m_API; } ;
-        RendererAPI::WindowingAPI getWindowingAPI();
+        inline RenderingAPIEnum getRenderingAPI() { return m_API; } ;
+        RendererAPI::WindowingAPIEnum getWindowingAPI();
 
     protected:
         /**
-         * \brief Constructs a RendererAPI with the specified RenderingAPI. The implementation is free to ignore this however.
+         * \brief Constructs a RendererAPI with the specified RenderingAPIEnum. The implementation is free to ignore this however.
          * @param preferredAPI The preferred api to use for rendering
          */
-        RendererAPI(RendererAPI::RenderingAPI preferredAPI);
+        RendererAPI(RendererAPI::RenderingAPIEnum preferredAPI);
 
     private:
-        RenderingAPI m_API;
+        RenderingAPIEnum m_API;
 
 
 

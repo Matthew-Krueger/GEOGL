@@ -22,18 +22,41 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_SANDBOXAPPLICATION_HPP
-#define GEOGL_SANDBOXAPPLICATION_HPP
+
+#ifndef GEOGL_3DLAYER_HPP
+#define GEOGL_3DLAYER_HPP
 
 #include <GEOGL/Core.hpp>
 
-namespace Sandbox {
-    class SandboxApp : public GEOGL::Application {
+namespace Example{
+
+    class TwoDLayer : public GEOGL::Layer{
     public:
-        SandboxApp();
-        ~SandboxApp() override;
+        TwoDLayer();
+
+        void onAttach() override;
+        void onDetach() override;
+        void onUpdate() override;
+
+        void onEvent(GEOGL::Event& event);
+
+        void pollCameraMovement();
+
+    private:
+        std::shared_ptr<GEOGL::VertexArray> m_VertexArrayTrianglePerVColor;
+        std::shared_ptr<GEOGL::VertexArray> m_VertexArraySquare;
+
+        std::shared_ptr<GEOGL::Shader> m_PerVertexShader;
+        std::shared_ptr<GEOGL::Shader> m_BlueShader;
+
+        GEOGL::OrthographicCamera m_Camera;
+        glm::vec3 m_CameraPosition;
+        float m_CameraRotation = 0.0f;
+        float m_CameraSpeed = .01f;
+        float m_CameraRotSpeed = 1.0f;
 
     };
+
 }
 
-#endif //GEOGL_SANDBOXAPPLICATION_HPP
+#endif //GEOGL_3DLAYER_HPP

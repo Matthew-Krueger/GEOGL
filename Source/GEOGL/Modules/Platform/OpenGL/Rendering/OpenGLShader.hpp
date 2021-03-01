@@ -39,10 +39,13 @@ namespace GEOGL::Platform::OpenGL{
         void bind() const override;
         void unbind() const override;
 
+        void uploadUniformMat4(const std::string& uniformName, const glm::mat4& matrix) override;
     private:
-        uint32_t m_ShaderID;
+        uint32_t m_RendererID;
         uint32_t m_VertexID;
         uint32_t m_FragmentID;
+
+        std::map<std::string, int> m_UniformLocationsCache;
 
     };
 

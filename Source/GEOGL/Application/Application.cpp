@@ -33,7 +33,7 @@ namespace GEOGL{
 
 
 
-    Application::Application(const WindowProps& props) {
+    Application::Application(const WindowProps& props){
 
 #ifdef NDEBUG
         std::string releaseMode("Release");
@@ -47,18 +47,27 @@ namespace GEOGL{
         {
             if(!m_Settings.open("settings.json")) {
                 GEOGL_CORE_WARN_NOSTRIP("Settings file not found. Treating OpenGL as the lowest API");
-                m_Settings.setRenderingAPI(RendererAPI::RENDERING_OPENGL_DESKTOP);
+                m_Settings.data["RenderingAPI"] = (RendererAPI::RENDERING_OPENGL_DESKTOP);
                 m_Settings.flush();
             }
 
         }
+        /* if doesn't have api */
+        std::shared_ptr<RendererAPI> rendererAPI;
+        if(m_Settings.data.contains("RenderingAPI")){
+            rendererAPI = RendererAPI::create(m_Settings.data["RenderingAPI"]);
+        }else{
+            GEOGL_CORE_WARN_NOSTRIP("Unable to find RenderingAPI in settings.json. Setting a new one.");
+            rendererAPI = RendererAPI::create(RendererAPI::RENDERING_INVALID);
+        }
 
-        Renderer::setRendererAPI(RendererAPI::create(m_Settings.getRenderingAPI()));
-        auto renderAPI = Renderer::getRendererAPI();
+        /* set the rendering API */
+        Renderer::setRendererAPI(rendererAPI);
 
-        if(m_Settings.getRenderingAPI() != Renderer::getRendererAPI()->getRenderingAPI()) {
-            GEOGL_CORE_WARN_NOSTRIP("API Stored as {} does not match engine selected api {}. Setting property.", RendererAPI::getRenderingAPIName(m_Settings.getRenderingAPI()), RendererAPI::getRenderingAPIName(Renderer::getRendererAPI()->getRenderingAPI()));
-            m_Settings.setRenderingAPI(Renderer::getRendererAPI()->getRenderingAPI());
+        /* now, make sure the data is stored */
+        {
+            auto renderAPI = Renderer::getRendererAPI();
+            m_Settings.data["RenderingAPI"] = (Renderer::getRendererAPI()->getRenderingAPI());
             m_Settings.flush();
         }
 
@@ -76,115 +85,6 @@ namespace GEOGL{
         m_ImGuiLayer = new ImGuiLayer;
         pushOverlay(m_ImGuiLayer);
 
-
-        /* set up the triangle */
-        {
-
-            /* Create a vertex array */
-            m_VertexArrayTrianglePerVColor = VertexArray::create();
-
-            std::vector<float> vertices = {-0.5f,-0.5f, 0.0f, 0.8f, 0.0f, 0.0f, 1.0f,
-                                           0.5f, -0.5f, 0.0f, 0.0f, 0.8f, 0.0f, 1.0f,
-                                           0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 0.8f, 1.0f};
-
-            auto vertexBuffer = VertexBuffer::create(vertices);
-            {
-                vertexBuffer->setLayout({
-                                                  {ShaderDataType::FLOAT3, "a_Position"},
-                                                  {ShaderDataType::FLOAT4, "a_Color"}
-                                          });
-            }
-
-            std::vector<uint32_t> indices = {0,1,2};
-            auto indexBuffer = IndexBuffer::create(indices);
-
-            m_VertexArrayTrianglePerVColor->addVertexBuffer(vertexBuffer);
-            m_VertexArrayTrianglePerVColor->setIndexBuffer(indexBuffer);
-
-        }
-
-        /* set up the square */
-        {
-
-            /* Create a vertex array */
-            m_VertexArraySquare = VertexArray::create();
-
-            std::vector<float> vertices = {-0.75f, -0.75f, 0.0f,
-                                            0.75f, -0.75f, 0.0f,
-                                            0.75f,  0.75f, 0.0f,
-                                           -0.75f,  0.75f, 0.0f};
-
-            auto vertexBuffer = VertexBuffer::create(vertices);
-            {
-                vertexBuffer->setLayout({
-                                                {ShaderDataType::FLOAT3, "a_Position"},
-                                        });
-            }
-
-            std::vector<uint32_t> indices = {0,1,2,0,2,3};
-            auto indexBuffer = IndexBuffer::create(indices);
-
-            m_VertexArraySquare->addVertexBuffer(vertexBuffer);
-            m_VertexArraySquare->setIndexBuffer(indexBuffer);
-
-        }
-
-        {
-            std::string vertexSrc = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-            layout(location = 1) in vec4 a_Color;
-			out vec4 v_Position;
-			void main()
-			{
-				v_Position = a_Color;
-				gl_Position = vec4(a_Position, 1.0);
-			}
-		)";
-
-            std::string fragmentSrc = R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 color;
-			in vec4 v_Position;
-			void main()
-			{
-				color = v_Position;
-			}
-		)";
-
-            m_PerVertexShader = Shader::create(vertexSrc, fragmentSrc);
-        }
-
-        {
-            std::string vertexSrc = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-			void main()
-			{
-				gl_Position = vec4(a_Position, 1.0);
-			}
-		)";
-
-            std::string fragmentSrc = R"(
-			#version 330 core
-
-
-			layout(location = 0) out vec4 color;
-
-			void main()
-			{
-				color = vec4(0.03,0.03,0.2,1.0);
-			}
-		)";
-
-            m_BlueShader = Shader::create(vertexSrc, fragmentSrc);
-        }
-
-        Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
-
     }
 
     Application::~Application() = default;
@@ -195,17 +95,8 @@ namespace GEOGL{
 
         while(m_Running){
 
-            Renderer::beginScene();
-
-            m_BlueShader->bind();
-            Renderer::submit(m_VertexArraySquare);
-
-            m_PerVertexShader->bind();
-            Renderer::submit(m_VertexArrayTrianglePerVColor);
-
-
-            Renderer::endScene();
-
+            GEOGL::Renderer::clear();
+            onUpdate();
 
             for(Layer* layer : m_LayerStack){
                 layer->onUpdate();
@@ -218,8 +109,8 @@ namespace GEOGL{
             m_ImGuiLayer->end();
 
             m_Window->onUpdate();
+
         }
-// while(true);
 
     }
 
@@ -229,6 +120,7 @@ namespace GEOGL{
 
         /* Bind a Window Close Event to Application::onWindowClose() */
         dispatcher.dispatch<WindowCloseEvent>(GEOGL_BIND_EVENT_FN(Application::onWindowClose)); // NOLINT(modernize-avoid-bind)
+
         if(event.Handled)
             return;
         for(auto it = m_LayerStack.end(); it != m_LayerStack.begin();){

@@ -140,7 +140,7 @@ namespace GEOGL {
          * \note Must be implemented in each platform.
          * @return The type of the window
          */
-        virtual RendererAPI::WindowingAPI type() = 0;
+        virtual RendererAPI::WindowingAPIEnum type() = 0;
 
         /**
          * Creates a window with the selected API.

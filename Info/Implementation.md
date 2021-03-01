@@ -16,7 +16,7 @@ before creating a new sandbox window. An example of the full function is:
 ```
 GEOGL::Application* GEOGL::createApplication(){
     GEOGL::Log::Init("log.txt", "Sandbox");
-    return new Sandbox::SandboxApp();
+    return new Sandbox::ExampleApp();
 }
 ```
 
@@ -24,10 +24,10 @@ GEOGL::Application* GEOGL::createApplication(){
 To get this pointer, you need to define a subclass of `GEOGL::Application`,
 like this:
 ```
-class SandboxApp : public GEOGL::Application {
+class ExampleApp : public GEOGL::Application {
 public:
-    SandboxApp();
-    ~SandboxApp() override;
+    ExampleApp();
+    ExampleApp() override;
 };
 ```
 ## CMake

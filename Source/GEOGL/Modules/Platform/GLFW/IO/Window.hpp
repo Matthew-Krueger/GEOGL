@@ -95,7 +95,7 @@ namespace GEOGL::Platform::GLFW{
          * \brief Gets that this window is an OpenGL Desktop window
          * @return An GLFW_DESKTOP flag
          */
-        inline RendererAPI::WindowingAPI type() override { return RendererAPI::WINDOWING_GLFW_DESKTOP; };
+        inline RendererAPI::WindowingAPIEnum type() override { return RendererAPI::WINDOWING_GLFW_DESKTOP; };
 
     private:
         /**

@@ -22,39 +22,30 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLRENDERERAPI_HPP
-#define GEOGL_OPENGLRENDERERAPI_HPP
+#include "Camera.hpp"
 
-#include "../../../../Rendering/RendererAPI.hpp"
-#include "../../../../Rendering/VertexArray.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 
-namespace GEOGL::Platform::OpenGL{
+namespace GEOGL{
 
-    /**
-     * \brief Describes an OpenGL RendererAPI.
-     */
-    class GEOGL_API RendererAPI : public GEOGL::RendererAPI{
-    public:
-        /**
-         * Constructs a RendererAPI with the specified RenderingAPIEnum. The implementation is free to ignore this however.
-         * @param preferredAPI The preferred api to use for rendering
-         */
-        RendererAPI();
-        virtual ~RendererAPI();
+    OrthographicCamera::OrthographicCamera(float left, float right, float bottom, float top)
+        : m_Projectionmatrix(glm::ortho(left, right, bottom, top, -1.0f, 1.0f)), m_ViewMatrix(1.0f){
+        m_ProjectionViewMatrix = m_Projectionmatrix * m_ViewMatrix;
+    }
 
-        void setClearColor(const glm::vec4& color) override;
-        void clear() override;
+    void OrthographicCamera::recalculateViewMatrix() {
 
-        virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
+        /* Translate the matrix by position */
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_Position);
+        /* Now, rotate the matrix around the z axis */
+        transform = transform * glm::rotate(glm::mat4(1.0f), glm::radians(m_RotationZ), glm::vec3(0,0,1));
 
-    private:
-        glm::vec4 m_ClearColor;
+        /* now, set view matrix from the inverse of transform */
+        m_ViewMatrix = glm::inverse(transform);
 
+        /* calculate view projection matrix from these */
+        m_ProjectionViewMatrix = m_Projectionmatrix * m_ViewMatrix;
 
-    };
-
+    }
 
 }
-
-
-#endif //GEOGL_OPENGLRENDERERAPI_HPP

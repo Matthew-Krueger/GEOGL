@@ -36,6 +36,7 @@
 #include "../Rendering/Buffer.hpp"
 #include "../Rendering/VertexArray.hpp"
 #include "../Rendering/RendererAPI.hpp"
+#include "../Rendering/Camera.hpp"
 #include <GEOGL/Utils.hpp>
 
 
@@ -54,8 +55,13 @@ namespace GEOGL{
         static Application* s_Instance;
 
     public:
-        Application(const WindowProps& props = WindowProps());
+        explicit Application(const WindowProps& props = WindowProps());
         virtual ~Application();
+
+        /**
+         * \brief Runs the update code for anything that must happen exactly once a frame from an application.
+         */
+        virtual void onUpdate(){};
 
         /**
          * Contains the main run loop for the game
@@ -89,14 +95,6 @@ namespace GEOGL{
         Settings m_Settings;
 
         ImGuiLayer* m_ImGuiLayer;
-
-        std::shared_ptr<VertexArray> m_VertexArrayTrianglePerVColor;
-        std::shared_ptr<VertexArray> m_VertexArraySquare;
-
-        std::shared_ptr<Shader> m_PerVertexShader;
-        std::shared_ptr<Shader> m_BlueShader;
-
-
 
     };
 

@@ -72,6 +72,12 @@ namespace GEOGL{
         virtual void unbind() const = 0;
 
         /**
+         * Uploads a uniform Mat4 to the shader
+         * @param matrix The matrix to upload
+         */
+        virtual void uploadUniformMat4(const std::string& uniformName, const glm::mat4& matrix) = 0;
+
+        /**
          * Creates a shader from source files.
          * \todo Change from vertexSrc and fragmentSrc to a more robust way. Maybe a struct with some bools describing the data? Just trying to think about vulkan in the future with SPIR-V and how we can impliment it with OpenGL.
          * \note If the shader source does not compile, there is no mechanism to catch the error.

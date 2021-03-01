@@ -24,6 +24,7 @@
 
 #include <glad/glad.h>
 #include "OpenGLShader.hpp"
+#include <glm/gtc/type_ptr.hpp>
 
 namespace GEOGL::Platform::OpenGL{
 
@@ -117,30 +118,30 @@ namespace GEOGL::Platform::OpenGL{
         /* Vertex and fragment shaders are successfully compiled.
          * Now time to link them together into a m_RenderID.
          * Get a m_RenderID object. */
-        m_ShaderID = glCreateProgram();
+        m_RendererID = glCreateProgram();
 
         /* Attach our shaders to our m_RenderID */
-        glAttachShader(m_ShaderID, m_VertexID);
-        glAttachShader(m_ShaderID, m_FragmentID);
+        glAttachShader(m_RendererID, m_VertexID);
+        glAttachShader(m_RendererID, m_FragmentID);
 
         /* Link our m_RenderID */
-        glLinkProgram(m_ShaderID);
+        glLinkProgram(m_RendererID);
 
         /* Note the different functions here: glGetProgram* instead of glGetShader* */
         GLint isLinked = 0;
-        glGetProgramiv(m_ShaderID, GL_LINK_STATUS, (int *)&isLinked);
+        glGetProgramiv(m_RendererID, GL_LINK_STATUS, (int *)&isLinked);
         if (isLinked == GL_FALSE){
             GLint maxLength = 0;
-            glGetProgramiv(m_ShaderID, GL_INFO_LOG_LENGTH, &maxLength);
+            glGetProgramiv(m_RendererID, GL_INFO_LOG_LENGTH, &maxLength);
 
             /* The maxLength includes the NULL character */
             std::string infoLog;
             infoLog.resize(maxLength);
-            glGetProgramInfoLog(m_ShaderID, maxLength, &maxLength, infoLog.data());
+            glGetProgramInfoLog(m_RendererID, maxLength, &maxLength, infoLog.data());
 
             /* We don't need the m_RenderID anymore. */
-            glDeleteProgram(m_ShaderID);
-            glDeleteShader(m_ShaderID);
+            glDeleteProgram(m_RendererID);
+            glDeleteShader(m_RendererID);
             glDeleteShader(m_FragmentID);
 
             GEOGL_CORE_CRITICAL_NOSTRIP("Unable to Link Vertex and Fragment shaders: {}", infoLog);
@@ -150,31 +151,54 @@ namespace GEOGL::Platform::OpenGL{
         }
 
         /* Always detach shaders after a successful link. */
-        glDetachShader(m_ShaderID, m_VertexID);
-        glDetachShader(m_ShaderID, m_FragmentID);
+        glDetachShader(m_RendererID, m_VertexID);
+        glDetachShader(m_RendererID, m_FragmentID);
 
     }
 
     Shader::~Shader() {
-        glDetachShader(m_ShaderID, m_VertexID);
-        glDetachShader(m_ShaderID, m_FragmentID);
+        glDetachShader(m_RendererID, m_VertexID);
+        glDetachShader(m_RendererID, m_FragmentID);
 
         glDeleteShader(m_VertexID);
         glDeleteShader(m_FragmentID);
 
-        glDeleteProgram(m_ShaderID);
+        glDeleteProgram(m_RendererID);
 
     }
 
     void Shader::bind() const {
 
-        glUseProgram(m_ShaderID);
+        glUseProgram(m_RendererID);
 
     }
 
     void Shader::unbind() const {
 
         glUseProgram(0);
+
+    }
+
+    void Shader::uploadUniformMat4(const std::string& uniformName, const glm::mat4 &matrix) {
+
+        /* Check if the uniform was already queried */
+        int uniformLocation = 0;
+        if(m_UniformLocationsCache.find(uniformName) != m_UniformLocationsCache.end()){
+            /* It was found, so set uniformLocation to what it got */
+            uniformLocation = m_UniformLocationsCache[uniformName];
+        }else{
+            /* it was not found. Ask OpenGL for more information */
+            uniformLocation = glGetUniformLocation(m_RendererID, uniformName.c_str());
+            /* make sure it is valid */
+            if(uniformLocation == -1){
+                GEOGL_CORE_ERROR_NOSTRIP("The uniform {} was not found in this shader.", uniformName);
+            }
+            /* now, since it is valid, place it in the map */
+            m_UniformLocationsCache[uniformName] = uniformLocation;
+        }
+
+        /* now, upload the data */
+        glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
 
     }
 
