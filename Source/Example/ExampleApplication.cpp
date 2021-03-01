@@ -27,7 +27,7 @@
 #include <GEOGL/MainCreator.hpp>
 
 #include "ExampleApplication.hpp"
-#include "3DLayer.hpp"
+#include "TwoDLayer.hpp"
 
 static bool show = true;
 

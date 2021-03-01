@@ -31,7 +31,38 @@ namespace GEOGL{
 
     class GEOGL_API OrthographicCamera{
     public:
-        OrthographicCamera(float left, float right, float bottom, float top);
+
+        /**
+         * Represents the bounds of an orthographic camera
+         */
+        struct OrthographicBounds{
+            float left;
+            float right;
+            float bottom;
+            float top;
+            float zNearClipPlane = -1.0;
+            float zFarClipPlane = 1.0;
+        };
+
+    public:
+        /**
+         * \brief Creates a new OrthographicCamera based on the information stored in the window.
+         *
+         * \note This is the preferred way to create an OrthographicCamera, as any update done using
+         * OrthographicCamera::calculateBestOrthographicBounds() will be consistant with this. However, you may still
+         * explicitly initialize an OrthographicCamera using the OrthographicCamera(OrthographicBounds&) Initialization
+         *
+         */
+        OrthographicCamera();
+
+        /**
+         * \brief Creates a new Orthographic camera with the selected bounds
+         * @param left The left bound
+         * @param right The right bound
+         * @param bottom The Bottom Bound
+         * @param top The Top Bound
+         */
+        explicit OrthographicCamera(const OrthographicBounds& orthographicBounds);
 
         const glm::vec3& getPosition() const { return m_Position; };
         inline void setPosition(const glm::vec3& position){ m_Position = position; recalculateViewMatrix(); };
@@ -43,12 +74,19 @@ namespace GEOGL{
         inline const glm::mat4& getViewMatrix() const { return m_ViewMatrix; };
         inline const glm::mat4& getProjectionViewMatrix() const { return m_ProjectionViewMatrix; };
 
+        inline const OrthographicBounds& getOrthographicBounds() const {return m_OrthographicBounds; };
+        void setOrthographicBounds(const OrthographicBounds& orthographicBounds);
+
+        static OrthographicBounds calculateBestOrthographicBounds(const glm::ivec2& windowDimensions, const glm::vec2& clipPlanes = {-1.0f,1.0f});
+
     private:
         void recalculateViewMatrix();
     private:
         glm::mat4 m_Projectionmatrix;
         glm::mat4 m_ViewMatrix;
         glm::mat4 m_ProjectionViewMatrix;
+
+        OrthographicBounds m_OrthographicBounds;
 
         glm::vec3 m_Position = {0.0f,0.0f,0.0f};
         float m_RotationZ = 0.0f;

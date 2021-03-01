@@ -24,7 +24,7 @@
 
 
 #include <ImGui/imgui.h>
-#include "3DLayer.hpp"
+#include "TwoDLayer.hpp"
 #include <limits>
 
 
@@ -35,11 +35,12 @@ namespace Example{
     static float maxFPS = 0; // this can be zero as we shouldn't have negative FPS
 
     TwoDLayer::TwoDLayer() :
-        GEOGL::Layer("2D Layer"),
-        m_Camera({-1.9,1.9,-.9,.9}),
-        m_CameraPosition(glm::vec3({0.0f,0.0f,0.0f})){
-
-
+    /* The name of the layer */
+    GEOGL::Layer("2D Layer"),
+    /* The position of the camera */
+    m_CameraPosition(glm::vec3({0.0f,0.0f,0.0f})){
+        /* Now that we are properly in the constructor, we set up the camera and everything else */
+        m_Camera.setPosition(m_CameraPosition);
 
         /* set up the triangle */
         {
@@ -178,7 +179,10 @@ namespace Example{
     void TwoDLayer::onImGuiRender(GEOGL::TimeStep timeStep) {
 
         /* Only run the fps min and max afterwords to give time to stabalize */
-        if(frameCount++ > 25) {
+        if(frameCount++ > 45) {
+
+            auto dimensions = GEOGL::Application::get().getWindow().getDimensions();
+
             float fps = 1.0f / (timeStep.getSeconds());
             minFPS = (fps < minFPS) ? fps : minFPS;
             maxFPS = (fps > maxFPS) ? fps : maxFPS;
@@ -186,6 +190,8 @@ namespace Example{
 
             ImGui::Begin("Debug Info");
             ImGui::SetWindowFontScale(2.0);
+            ImGui::Text("Window size %d x %d", dimensions.x, dimensions.y);
+            ImGui::Text("Aspect Ratio %f", (float)dimensions.x/(float)dimensions.y);
             ImGui::Text("VSync Enabled: %s", (GEOGL::Application::get().getWindow().isVSync()) ? "TRUE" : "FALSE");
             ImGui::Text("FrameTime: %.2f ms", timeStep.getMilliseconds());
             ImGui::Text("FPS: %.2f", fps);
@@ -208,6 +214,7 @@ namespace Example{
         GEOGL::EventDispatcher dispatcher(event);
 
         dispatcher.dispatch<GEOGL::KeyPressedEvent>(GEOGL_BIND_EVENT_FN(TwoDLayer::onKeyPressedEvent));
+        dispatcher.dispatch<GEOGL::WindowResizeEvent>(GEOGL_BIND_EVENT_FN(TwoDLayer::onWindowResizeEvent));
 
     }
 
@@ -228,32 +235,43 @@ namespace Example{
 
     }
 
+    bool TwoDLayer::onWindowResizeEvent(GEOGL::WindowResizeEvent &windowResizeEvent) {
+
+        GEOGL::OrthographicCamera::OrthographicBounds bounds = GEOGL::OrthographicCamera::calculateBestOrthographicBounds(
+                {windowResizeEvent.getWidth(), windowResizeEvent.getHeight()});
+
+        m_Camera.setOrthographicBounds(bounds);
+
+        return false;
+
+    }
+
     void TwoDLayer::pollCameraMovement(GEOGL::TimeStep& timeStep) {
 
         glm::vec3 deltaPosition(0.0f);
 
         /* If dpad or q or e is pressed, translate or rotate */
-        if(GEOGL::Input::isKeyPressed(GEOGL::Key::Left)){
+        if (GEOGL::Input::isKeyPressed(GEOGL::Key::Left)) {
             deltaPosition.x -= m_CameraSpeed * timeStep;
         }
-        if(GEOGL::Input::isKeyPressed(GEOGL::Key::Right)){
+        if (GEOGL::Input::isKeyPressed(GEOGL::Key::Right)) {
             deltaPosition.x += m_CameraSpeed * timeStep;
         }
-        if(GEOGL::Input::isKeyPressed(GEOGL::Key::Down)){
+        if (GEOGL::Input::isKeyPressed(GEOGL::Key::Down)) {
             deltaPosition.y -= m_CameraSpeed * timeStep;
         }
-        if(GEOGL::Input::isKeyPressed(GEOGL::Key::Up)){
+        if (GEOGL::Input::isKeyPressed(GEOGL::Key::Up)) {
             deltaPosition.y += m_CameraSpeed * timeStep;
         }
-        if(GEOGL::Input::isKeyPressed(GEOGL::Key::Q)){
+        if (GEOGL::Input::isKeyPressed(GEOGL::Key::Q)) {
             m_CameraRotation -= m_CameraRotSpeed * timeStep;
         }
-        if(GEOGL::Input::isKeyPressed(GEOGL::Key::E)){
+        if (GEOGL::Input::isKeyPressed(GEOGL::Key::E)) {
             m_CameraRotation += m_CameraRotSpeed * timeStep;
         }
 
         /* Double the speed */
-        if(GEOGL::Input::isKeyPressed(GEOGL::Key::LeftShift) || GEOGL::Input::isKeyPressed(GEOGL::Key::RightShift)){
+        if (GEOGL::Input::isKeyPressed(GEOGL::Key::LeftShift) || GEOGL::Input::isKeyPressed(GEOGL::Key::RightShift)) {
             deltaPosition.xyz *= glm::vec3(2.0f);
         }
 
@@ -261,7 +279,7 @@ namespace Example{
         m_CameraPosition.xyz += deltaPosition.xyz;
 
         /* If C is pressed, reset the position */
-        if(GEOGL::Input::isKeyPressed(GEOGL::Key::C)){
+        if (GEOGL::Input::isKeyPressed(GEOGL::Key::C)) {
             m_CameraPosition.xyz = 0;
             m_CameraRotation = 0;
         }

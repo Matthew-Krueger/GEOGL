@@ -122,6 +122,12 @@ namespace GEOGL {
          */
         virtual unsigned int getHeight() const = 0;
 
+        /**
+         * \brief Gets the dimensions of the window
+         * @return
+         */
+        inline glm::ivec2 getDimensions() const {return {getWidth(), getHeight()}; };
+
         // Window attributes
         virtual void setEventCallback(const EventCallbackFn& callback) = 0;
         virtual void setVSync(bool enabled) = 0;

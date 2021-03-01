@@ -23,8 +23,8 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_3DLAYER_HPP
-#define GEOGL_3DLAYER_HPP
+#ifndef GEOGL_TWODLAYER_HPP
+#define GEOGL_TWODLAYER_HPP
 
 /* If not using a pch, the following include MUST be used in every file that uses GEOGL */
 /* #include <GEOGL/Core.hpp> */
@@ -42,6 +42,7 @@ namespace Example{
 
         void onEvent(GEOGL::Event& event) override;
         bool onKeyPressedEvent(GEOGL::KeyPressedEvent& event);
+        bool onWindowResizeEvent(GEOGL::WindowResizeEvent& windowResizeEvent);
 
         void pollCameraMovement(GEOGL::TimeStep& timeStep);
 
@@ -62,4 +63,4 @@ namespace Example{
 
 }
 
-#endif //GEOGL_3DLAYER_HPP
+#endif //GEOGL_TWODLAYER_HPP

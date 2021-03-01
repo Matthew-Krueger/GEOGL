@@ -12,7 +12,7 @@ if(WIN32)
 
 endif(WIN32)
 
-add_executable(GEOGL_Example ${OPTIONS} ExampleApplication.cpp ExampleApplication.hpp ${ADDITIONAL_WIN32_FILES} 3DLayer.cpp 3DLayer.hpp PCH/PCH.cpp PCH/PCH.hpp)
+add_executable(GEOGL_Example ${OPTIONS} ExampleApplication.cpp ExampleApplication.hpp ${ADDITIONAL_WIN32_FILES} TwoDLayer.cpp TwoDLayer.hpp PCH/PCH.cpp PCH/PCH.hpp)
 
 target_precompile_headers("GEOGL_Example" PRIVATE PCH/PCH.hpp)
 
