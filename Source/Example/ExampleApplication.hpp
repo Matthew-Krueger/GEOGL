@@ -25,13 +25,16 @@
 #ifndef GEOGL_EXAMPLEAPPLICATION_HPP
 #define GEOGL_EXAMPLEAPPLICATION_HPP
 
-#include <GEOGL/Core.hpp>
+/* If not using a pch, the following include MUST be used in every file that uses GEOGL */
+/* #include <GEOGL/Core.hpp> */
 
 namespace Example {
     class ExampleApp : public GEOGL::Application {
     public:
         ExampleApp();
         ~ExampleApp() override;
+
+        void onUpdate(GEOGL::TimeStep timeStep) override;
 
     };
 }

@@ -64,6 +64,10 @@ namespace Example{
 
     }
 
+    void ExampleApp::onUpdate(GEOGL::TimeStep timeStep) {
+        GEOGL::Renderer::clear();
+    }
+
 }
 
 GEOGL::Application* GEOGL::createApplication(){

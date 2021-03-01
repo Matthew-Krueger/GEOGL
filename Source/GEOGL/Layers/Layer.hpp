@@ -33,12 +33,13 @@
 #define GEOGL_LAYER_HPP
 
 #include "../IO/Events/Event.hpp"
+#include <GEOGL/Utils.hpp>
 
 namespace GEOGL {
 
     class GEOGL_API Layer{
     public:
-        Layer(const std::string& name = "Layer");
+        explicit Layer(const std::string& name = "Layer");
         virtual ~Layer();
 
         /**
@@ -60,7 +61,7 @@ namespace GEOGL {
          *
          * The LayerStack guarantees that onUpdate is called each frame in order of the LayerStack.
          */
-        virtual void onUpdate(){}
+        virtual void onUpdate(TimeStep timeStep){}
 
         /**
          * \brief Callback function for ImGUI Render. Guaranteed to be called each frame.
@@ -68,7 +69,7 @@ namespace GEOGL {
          * Uses the ImGui Immediate mode renderer to render ImGui graphics. This is called after all onUpdate functions
          * have been called.
          */
-        virtual void onImGuiRender(){}
+        virtual void onImGuiRender(TimeStep timeStep){}
 
         /**
          * \brief Callback function for Events from the GEOGL Event System.

@@ -22,21 +22,41 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_UTILS_HPP
-#define GEOGL_UTILS_HPP
 
+#ifndef GEOGL_TIMESTEP_HPP
+#define GEOGL_TIMESTEP_HPP
 
-#include "GEOGL/API_Utils/DLLExportsAndTraps.hpp"
+namespace GEOGL{
 
-#include "../../Headers/Dependencies.hpp"
+    /**
+     * \brief Helper for determining TimeStep
+     */
+    class GEOGL_API TimeStep{
+    public:
+        inline TimeStep(float time = 0.0f) : m_Time(time) {};
 
-#include "../../Logging/PublicLog.hpp"
-#include "../../Callbacks.hpp"
-#include "../../InputCodes.hpp"
-#include "../../InputCodesConverter.hpp"
-#include "../../Settings.hpp"
+        /**
+         * \brief Allows implicit casting of this class to a float. This is always seconds
+         * @return The casted time in seconds
+         */
+        inline operator float() const { return m_Time; };
 
-/* Timestep */
-#include "../../TimeStep.hpp"
+        /**
+         * \brief Gets the delta time of the last frame in seconds
+         * @return the time of the last frame in seconds
+         */
+        inline float getSeconds() const { return m_Time; };
 
-#endif //NODIFY_SCREENWRITER_UTILS_H
+        /**
+         * \brief The time of the last frame in milliseconds
+         * @return
+         */
+        inline float getMilliseconds() const { return m_Time * 1000.0f; };
+
+    private:
+        float m_Time;
+    };
+
+}
+
+#endif //GEOGL_TIMESTEP_HPP

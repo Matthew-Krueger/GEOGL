@@ -143,6 +143,12 @@ namespace GEOGL {
         virtual RendererAPI::WindowingAPIEnum type() = 0;
 
         /**
+         * Gets the current time using the best method for the platform, in seconds.
+         * @return The current time in seconds.
+         */
+        virtual float getCurrentPlatformTime() = 0;
+
+        /**
          * Creates a window with the selected API.
          * @param api
          * @param props

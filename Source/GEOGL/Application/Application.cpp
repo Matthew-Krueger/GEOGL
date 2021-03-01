@@ -95,16 +95,20 @@ namespace GEOGL{
 
         while(m_Running){
 
-            GEOGL::Renderer::clear();
-            onUpdate();
+            /* Measure platform time */
+            float time = m_Window->getCurrentPlatformTime();
+            TimeStep timeStep = time - m_LastFrameTime;
+            m_LastFrameTime = time;
+
+            onUpdate(timeStep);
 
             for(Layer* layer : m_LayerStack){
-                layer->onUpdate();
+                layer->onUpdate(timeStep);
             }
 
             m_ImGuiLayer->begin();
             for(Layer* layer : m_LayerStack){
-                layer->onImGuiRender();
+                layer->onImGuiRender(timeStep);
             }
             m_ImGuiLayer->end();
 

@@ -192,6 +192,10 @@ namespace GEOGL::Platform::GLFW{
 
     }
 
+    float Window::getCurrentPlatformTime(){
+        return static_cast<float>(glfwGetTime());
+    }
+
     void Window::setUpEventCallbacks(){
 
         glfwSetWindowSizeCallback(m_Window, [](GLFWwindow *window, int width, int height) {

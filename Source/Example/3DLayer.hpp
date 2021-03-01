@@ -26,7 +26,8 @@
 #ifndef GEOGL_3DLAYER_HPP
 #define GEOGL_3DLAYER_HPP
 
-#include <GEOGL/Core.hpp>
+/* If not using a pch, the following include MUST be used in every file that uses GEOGL */
+/* #include <GEOGL/Core.hpp> */
 
 namespace Example{
 
@@ -36,11 +37,13 @@ namespace Example{
 
         void onAttach() override;
         void onDetach() override;
-        void onUpdate() override;
+        void onUpdate(GEOGL::TimeStep timeStep) override;
+        void onImGuiRender(GEOGL::TimeStep timeStep) override;
 
-        void onEvent(GEOGL::Event& event);
+        void onEvent(GEOGL::Event& event) override;
+        bool onKeyPressedEvent(GEOGL::KeyPressedEvent& event);
 
-        void pollCameraMovement();
+        void pollCameraMovement(GEOGL::TimeStep& timeStep);
 
     private:
         std::shared_ptr<GEOGL::VertexArray> m_VertexArrayTrianglePerVColor;
@@ -52,8 +55,8 @@ namespace Example{
         GEOGL::OrthographicCamera m_Camera;
         glm::vec3 m_CameraPosition;
         float m_CameraRotation = 0.0f;
-        float m_CameraSpeed = .01f;
-        float m_CameraRotSpeed = 1.0f;
+        float m_CameraSpeed = 3.5f;
+        float m_CameraRotSpeed = 180.0f;
 
     };
 

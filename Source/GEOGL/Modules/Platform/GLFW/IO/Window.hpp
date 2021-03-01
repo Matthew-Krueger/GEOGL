@@ -97,6 +97,8 @@ namespace GEOGL::Platform::GLFW{
          */
         inline RendererAPI::WindowingAPIEnum type() override { return RendererAPI::WINDOWING_GLFW_DESKTOP; };
 
+        float getCurrentPlatformTime();
+
     private:
         /**
          * \brief Sets up the event callbacks for GLFW to be dispatched.

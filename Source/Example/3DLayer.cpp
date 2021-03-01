@@ -23,11 +23,16 @@
  *******************************************************************************/
 
 
+#include <ImGui/imgui.h>
 #include "3DLayer.hpp"
+#include <limits>
 
 
 namespace Example{
 
+    static uint64_t frameCount = 0;
+    static float minFPS = std::numeric_limits<float>::max();
+    static float maxFPS = 0; // this can be zero as we shouldn't have negative FPS
 
     TwoDLayer::TwoDLayer() :
         GEOGL::Layer("2D Layer"),
@@ -157,9 +162,9 @@ namespace Example{
 
     }
 
-    void TwoDLayer::onUpdate() {
+    void TwoDLayer::onUpdate(GEOGL::TimeStep timeStep) {
 
-        pollCameraMovement();
+        pollCameraMovement(timeStep);
 
         GEOGL::Renderer::beginScene(m_Camera);
 
@@ -170,32 +175,81 @@ namespace Example{
 
     }
 
-    void TwoDLayer::onEvent(GEOGL::Event& event) {
+    void TwoDLayer::onImGuiRender(GEOGL::TimeStep timeStep) {
+
+        /* Only run the fps min and max afterwords to give time to stabalize */
+        if(frameCount++ > 25) {
+            float fps = 1.0f / (timeStep.getSeconds());
+            minFPS = (fps < minFPS) ? fps : minFPS;
+            maxFPS = (fps > maxFPS) ? fps : maxFPS;
+
+
+            ImGui::Begin("Debug Info");
+            ImGui::SetWindowFontScale(2.0);
+            ImGui::Text("VSync Enabled: %s", (GEOGL::Application::get().getWindow().isVSync()) ? "TRUE" : "FALSE");
+            ImGui::Text("FrameTime: %.2f ms", timeStep.getMilliseconds());
+            ImGui::Text("FPS: %.2f", fps);
+            ImGui::Text("Min FPS: %.4f", minFPS);
+            ImGui::Text("Max FPS: %.4f", maxFPS);
+            ImGui::Text("Frame Count: %lu", frameCount);
+            ImGui::End();
+        }else{
+            ImGui::Begin("Preparing Debug Info");
+            ImGui::SetWindowFontScale(2.0);
+            ImGui::Text("Waiting for FPS to stabilize.");
+            ImGui::End();
+        }
+
 
     }
 
-    void TwoDLayer::pollCameraMovement() {
+    void TwoDLayer::onEvent(GEOGL::Event& event) {
+
+        GEOGL::EventDispatcher dispatcher(event);
+
+        dispatcher.dispatch<GEOGL::KeyPressedEvent>(GEOGL_BIND_EVENT_FN(TwoDLayer::onKeyPressedEvent));
+
+    }
+
+    bool TwoDLayer::onKeyPressedEvent(GEOGL::KeyPressedEvent& event){
+
+        /* Allow vSync toggle with ctrl + v */
+        if(event.getKeyCode() == GEOGL::Key::V && GEOGL::Input::isKeyPressed(GEOGL::Key::LeftControl)){
+            auto& window = GEOGL::Application::get().getWindow();
+
+            bool vSync = !window.isVSync();
+            window.setVSync(vSync);
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    void TwoDLayer::pollCameraMovement(GEOGL::TimeStep& timeStep) {
 
         glm::vec3 deltaPosition(0.0f);
 
         /* If dpad or q or e is pressed, translate or rotate */
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::Left)){
-            deltaPosition.x -= m_CameraSpeed;
+            deltaPosition.x -= m_CameraSpeed * timeStep;
         }
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::Right)){
-            deltaPosition.x += m_CameraSpeed;
+            deltaPosition.x += m_CameraSpeed * timeStep;
         }
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::Down)){
-            deltaPosition.y -= m_CameraSpeed;
+            deltaPosition.y -= m_CameraSpeed * timeStep;
         }
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::Up)){
-            deltaPosition.y += m_CameraSpeed;
+            deltaPosition.y += m_CameraSpeed * timeStep;
         }
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::Q)){
-            m_CameraRotation -= m_CameraRotSpeed;
+            m_CameraRotation -= m_CameraRotSpeed * timeStep;
         }
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::E)){
-            m_CameraRotation += m_CameraRotSpeed;
+            m_CameraRotation += m_CameraRotSpeed * timeStep;
         }
 
         /* Double the speed */
@@ -217,4 +271,5 @@ namespace Example{
         m_Camera.setRotationZ(m_CameraRotation);
 
     }
+
 }

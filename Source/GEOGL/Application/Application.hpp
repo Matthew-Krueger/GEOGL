@@ -51,8 +51,6 @@ namespace GEOGL{
      * application must support, such as a LayerStack, a Window, or a running variable.
      */
     class GEOGL_API Application{
-    private:
-        static Application* s_Instance;
 
     public:
         explicit Application(const WindowProps& props = WindowProps());
@@ -60,8 +58,10 @@ namespace GEOGL{
 
         /**
          * \brief Runs the update code for anything that must happen exactly once a frame from an application.
+         *
+         * Application guarantees that this is called before any other on update functions.
          */
-        virtual void onUpdate(){};
+        virtual void onUpdate(TimeStep timeStep){};
 
         /**
          * Contains the main run loop for the game
@@ -93,8 +93,13 @@ namespace GEOGL{
         bool m_Running = true;
         LayerStack m_LayerStack;
         Settings m_Settings;
-
         ImGuiLayer* m_ImGuiLayer;
+
+    private:
+        float m_LastFrameTime = 0.0f;
+
+    private:
+        static Application* s_Instance;
 
     };
 

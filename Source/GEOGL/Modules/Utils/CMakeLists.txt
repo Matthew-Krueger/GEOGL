@@ -22,7 +22,7 @@ add_library(GEOGL_Utils ${GEOGL_LIBRARY_TYPE}
 
         Headers/PCH.cpp
         Headers/PCH.hpp
-        )
+        TimeStep.hpp)
 
 ######################################
 #     Set name for use elsewhere     #
