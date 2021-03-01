@@ -22,53 +22,10 @@
  *                                                                             *
  *******************************************************************************/
 
-#define GEOGL_INCLUDE_MAIN
-#define GEOGL_INCLUDE_WIN_MAIN
-#include <GEOGL/MainCreator.hpp>
 
-#include "ExampleApplication.hpp"
-#include "3DLayer.hpp"
+#ifndef GEOGL_PCH_HPP
+#define GEOGL_PCH_HPP
 
-static bool show = true;
+#include <GEOGL/Core.hpp>
 
-namespace Example{
-
-    ExampleApp::ExampleApp() : GEOGL::Application(
-            GEOGL::WindowProps(
-                    "GEOGL Example",
-                    1920,
-                    1080,
-                    "Resources/Runtime-Icon.png"
-            )) {
-
-        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
-        pushLayer(new TwoDLayer());
-
-        /* This is done in this way to make it explicit for the example that we are using RGBA. */
-        /*
-         * This also illustrates the swizzling component of glm, which is turned on by GEOGL. NOTE:
-         *  The swizzle component of glm increases compile time significantly. To reduce this time, use
-         *  a precompiled header
-         */
-        glm::vec4 clearColor;
-        clearColor.rgba = {0.1f,0.1f,0.1f,1.0f};
-        GEOGL::Renderer::setClearColor(clearColor);
-
-        //getWindow().setVSync(false);
-
-    }
-
-    ExampleApp::~ExampleApp(){
-
-        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
-
-    }
-
-}
-
-GEOGL::Application* GEOGL::createApplication(){
-
-    GEOGL::Log::Init("example-app-log.txt", "Example App");
-    return new Example::ExampleApp();
-
-}
+#endif //GEOGL_PCH_HPP

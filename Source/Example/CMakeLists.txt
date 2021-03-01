@@ -1,5 +1,3 @@
-set(MODULE_NAME ${PROJECT_NAME}_Example)
-
 if(WIN32)
     #set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} /link /SUBSYSTEM:WINDOWS /entry:main)
     #message(${CMAKE_BUILD_TYPE})
@@ -14,19 +12,21 @@ if(WIN32)
 
 endif(WIN32)
 
-add_executable(${MODULE_NAME} ${OPTIONS} ExampleApplication.cpp ExampleApplication.hpp ${ADDITIONAL_WIN32_FILES} 3DLayer.cpp 3DLayer.hpp)
+add_executable(GEOGL_Example ${OPTIONS} ExampleApplication.cpp ExampleApplication.hpp ${ADDITIONAL_WIN32_FILES} 3DLayer.cpp 3DLayer.hpp PCH/PCH.cpp PCH/PCH.hpp)
 
-add_dependencies(${MODULE_NAME} GEOGL::Engine)
-target_link_libraries(${MODULE_NAME} GEOGL::Engine)
-#target_include_directories(${MODULE_NAME} PRIVATE ../GEOGL/include)
+target_precompile_headers("GEOGL_Example" PRIVATE PCH/PCH.hpp)
 
-set_target_properties(${MODULE_NAME} PROPERTIES
+add_dependencies(GEOGL_Example GEOGL::Engine)
+target_link_libraries(GEOGL_Example GEOGL::Engine)
+
+set_target_properties(GEOGL_Example PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/
         )
 
 
+
 add_custom_command(
-        TARGET ${MODULE_NAME} POST_BUILD
+        TARGET GEOGL_Example POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/${PATH_TO_GEOGL}/Source/Example/Resources" "${CMAKE_BINARY_DIR}/bin/Resources"
         COMMENT "Copying resources to bin directory"
 )

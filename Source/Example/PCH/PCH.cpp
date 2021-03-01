@@ -22,53 +22,7 @@
  *                                                                             *
  *******************************************************************************/
 
-#define GEOGL_INCLUDE_MAIN
-#define GEOGL_INCLUDE_WIN_MAIN
-#include <GEOGL/MainCreator.hpp>
+#include "PCH.hpp"
 
-#include "ExampleApplication.hpp"
-#include "3DLayer.hpp"
-
-static bool show = true;
-
-namespace Example{
-
-    ExampleApp::ExampleApp() : GEOGL::Application(
-            GEOGL::WindowProps(
-                    "GEOGL Example",
-                    1920,
-                    1080,
-                    "Resources/Runtime-Icon.png"
-            )) {
-
-        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
-        pushLayer(new TwoDLayer());
-
-        /* This is done in this way to make it explicit for the example that we are using RGBA. */
-        /*
-         * This also illustrates the swizzling component of glm, which is turned on by GEOGL. NOTE:
-         *  The swizzle component of glm increases compile time significantly. To reduce this time, use
-         *  a precompiled header
-         */
-        glm::vec4 clearColor;
-        clearColor.rgba = {0.1f,0.1f,0.1f,1.0f};
-        GEOGL::Renderer::setClearColor(clearColor);
-
-        //getWindow().setVSync(false);
-
-    }
-
-    ExampleApp::~ExampleApp(){
-
-        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
-
-    }
-
-}
-
-GEOGL::Application* GEOGL::createApplication(){
-
-    GEOGL::Log::Init("example-app-log.txt", "Example App");
-    return new Example::ExampleApp();
-
-}
+/* So I have heard, a cpp is required to directly include a PCH for it to work with MSVC. It does not seem to do this
+ * for me, but it does not hurt anything. */

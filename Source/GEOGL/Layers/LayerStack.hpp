@@ -38,15 +38,62 @@ namespace GEOGL {
 
     class GEOGL_API LayerStack{
     public:
+        /**
+         * \brief Creates a new LayerStack
+         */
         LayerStack();
+
+        /**
+         * \brief Destroys a LayerStack
+         */
         ~LayerStack();
 
+        /**
+         * \brief Pushes a Layer to the LayerStack
+         * \note This transfers the ownership of the layer to the LayerStack, until the time at which it is deleted on
+         * destruction of the LayerStack, or popped explicitly. After that time, the object will no longer be owned by
+         * the LayerStack
+         * @param layer The layer to push
+         */
         void pushLayer(Layer* layer);
+
+        /**
+         * \brief Pushes a Overlay to the LayerStack
+         * \note This transfers the ownership of the overlay to the LayerStack, until the time at which it is deleted on
+         * destruction of the LayerStack, or popped explicitly. After that time, the object will no longer be owned by
+         * the LayerStack
+         * @param overlay The layer to push. (Overlay - a layer that should be inserted on the end of the stack)
+         */
         void pushOverlay(Layer* overlay);
+
+        /**
+         * Pops a layer from the LayerStack
+         * \note This transfers the ownership back to the callee, as the exact ptr to this layer must be known by the
+         * caller. Once this pop happens, the layer will no longer be managed by the LayerStack. You must then
+         * explicitly delete the Layer.
+         * @param layer The layer to pop.
+         */
         void popLayer(Layer* layer);
+
+        /**
+         * Pops a layer from the LayerStack
+         * \note This transfers the ownership back to the callee, as the exact ptr to this layer must be known by the
+         * caller. Once this pop happens, the layer will no longer be managed by the LayerStack. You must then
+         * explicitly delete the Layer.
+         * @param layer The layer to pop. (Overlay - a layer that should be inserted on the end of the stack)
+         */
         void popOverlay(Layer* overlay);
 
+        /**
+         * The beginning iterator
+         * @return The iterator
+         */
         std::vector<Layer*>::iterator begin() { return m_Layers.begin(); }
+
+        /**
+         * The end iterator
+         * @return the iterator
+         */
         std::vector<Layer*>::iterator end() { return m_Layers.end(); }
     private:
         std::vector<Layer*> m_Layers;

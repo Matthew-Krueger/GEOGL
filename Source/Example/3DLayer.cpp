@@ -155,8 +155,6 @@ namespace Example{
 
     void TwoDLayer::onDetach() {
 
-
-
     }
 
     void TwoDLayer::onUpdate() {
@@ -178,29 +176,43 @@ namespace Example{
 
     void TwoDLayer::pollCameraMovement() {
 
+        glm::vec3 deltaPosition(0.0f);
+
+        /* If dpad or q or e is pressed, translate or rotate */
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::Left)){
-            m_CameraPosition.x -= m_CameraSpeed;
+            deltaPosition.x -= m_CameraSpeed;
         }
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::Right)){
-            m_CameraPosition.x += m_CameraSpeed;
+            deltaPosition.x += m_CameraSpeed;
         }
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::Down)){
-            m_CameraPosition.y -= m_CameraSpeed;
+            deltaPosition.y -= m_CameraSpeed;
         }
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::Up)){
-            m_CameraPosition.y += m_CameraSpeed;
-        }
-        if(GEOGL::Input::isKeyPressed(GEOGL::Key::C)){
-            m_CameraPosition.xyz = 0;
-            m_CameraRotation = 0;
+            deltaPosition.y += m_CameraSpeed;
         }
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::Q)){
             m_CameraRotation -= m_CameraRotSpeed;
         }
-        if(GEOGL::Input::isKeyPressed(GEOGL::Key::R)){
+        if(GEOGL::Input::isKeyPressed(GEOGL::Key::E)){
             m_CameraRotation += m_CameraRotSpeed;
         }
 
+        /* Double the speed */
+        if(GEOGL::Input::isKeyPressed(GEOGL::Key::LeftShift) || GEOGL::Input::isKeyPressed(GEOGL::Key::RightShift)){
+            deltaPosition.xyz *= glm::vec3(2.0f);
+        }
+
+        /* Now, update the camera position */
+        m_CameraPosition.xyz += deltaPosition.xyz;
+
+        /* If C is pressed, reset the position */
+        if(GEOGL::Input::isKeyPressed(GEOGL::Key::C)){
+            m_CameraPosition.xyz = 0;
+            m_CameraRotation = 0;
+        }
+
+        /* Now upload it to the camera */
         m_Camera.setPosition(m_CameraPosition);
         m_Camera.setRotationZ(m_CameraRotation);
 

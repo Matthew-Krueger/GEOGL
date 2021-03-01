@@ -130,8 +130,6 @@ namespace GEOGL{
             }
         }
 
-        //GEOGL_CORE_INFO("{}", event.toString());
-
     }
 
     bool Application::onWindowClose(WindowCloseEvent& event){
