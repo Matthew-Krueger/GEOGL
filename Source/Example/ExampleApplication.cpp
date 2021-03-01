@@ -54,7 +54,7 @@ namespace Example{
         clearColor.rgba = {0.1f,0.1f,0.1f,1.0f};
         GEOGL::Renderer::setClearColor(clearColor);
 
-        //getWindow().setVSync(false);
+        getWindow().setVSync(false);
 
     }
 

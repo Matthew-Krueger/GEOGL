@@ -22,51 +22,54 @@
  *                                                                             *
  *******************************************************************************/
 
+#include "TrackMemoryAllocations.hpp"
 
-#ifndef GEOGL_DEPENDENCIES_SOURCE_HPP
-#define GEOGL_DEPENDENCIES_SOURCE_HPP
+static size_t bytesAllocated = 0;
+static size_t allocations = 0;
+static size_t deallocations = 0;
 
-#include "../Memory/TrackMemoryAllocations.hpp"
+size_t GEOGL::getNumberAllocations() {
+    return allocations;
+}
+
+size_t GEOGL::getNumberDeallocations() {
+    return deallocations;
+}
+
+size_t GEOGL::getBytesAllocated() {
+    return bytesAllocated;
+}
+
+double GEOGL::getKilobytesAllocated() {
+    return (double)bytesAllocated/(double)1024;
+}
+
+double GEOGL::getMegabytesAllocated() {
+    return (double)bytesAllocated/(double)(1024*2);
+}
 
 
-#include <GEOGL/API_Utils/DLLExportsAndTraps.hpp>
+#if (GEOGL_TRACK_MEMORY_ALLOC_FLAG == 1)
+void* operator new(size_t bytesToAllocate){
+    ++allocations;
+    bytesAllocated+= bytesToAllocate;
 
-/* JSON */
-#include <Nlohmann/json.hpp>
-using json = nlohmann::json;
+    return malloc(bytesToAllocate);
+}
+void* operator new[](size_t bytesToAllocate){
+    ++allocations;
+    bytesAllocated+= bytesToAllocate;
 
-/* STDLIB */
-#include <string>
-#include <sstream>
-#include <vector>
-#include <memory>
-#include <functional>
-#include <iostream>
-#include <map>
+    return malloc(bytesToAllocate);
+}
+void operator delete(void* ptrToDealloc){
+    ++deallocations;
 
-/* spdlog */
-#include <spdlog/spdlog.h>
+    free(ptrToDealloc);
+}
+void operator delete[](void* ptrToDealloc){
+    ++deallocations;
 
-/* glm */
-#define GLM_FORCE_RADIANS
-#ifdef GEOGL_BUILD_AVX2
-#define GLM_FORCE_AVX2
-#else
-#define GLM_FORCE_SSE2
+    free(ptrToDealloc);
+}
 #endif
-#define GLM_FORCE_SWIZZLE
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
-/* Stb Image */
-#include <STB/stb_image.h>
-
-#define BIT(x) (1 << x)
-
-
-#endif //GEOGL_DEPENDENCIES_HPP

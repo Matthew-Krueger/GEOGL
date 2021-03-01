@@ -1,8 +1,21 @@
+######################################
+#    Track memory Allocations API    #
+######################################
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "Compiling GEOGL::Utils in debug mode. Determining what additional to add")
+    if(GEOGL_TRACK_MEMORY_ALLOC)
+        message("-- Enabling Memory Allocation")
+    endif()
+else()
+    message(STATUS "Compiling GEOGL::Utils as release config. No additional files will be added.")
+endif()
 
 ######################################
 #         Add Utils Library          #
 ######################################
 add_library(GEOGL_Utils ${GEOGL_LIBRARY_TYPE}
+
+        ${TRACK_MEMORY_ALLOC_CPP}
         Callbacks.cpp
         Callbacks.hpp
         Headers/Dependencies.hpp
@@ -22,7 +35,10 @@ add_library(GEOGL_Utils ${GEOGL_LIBRARY_TYPE}
 
         Headers/PCH.cpp
         Headers/PCH.hpp
-        TimeStep.hpp)
+        TimeStep.hpp
+        Memory/TrackMemoryAllocations.hpp
+        Memory/TrackMemoryAllocations.cpp
+)
 
 ######################################
 #     Set name for use elsewhere     #

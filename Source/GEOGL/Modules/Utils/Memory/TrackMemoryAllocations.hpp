@@ -23,50 +23,37 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_DEPENDENCIES_SOURCE_HPP
-#define GEOGL_DEPENDENCIES_SOURCE_HPP
+#ifndef GEOGL_TRACKMEMORYALLOCATIONS_HPP
+#define GEOGL_TRACKMEMORYALLOCATIONS_HPP
 
-#include "../Memory/TrackMemoryAllocations.hpp"
+/* This file is included in the PCH. This file will be used in conjunction with cmake to either
+ * strip out memory allocations or track memory allocations */
+
+/* Due to operator new restrictions, we cannot really namespace this. The getters will
+ * be namespaced though */
 
 
+#include <cstddef>
 #include <GEOGL/API_Utils/DLLExportsAndTraps.hpp>
+namespace GEOGL{
 
-/* JSON */
-#include <Nlohmann/json.hpp>
-using json = nlohmann::json;
+    GEOGL_API size_t getNumberAllocations();
+    GEOGL_API size_t getNumberDeallocations();
+    GEOGL_API size_t getBytesAllocated();
 
-/* STDLIB */
-#include <string>
-#include <sstream>
-#include <vector>
-#include <memory>
-#include <functional>
-#include <iostream>
-#include <map>
+    GEOGL_API double getKilobytesAllocated();
+    GEOGL_API double getMegabytesAllocated();
 
-/* spdlog */
-#include <spdlog/spdlog.h>
+}
 
-/* glm */
-#define GLM_FORCE_RADIANS
-#ifdef GEOGL_BUILD_AVX2
-#define GLM_FORCE_AVX2
-#else
-#define GLM_FORCE_SSE2
+#if (GEOGL_TRACK_MEMORY_ALLOC_FLAG == 1)
+GEOGL_API void* operator new(size_t bytesToAllocate);
+GEOGL_API void* operator new[](size_t bytesToAllocate);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wimplicit-exception-spec-mismatch"
+GEOGL_API void operator delete(void* ptrToDealloc);
+GEOGL_API void operator delete[](void* ptrToDealloc);
+#pragma clang diagnostic pop
 #endif
-#define GLM_FORCE_SWIZZLE
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
-/* Stb Image */
-#include <STB/stb_image.h>
-
-#define BIT(x) (1 << x)
-
-
-#endif //GEOGL_DEPENDENCIES_HPP
+#endif //GEOGL_TRACKMEMORYALLOCATIONS_HPP

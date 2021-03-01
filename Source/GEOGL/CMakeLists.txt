@@ -92,6 +92,11 @@ target_include_directories("GEOGL_Interface" INTERFACE include
         ../../Dependencies/imgui-docking/include
         )
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if(GEOGL_TRACK_MEMORY_ALLOC)
+        target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_TRACK_MEMORY_ALLOC_FLAG=1)
+    endif()
+endif()
 
 #target_precompile_headers(GEOGL_Interface INTERFACE Modules/Utils/Headers/PCH.hpp)
 

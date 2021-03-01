@@ -34,6 +34,7 @@ namespace Example{
     static uint64_t frameCount = 0;
     static float minFPS = std::numeric_limits<float>::max();
     static float maxFPS = 0; // this can be zero as we shouldn't have negative FPS
+    static float totalFrameTime = 0;
 
     TwoDLayer::TwoDLayer() :
     /* The name of the layer */
@@ -174,6 +175,7 @@ namespace Example{
 
         GEOGL::Renderer::beginScene(m_Camera);
 
+        //m_BlueShader->bind();
         for(int i=0; i<20; ++i){
             for(int j=0; j<20; ++j) {
                 glm::vec3 pos((j * .11f)-1, (i * .11f)-1, 0.0f);
@@ -183,7 +185,7 @@ namespace Example{
             }
         }
 
-
+        //m_PerVertexShader->bind();
         GEOGL::Renderer::submit(m_PerVertexShader, m_VertexArrayTrianglePerVColor);
 
         GEOGL::Renderer::endScene();
@@ -192,12 +194,14 @@ namespace Example{
 
     void TwoDLayer::onImGuiRender(GEOGL::TimeStep timeStep) {
 
+        totalFrameTime += timeStep;
         /* Only run the fps min and max afterwords to give time to stabalize */
         if(frameCount++ > 45) {
 
             auto dimensions = GEOGL::Application::get().getWindow().getDimensions();
 
             float fps = 1.0f / (timeStep.getSeconds());
+            double averageFPS = 1.0f/(totalFrameTime/frameCount);
             minFPS = (fps < minFPS) ? fps : minFPS;
             maxFPS = (fps > maxFPS) ? fps : maxFPS;
 
@@ -211,7 +215,13 @@ namespace Example{
             ImGui::Text("FPS: %.2f", fps);
             ImGui::Text("Min FPS: %.4f", minFPS);
             ImGui::Text("Max FPS: %.4f", maxFPS);
+            ImGui::Text("Average FPS: %.4f", averageFPS);
             ImGui::Text("Frame Count: %lu", frameCount);
+            ImGui::Text("Total Frame Time: %.4f s", totalFrameTime);
+            ImGui::Text("Total Memory Allocations: %zu", GEOGL::getNumberAllocations());
+            ImGui::Text("Total Memory Deallocations: %zu", GEOGL::getNumberDeallocations());
+            ImGui::Text("Total Memory Allocated: %.4f MB", GEOGL::getMegabytesAllocated());
+
             ImGui::End();
         }else{
             ImGui::Begin("Preparing Debug Info");

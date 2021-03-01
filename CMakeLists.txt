@@ -13,6 +13,7 @@ option(BUILD_SHARED_LIBS       "Build shared libraries of DLL and Dependencies" 
 option(GEOGL_BUILD_WITH_OPENGL "Build GEOGL with OpenGL support"                    ON)
 option(GEOGL_BUILD_WITH_VULKAN "Build GEOGL with Vulkan Support"                    OFF)
 option(GEOGL_ENABLE_IGPU       "Build GEOGL to enable IGPU support in Vulkan"       ON)
+option(GEOGL_TRACK_MEMORY_ALLOC "Build GEOGL to track memory allocations (slow)"    ON)
 
 
 set(CMAKE_CXX_STANDARD 17)
@@ -22,7 +23,7 @@ set(CMAKE_C_STANDARD 11)
 #              Info               #
 ###################################
 
-message(STATUS "-- GEOGL Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "GEOGL Build type: ${CMAKE_BUILD_TYPE}")
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 

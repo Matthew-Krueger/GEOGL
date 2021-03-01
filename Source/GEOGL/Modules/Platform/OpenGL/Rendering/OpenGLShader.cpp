@@ -179,24 +179,10 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
-    void Shader::uploadUniformMat4(const std::string& uniformName, const glm::mat4 &matrix) {
+    void Shader::uploadUniformMat4(const char * uniformName, const glm::mat4 &matrix) {
 
-        /* Check if the uniform was already queried */
-        int uniformLocation = 0;
-        if(m_UniformLocationsCache.find(uniformName) != m_UniformLocationsCache.end()){
-            /* It was found, so set uniformLocation to what it got */
-            uniformLocation = m_UniformLocationsCache[uniformName];
-        }else{
-            GEOGL_CORE_INFO("Shader Uniform Cache not hit for uniform {}. Asking OpenGL for the location.", uniformName);
-            /* it was not found. Ask OpenGL for more information */
-            uniformLocation = glGetUniformLocation(m_RendererID, uniformName.c_str());
-            /* make sure it is valid */
-            if(uniformLocation == -1){
-                GEOGL_CORE_ERROR_NOSTRIP("The uniform {} was not found in this shader.", uniformName);
-            }
-            /* now, since it is valid, place it in the map */
-            m_UniformLocationsCache[uniformName] = uniformLocation;
-        }
+        /* Tried caching uniforms. It was about 15% slower. So, just query OpenGL every frame */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
 
         /* now, upload the data */
         glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
