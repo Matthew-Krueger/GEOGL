@@ -59,6 +59,8 @@ namespace Example{
         float m_CameraSpeed = 3.5f;
         float m_CameraRotSpeed = 180.0f;
 
+        glm::mat4 m_Scalepointoneone;
+
     };
 
 }

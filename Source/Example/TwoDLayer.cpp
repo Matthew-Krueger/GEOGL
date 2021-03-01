@@ -28,6 +28,7 @@
 #include <limits>
 
 
+
 namespace Example{
 
     static uint64_t frameCount = 0;
@@ -74,10 +75,10 @@ namespace Example{
             /* Create a vertex array */
             m_VertexArraySquare = GEOGL::VertexArray::create();
 
-            std::vector<float> vertices = {-0.75f, -0.75f, 0.0f,
-                                           0.75f, -0.75f, 0.0f,
-                                           0.75f,  0.75f, 0.0f,
-                                           -0.75f,  0.75f, 0.0f};
+            std::vector<float> vertices = {-0.5f,  -0.5f, 0.0f,
+                                           0.5f,   -0.5f, 0.0f,
+                                           0.5f,   0.5f,  0.0f,
+                                           -0.5f,  0.5f,  0.0f};
 
             auto vertexBuffer = GEOGL::VertexBuffer::create(vertices);
             {
@@ -102,12 +103,13 @@ namespace Example{
             layout(location = 1) in vec4 a_Color;
 
             uniform mat4 u_ProjectionViewMatrix;
+            uniform mat4 u_TransformMatrix;
 
 			out vec4 v_Position;
 			void main()
 			{
 				v_Position = a_Color;
-				gl_Position = u_ProjectionViewMatrix * vec4(a_Position, 1.0);
+				gl_Position = u_ProjectionViewMatrix * u_TransformMatrix * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -131,10 +133,11 @@ namespace Example{
 
 			layout(location = 0) in vec3 a_Position;
             uniform mat4 u_ProjectionViewMatrix;
+            uniform mat4 u_TransformMatrix;
 
 			void main()
 			{
-				gl_Position = u_ProjectionViewMatrix * vec4(a_Position, 1.0);
+				gl_Position = u_ProjectionViewMatrix * u_TransformMatrix * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -157,6 +160,8 @@ namespace Example{
 
     void TwoDLayer::onAttach() {
 
+        m_Scalepointoneone = glm::scale(glm::mat4(1.0f), {.10,.10,.0});
+
     }
 
     void TwoDLayer::onDetach() {
@@ -169,7 +174,16 @@ namespace Example{
 
         GEOGL::Renderer::beginScene(m_Camera);
 
-        GEOGL::Renderer::submit(m_BlueShader, m_VertexArraySquare);
+        for(int i=0; i<20; ++i){
+            for(int j=0; j<20; ++j) {
+                glm::vec3 pos((j * .11f)-1, (i * .11f)-1, 0.0f);
+                glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * m_Scalepointoneone;
+
+                GEOGL::Renderer::submit(m_BlueShader, m_VertexArraySquare, transform);
+            }
+        }
+
+
         GEOGL::Renderer::submit(m_PerVertexShader, m_VertexArrayTrianglePerVColor);
 
         GEOGL::Renderer::endScene();
@@ -213,6 +227,7 @@ namespace Example{
 
         GEOGL::EventDispatcher dispatcher(event);
 
+        /* Dispatch the event to the appropriate functions */
         dispatcher.dispatch<GEOGL::KeyPressedEvent>(GEOGL_BIND_EVENT_FN(TwoDLayer::onKeyPressedEvent));
         dispatcher.dispatch<GEOGL::WindowResizeEvent>(GEOGL_BIND_EVENT_FN(TwoDLayer::onWindowResizeEvent));
 
@@ -237,6 +252,8 @@ namespace Example{
 
     bool TwoDLayer::onWindowResizeEvent(GEOGL::WindowResizeEvent &windowResizeEvent) {
 
+        /* Calculate the new OrthographicBounds and set it to the camera. This keeps
+         * a square a square no matter how much we resize the window */
         GEOGL::OrthographicCamera::OrthographicBounds bounds = GEOGL::OrthographicCamera::calculateBestOrthographicBounds(
                 {windowResizeEvent.getWidth(), windowResizeEvent.getHeight()});
 
@@ -269,7 +286,6 @@ namespace Example{
         if (GEOGL::Input::isKeyPressed(GEOGL::Key::E)) {
             m_CameraRotation += m_CameraRotSpeed * timeStep;
         }
-
         /* Double the speed */
         if (GEOGL::Input::isKeyPressed(GEOGL::Key::LeftShift) || GEOGL::Input::isKeyPressed(GEOGL::Key::RightShift)) {
             deltaPosition.xyz *= glm::vec3(2.0f);
@@ -278,11 +294,12 @@ namespace Example{
         /* Now, update the camera position */
         m_CameraPosition.xyz += deltaPosition.xyz;
 
-        /* If C is pressed, reset the position */
-        if (GEOGL::Input::isKeyPressed(GEOGL::Key::C)) {
+        /* if c is pressed, center everything */
+        if(GEOGL::Input::isKeyPressed(GEOGL::Key::C)){
             m_CameraPosition.xyz = 0;
             m_CameraRotation = 0;
         }
+
 
         /* Now upload it to the camera */
         m_Camera.setPosition(m_CameraPosition);

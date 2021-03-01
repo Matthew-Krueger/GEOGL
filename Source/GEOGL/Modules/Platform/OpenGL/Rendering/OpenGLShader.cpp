@@ -187,6 +187,7 @@ namespace GEOGL::Platform::OpenGL{
             /* It was found, so set uniformLocation to what it got */
             uniformLocation = m_UniformLocationsCache[uniformName];
         }else{
+            GEOGL_CORE_INFO("Shader Uniform Cache not hit for uniform {}. Asking OpenGL for the location.", uniformName);
             /* it was not found. Ask OpenGL for more information */
             uniformLocation = glGetUniformLocation(m_RendererID, uniformName.c_str());
             /* make sure it is valid */

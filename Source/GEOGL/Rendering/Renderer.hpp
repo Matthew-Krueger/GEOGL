@@ -57,7 +57,7 @@ namespace GEOGL{
          * \brief Submit a VertexArray for drawing
          * @param vertexArray The vertex array to submit
          */
-        static void submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray);
+        static void submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f));
 
         /**
          * Gets the rendererAPI
