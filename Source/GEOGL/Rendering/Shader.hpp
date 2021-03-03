@@ -26,6 +26,8 @@
 #ifndef GEOGL_SHADER_HPP
 #define GEOGL_SHADER_HPP
 
+#include <GEOGL/Utils.hpp>
+
 namespace GEOGL{
 
     /**
@@ -97,6 +99,12 @@ namespace GEOGL{
          */
         static std::shared_ptr<Shader> create(const std::string& vertexSrc, const std::string& fragmentSrc);
 
+    protected:
+        inline static void setBoundID( uint32_t uuid){s_BoundShaderID = uuid; };
+        inline static uint32_t getBoundID(){ return s_BoundShaderID; };
+
+    private:
+        static uint32_t s_BoundShaderID;
     };
 
 }

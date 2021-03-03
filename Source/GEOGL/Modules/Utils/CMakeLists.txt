@@ -38,7 +38,7 @@ add_library(GEOGL_Utils ${GEOGL_LIBRARY_TYPE}
         TimeStep.hpp
         Memory/TrackMemoryAllocations.hpp
         Memory/TrackMemoryAllocations.cpp
-        Random/RandomNumberUtils.cpp Random/RandomNumberUtils.hpp)
+        )
 
 ######################################
 #     Set name for use elsewhere     #

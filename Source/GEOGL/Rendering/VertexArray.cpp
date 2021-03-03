@@ -30,6 +30,7 @@
 
 namespace GEOGL{
 
+    uint32_t VertexArray::s_BoundVAOID = 0;
 
     std::shared_ptr<VertexArray> VertexArray::create() {
         const auto renderer = Renderer::getRendererAPI();

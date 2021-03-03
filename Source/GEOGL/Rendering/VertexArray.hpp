@@ -95,6 +95,13 @@ namespace GEOGL{
          * @return A shared_ptr of the newly created VertexArray in whatever API is specified.
          */
         static std::shared_ptr<VertexArray> create();
+
+    protected:
+        inline static void setBoundID(uint32_t uuid){s_BoundVAOID = uuid; };
+        inline static uint32_t getBoundID(){ return s_BoundVAOID; };
+
+    private:
+        static uint32_t s_BoundVAOID;
     };
 
 }

@@ -25,7 +25,6 @@
 #ifndef GEOGL_UTILS_HPP
 #define GEOGL_UTILS_HPP
 
-
 #include "GEOGL/API_Utils/DLLExportsAndTraps.hpp"
 
 #include "../../Headers/Dependencies.hpp"
@@ -39,4 +38,4 @@
 /* Timestep */
 #include "../../TimeStep.hpp"
 
-#endif //NODIFY_SCREENWRITER_UTILS_H
+#endif //GEOGL_UTILS_HPP

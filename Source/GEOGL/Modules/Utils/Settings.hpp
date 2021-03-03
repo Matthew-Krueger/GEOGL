@@ -25,7 +25,6 @@
 #ifndef GEOGL_SETTINGS_HPP
 #define GEOGL_SETTINGS_HPP
 
-#include "../../Rendering/RendererAPI.hpp"
 
 namespace GEOGL{
 

@@ -36,6 +36,8 @@
 
 namespace GEOGL{
 
+    uint32_t Shader::s_BoundShaderID = 0;
+
     uint32_t shaderDataTypeSize(ShaderDataType type){
         switch(type){
             case ShaderDataType::FLOAT:

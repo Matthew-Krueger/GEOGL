@@ -169,12 +169,16 @@ namespace GEOGL::Platform::OpenGL{
 
     void Shader::bind() const {
 
-        glUseProgram(m_RendererID);
+        if(m_RendererID != getBoundID()) {
+            glUseProgram(m_RendererID);
+            setBoundID(m_RendererID);
+        }
 
     }
 
     void Shader::unbind() const {
 
+        setBoundID(0);
         glUseProgram(0);
 
     }

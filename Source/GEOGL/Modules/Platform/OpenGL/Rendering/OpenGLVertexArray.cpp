@@ -53,12 +53,16 @@ namespace GEOGL::Platform::OpenGL{
 
     void VertexArray::bind() const{
 
-        glBindVertexArray(m_RendererID);
+        if(m_RendererID != getBoundID()) {
+            glBindVertexArray(m_RendererID);
+            setBoundID(m_RendererID);
+        }
 
     }
 
     void VertexArray::unbind() const{
 
+        setBoundID(0);
         glBindVertexArray(0);
 
     }
