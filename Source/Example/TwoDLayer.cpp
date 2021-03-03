@@ -119,6 +119,7 @@ namespace Example{
 
 			layout(location = 0) out vec4 color;
 			in vec4 v_Position;
+
 			void main()
 			{
 				color = v_Position;
@@ -145,12 +146,13 @@ namespace Example{
             std::string fragmentSrc = R"(
 			#version 330 core
 
+            uniform vec4 u_Color;
 
 			layout(location = 0) out vec4 color;
 
 			void main()
 			{
-				color = vec4(0.03,0.03,0.2,1.0);
+				color = u_Color;
 			}
 		)";
 
@@ -175,12 +177,19 @@ namespace Example{
 
         GEOGL::Renderer::beginScene(m_Camera);
 
+        glm::vec4 redColor(0.8f,0.2f,0.2f,1.0f);
+        glm::vec4 blueColor(0.2f, 0.2f, 0.8f,1.0f);
+
         //m_BlueShader->bind();
         for(int i=0; i<20; ++i){
             for(int j=0; j<20; ++j) {
                 glm::vec3 pos((j * .11f)-1, (i * .11f)-1, 0.0f);
                 glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * m_Scalepointoneone;
-
+                if(j==0 || j%2 == 0){
+                    m_BlueShader->uploadUniformFloat4("u_Color", redColor);
+                }else{
+                    m_BlueShader->uploadUniformFloat4("u_Color", blueColor);
+                }
                 GEOGL::Renderer::submit(m_BlueShader, m_VertexArraySquare, transform);
             }
         }
@@ -256,6 +265,11 @@ namespace Example{
 
         }
 
+        if(event.getKeyCode() == GEOGL::Key::Escape){
+            GEOGL::WindowCloseEvent windowCloseEvent = GEOGL::WindowCloseEvent();
+            GEOGL::Application::get().onEvent(windowCloseEvent);
+        }
+
         return false;
 
     }
@@ -298,15 +312,15 @@ namespace Example{
         }
         /* Double the speed */
         if (GEOGL::Input::isKeyPressed(GEOGL::Key::LeftShift) || GEOGL::Input::isKeyPressed(GEOGL::Key::RightShift)) {
-            deltaPosition.xyz *= glm::vec3(2.0f);
+            deltaPosition *= glm::vec3(2.0f);
         }
 
         /* Now, update the camera position */
-        m_CameraPosition.xyz += deltaPosition.xyz;
+        m_CameraPosition += deltaPosition;
 
         /* if c is pressed, center everything */
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::C)){
-            m_CameraPosition.xyz = 0;
+            m_CameraPosition = glm::vec3(0.0f);
             m_CameraRotation = 0;
         }
 

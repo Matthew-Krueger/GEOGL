@@ -189,4 +189,14 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
+    void Shader::uploadUniformFloat4(const char *uniformName, const glm::vec4 &vector) {
+
+        /* Tried caching uniforms. It was about 15% slower. So, just query OpenGL every frame */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
+
+        /* now, upload the data */
+        glUniform4fv(uniformLocation, 1, glm::value_ptr(vector));
+
+    }
+
 }

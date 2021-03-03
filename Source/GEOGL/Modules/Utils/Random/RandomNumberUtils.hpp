@@ -22,32 +22,19 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLSHADER_HPP
-#define GEOGL_OPENGLSHADER_HPP
 
-#include "../../../../Rendering/Shader.hpp"
+#ifndef GEOGL_RANDOMNUMBERUTILS_HPP
+#define GEOGL_RANDOMNUMBERUTILS_HPP
 
-namespace GEOGL::Platform::OpenGL{
+namespace GEOGL{
 
-    GEOGL_API GLenum shaderDataTypeToOpenGLBaseType(enum ShaderDataType type);
-
-    class GEOGL_API Shader : public GEOGL::Shader{
-    public:
-        Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
-        virtual ~Shader();
-
-        void bind() const override;
-        void unbind() const override;
-
-        void uploadUniformMat4(const char * uniformName, const glm::mat4& matrix) override;
-        void uploadUniformFloat4(const char* uniformName, const glm::vec4& vector) override;
-    private:
-        uint32_t m_RendererID;
-        uint32_t m_VertexID;
-        uint32_t m_FragmentID;
-
-    };
+    /**
+     * Generates a random UUID in the format of an unsigned int. Useful for identifying a currently
+     * bound shader or other object.
+     * @return
+     */
+    uint64_t generateRandomUUID();
 
 }
 
-#endif //GEOGL_OPENGLSHADER_HPP
+#endif //GEOGL_RANDOMNUMBERUTILS_HPP

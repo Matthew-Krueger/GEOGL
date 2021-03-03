@@ -22,32 +22,27 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLSHADER_HPP
-#define GEOGL_OPENGLSHADER_HPP
 
-#include "../../../../Rendering/Shader.hpp"
+#include "RandomNumberUtils.hpp"
+#include <random>
+namespace GEOGL{
 
-namespace GEOGL::Platform::OpenGL{
+    static std::mt19937 rng(std::random_device{}());
+    static std::uniform_int_distribution<> distributionRNG(1,100'000);
+    static std::vector<uint64_t> uuidsGenerated;
 
-    GEOGL_API GLenum shaderDataTypeToOpenGLBaseType(enum ShaderDataType type);
+    uint64_t generateRandomUUID(){
 
-    class GEOGL_API Shader : public GEOGL::Shader{
-    public:
-        Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
-        virtual ~Shader();
+        uint64_t result = 0;
+        while(true) {
+            result = distributionRNG(rng);
+            auto it = std::find(uuidsGenerated.begin(), uuidsGenerated.end(), result);
+            if(it == uuidsGenerated.end() && result != 0)
+                break;
+        }
+        uuidsGenerated.push_back(result);
+        return result;
 
-        void bind() const override;
-        void unbind() const override;
-
-        void uploadUniformMat4(const char * uniformName, const glm::mat4& matrix) override;
-        void uploadUniformFloat4(const char* uniformName, const glm::vec4& vector) override;
-    private:
-        uint32_t m_RendererID;
-        uint32_t m_VertexID;
-        uint32_t m_FragmentID;
-
-    };
+    }
 
 }
-
-#endif //GEOGL_OPENGLSHADER_HPP

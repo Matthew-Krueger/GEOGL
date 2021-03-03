@@ -48,13 +48,9 @@ using json = nlohmann::json;
 #include <spdlog/spdlog.h>
 
 /* glm */
-#define GLM_FORCE_RADIANS
-#ifdef GEOGL_BUILD_AVX2
-#define GLM_FORCE_AVX2
-#else
-#define GLM_FORCE_SSE2
-#endif
+#ifdef GEOGL_SWIZZLE
 #define GLM_FORCE_SWIZZLE
+#endif
 #include <glm/glm.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/vec2.hpp>
