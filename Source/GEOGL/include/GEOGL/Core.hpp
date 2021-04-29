@@ -33,7 +33,7 @@
 #include "../../Application/Application.hpp"
 
 /* Loading and Callbacks */
-#include "../Utils/Callbacks.hpp"
+#include "../../Utils/Callbacks.hpp"
 
 /* Events */
 #include "../../IO/Events/Event.hpp"
@@ -43,7 +43,7 @@
 
 /* Input Polling Section */
 #include "../../IO/Input.hpp"
-#include "../Utils/InputCodes.hpp"
+#include "../../Utils/InputCodes.hpp"
 
 /* Layers API */
 #include "../../Layers/Layer.hpp"
