@@ -47,6 +47,7 @@ namespace GEOGL{
 }
 
 #if (GEOGL_TRACK_MEMORY_ALLOC_FLAG == 1)
+#ifndef WIN32
 GEOGL_API void* operator new(size_t bytesToAllocate);
 GEOGL_API void* operator new[](size_t bytesToAllocate);
 #pragma clang diagnostic push
@@ -54,6 +55,7 @@ GEOGL_API void* operator new[](size_t bytesToAllocate);
 GEOGL_API void operator delete(void* ptrToDealloc);
 GEOGL_API void operator delete[](void* ptrToDealloc);
 #pragma clang diagnostic pop
+#endif
 #endif
 
 #endif //GEOGL_TRACKMEMORYALLOCATIONS_HPP

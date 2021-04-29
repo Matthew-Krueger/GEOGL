@@ -34,6 +34,7 @@
 namespace GEOGL {
 
     LayerStack::LayerStack(){
+        m_LayerInsertIndex = 0;
     }
 
     LayerStack::~LayerStack(){
