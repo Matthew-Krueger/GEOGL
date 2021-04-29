@@ -9,7 +9,7 @@ endif()
 
 if(GEOGL_BUILD_WITH_OPENGL)
     #find OpenGL
-    find_library(OpenGL REQUIRED)
+    #find_library(OpenGL REQUIRED)
     add_subdirectory(OpenGL)
 endif(GEOGL_BUILD_WITH_OPENGL)
 if(GEOGL_BUILD_WITH_VULKAN)

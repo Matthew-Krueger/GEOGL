@@ -25,6 +25,7 @@
 
 #include <ImGui/imgui.h>
 #include "TwoDLayer.hpp"
+#include "../GEOGL/Modules/Platform/OpenGL/Rendering/OpenGLShader.hpp"
 #include <limits>
 
 
@@ -35,6 +36,7 @@ namespace Example{
     static float minFPS = std::numeric_limits<float>::max();
     static float maxFPS = 0; // this can be zero as we shouldn't have negative FPS
     static float totalFrameTime = 0;
+    std::shared_ptr<GEOGL::Platform::OpenGL::Shader> OGLSdr;
 
     TwoDLayer::TwoDLayer() :
     /* The name of the layer */
@@ -146,17 +148,19 @@ namespace Example{
             std::string fragmentSrc = R"(
 			#version 330 core
 
-            uniform vec4 u_Color;
+            uniform vec3 u_Color;
 
 			layout(location = 0) out vec4 color;
 
 			void main()
 			{
-				color = u_Color;
+				color = vec4(u_Color,1.0f);
 			}
 		)";
 
-            m_BlueShader = GEOGL::Shader::create(vertexSrc, fragmentSrc);
+            m_FlatColorShader = GEOGL::Shader::create(vertexSrc, fragmentSrc);
+
+            OGLSdr = std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_FlatColorShader);
         }
 
     }
@@ -177,20 +181,14 @@ namespace Example{
 
         GEOGL::Renderer::beginScene(m_Camera);
 
-        glm::vec4 redColor(0.8f,0.2f,0.2f,1.0f);
-        glm::vec4 blueColor(0.2f, 0.2f, 0.8f,1.0f);
+        OGLSdr->bind();
+        OGLSdr->uploadUniformFloat3("u_Color", m_SquareColor);
 
-        //m_BlueShader->bind();
         for(int i=0; i<20; ++i){
             for(int j=0; j<20; ++j) {
                 glm::vec3 pos((j * .11f)-1, (i * .11f)-1, 0.0f);
                 glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * m_Scalepointoneone;
-                if(j==0 || j%2 == 0){
-                    m_BlueShader->uploadUniformFloat4("u_Color", redColor);
-                }else{
-                    m_BlueShader->uploadUniformFloat4("u_Color", blueColor);
-                }
-                GEOGL::Renderer::submit(m_BlueShader, m_VertexArraySquare, transform);
+                GEOGL::Renderer::submit(m_FlatColorShader, m_VertexArraySquare, transform);
             }
         }
 

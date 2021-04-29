@@ -51,7 +51,8 @@ namespace Example{
         std::shared_ptr<GEOGL::VertexArray> m_VertexArraySquare;
 
         std::shared_ptr<GEOGL::Shader> m_PerVertexShader;
-        std::shared_ptr<GEOGL::Shader> m_BlueShader;
+        std::shared_ptr<GEOGL::Shader> m_FlatColorShader;
+        glm::vec3 m_SquareColor = {0.2f,0.3f,0.8f};
 
         GEOGL::OrthographicCamera m_Camera;
         glm::vec3 m_CameraPosition;

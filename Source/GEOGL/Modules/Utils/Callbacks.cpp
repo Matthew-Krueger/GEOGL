@@ -27,6 +27,7 @@
 namespace GEOGL{
 
     void atExitCallback(){
+
         GEOGL_CORE_INFO_NOSTRIP("Successfully exited GEOGL Engine version {}", GEOGL_VERSION_FULL);
     }
 

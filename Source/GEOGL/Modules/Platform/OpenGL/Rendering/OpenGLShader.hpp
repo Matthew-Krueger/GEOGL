@@ -25,6 +25,7 @@
 #ifndef GEOGL_OPENGLSHADER_HPP
 #define GEOGL_OPENGLSHADER_HPP
 
+#include <glad/glad.h>
 #include "../../../../Rendering/Shader.hpp"
 
 namespace GEOGL::Platform::OpenGL{
@@ -34,13 +35,23 @@ namespace GEOGL::Platform::OpenGL{
     class GEOGL_API Shader : public GEOGL::Shader{
     public:
         Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
-        virtual ~Shader();
+        ~Shader() override;
 
         void bind() const override;
         void unbind() const override;
 
-        void uploadUniformMat4(const char * uniformName, const glm::mat4& matrix) override;
-        void uploadUniformFloat4(const char* uniformName, const glm::vec4& vector) override;
+        void uploadUniformInt(const char * uniformName, int value);
+        void uploadUniformInt2(const char * uniformName, const glm::ivec2& vector);
+        void uploadUniformInt3(const char * uniformName, const glm::ivec3& vector);
+        void uploadUniformInt4(const char * uniformName, const glm::ivec4& vector);
+
+        void uploadUniformFloat(const char * uniformName, float matrix);
+        void uploadUniformFloat2(const char* uniformName, const glm::vec2& vector);
+        void uploadUniformFloat3(const char * uniformName, const glm::vec3& vector);
+        void uploadUniformFloat4(const char* uniformName, const glm::vec4& vector);
+
+        void uploadUniformMat3(const char * uniformName, const glm::mat3& matrix);
+        void uploadUniformMat4(const char * uniformName, const glm::mat4& matrix);
     private:
         uint32_t m_RendererID;
         uint32_t m_VertexID;

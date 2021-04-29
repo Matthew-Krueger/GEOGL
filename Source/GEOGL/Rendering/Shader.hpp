@@ -26,8 +26,6 @@
 #ifndef GEOGL_SHADER_HPP
 #define GEOGL_SHADER_HPP
 
-#include <GEOGL/Utils.hpp>
-
 namespace GEOGL{
 
     /**
@@ -72,20 +70,6 @@ namespace GEOGL{
          * \note A shader should generally not be unbound.
          */
         virtual void unbind() const = 0;
-
-        /**
-         * Uploads a uniform Mat4 to the shader
-         * @param uniformName the c_String uniform name. (c_string to prevent massive heap allocations)
-         * @param matrix The matrix to upload
-         */
-        virtual void uploadUniformMat4(const char* uniformName, const glm::mat4& matrix) = 0;
-
-        /**
-         * Uploads a uniform Vec4 to the shader
-         * @param uniformName the c_String uniform name. (c_string to prevent massive heap allocations)
-         * @param vector The vector to upload
-         */
-        virtual void uploadUniformFloat4(const char* uniformName, const glm::vec4& vector) = 0;
 
         /**
          * Creates a shader from source files.

@@ -45,17 +45,12 @@ namespace Example{
         pushLayer(new TwoDLayer());
 
         /* This is done in this way to make it explicit for the example that we are using RGBA. */
-        /*
-         * This also illustrates the swizzling component of glm, which is turned on by GEOGL. NOTE:
-         *  The swizzle component of glm increases compile time significantly. To reduce this time, use
-         *  a precompiled header. Swizzle is turned on by defining #define GEOGL_SWIZZLE before inclusion
-         *  of the core.
-         */
+
         glm::vec4 clearColor;
         clearColor = {0.1f,0.1f,0.1f,1.0f};
         GEOGL::Renderer::setClearColor(clearColor);
 
-        //getWindow().setVSync(false);
+        getWindow().setVSync(false);
 
     }
 

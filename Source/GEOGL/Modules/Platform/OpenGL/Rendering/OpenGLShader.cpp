@@ -157,6 +157,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     Shader::~Shader() {
+
         glDetachShader(m_RendererID, m_VertexID);
         glDetachShader(m_RendererID, m_FragmentID);
 
@@ -183,23 +184,103 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
-    void Shader::uploadUniformMat4(const char * uniformName, const glm::mat4 &matrix) {
+    void Shader::uploadUniformInt(const char *uniformName, int value) {
+
+        /* Get the uniform's location */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
+
+        /* now, upload the data */
+        glUniform1i(uniformLocation, value);
+
+    }
+
+    void Shader::uploadUniformInt2(const char *uniformName, const glm::ivec2& vector) {
+
+        /* Get the uniform's location */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
+
+        /* now, upload the data */
+        glUniform2iv(uniformLocation, 1, glm::value_ptr(vector));
+
+    }
+
+    void Shader::uploadUniformInt3(const char *uniformName, const glm::ivec3& vector) {
+
+        /* Get the uniform's location */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
+
+        /* now, upload the data */
+        glUniform3iv(uniformLocation, 1, glm::value_ptr(vector));
+
+    }
+
+    void Shader::uploadUniformInt4(const char *uniformName, const glm::ivec4& vector) {
+
+        /* Get the uniform's location */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
+
+        /* now, upload the data */
+        glUniform4iv(uniformLocation, 1, glm::value_ptr(vector));
+
+    }
+
+    void Shader::uploadUniformFloat(const char *uniformName, float value) {
+
+        /* Get the uniform's location */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
+
+        /* now, upload the data */
+        glUniform1f(uniformLocation, value);
+
+    }
+
+    void Shader::uploadUniformFloat2(const char *uniformName, const glm::vec2 &vector) {
+
+        /* Get the uniform's location */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
+
+        /* now, upload the data */
+        glUniform2fv(uniformLocation, 1, glm::value_ptr(vector));
+
+    }
+
+    void Shader::uploadUniformFloat3(const char *uniformName, const glm::vec3 &vector) {
+
+        /* Get the uniform's location */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
+
+        /* now, upload the data */
+        glUniform3fv(uniformLocation, 1, glm::value_ptr(vector));
+
+    }
+
+    void Shader::uploadUniformFloat4(const char *uniformName, const glm::vec4 &vector) {
+
+        /* Get the uniform's location */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
+
+        /* now, upload the data */
+        glUniform4fv(uniformLocation, 1, glm::value_ptr(vector));
+
+    }
+
+    void Shader::uploadUniformMat3(const char *uniformName, const glm::mat3 &matrix) {
+
+        /* Get the uniform's location */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
+
+        /* now, upload the data */
+        glUniformMatrix3fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
+
+    }
+
+    void Shader::uploadUniformMat4(const char *uniformName, const glm::mat4 &matrix) {
 
         /* Tried caching uniforms. It was about 15% slower. So, just query OpenGL every frame */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
 
         /* now, upload the data */
         glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
-
-    }
-
-    void Shader::uploadUniformFloat4(const char *uniformName, const glm::vec4 &vector) {
-
-        /* Tried caching uniforms. It was about 15% slower. So, just query OpenGL every frame */
-        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
-
-        /* now, upload the data */
-        glUniform4fv(uniformLocation, 1, glm::value_ptr(vector));
 
     }
 

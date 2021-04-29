@@ -161,6 +161,7 @@ namespace GEOGL {
          * @return
          */
         static Window* create(const WindowProps& props = WindowProps());
+
     };
 
 }

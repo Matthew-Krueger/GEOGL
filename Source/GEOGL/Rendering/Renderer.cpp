@@ -24,6 +24,7 @@
 
 
 #include "Renderer.hpp"
+#include "../../Platform/OpenGL/Rendering/OpenGLShader.hpp"
 
 namespace GEOGL{
 
@@ -41,8 +42,8 @@ namespace GEOGL{
 
     void Renderer::submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray,  const glm::mat4& transform) {
         shader->bind();
-        shader->uploadUniformMat4("u_ProjectionViewMatrix", m_SceneData->projectionViewMatrix);
-        shader->uploadUniformMat4("u_TransformMatrix", transform);
+        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(shader)->uploadUniformMat4("u_ProjectionViewMatrix", m_SceneData->projectionViewMatrix);
+        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(shader)->uploadUniformMat4("u_TransformMatrix", transform);
         vertexArray->bind();
         RenderCommand::drawIndexed(vertexArray);
     }
