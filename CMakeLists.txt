@@ -52,7 +52,7 @@ add_subdirectory(Dependencies/glfw-3.3.4)
 add_subdirectory(Dependencies/GLAD)
 
 # spdlog
-add_subdirectory(Dependencies/spdlog-1.8.2)
+add_subdirectory(Dependencies/spdlog-1.8.5)
 set_property(TARGET spdlog PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 # stbimage
