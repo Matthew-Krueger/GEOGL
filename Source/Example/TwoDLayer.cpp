@@ -184,8 +184,8 @@ namespace Example{
         OGLSdr->bind();
         OGLSdr->uploadUniformFloat3("u_Color", m_SquareColor);
 
-        for(int i=0; i<20; ++i){
-            for(int j=0; j<20; ++j) {
+        for(unsigned int i=0; i<20; ++i){
+            for(unsigned int j=0; j<20; ++j) {
                 glm::vec3 pos((j * .11f)-1, (i * .11f)-1, 0.0f);
                 glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * m_Scalepointoneone;
                 GEOGL::Renderer::submit(m_FlatColorShader, m_VertexArraySquare, transform);
@@ -228,7 +228,14 @@ namespace Example{
             ImGui::Text("Total Memory Allocations: %zu", GEOGL::getNumberAllocations());
             ImGui::Text("Total Memory Deallocations: %zu", GEOGL::getNumberDeallocations());
             ImGui::Text("Total Memory Allocated: %.4f MB", GEOGL::getMegabytesAllocated());
-
+            if(ImGui::Button("Clear FPS Information")){
+                fps=0;
+                minFPS = std::numeric_limits<float>::max();
+                maxFPS = 0;
+                averageFPS = 0;
+                frameCount = 0;
+                totalFrameTime = 0;
+            }
             ImGui::End();
         }else{
             ImGui::Begin("Preparing Debug Info");
@@ -237,6 +244,10 @@ namespace Example{
             ImGui::End();
         }
 
+        ImGui::Begin("Settings");
+        ImGui::SetWindowFontScale(2.0);
+        ImGui::ColorEdit3("SquareColor", glm::value_ptr(m_SquareColor));
+        ImGui::End();
 
     }
 
