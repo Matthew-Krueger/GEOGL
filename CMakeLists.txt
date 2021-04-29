@@ -46,7 +46,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 include_directories(Dependencies/Nlohmann/JSON/include)
 
 # GLFW
-add_subdirectory(Dependencies/glfw-3.3.2)
+add_subdirectory(Dependencies/glfw-3.3.4)
 
 # GLAD
 add_subdirectory(Dependencies/GLAD)

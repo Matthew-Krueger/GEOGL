@@ -84,11 +84,11 @@ target_include_directories("GEOGL_Interface" INTERFACE include
         Modules/Platform/GLFW/include
         Modules/Utils/include
         ../../Dependencies/Nlohmann/JSON/include
-        ../../Dependencies/glfw-3.3.2/include
+        ../../Dependencies/glfw-3.3.4/include
         ../../Dependencies/GLAD/include
         ../../Dependencies/spdlog-1.8.2/include
         ../../Dependencies/STB/include
-        ../../Dependencies/GLM
+        ../../Dependencies/GLM-0.9.9.8.7/glm
         ../../Dependencies/imgui-docking/include
         )
 
