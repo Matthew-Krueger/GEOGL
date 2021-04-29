@@ -36,7 +36,7 @@ namespace Example{
     static float minFPS = std::numeric_limits<float>::max();
     static float maxFPS = 0; // this can be zero as we shouldn't have negative FPS
     static float totalFrameTime = 0;
-    std::shared_ptr<GEOGL::Platform::OpenGL::Shader> OGLSdr;
+    GEOGL::Ref<GEOGL::Platform::OpenGL::Shader> OGLSdr;
 
     TwoDLayer::TwoDLayer() :
     /* The name of the layer */
@@ -228,6 +228,8 @@ namespace Example{
             ImGui::Text("Total Memory Allocations: %zu", GEOGL::getNumberAllocations());
             ImGui::Text("Total Memory Deallocations: %zu", GEOGL::getNumberDeallocations());
             ImGui::Text("Total Memory Allocated: %.4f MB", GEOGL::getMegabytesAllocated());
+            ImGui::Text("Total Memory Deallocated: %.4f MB", GEOGL::getMegabytesDeallocated());
+
             if(ImGui::Button("Clear FPS Information")){
                 fps=0;
                 minFPS = std::numeric_limits<float>::max();

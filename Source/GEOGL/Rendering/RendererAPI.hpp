@@ -78,7 +78,7 @@ namespace GEOGL{
         static std::string getWindowingAPIName(WindowingAPIEnum api);
         static bool isAPISupported(RenderingAPIEnum api);
 
-        static std::shared_ptr<RendererAPI> create(RendererAPI::RenderingAPIEnum preferredAPI);
+        static Ref<RendererAPI> create(RendererAPI::RenderingAPIEnum preferredAPI);
 
     public:
 
@@ -99,7 +99,7 @@ namespace GEOGL{
          * Draws an indexed VertexArray.
          * @param vertexArray The VertexArray to draw
          */
-        virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
+        virtual void drawIndexed(const Ref<VertexArray>& vertexArray) = 0;
 
         inline RenderingAPIEnum getRenderingAPI() { return m_API; } ;
         RendererAPI::WindowingAPIEnum getWindowingAPI();

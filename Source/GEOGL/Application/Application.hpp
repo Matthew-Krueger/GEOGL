@@ -89,7 +89,7 @@ namespace GEOGL{
          * @return returns true if successful
          */
         bool onWindowClose(WindowCloseEvent& event);
-        std::unique_ptr<Window> m_Window;
+        Scope<Window> m_Window;
         bool m_Running = true;
         LayerStack m_LayerStack;
         Settings m_Settings;

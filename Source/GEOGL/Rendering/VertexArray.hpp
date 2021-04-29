@@ -63,7 +63,7 @@ namespace GEOGL{
          *
          * @param vertexBuffer A VertexBuffer to bind to this VAO. A reference is kept with shared_ptr
          */
-        virtual void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) = 0;
+        virtual void addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) = 0;
 
         /**
          * \brief Sets the index buffer for this vertex array.
@@ -75,26 +75,26 @@ namespace GEOGL{
          *
          * @param indexBuffer The index buffer that is to be set.
          */
-        virtual void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) = 0;
+        virtual void setIndexBuffer(const Ref<IndexBuffer>& indexBuffer) = 0;
 
         /**
          * \brief Gets the VertexBuffers that are used with this VertexArray.
          * @return The VertexBuffers associated with VertexArray.
          */
-        virtual const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const = 0;
+        virtual const std::vector<Ref<VertexBuffer>>& getVertexBuffers() const = 0;
 
         /**
          * \brief Gets the IndexBuffer that is used with this VertexArray.
          *
          * @return The IndexBuffers associated with this VertexArray.
          */
-        virtual const std::shared_ptr<IndexBuffer>& getIndexBuffer() const = 0;
+        virtual const Ref<IndexBuffer>& getIndexBuffer() const = 0;
 
         /**
          * \brief Creates a vertex array using the API specified inside of the application singleton.
          * @return A shared_ptr of the newly created VertexArray in whatever API is specified.
          */
-        static std::shared_ptr<VertexArray> create();
+        static Ref<VertexArray> create();
 
     protected:
         inline static void setBoundID(uint32_t uuid){s_BoundVAOID = uuid; };

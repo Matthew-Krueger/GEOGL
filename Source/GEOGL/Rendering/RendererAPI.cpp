@@ -73,7 +73,7 @@ namespace GEOGL{
 
     }
 
-    std::shared_ptr<RendererAPI> RendererAPI::create(RendererAPI::RenderingAPIEnum preferredAPI) {
+    Ref<RendererAPI> RendererAPI::create(RendererAPI::RenderingAPIEnum preferredAPI) {
         /* get the best API */
         RendererAPI::RenderingAPIEnum api = RenderingAPIEnum::RENDERING_INVALID;
 
@@ -101,7 +101,7 @@ namespace GEOGL{
         GEOGL_CORE_ASSERT_NOSTRIP(api != RenderingAPIEnum::RENDERING_INVALID, "Unable to find a suitable Rendering API.");
         GEOGL_CORE_INFO_NOSTRIP("Using {} for Rendering.", getRenderingAPIName(api));
 
-        std::shared_ptr<RendererAPI> result;
+        Ref<RendererAPI> result;
         switch(api){
             case RendererAPI::RenderingAPIEnum::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL

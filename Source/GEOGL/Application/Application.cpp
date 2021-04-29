@@ -53,7 +53,7 @@ namespace GEOGL{
 
         }
         /* if doesn't have api */
-        std::shared_ptr<RendererAPI> rendererAPI;
+        Ref<RendererAPI> rendererAPI;
         if(m_Settings.data.contains("RenderingAPI")){
             rendererAPI = RendererAPI::create(m_Settings.data["RenderingAPI"]);
         }else{
@@ -78,7 +78,7 @@ namespace GEOGL{
         s_Instance = this;
 
         /* Create window */
-        m_Window = std::unique_ptr<Window>(Window::create(props));
+        m_Window = Scope<Window>(Window::create(props));
         m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
 
         /* Initialize ImGuiLayer */

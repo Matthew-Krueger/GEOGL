@@ -67,7 +67,7 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
-    void VertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexBuffer){
+    void VertexArray::addVertexBuffer(const Ref<VertexBuffer> &vertexBuffer){
 
         GEOGL_CORE_ASSERT_NOSTRIP(vertexBuffer->getLayout().getElements().size(),
                                   "OpenGL Vertex Buffer elements appears to be empty. Please call setLayout() with a valid BufferLayout on your VertexBuffer before calling {}().", __func__);
@@ -99,7 +99,7 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
-    void VertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer> &indexBuffer){
+    void VertexArray::setIndexBuffer(const Ref<IndexBuffer> &indexBuffer){
 
         glBindVertexArray(m_RendererID);
         indexBuffer->bind();

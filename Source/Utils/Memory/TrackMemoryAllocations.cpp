@@ -26,6 +26,7 @@
 
 static size_t bytesAllocated = 0;
 static size_t allocations = 0;
+static size_t bytesDeallocated = 0;
 static size_t deallocations = 0;
 
 size_t GEOGL::getNumberAllocations() {
@@ -48,28 +49,40 @@ double GEOGL::getMegabytesAllocated() {
     return (double)bytesAllocated/(double)(1024*2);
 }
 
+double GEOGL::getKilobytesDeallocated(){
+    return (double)bytesDeallocated/(double)(1024);
+}
+
+double GEOGL::getMegabytesDeallocated(){
+    return (double)bytesDeallocated/(double)(1024*2);
+}
+
 
 #if (GEOGL_TRACK_MEMORY_ALLOC_FLAG == 1)
 void* operator new(size_t bytesToAllocate){
     ++allocations;
-    bytesAllocated+= bytesToAllocate;
-
+    bytesAllocated+=bytesToAllocate;
     return malloc(bytesToAllocate);
 }
 void* operator new[](size_t bytesToAllocate){
     ++allocations;
-    bytesAllocated+= bytesToAllocate;
-
-    return malloc(bytesToAllocate);
+    bytesAllocated+=bytesToAllocate;
+    return calloc(1,bytesToAllocate);
 }
-void operator delete(void* ptrToDealloc){
+void operator delete(void* ptrToDealloc, size_t size){
     ++deallocations;
+
+    bytesDeallocated+= size;
 
     free(ptrToDealloc);
 }
-void operator delete[](void* ptrToDealloc){
+
+void operator delete[](void *ptrToDealloc, size_t size) {
     ++deallocations;
+
+    bytesDeallocated+= size;
 
     free(ptrToDealloc);
 }
+
 #endif

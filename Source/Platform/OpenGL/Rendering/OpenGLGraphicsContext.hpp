@@ -25,7 +25,7 @@
 #ifndef GEOGL_OPENGLGRAPHICSCONTEXT_HPP
 #define GEOGL_OPENGLGRAPHICSCONTEXT_HPP
 
-#include "../GEOGL/Rendering/GraphicsContext.hpp"
+#include "../../../GEOGL/Rendering/GraphicsContext.hpp"
 
 struct GLFWwindow;
 

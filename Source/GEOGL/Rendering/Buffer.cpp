@@ -75,10 +75,10 @@ namespace GEOGL{
         }
     }
 
-    std::shared_ptr<VertexBuffer> VertexBuffer::create(const std::vector<float> &vertices) {
+    Ref<VertexBuffer> VertexBuffer::create(const std::vector<float> &vertices) {
         const auto renderer = Renderer::getRendererAPI();
 
-        std::shared_ptr<VertexBuffer> result;
+        Ref<VertexBuffer> result;
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL
@@ -94,10 +94,10 @@ namespace GEOGL{
 
     }
 
-    std::shared_ptr<IndexBuffer> IndexBuffer::create(const std::vector<uint32_t> &indices) {
+    Ref<IndexBuffer> IndexBuffer::create(const std::vector<uint32_t> &indices) {
         const auto renderer = Renderer::getRendererAPI();
 
-        std::shared_ptr<IndexBuffer> result;
+        Ref<IndexBuffer> result;
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL

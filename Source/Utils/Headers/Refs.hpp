@@ -22,35 +22,20 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLVERTEXARRAY_HPP
-#define GEOGL_OPENGLVERTEXARRAY_HPP
 
+#ifndef GEOGL_REFS_HPP
+#define GEOGL_REFS_HPP
 
-#include "../../../GEOGL/Rendering/VertexArray.hpp"
+#include <memory>
 
-namespace GEOGL::Platform::OpenGL{
+namespace GEOGL{
 
-    class GEOGL_API VertexArray : public GEOGL::VertexArray{
-    public:
-        VertexArray();
-        virtual ~VertexArray();
+    template<typename T>
+    using Scope = std::unique_ptr<T>;
 
-        void bind() const override;
-        void unbind() const override;
-
-        void addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
-        void setIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
-
-        inline const std::vector<Ref<VertexBuffer>>& getVertexBuffers() const { return m_VertexBuffers; };
-        inline const Ref<IndexBuffer>& getIndexBuffer() const { return m_IndexBuffer; } ;
-
-    private:
-        uint32_t m_RendererID;
-        std::vector<Ref<VertexBuffer>> m_VertexBuffers;
-        Ref<IndexBuffer> m_IndexBuffer;
-
-    };
+    template<typename T>
+    using Ref = std::shared_ptr<T>;
 
 }
 
-#endif //GEOGL_OPENGLVERTEXARRAY_HPP
+#endif //GEOGL_REFS_HPP

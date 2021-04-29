@@ -68,11 +68,11 @@ namespace GEOGL{
         }
     }
 
-    std::shared_ptr<Shader> Shader::create(const std::string &vertexSrc, const std::string &fragmentSrc) {
+    Ref<Shader> Shader::create(const std::string &vertexSrc, const std::string &fragmentSrc) {
 
         const auto renderer = Renderer::getRendererAPI();
 
-        std::shared_ptr<Shader> result;
+        Ref<Shader> result;
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL

@@ -48,22 +48,22 @@ namespace GEOGL{
          * Draws an index vertexArray
          * @param vertexArray
          */
-        inline static void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray){ s_RendererAPI->drawIndexed(vertexArray); };
+        inline static void drawIndexed(const Ref<VertexArray>& vertexArray){ s_RendererAPI->drawIndexed(vertexArray); };
 
         /**
          * Gets the rendererAPI
          * @return
          */
-        inline static const std::shared_ptr<RendererAPI>& getRendererAPI() { return s_RendererAPI; };
+        inline static const Ref<RendererAPI>& getRendererAPI() { return s_RendererAPI; };
 
         /**
          * Sets the RendererAPI.
          * @param rendererApi
          */
-        inline static void setRendererAPI(std::shared_ptr<RendererAPI>& rendererApi) { s_RendererAPI = rendererApi; };
+        inline static void setRendererAPI(Ref<RendererAPI>& rendererApi) { s_RendererAPI = rendererApi; };
 
     private:
-        static std::shared_ptr<RendererAPI> s_RendererAPI;
+        static Ref<RendererAPI> s_RendererAPI;
     };
 
 }

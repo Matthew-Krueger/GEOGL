@@ -45,7 +45,7 @@ namespace GEOGL::Platform::OpenGL{
         void setClearColor(const glm::vec4& color) override;
         void clear() override;
 
-        virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
+        virtual void drawIndexed(const Ref<VertexArray>& vertexArray);
 
     private:
         glm::vec4 m_ClearColor;

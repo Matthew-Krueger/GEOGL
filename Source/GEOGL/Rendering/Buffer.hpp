@@ -207,7 +207,7 @@ namespace GEOGL{
          * @param vertices The data to upload to the GPU
          * @return The VertexBuffer object using the selected API.
          */
-        static std::shared_ptr<VertexBuffer> create(const std::vector<float>& data);
+        static Ref<VertexBuffer> create(const std::vector<float>& data);
     };
 
 
@@ -244,7 +244,7 @@ namespace GEOGL{
          * @param indices The data to upload to the GPU
          * @return The IndexBuffer object using the selected API.
          */
-        static std::shared_ptr<IndexBuffer> create(const std::vector<uint32_t>& indices);
+        static Ref<IndexBuffer> create(const std::vector<uint32_t>& indices);
 
     };
 

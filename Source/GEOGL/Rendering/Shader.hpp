@@ -81,7 +81,7 @@ namespace GEOGL{
          * @param fragmentSrc The literal source for the fragment shader
          * @return A shared_ptr of the newly created shader. Ready for use.
          */
-        static std::shared_ptr<Shader> create(const std::string& vertexSrc, const std::string& fragmentSrc);
+        static Ref<Shader> create(const std::string& vertexSrc, const std::string& fragmentSrc);
 
     protected:
         inline static void setBoundID( uint32_t uuid){s_BoundShaderID = uuid; };

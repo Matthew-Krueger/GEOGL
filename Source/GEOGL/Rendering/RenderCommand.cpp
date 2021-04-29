@@ -26,6 +26,6 @@
 
 namespace GEOGL{
 
-    std::shared_ptr<RendererAPI> RenderCommand::s_RendererAPI = nullptr;
+    Ref<RendererAPI> RenderCommand::s_RendererAPI = nullptr;
 
 }

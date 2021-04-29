@@ -57,19 +57,19 @@ namespace GEOGL{
          * \brief Submit a VertexArray for drawing
          * @param vertexArray The vertex array to submit
          */
-        static void submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f));
+        static void submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f));
 
         /**
          * Gets the rendererAPI
          * @return
          */
-        inline static const std::shared_ptr<RendererAPI>& getRendererAPI() { return RenderCommand::getRendererAPI(); };
+        inline static const Ref<RendererAPI>& getRendererAPI() { return RenderCommand::getRendererAPI(); };
 
         /**
          * Sets the rendererAPI
          * @param rendererApi the Api Instance to set
          */
-        inline static void setRendererAPI(std::shared_ptr<RendererAPI> rendererApi) { RenderCommand::setRendererAPI(rendererApi); };
+        inline static void setRendererAPI(Ref<RendererAPI> rendererApi) { RenderCommand::setRendererAPI(rendererApi); };
 
     private:
         struct SceneData{

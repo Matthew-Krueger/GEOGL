@@ -25,7 +25,7 @@
 #ifndef GEOGL_OPENGLBUFFER_HPP
 #define GEOGL_OPENGLBUFFER_HPP
 
-#include "../GEOGL/Rendering/Buffer.hpp"
+#include "../../../GEOGL/Rendering/Buffer.hpp"
 
 namespace GEOGL::Platform::OpenGL{
 

@@ -32,10 +32,10 @@ namespace GEOGL{
 
     uint32_t VertexArray::s_BoundVAOID = 0;
 
-    std::shared_ptr<VertexArray> VertexArray::create() {
+    Ref<VertexArray> VertexArray::create() {
         const auto renderer = Renderer::getRendererAPI();
 
-        std::shared_ptr<VertexArray> result;
+        Ref<VertexArray> result;
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL

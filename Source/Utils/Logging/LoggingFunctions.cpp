@@ -29,8 +29,8 @@
 
 namespace GEOGL{
 
-    std::shared_ptr<spdlog::logger> Log::coreLogger;
-    std::shared_ptr<spdlog::logger> Log::clientLogger;
+    Ref<spdlog::logger> Log::coreLogger;
+    Ref<spdlog::logger> Log::clientLogger;
 
     void Log::Init(const std::string& filePath, const std::string& clientName) {
 

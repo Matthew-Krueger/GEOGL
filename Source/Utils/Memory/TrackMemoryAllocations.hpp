@@ -44,6 +44,9 @@ namespace GEOGL{
     GEOGL_API double getKilobytesAllocated();
     GEOGL_API double getMegabytesAllocated();
 
+    GEOGL_API double getKilobytesDeallocated();
+    GEOGL_API double getMegabytesDeallocated();
+
 }
 
 #if (GEOGL_TRACK_MEMORY_ALLOC_FLAG == 1)
@@ -52,8 +55,8 @@ GEOGL_API void* operator new(size_t bytesToAllocate);
 GEOGL_API void* operator new[](size_t bytesToAllocate);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wimplicit-exception-spec-mismatch"
-GEOGL_API void operator delete(void* ptrToDealloc);
-GEOGL_API void operator delete[](void* ptrToDealloc);
+GEOGL_API void operator delete(void* ptrToDealloc, size_t size);
+GEOGL_API void operator delete[](void* ptrToDealloc, size_t size);
 #pragma clang diagnostic pop
 #endif
 #endif

@@ -47,7 +47,7 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
-    void RendererAPI::drawIndexed(const std::shared_ptr<VertexArray> &vertexArray) {
+    void RendererAPI::drawIndexed(const Ref<VertexArray> &vertexArray) {
 
         glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 

@@ -40,7 +40,7 @@ namespace GEOGL{
 
     }
 
-    void Renderer::submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray,  const glm::mat4& transform) {
+    void Renderer::submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,  const glm::mat4& transform) {
         shader->bind();
         std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(shader)->uploadUniformMat4("u_ProjectionViewMatrix", m_SceneData->projectionViewMatrix);
         std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(shader)->uploadUniformMat4("u_TransformMatrix", transform);
