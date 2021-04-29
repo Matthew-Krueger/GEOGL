@@ -36,7 +36,6 @@ namespace Example{
     static float minFPS = std::numeric_limits<float>::max();
     static float maxFPS = 0; // this can be zero as we shouldn't have negative FPS
     static float totalFrameTime = 0;
-    GEOGL::Ref<GEOGL::Platform::OpenGL::Shader> OGLSdr;
 
     TwoDLayer::TwoDLayer() :
     /* The name of the layer */
@@ -160,7 +159,6 @@ namespace Example{
 
             m_FlatColorShader = GEOGL::Shader::create(vertexSrc, fragmentSrc);
 
-            OGLSdr = std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_FlatColorShader);
         }
 
     }
@@ -181,8 +179,8 @@ namespace Example{
 
         GEOGL::Renderer::beginScene(m_Camera);
 
-        OGLSdr->bind();
-        OGLSdr->uploadUniformFloat3("u_Color", m_SquareColor);
+        m_FlatColorShader->bind();
+        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_FlatColorShader)->uploadUniformFloat3("u_Color", m_SquareColor);
 
         for(unsigned int i=0; i<20; ++i){
             for(unsigned int j=0; j<20; ++j) {
