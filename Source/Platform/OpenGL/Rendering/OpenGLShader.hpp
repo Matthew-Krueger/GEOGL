@@ -22,34 +22,43 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLVERTEXARRAY_HPP
-#define GEOGL_OPENGLVERTEXARRAY_HPP
+#ifndef GEOGL_OPENGLSHADER_HPP
+#define GEOGL_OPENGLSHADER_HPP
 
-#include "../../../../Rendering/VertexArray.hpp"
+#include <glad/glad.h>
+#include "../../GEOGL/Rendering/Shader.hpp"
 
 namespace GEOGL::Platform::OpenGL{
 
-    class GEOGL_API VertexArray : public GEOGL::VertexArray{
+    GEOGL_API GLenum shaderDataTypeToOpenGLBaseType(enum ShaderDataType type);
+
+    class GEOGL_API Shader : public GEOGL::Shader{
     public:
-        VertexArray();
-        virtual ~VertexArray();
+        Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
+        ~Shader() override;
 
         void bind() const override;
         void unbind() const override;
 
-        void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) override;
-        void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) override;
+        void uploadUniformInt(const char * uniformName, int value);
+        void uploadUniformInt2(const char * uniformName, const glm::ivec2& vector);
+        void uploadUniformInt3(const char * uniformName, const glm::ivec3& vector);
+        void uploadUniformInt4(const char * uniformName, const glm::ivec4& vector);
 
-        inline const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const { return m_VertexBuffers; };
-        inline const std::shared_ptr<IndexBuffer>& getIndexBuffer() const { return m_IndexBuffer; } ;
+        void uploadUniformFloat(const char * uniformName, float matrix);
+        void uploadUniformFloat2(const char* uniformName, const glm::vec2& vector);
+        void uploadUniformFloat3(const char * uniformName, const glm::vec3& vector);
+        void uploadUniformFloat4(const char* uniformName, const glm::vec4& vector);
 
+        void uploadUniformMat3(const char * uniformName, const glm::mat3& matrix);
+        void uploadUniformMat4(const char * uniformName, const glm::mat4& matrix);
     private:
         uint32_t m_RendererID;
-        std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
-        std::shared_ptr<IndexBuffer> m_IndexBuffer;
+        uint32_t m_VertexID;
+        uint32_t m_FragmentID;
 
     };
 
 }
 
-#endif //GEOGL_OPENGLVERTEXARRAY_HPP
+#endif //GEOGL_OPENGLSHADER_HPP

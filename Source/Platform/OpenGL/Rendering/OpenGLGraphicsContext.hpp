@@ -22,43 +22,36 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLSHADER_HPP
-#define GEOGL_OPENGLSHADER_HPP
+#ifndef GEOGL_OPENGLGRAPHICSCONTEXT_HPP
+#define GEOGL_OPENGLGRAPHICSCONTEXT_HPP
 
-#include <glad/glad.h>
-#include "../../../../Rendering/Shader.hpp"
+#include "../GEOGL/Rendering/GraphicsContext.hpp"
+
+struct GLFWwindow;
 
 namespace GEOGL::Platform::OpenGL{
 
-    GEOGL_API GLenum shaderDataTypeToOpenGLBaseType(enum ShaderDataType type);
-
-    class GEOGL_API Shader : public GEOGL::Shader{
+    /**
+     * \brief Implements the Graphics context for OpenGL
+     */
+    class GEOGL_API GraphicsContext : public GEOGL::GraphicsContext{
     public:
-        Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
-        ~Shader() override;
+        GraphicsContext(GLFWwindow* windowHandle);
+        ~GraphicsContext();
 
-        void bind() const override;
-        void unbind() const override;
+        void clearColor() override;
 
-        void uploadUniformInt(const char * uniformName, int value);
-        void uploadUniformInt2(const char * uniformName, const glm::ivec2& vector);
-        void uploadUniformInt3(const char * uniformName, const glm::ivec3& vector);
-        void uploadUniformInt4(const char * uniformName, const glm::ivec4& vector);
+        void setViewport(const glm::vec2& topLeftCorner, const glm::vec2& dimensions) override;
+        void setVSync(bool* vSyncStatus) override;
+        void swapBuffers() override;
 
-        void uploadUniformFloat(const char * uniformName, float matrix);
-        void uploadUniformFloat2(const char* uniformName, const glm::vec2& vector);
-        void uploadUniformFloat3(const char * uniformName, const glm::vec3& vector);
-        void uploadUniformFloat4(const char* uniformName, const glm::vec4& vector);
+        void deInitGlad();
 
-        void uploadUniformMat3(const char * uniformName, const glm::mat3& matrix);
-        void uploadUniformMat4(const char * uniformName, const glm::mat4& matrix);
     private:
-        uint32_t m_RendererID;
-        uint32_t m_VertexID;
-        uint32_t m_FragmentID;
+        GLFWwindow* m_WindowHandle;
 
     };
 
 }
 
-#endif //GEOGL_OPENGLSHADER_HPP
+#endif //GEOGL_OPENGLGRAPHICSCONTEXT_HPP

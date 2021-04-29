@@ -22,32 +22,35 @@
  *                                                                             *
  *******************************************************************************/
 
-/*******************************************************************************
- *                                                                             *
- * This code was based heavily off the Cherno game engine series               *
- *                                                                             *
- *******************************************************************************/
+#ifndef GEOGL_OPENGLVERTEXARRAY_HPP
+#define GEOGL_OPENGLVERTEXARRAY_HPP
 
 
-#ifndef GEOGL_OPENGLINPUT_HPP
-#define GEOGL_OPENGLINPUT_HPP
+#include "../../../GEOGL/Rendering/VertexArray.hpp"
 
-#include "../../../../IO/Input.hpp"
+namespace GEOGL::Platform::OpenGL{
 
-namespace GEOGL::Platform::GLFW{
+    class GEOGL_API VertexArray : public GEOGL::VertexArray{
+    public:
+        VertexArray();
+        virtual ~VertexArray();
 
-    class GEOGL_API_HIDDEN Input : public GEOGL::Input{
+        void bind() const override;
+        void unbind() const override;
 
-    protected:
-        bool isKeyPressedImpl(KeyCode keycode) override;
+        void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) override;
+        void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) override;
 
-        bool isMouseButtonPressedImpl(MouseCode button) override;
-        bool getMouseXImpl() override;
-        bool getMouseYImpl() override;
-        glm::vec2 getMousePositionImpl() override;
+        inline const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const { return m_VertexBuffers; };
+        inline const std::shared_ptr<IndexBuffer>& getIndexBuffer() const { return m_IndexBuffer; } ;
+
+    private:
+        uint32_t m_RendererID;
+        std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
+        std::shared_ptr<IndexBuffer> m_IndexBuffer;
 
     };
 
 }
 
-#endif //GEOGL_OPENGLINPUT_HPP
+#endif //GEOGL_OPENGLVERTEXARRAY_HPP

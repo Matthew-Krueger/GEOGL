@@ -25,7 +25,7 @@
 
 #include <ImGui/imgui.h>
 #include "TwoDLayer.hpp"
-#include "../GEOGL/Modules/Platform/OpenGL/Rendering/OpenGLShader.hpp"
+#include "../Platform/OpenGL/Rendering/OpenGLShader.hpp"
 #include <limits>
 
 

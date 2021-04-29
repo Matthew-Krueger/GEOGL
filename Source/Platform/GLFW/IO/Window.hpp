@@ -31,8 +31,8 @@
 #ifndef GEOGL_GLFWWINDOW_HPP
 #define GEOGL_GLFWWINDOW_HPP
 
-#include "../../../IO/Window.hpp"
 #include "../../OpenGL/Rendering/OpenGLGraphicsContext.hpp"
+#include "../../../GEOGL/IO/Window.hpp"
 
 /**
  * Forward declaration of GLFWwindow, as we need not know how it works.

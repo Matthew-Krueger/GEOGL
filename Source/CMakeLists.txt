@@ -1,0 +1,113 @@
+#######################################################################
+#       Configure Optional Dependencies Depending on Build Flags      #
+#######################################################################
+# Optional Platform Libs
+set(GEOGL_OPENGL_BUILD_FLAG 0)
+set(GEOGL_VULKAN_BUILD_FLAG 0)
+set(GEOGL_PLATFORM_DEPS "")
+set(GEOGL_PLATFORM_DEPS_WINDOWING "")
+
+if(BUILD_SHARED_LIBS)
+    set(GEOGL_LIBRARY_TYPE SHARED)
+    set(GEOGL_MAIN_LIBRARY_TYPE SHARED)
+    message("-- Building GEOGL and dependencies as DLLs")
+else(BUILD_SHARED_LIBS)
+    set(GEOGL_LIBRARY_TYPE OBJECT)
+    set(GEOGL_MAIN_LIBRARY_TYPE STATIC)
+    message("-- Building GEOGL and dependencies as Object Libraries")
+endif(BUILD_SHARED_LIBS)
+
+#######################################################################
+#                Configure IGPU Support (Where applicable)            #
+#######################################################################
+if(GEOGL_ENABLE_IGPU)
+    set(GEOGL_ENABLE_IGPU_DEF 1)
+else()
+    set(GEOGL_ENABLE_IGPU_DEF 0)
+endif()
+
+#######################################################################
+#                           SELECT PLATFORM                           #
+#######################################################################
+
+if(GEOGL_BUILD_WITH_OPENGL OR GEOGL_BUILD_WITH_VULKAN)
+    set(GEOGL_GLFW_BUILD_FLAG 1)
+    set(GEOGL_PLATFORM_DPES_WINDOWING ${GEOGL_PLATFORM_DEPS_WINDOWING} GEOGL::Platform::GLFW)
+endif()
+
+if(GEOGL_BUILD_WITH_OPENGL)
+    message("-- Building GEOGL with OpenGL Support")
+    set(GEOGL_PLATFORM_EXISTS TRUE)
+    set(GEOGL_OPENGL_BUILD_FLAG 1)
+    set(GEOGL_PLATFORM_DEPS ${GEOGL_PLATFORM_DEPS} GEOGL::Platform::OpenGL)
+
+endif(GEOGL_BUILD_WITH_OPENGL)
+if(GEOGL_BUILD_WITH_VULKAN)
+
+    message("-- Building GEOGL with Vulkan Support")
+    set(GEOGL_PLATFORM_EXISTS TRUE)
+    set(GEOGL_VULKAN_BUILD_FLAG 1)
+    set(GEOGL_PLATFORM_DEPS ${GEOGL_PLATFORM_DEPS} GEOGL::Platform::Vulkan)
+
+endif(GEOGL_BUILD_WITH_VULKAN)
+
+
+
+# make sure a platform is selected. If not, error
+if (NOT(GEOGL_PLATFORM_EXISTS STREQUAL "TRUE"))
+    #message(FATAL_ERROR "No platform selected for GEOGL. Please select a platform.")
+endif(NOT(GEOGL_PLATFORM_EXISTS STREQUAL "TRUE"))
+
+
+
+#######################################################################
+#           Add Dummy target relating to macro definitions            #
+#######################################################################
+add_library(GEOGL_Interface INTERFACE)
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_VERSION_MAJOR=${GEOGL_VERSION_MAJOR})
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_VERSION_MINOR=${GEOGL_VERSION_MINOR})
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_VERSION_PATCH=${GEOGL_VERSION_PATCH})
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_VERSION_FULL="${GEOGL_VERSION_FULL}")
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_ENGINE_NAME="GEOGL-Engine-${GEOGL_VERSION_FULL}")
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_ENGINE_NAME_NO_VERSION="GEOGL Engine")
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_VULKAN=${GEOGL_VULKAN_BUILD_FLAG})
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_OPENGL=${GEOGL_OPENGL_BUILD_FLAG})
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_ENABLE_IGPU=${GEOGL_ENABLE_IGPU_DEF})
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_GLFW=${GEOGL_GLFW_BUILD_FLAG})
+if(NOT BUILD_SHARED_LIBS)
+    target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_STATIC)
+endif(NOT BUILD_SHARED_LIBS)
+
+target_include_directories("GEOGL_Interface" INTERFACE include
+        Platform/OpenGL/include
+        Platform/Vulkan/include
+        Platform/GLFW/include
+        Utils/include
+        ../Dependencies/Nlohmann/JSON/include
+        ../Dependencies/glfw-3.3.4/include
+        ../Dependencies/GLAD/include
+        ../Dependencies/spdlog-1.8.5/include
+        ../Dependencies/STB/include
+        ../Dependencies/GLM-0.9.9.8.7/glm
+        ../Dependencies/imgui-docking/include
+        )
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if(GEOGL_TRACK_MEMORY_ALLOC)
+        target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_TRACK_MEMORY_ALLOC_FLAG=1)
+    endif()
+endif()
+
+#target_precompile_headers(GEOGL_Interface INTERFACE Modules/Utils/Headers/PCH.hpp)
+
+#######################################################################
+#                      Build all Dependency DLLs                      #
+#######################################################################
+
+# Include Utils And Dependencies
+add_subdirectory(Utils)
+
+# Include Platforms
+add_subdirectory(Platform)
+
+add_subdirectory(GEOGL)

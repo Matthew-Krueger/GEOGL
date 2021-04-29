@@ -28,56 +28,27 @@
  *                                                                             *
  *******************************************************************************/
 
-#include "Input.hpp"
-#include "../../../../Application/Application.hpp"
-#include "../../../Utils/InputCodesConverter.hpp"
 
-#include <GLFW/glfw3.h>
+#ifndef GEOGL_OPENGLINPUT_HPP
+#define GEOGL_OPENGLINPUT_HPP
+
+
+#include "../../../GEOGL/IO/Input.hpp"
 
 namespace GEOGL::Platform::GLFW{
 
+    class GEOGL_API_HIDDEN Input : public GEOGL::Input{
 
-    bool Input::isKeyPressedImpl(KeyCode keycode) {
+    protected:
+        bool isKeyPressedImpl(KeyCode keycode) override;
 
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        auto state = glfwGetKey(window, InputCodesConverter::getNativeKeyCode(keycode));
+        bool isMouseButtonPressedImpl(MouseCode button) override;
+        bool getMouseXImpl() override;
+        bool getMouseYImpl() override;
+        glm::vec2 getMousePositionImpl() override;
 
-        return state == GLFW_PRESS || state == GLFW_REPEAT;
-
-    }
-
-    bool Input::isMouseButtonPressedImpl(MouseCode button) {
-
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        auto state = glfwGetMouseButton(window, InputCodesConverter::getNativeMouseCode(button));
-
-        return state == GLFW_PRESS;
-
-    }
-
-    bool Input::getMouseXImpl() {
-
-        return getMousePositionImpl().x;
-
-    }
-
-    bool Input::getMouseYImpl() {
-
-        return getMousePositionImpl().y;
-
-    }
-
-    glm::vec2 Input::getMousePositionImpl(){
-
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        double xpos, ypos;
-
-        glfwGetCursorPos(window, &xpos, &ypos);
-
-        return glm::vec2((float)xpos, (float)ypos);
-
-    }
+    };
 
 }
 
-#include "Input.hpp"
+#endif //GEOGL_OPENGLINPUT_HPP

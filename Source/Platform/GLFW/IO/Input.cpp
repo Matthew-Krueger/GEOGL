@@ -22,39 +22,62 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLRENDERERAPI_HPP
-#define GEOGL_OPENGLRENDERERAPI_HPP
+/*******************************************************************************
+ *                                                                             *
+ * This code was based heavily off the Cherno game engine series               *
+ *                                                                             *
+ *******************************************************************************/
 
-#include "../../../../Rendering/RendererAPI.hpp"
-#include "../../../../Rendering/VertexArray.hpp"
+#include "Input.hpp"
+#include "../../../Utils/InputCodesConverter.hpp"
+#include "../../../GEOGL/Application/Application.hpp"
 
-namespace GEOGL::Platform::OpenGL{
+#include <GLFW/glfw3.h>
 
-    /**
-     * \brief Describes an OpenGL RendererAPI.
-     */
-    class GEOGL_API RendererAPI : public GEOGL::RendererAPI{
-    public:
-        /**
-         * Constructs a RendererAPI with the specified RenderingAPIEnum. The implementation is free to ignore this however.
-         * @param preferredAPI The preferred api to use for rendering
-         */
-        RendererAPI();
-        virtual ~RendererAPI();
-
-        void setClearColor(const glm::vec4& color) override;
-        void clear() override;
-
-        virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
-
-    private:
-        glm::vec4 m_ClearColor;
+namespace GEOGL::Platform::GLFW{
 
 
-    };
+    bool Input::isKeyPressedImpl(KeyCode keycode) {
 
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        auto state = glfwGetKey(window, InputCodesConverter::getNativeKeyCode(keycode));
+
+        return state == GLFW_PRESS || state == GLFW_REPEAT;
+
+    }
+
+    bool Input::isMouseButtonPressedImpl(MouseCode button) {
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        auto state = glfwGetMouseButton(window, InputCodesConverter::getNativeMouseCode(button));
+
+        return state == GLFW_PRESS;
+
+    }
+
+    bool Input::getMouseXImpl() {
+
+        return getMousePositionImpl().x;
+
+    }
+
+    bool Input::getMouseYImpl() {
+
+        return getMousePositionImpl().y;
+
+    }
+
+    glm::vec2 Input::getMousePositionImpl(){
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        double xpos, ypos;
+
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        return glm::vec2((float)xpos, (float)ypos);
+
+    }
 
 }
 
-
-#endif //GEOGL_OPENGLRENDERERAPI_HPP
+#include "Input.hpp"

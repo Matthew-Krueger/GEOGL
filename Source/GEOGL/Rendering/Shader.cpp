@@ -29,7 +29,7 @@
 #include "../Application/Application.hpp"
 
 #ifdef GEOGL_BUILD_WITH_OPENGL
-#include "../Modules/Platform/OpenGL/Rendering/OpenGLShader.hpp"
+#include "../../Platform/OpenGL/Rendering/OpenGLShader.hpp"
 #include "Renderer.hpp"
 
 #endif

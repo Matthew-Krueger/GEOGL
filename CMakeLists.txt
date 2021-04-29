@@ -67,7 +67,7 @@ add_subdirectory(Dependencies/imgui-docking)
 #          Build GEOGL            #
 ###################################
 include_directories(Source/GEOGL/include)
-add_subdirectory(Source/GEOGL)
+add_subdirectory(Source)
 
 ###################################
 #          Build Example          #

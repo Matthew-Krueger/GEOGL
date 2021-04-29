@@ -36,14 +36,14 @@
 #include <GLFW/glfw3.h>
 
 #include "Window.hpp"
-#include "../../../IO/Events/ApplicationEvent.hpp"
-#include "../../../IO/Events/MouseEvent.hpp"
-#include "../../../IO/Events/KeyEvent.hpp"
 #include "Input.hpp"
 #include "KeyCodes.hpp"
 
 #include "../../OpenGL/Rendering/OpenGLGraphicsContext.hpp"
-#include "../../../../Rendering/Renderer.hpp"
+#include "../../../GEOGL/Rendering/Renderer.hpp"
+#include "../../../GEOGL/IO/Events/ApplicationEvent.hpp"
+#include "../../../GEOGL/IO/Events/KeyEvent.hpp"
+#include "../../../GEOGL/IO/Events/MouseEvent.hpp"
 
 namespace GEOGL::Platform::GLFW{
 

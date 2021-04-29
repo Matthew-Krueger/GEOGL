@@ -22,36 +22,50 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLGRAPHICSCONTEXT_HPP
-#define GEOGL_OPENGLGRAPHICSCONTEXT_HPP
+#ifndef GEOGL_OPENGLBUFFER_HPP
+#define GEOGL_OPENGLBUFFER_HPP
 
-#include "../../../../Rendering/GraphicsContext.hpp"
-
-struct GLFWwindow;
+#include "../GEOGL/Rendering/Buffer.hpp"
 
 namespace GEOGL::Platform::OpenGL{
 
-    /**
-     * \brief Implements the Graphics context for OpenGL
-     */
-    class GEOGL_API GraphicsContext : public GEOGL::GraphicsContext{
+    class GEOGL_API VertexBuffer : public GEOGL::VertexBuffer{
     public:
-        GraphicsContext(GLFWwindow* windowHandle);
-        ~GraphicsContext();
+        VertexBuffer(const std::vector<float>& vertices);
+        virtual ~VertexBuffer();
 
-        void clearColor() override;
+        virtual void bind() const override;
+        virtual void unbind() const override;
 
-        void setViewport(const glm::vec2& topLeftCorner, const glm::vec2& dimensions) override;
-        void setVSync(bool* vSyncStatus) override;
-        void swapBuffers() override;
+        inline void setLayout(const BufferLayout& layout) override { m_Layout = layout; };
+        inline const BufferLayout& getLayout() const override { return m_Layout; };
 
-        void deInitGlad();
 
     private:
-        GLFWwindow* m_WindowHandle;
+        std::vector<float> m_CPUData;
+        uint32_t m_VBOID;
+        BufferLayout m_Layout;
+
+    };
+
+
+    class GEOGL_API IndexBuffer : public GEOGL::IndexBuffer{
+    public:
+        IndexBuffer(const std::vector<uint32_t>& indices);
+        virtual ~IndexBuffer();
+
+        virtual void bind() const override;
+        virtual void unbind() const override;
+
+        virtual inline uint32_t getCount() const override {return m_CPUDataSizeCache; };
+
+    private:
+        std::vector<uint32_t> m_CPUData;
+        uint32_t m_CPUDataSizeCache;
+        uint32_t m_IndexBufferID;
 
     };
 
 }
 
-#endif //GEOGL_OPENGLGRAPHICSCONTEXT_HPP
+#endif //GEOGL_OPENGLBUFFER_HPP

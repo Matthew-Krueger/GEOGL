@@ -25,7 +25,7 @@
 
 #include "VertexArray.hpp"
 #include "../Application/Application.hpp"
-#include "../Modules/Platform/OpenGL/Rendering/OpenGLVertexArray.hpp"
+#include "../../Platform/OpenGL/Rendering/OpenGLVertexArray.hpp"
 #include "Renderer.hpp"
 
 namespace GEOGL{

@@ -24,7 +24,7 @@
 
 
 #include "RendererAPI.hpp"
-#include "../Modules/Platform/OpenGL/Rendering/OpenGLRendererAPI.hpp"
+#include "../../Platform/OpenGL/Rendering/OpenGLRendererAPI.hpp"
 
 namespace GEOGL{
 

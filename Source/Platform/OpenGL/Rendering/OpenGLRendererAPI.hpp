@@ -22,50 +22,39 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLBUFFER_HPP
-#define GEOGL_OPENGLBUFFER_HPP
+#ifndef GEOGL_OPENGLRENDERERAPI_HPP
+#define GEOGL_OPENGLRENDERERAPI_HPP
 
-#include "../../../../Rendering/Buffer.hpp"
+
+#include "../../../GEOGL/Rendering/RendererAPI.hpp"
 
 namespace GEOGL::Platform::OpenGL{
 
-    class GEOGL_API VertexBuffer : public GEOGL::VertexBuffer{
+    /**
+     * \brief Describes an OpenGL RendererAPI.
+     */
+    class GEOGL_API RendererAPI : public GEOGL::RendererAPI{
     public:
-        VertexBuffer(const std::vector<float>& vertices);
-        virtual ~VertexBuffer();
+        /**
+         * Constructs a RendererAPI with the specified RenderingAPIEnum. The implementation is free to ignore this however.
+         * @param preferredAPI The preferred api to use for rendering
+         */
+        RendererAPI();
+        virtual ~RendererAPI();
 
-        virtual void bind() const override;
-        virtual void unbind() const override;
+        void setClearColor(const glm::vec4& color) override;
+        void clear() override;
 
-        inline void setLayout(const BufferLayout& layout) override { m_Layout = layout; };
-        inline const BufferLayout& getLayout() const override { return m_Layout; };
-
+        virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
 
     private:
-        std::vector<float> m_CPUData;
-        uint32_t m_VBOID;
-        BufferLayout m_Layout;
+        glm::vec4 m_ClearColor;
+
 
     };
 
-
-    class GEOGL_API IndexBuffer : public GEOGL::IndexBuffer{
-    public:
-        IndexBuffer(const std::vector<uint32_t>& indices);
-        virtual ~IndexBuffer();
-
-        virtual void bind() const override;
-        virtual void unbind() const override;
-
-        virtual inline uint32_t getCount() const override {return m_CPUDataSizeCache; };
-
-    private:
-        std::vector<uint32_t> m_CPUData;
-        uint32_t m_CPUDataSizeCache;
-        uint32_t m_IndexBufferID;
-
-    };
 
 }
 
-#endif //GEOGL_OPENGLBUFFER_HPP
+
+#endif //GEOGL_OPENGLRENDERERAPI_HPP
