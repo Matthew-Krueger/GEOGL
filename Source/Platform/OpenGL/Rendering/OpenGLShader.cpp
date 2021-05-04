@@ -246,6 +246,8 @@ namespace GEOGL::Platform::OpenGL{
 
     void Shader::uploadUniformFloat3(const char *uniformName, const glm::vec3 &vector) {
 
+        bind();
+
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
 

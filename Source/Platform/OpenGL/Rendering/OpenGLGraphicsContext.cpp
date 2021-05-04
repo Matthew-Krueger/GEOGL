@@ -42,14 +42,47 @@ namespace GEOGL::Platform::OpenGL{
                      GLenum severity,
                      GLsizei length,
                      const GLchar* message,
-                     const void* userParam ){
+                     const void* userParam )
+    {
 
-        GEOGL_CORE_WARN_NOSTRIP("OpenGL {}:", glGetString(severity));
-        GEOGL_CORE_WARN_NOSTRIP("   Type: {}", glGetString(type));
-        GEOGL_CORE_WARN_NOSTRIP("   Source: {}", glGetString(source));
-        GEOGL_CORE_WARN_NOSTRIP("   Message: {}", message);
+        std::string header = GEOGL_FORMAT(      "Open GL {}, ID {}:", glGetString(severity), id);
+        std::string errorType = GEOGL_FORMAT(   "   Type: {}", glGetString(type));
+        std::string errorSource = GEOGL_FORMAT( "   Source: {}", glGetString(source));
+        std::string errorMessage = GEOGL_FORMAT("   Message: {}", message);
 
+        switch(severity){
+            case GL_DEBUG_SEVERITY_NOTIFICATION:
+                GEOGL_CORE_INFO(header);
+                GEOGL_CORE_INFO(errorType);
+                GEOGL_CORE_INFO(errorSource);
+                GEOGL_CORE_INFO(errorMessage);
+                break;
+            case GL_DEBUG_SEVERITY_LOW:
+                GEOGL_CORE_INFO_NOSTRIP(header);
+                GEOGL_CORE_INFO_NOSTRIP(errorType);
+                GEOGL_CORE_INFO_NOSTRIP(errorSource);
+                GEOGL_CORE_INFO_NOSTRIP(errorMessage);
+                break;
+            case GL_DEBUG_SEVERITY_MEDIUM:
+                GEOGL_CORE_WARN_NOSTRIP(header);
+                GEOGL_CORE_WARN_NOSTRIP(errorType);
+                GEOGL_CORE_WARN_NOSTRIP(errorSource);
+                GEOGL_CORE_WARN_NOSTRIP(errorMessage);
+                break;
+            case GL_DEBUG_SEVERITY_HIGH:
+                GEOGL_CORE_CRITICAL_NOSTRIP(header);
+                GEOGL_CORE_CRITICAL_NOSTRIP(errorType);
+                GEOGL_CORE_CRITICAL_NOSTRIP(errorSource);
+                GEOGL_CORE_CRITICAL_NOSTRIP(errorMessage);
+                break;
+            default:
+                GEOGL_CORE_CRITICAL_NOSTRIP(header);
+                GEOGL_CORE_CRITICAL_NOSTRIP(errorType);
+                GEOGL_CORE_CRITICAL_NOSTRIP(errorSource);
+                GEOGL_CORE_CRITICAL_NOSTRIP(errorMessage);
+        }
     }
+
 
     /*
      * Graphics context

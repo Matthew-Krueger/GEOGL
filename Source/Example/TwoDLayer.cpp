@@ -37,6 +37,8 @@ namespace Example{
     static float maxFPS = 0; // this can be zero as we shouldn't have negative FPS
     static float totalFrameTime = 0;
 
+    static glm::mat4 scaleOne;
+
     TwoDLayer::TwoDLayer() :
     /* The name of the layer */
     GEOGL::Layer("2D Layer"),
@@ -44,6 +46,8 @@ namespace Example{
     m_CameraPosition(glm::vec3({0.0f,0.0f,0.0f})){
         /* Now that we are properly in the constructor, we set up the camera and everything else */
         m_Camera.setPosition(m_CameraPosition);
+
+        scaleOne = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
 
         /* set up the triangle */
         {
@@ -77,15 +81,16 @@ namespace Example{
             /* Create a vertex array */
             m_VertexArraySquare = GEOGL::VertexArray::create();
 
-            std::vector<float> vertices = {-0.5f,  -0.5f, 0.0f,
-                                           0.5f,   -0.5f, 0.0f,
-                                           0.5f,   0.5f,  0.0f,
-                                           -0.5f,  0.5f,  0.0f};
+            std::vector<float> vertices = {-0.5f,  -0.5f, 0.0f, 0.0f, 0.0f,
+                                           0.5f,   -0.5f, 0.0f, 1.0f, 0.0f,
+                                           0.5f,   0.5f,  0.0f, 1.0f, 1.0f,
+                                           -0.5f,  0.5f,  0.0f, 0.0f, 1.0f};
 
             auto vertexBuffer = GEOGL::VertexBuffer::create(vertices);
             {
                 vertexBuffer->setLayout({
                                                 {GEOGL::ShaderDataType::FLOAT3, "a_Position"},
+                                                {GEOGL::ShaderDataType::FLOAT2, "a_TextureCoord"}
                                         });
             }
 
@@ -161,6 +166,45 @@ namespace Example{
 
         }
 
+        /* Set up texture shader */
+        {
+            std::string vertexSrc = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+            layout(location = 1) in vec2 a_TextureCoord;
+
+            uniform mat4 u_ProjectionViewMatrix;
+            uniform mat4 u_TransformMatrix;
+
+            out vec2 v_TextureCoord;
+
+			void main()
+			{
+				gl_Position = u_ProjectionViewMatrix * u_TransformMatrix * vec4(a_Position, 1.0);
+			    v_TextureCoord = a_TextureCoord;
+            }
+		)";
+
+            std::string fragmentSrc = R"(
+			#version 330 core
+
+            in vec2 v_TextureCoord;
+
+            uniform vec3 u_Color;
+
+			layout(location = 0) out vec4 color;
+
+			void main()
+			{
+				color = vec4(v_TextureCoord, 0.0f, 1.0f);
+			}
+		)";
+
+            m_TextureShader = GEOGL::Shader::create(vertexSrc, fragmentSrc);
+
+        }
+
     }
 
     void TwoDLayer::onAttach() {
@@ -190,8 +234,11 @@ namespace Example{
             }
         }
 
-        //m_PerVertexShader->bind();
-        GEOGL::Renderer::submit(m_PerVertexShader, m_VertexArrayTrianglePerVColor);
+        // hide triangle
+        //GEOGL::Renderer::submit(m_PerVertexShader, m_VertexArrayTrianglePerVColor);
+        m_TextureShader->bind();
+        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_TextureShader)->uploadUniformFloat3("u_Color", glm::vec3(0.8f,0.8f,0.8f));
+        GEOGL::Renderer::submit(m_TextureShader,m_VertexArraySquare,scaleOne);
 
         GEOGL::Renderer::endScene();
 
@@ -218,15 +265,15 @@ namespace Example{
             ImGui::Text("VSync Enabled: %s", (GEOGL::Application::get().getWindow().isVSync()) ? "TRUE" : "FALSE");
             ImGui::Text("FrameTime: %.2f ms", timeStep.getMilliseconds());
             ImGui::Text("FPS: %.2f", fps);
-            ImGui::Text("Min FPS: %.4f", minFPS);
-            ImGui::Text("Max FPS: %.4f", maxFPS);
-            ImGui::Text("Average FPS: %.4f", averageFPS);
-            ImGui::Text("Frame Count: %lu", frameCount);
-            ImGui::Text("Total Frame Time: %.4f s", totalFrameTime);
+            ImGui::Text("Min FPS: %.2f", minFPS);
+            ImGui::Text("Max FPS: %.2f", maxFPS);
+            ImGui::Text("Average FPS: %.2f", averageFPS);
+            ImGui::Text("Frame Count: %llu", frameCount);
+            ImGui::Text("Total Frame Time: %.2f s", totalFrameTime);
             ImGui::Text("Total Memory Allocations: %zu", GEOGL::getNumberAllocations());
             ImGui::Text("Total Memory Deallocations: %zu", GEOGL::getNumberDeallocations());
-            ImGui::Text("Total Memory Allocated: %.4f MB", GEOGL::getMegabytesAllocated());
-            ImGui::Text("Total Memory Deallocated: %.4f MB", GEOGL::getMegabytesDeallocated());
+            ImGui::Text("Total Memory Allocated: %.2f MB", GEOGL::getMegabytesAllocated());
+            ImGui::Text("Total Memory Deallocated: %.2f MB", GEOGL::getMegabytesDeallocated());
 
             if(ImGui::Button("Clear FPS Information")){
                 fps=0;

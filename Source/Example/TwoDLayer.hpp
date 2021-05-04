@@ -51,7 +51,7 @@ namespace Example{
         GEOGL::Ref<GEOGL::VertexArray> m_VertexArraySquare;
 
         GEOGL::Ref<GEOGL::Shader> m_PerVertexShader;
-        GEOGL::Ref<GEOGL::Shader> m_FlatColorShader;
+        GEOGL::Ref<GEOGL::Shader> m_FlatColorShader, m_TextureShader;
         glm::vec3 m_SquareColor = {0.2f,0.3f,0.8f};
 
         GEOGL::OrthographicCamera m_Camera;
