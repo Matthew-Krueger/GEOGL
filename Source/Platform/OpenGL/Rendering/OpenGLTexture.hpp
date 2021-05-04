@@ -22,44 +22,32 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_CORE_HPP
-#define GEOGL_CORE_HPP
+#include "../../GEOGL/Rendering/Texture.hpp"
 
-/* Dependencies */
-//#include "../../Utils/Headers/Dependencies.hpp"
-#include <GEOGL/Utils.hpp>
+#ifndef GEOGL_OPENGLTEXTURE_HPP
+#define GEOGL_OPENGLTEXTURE_HPP
 
-/* Application */
-#include "../../Application/Application.hpp"
+namespace GEOGL::Platform::OpenGL{
 
-/* Loading and Callbacks */
-#include "../../Utils/Callbacks.hpp"
+    class Texture2D : public GEOGL::Texture2D{
+    public:
+        explicit Texture2D(std::string  filePath);
+        ~Texture2D();
 
-/* Events */
-#include "../../IO/Events/Event.hpp"
-#include "../../IO/Events/ApplicationEvent.hpp"
-#include "../../IO/Events/KeyEvent.hpp"
-#include "../../IO/Events/MouseEvent.hpp"
+        [[nodiscard]] inline uint32_t getWidth() const override { return m_Width; };
+        [[nodiscard]] inline uint32_t getHeight() const override { return m_Height; };
 
-/* Input Polling Section */
-#include "../../IO/Input.hpp"
-#include "../../Utils/InputCodes.hpp"
+        /**
+         * Binds the texture for rendering
+         */
+        void bind(uint32_t slotID) const override;
 
-/* Layers API */
-#include "../../Layers/Layer.hpp"
-#include "../../ImGui/ImGuiLayer.hpp"
-#include "../../Layers/LayerStack.hpp"
+    private:
+        std::string m_Path;
+        uint32_t m_Width, m_Height;
+        uint32_t m_RendererID;
+    };
 
-/* Render api */
-#include "../../Rendering/Renderer.hpp"
-#include "../../Rendering/RenderCommand.hpp"
-#include "../../Rendering/GraphicsContext.hpp"
+}
 
-#include "../../Rendering/VertexArray.hpp"
-#include "../../Rendering/Buffer.hpp"
-#include "../../Rendering/Shader.hpp"
-#include "../../Rendering/Camera.hpp"
-#include "../../Rendering/Texture.hpp"
-
-
-#endif //GEOGL_CORE_HPP
+#endif //GEOGL_OPENGLTEXTURE_HPP

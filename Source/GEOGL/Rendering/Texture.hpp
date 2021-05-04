@@ -22,44 +22,37 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_CORE_HPP
-#define GEOGL_CORE_HPP
 
-/* Dependencies */
-//#include "../../Utils/Headers/Dependencies.hpp"
-#include <GEOGL/Utils.hpp>
+#ifndef GEOGL_TEXTURE_HPP
+#define GEOGL_TEXTURE_HPP
 
-/* Application */
-#include "../../Application/Application.hpp"
+namespace GEOGL{
 
-/* Loading and Callbacks */
-#include "../../Utils/Callbacks.hpp"
+    /**
+     * Defines the abstract form of a texture
+     */
+    class Texture{
+    public:
 
-/* Events */
-#include "../../IO/Events/Event.hpp"
-#include "../../IO/Events/ApplicationEvent.hpp"
-#include "../../IO/Events/KeyEvent.hpp"
-#include "../../IO/Events/MouseEvent.hpp"
+        virtual ~Texture() = default;
 
-/* Input Polling Section */
-#include "../../IO/Input.hpp"
-#include "../../Utils/InputCodes.hpp"
+        [[nodiscard]] virtual uint32_t getWidth() const = 0;
+        [[nodiscard]] virtual uint32_t getHeight() const = 0;
 
-/* Layers API */
-#include "../../Layers/Layer.hpp"
-#include "../../ImGui/ImGuiLayer.hpp"
-#include "../../Layers/LayerStack.hpp"
+        /**
+         * Binds the texture for rendering
+         */
+        virtual void bind(uint32_t slotID) const = 0;
 
-/* Render api */
-#include "../../Rendering/Renderer.hpp"
-#include "../../Rendering/RenderCommand.hpp"
-#include "../../Rendering/GraphicsContext.hpp"
+    };
 
-#include "../../Rendering/VertexArray.hpp"
-#include "../../Rendering/Buffer.hpp"
-#include "../../Rendering/Shader.hpp"
-#include "../../Rendering/Camera.hpp"
-#include "../../Rendering/Texture.hpp"
+    class Texture2D : public Texture{
+    public:
 
+        static Ref<Texture2D> create(const std::string& filePath);
 
-#endif //GEOGL_CORE_HPP
+    };
+
+}
+
+#endif //GEOGL_TEXTURE_HPP

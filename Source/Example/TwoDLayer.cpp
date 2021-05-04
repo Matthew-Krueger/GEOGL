@@ -191,17 +191,29 @@ namespace Example{
 
             in vec2 v_TextureCoord;
 
-            uniform vec3 u_Color;
+            uniform sampler2D u_Texture;
 
 			layout(location = 0) out vec4 color;
 
 			void main()
 			{
-				color = vec4(v_TextureCoord, 0.0f, 1.0f);
+				color = vec4(texture(u_Texture,v_TextureCoord).rgb, 1.0f);
 			}
 		)";
 
             m_TextureShader = GEOGL::Shader::create(vertexSrc, fragmentSrc);
+            m_TextureShader->bind();
+            std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_TextureShader)->uploadUniformInt("u_Texture", 0);
+
+
+        }
+
+        /*
+         * Load Texture
+         */
+        {
+
+            m_CheckerboardTexture = GEOGL::Texture2D::create("Resources/Textures/Checkerboard.png");
 
         }
 
@@ -238,6 +250,8 @@ namespace Example{
         //GEOGL::Renderer::submit(m_PerVertexShader, m_VertexArrayTrianglePerVColor);
         m_TextureShader->bind();
         std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_TextureShader)->uploadUniformFloat3("u_Color", glm::vec3(0.8f,0.8f,0.8f));
+
+        m_CheckerboardTexture->bind(0);
         GEOGL::Renderer::submit(m_TextureShader,m_VertexArraySquare,scaleOne);
 
         GEOGL::Renderer::endScene();

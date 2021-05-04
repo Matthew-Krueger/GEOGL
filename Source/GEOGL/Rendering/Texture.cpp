@@ -22,44 +22,30 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_CORE_HPP
-#define GEOGL_CORE_HPP
 
-/* Dependencies */
-//#include "../../Utils/Headers/Dependencies.hpp"
-#include <GEOGL/Utils.hpp>
+#include "Texture.hpp"
+#include "Renderer.hpp"
+#include "../../Platform/OpenGL/Rendering/OpenGLTexture.hpp"
 
-/* Application */
-#include "../../Application/Application.hpp"
+namespace GEOGL{
 
-/* Loading and Callbacks */
-#include "../../Utils/Callbacks.hpp"
+    Ref<Texture2D> Texture2D::create(const std::string& filePath){
 
-/* Events */
-#include "../../IO/Events/Event.hpp"
-#include "../../IO/Events/ApplicationEvent.hpp"
-#include "../../IO/Events/KeyEvent.hpp"
-#include "../../IO/Events/MouseEvent.hpp"
+        const auto renderer = Renderer::getRendererAPI();
 
-/* Input Polling Section */
-#include "../../IO/Input.hpp"
-#include "../../Utils/InputCodes.hpp"
+        Ref<Texture2D> result;
+        switch(renderer->getRenderingAPI()){
+            case RendererAPI::RENDERING_OPENGL_DESKTOP:
+#ifdef GEOGL_BUILD_WITH_OPENGL
+                result.reset(new GEOGL::Platform::OpenGL::Texture2D(filePath));
+                return result;
+#else
+                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
+#endif
+            default:
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
+                return result;
+        }
+    }
 
-/* Layers API */
-#include "../../Layers/Layer.hpp"
-#include "../../ImGui/ImGuiLayer.hpp"
-#include "../../Layers/LayerStack.hpp"
-
-/* Render api */
-#include "../../Rendering/Renderer.hpp"
-#include "../../Rendering/RenderCommand.hpp"
-#include "../../Rendering/GraphicsContext.hpp"
-
-#include "../../Rendering/VertexArray.hpp"
-#include "../../Rendering/Buffer.hpp"
-#include "../../Rendering/Shader.hpp"
-#include "../../Rendering/Camera.hpp"
-#include "../../Rendering/Texture.hpp"
-
-
-#endif //GEOGL_CORE_HPP
+}

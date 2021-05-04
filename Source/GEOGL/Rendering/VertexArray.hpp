@@ -38,7 +38,7 @@ namespace GEOGL{
      */
     class GEOGL_API VertexArray{
     public:
-        virtual ~VertexArray(){};
+        virtual ~VertexArray() = default;
 
         /**
          * \brief Binds a vertex array for rendering

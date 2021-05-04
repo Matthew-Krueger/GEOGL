@@ -22,44 +22,58 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_CORE_HPP
-#define GEOGL_CORE_HPP
 
-/* Dependencies */
-//#include "../../Utils/Headers/Dependencies.hpp"
-#include <GEOGL/Utils.hpp>
+#include "OpenGLTexture.hpp"
+#include <STB/stb_image.h>
+#include <utility>
+#include <glad/glad.h>
 
-/* Application */
-#include "../../Application/Application.hpp"
+namespace GEOGL::Platform::OpenGL {
 
-/* Loading and Callbacks */
-#include "../../Utils/Callbacks.hpp"
+    Texture2D::Texture2D(std::string filePath)
+    : m_Path(std::move(filePath)){
+        int width, height, channels;
+        stbi_set_flip_vertically_on_load(1);
+        stbi_uc* data = stbi_load(m_Path.c_str(), &width, &height, &channels, 0);
+        GEOGL_CORE_ASSERT_NOSTRIP(data, "Failed to load image {}", m_Path);
+        m_Width = width;
+        m_Height = height;
 
-/* Events */
-#include "../../IO/Events/Event.hpp"
-#include "../../IO/Events/ApplicationEvent.hpp"
-#include "../../IO/Events/KeyEvent.hpp"
-#include "../../IO/Events/MouseEvent.hpp"
+        glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+        glTextureStorage2D(m_RendererID, 1, GL_RGB8, (GLsizei) m_Width, (GLsizei) m_Height);
 
-/* Input Polling Section */
-#include "../../IO/Input.hpp"
-#include "../../Utils/InputCodes.hpp"
+        glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-/* Layers API */
-#include "../../Layers/Layer.hpp"
-#include "../../ImGui/ImGuiLayer.hpp"
-#include "../../Layers/LayerStack.hpp"
+        GLenum imageFormat = GL_INVALID_ENUM;
+        switch(channels){
+            case 3:
+                imageFormat = GL_RGB;
+                break;
+            case 4:
+                imageFormat = GL_RGBA;
+                break;
+            default:
+                imageFormat = GL_INVALID_ENUM;
+                break;
+        }
 
-/* Render api */
-#include "../../Rendering/Renderer.hpp"
-#include "../../Rendering/RenderCommand.hpp"
-#include "../../Rendering/GraphicsContext.hpp"
+        glTextureSubImage2D(m_RendererID, 0, 0, 0, (GLsizei) m_Width, (GLsizei) m_Height, imageFormat, GL_UNSIGNED_BYTE, (void*) data);
 
-#include "../../Rendering/VertexArray.hpp"
-#include "../../Rendering/Buffer.hpp"
-#include "../../Rendering/Shader.hpp"
-#include "../../Rendering/Camera.hpp"
-#include "../../Rendering/Texture.hpp"
+        stbi_image_free(data);
+
+    }
 
 
-#endif //GEOGL_CORE_HPP
+    Texture2D::~Texture2D() {
+
+        glDeleteTextures(1, &m_RendererID);
+
+    }
+
+    void Texture2D::bind(uint32_t slotID) const {
+
+        glBindTextureUnit(slotID, m_RendererID);
+
+    }
+}

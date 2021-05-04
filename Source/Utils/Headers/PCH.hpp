@@ -28,5 +28,6 @@
 
 #include "Dependencies.hpp"
 #include "../Logging/PrivateLog.hpp"
+#include <STB/stb_image.h>
 
 #endif //GEOGL_PCH_HPP

@@ -60,9 +60,6 @@ using json = nlohmann::json;
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-/* Stb Image */
-#include <STB/stb_image.h>
-
 #define BIT(x) (1 << x)
 
 
