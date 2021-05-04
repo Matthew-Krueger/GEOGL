@@ -39,26 +39,32 @@ namespace GEOGL::Platform::OpenGL {
         m_Width = width;
         m_Height = height;
 
+
+        GLenum internalFormat = GL_INVALID_ENUM, dataFormat = GL_INVALID_ENUM;
+        switch(channels){
+            case 3:
+                internalFormat = GL_RGB8;
+                dataFormat = GL_RGB;
+                break;
+            case 4:
+                internalFormat = GL_RGBA8;
+                dataFormat = GL_RGBA;
+                break;
+            default:
+                internalFormat = GL_INVALID_ENUM;
+                dataFormat = GL_INVALID_ENUM;
+                GEOGL_CORE_ERROR_NOSTRIP("Loading a format that is not supported!");
+                break;
+        }
+
+
         glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-        glTextureStorage2D(m_RendererID, 1, GL_RGB8, (GLsizei) m_Width, (GLsizei) m_Height);
+        glTextureStorage2D(m_RendererID, 1, internalFormat, (GLsizei) m_Width, (GLsizei) m_Height);
 
         glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        GLenum imageFormat = GL_INVALID_ENUM;
-        switch(channels){
-            case 3:
-                imageFormat = GL_RGB;
-                break;
-            case 4:
-                imageFormat = GL_RGBA;
-                break;
-            default:
-                imageFormat = GL_INVALID_ENUM;
-                break;
-        }
-
-        glTextureSubImage2D(m_RendererID, 0, 0, 0, (GLsizei) m_Width, (GLsizei) m_Height, imageFormat, GL_UNSIGNED_BYTE, (void*) data);
+        glTextureSubImage2D(m_RendererID, 0, 0, 0, (GLsizei) m_Width, (GLsizei) m_Height, dataFormat, GL_UNSIGNED_BYTE, (void*) data);
 
         stbi_image_free(data);
 

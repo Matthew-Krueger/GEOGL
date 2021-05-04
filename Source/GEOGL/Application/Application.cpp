@@ -47,15 +47,17 @@ namespace GEOGL{
         {
             if(!m_Settings.open("settings.json")) {
                 GEOGL_CORE_WARN_NOSTRIP("Settings file not found. Treating OpenGL as the lowest API");
-                m_Settings.data["RenderingAPI"] = (RendererAPI::RENDERING_OPENGL_DESKTOP);
+                m_Settings.data["RenderingAPI"]["API"] = (RendererAPI::RENDERING_OPENGL_DESKTOP);
                 m_Settings.flush();
             }
+
+            m_Settings.data["RenderingAPI"]["Info"] = "The RenderingAPI is a bit switched flag, such that 0 is invalid, 1 is OpenGL, 2 is Vulkan, 4 is DirectX11, 8 is DirectX12, 16 is Metal, and so on. This is done to automatically detect the best way to open Windows.";
 
         }
         /* if doesn't have api */
         Ref<RendererAPI> rendererAPI;
-        if(m_Settings.data.contains("RenderingAPI")){
-            rendererAPI = RendererAPI::create(m_Settings.data["RenderingAPI"]);
+        if(m_Settings.data["RenderingAPI"].contains("API")){
+            rendererAPI = RendererAPI::create(m_Settings.data["RenderingAPI"]["API"]);
         }else{
             GEOGL_CORE_WARN_NOSTRIP("Unable to find RenderingAPI in settings.json. Setting a new one.");
             rendererAPI = RendererAPI::create(RendererAPI::RENDERING_INVALID);
@@ -67,7 +69,7 @@ namespace GEOGL{
         /* now, make sure the data is stored */
         {
             auto renderAPI = Renderer::getRendererAPI();
-            m_Settings.data["RenderingAPI"] = (Renderer::getRendererAPI()->getRenderingAPI());
+            m_Settings.data["RenderingAPI"]["API"] = (Renderer::getRendererAPI()->getRenderingAPI());
             m_Settings.flush();
         }
 
@@ -80,6 +82,9 @@ namespace GEOGL{
         /* Create window */
         m_Window = Scope<Window>(Window::create(props));
         m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
+
+        /* Initialize Renderer */
+        //Renderer::init();
 
         /* Initialize ImGuiLayer */
         m_ImGuiLayer = new ImGuiLayer;

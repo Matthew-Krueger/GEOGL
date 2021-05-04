@@ -28,6 +28,12 @@
 
 namespace GEOGL{
 
+    void Renderer::init(){
+
+        RenderCommand::init();
+
+    }
+
     Renderer::SceneData* Renderer::m_SceneData = new SceneData;
 
     void Renderer::beginScene(const OrthographicCamera& camera) {

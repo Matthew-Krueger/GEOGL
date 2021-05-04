@@ -36,6 +36,12 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
+    void RendererAPI::init(){
+
+
+
+    }
+
     void RendererAPI::setClearColor(const glm::vec4 &color) {
         m_ClearColor = color;
     }

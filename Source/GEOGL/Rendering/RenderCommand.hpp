@@ -33,6 +33,8 @@ namespace GEOGL{
     class GEOGL_API RenderCommand{
     public:
 
+        inline static void init(){ s_RendererAPI->init(); };
+
         /**
          * Executes a set clear color command
          * @param color

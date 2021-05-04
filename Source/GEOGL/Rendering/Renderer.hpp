@@ -35,6 +35,8 @@ namespace GEOGL{
     class GEOGL_API Renderer{
     public:
 
+        static void init();
+
         /**
          * Sets the clear color
          * @param color

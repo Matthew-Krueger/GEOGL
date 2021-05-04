@@ -197,7 +197,11 @@ namespace Example{
 
 			void main()
 			{
-				color = vec4(texture(u_Texture,v_TextureCoord).rgb, 1.0f);
+                vec4 textureColor = texture(u_Texture,v_TextureCoord);
+                if(textureColor.a < .5){
+                    discard;
+                }
+				color = vec4(textureColor.rgb, 1.0f);
 			}
 		)";
 
@@ -214,7 +218,7 @@ namespace Example{
         {
 
             m_CheckerboardTexture = GEOGL::Texture2D::create("Resources/Textures/Checkerboard.png");
-
+            m_ChernoLogo = GEOGL::Texture2D::create("Resources/Textures/ChernoLogo.png");
         }
 
     }
@@ -253,6 +257,8 @@ namespace Example{
 
         m_CheckerboardTexture->bind(0);
         GEOGL::Renderer::submit(m_TextureShader,m_VertexArraySquare,scaleOne);
+        m_ChernoLogo->bind(0);
+        GEOGL::Renderer::submit(m_TextureShader,m_VertexArraySquare,glm::translate(scaleOne, glm::vec3(.25f,.25f,0.0f)));
 
         GEOGL::Renderer::endScene();
 

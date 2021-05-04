@@ -82,6 +82,8 @@ namespace GEOGL{
 
     public:
 
+        virtual void init() = 0;
+
         virtual ~RendererAPI() = default;
 
         /**
