@@ -38,6 +38,11 @@ namespace GEOGL::Platform::OpenGL{
 
     void RendererAPI::init(){
 
+        GEOGL_CORE_INFO("Initializing the RendererAPI");
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         /* Log GPU information */
         {
             GEOGL_CORE_INFO_NOSTRIP("OpenGL Info:");

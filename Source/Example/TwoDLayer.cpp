@@ -198,10 +198,7 @@ namespace Example{
 			void main()
 			{
                 vec4 textureColor = texture(u_Texture,v_TextureCoord);
-                if(textureColor.a < .5){
-                    discard;
-                }
-				color = textureColor; //vec4(textureColor.rgb, 1.0f);
+				color = textureColor;
 			}
 		)";
 
@@ -258,7 +255,7 @@ namespace Example{
         m_CheckerboardTexture->bind(0);
         GEOGL::Renderer::submit(m_TextureShader,m_VertexArraySquare,scaleOne);
         m_ChernoLogo->bind(0);
-        GEOGL::Renderer::submit(m_TextureShader,m_VertexArraySquare,glm::translate(scaleOne, glm::vec3(.25f,.25f,0.0f)));
+        GEOGL::Renderer::submit(m_TextureShader,m_VertexArraySquare,scaleOne);
 
         GEOGL::Renderer::endScene();
 

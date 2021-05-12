@@ -41,8 +41,8 @@ namespace GEOGL::Platform::OpenGL{
         void addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
         void setIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
 
-        inline const std::vector<Ref<VertexBuffer>>& getVertexBuffers() const { return m_VertexBuffers; };
-        inline const Ref<IndexBuffer>& getIndexBuffer() const { return m_IndexBuffer; } ;
+        inline const std::vector<Ref<VertexBuffer>>& getVertexBuffers() const override{ return m_VertexBuffers; };
+        inline const Ref<IndexBuffer>& getIndexBuffer() const override{ return m_IndexBuffer; } ;
 
     private:
         uint32_t m_RendererID;
