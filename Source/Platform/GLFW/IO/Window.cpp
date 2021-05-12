@@ -106,22 +106,27 @@ namespace GEOGL::Platform::GLFW{
 
                 s_UsedGLAD = true;
 
+                /* Creating the window */
+                m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
+
+                /* Create context */
+                m_GraphicsContext = new GEOGL::Platform::OpenGL::GraphicsContext(m_Window);
+
                 break;
             case RendererAPI::RENDERING_VULKAN_DESKTOP:
 
                 glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
                 glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+
+                /* Creating the window */
+                m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
+
                 break;
             default:
                 GEOGL_CORE_CRITICAL("Error. No valid Graphics API selected. Please select {} for OpenGL in settings.json.", RendererAPI::RENDERING_VULKAN_DESKTOP);
                 exit(1);
 
         }
-        /* Creating the window */
-        m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
-
-        /* Create context */
-        m_GraphicsContext = new GEOGL::Platform::OpenGL::GraphicsContext(m_Window);
         glfwSetWindowUserPointer(m_Window, &m_Data);
         m_Data.graphicsContext = m_GraphicsContext;
 
@@ -139,9 +144,7 @@ namespace GEOGL::Platform::GLFW{
         GEOGL_CORE_INFO("Successfully created window, noting the current window count is {}.", currentWindows);
 
         /* Set glViewport to what we were given */
-        glm::vec2 topLeft(0,0);
-        glm::vec2 dimensions(props.width, props.height);
-        m_GraphicsContext->setViewport(topLeft, dimensions);
+        m_GraphicsContext->setViewport({0,0}, {props.width,props.height});
 
         /* Set up callbacks for GLFW window events */
         {

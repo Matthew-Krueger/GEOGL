@@ -84,7 +84,7 @@ namespace GEOGL{
         m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
 
         /* Initialize Renderer */
-        //Renderer::init();
+        Renderer::init();
 
         /* Initialize ImGuiLayer */
         m_ImGuiLayer = new ImGuiLayer;

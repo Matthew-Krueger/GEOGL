@@ -89,26 +89,21 @@ namespace GEOGL::Platform::OpenGL{
      */
     GraphicsContext::GraphicsContext(GLFWwindow* windowHandle) : m_WindowHandle(windowHandle){
 
+        GEOGL_CORE_INFO("Loading OpenGL Graphics Context using GLAD");
         GEOGL_CORE_ASSERT(windowHandle, "Window Handle cannot be NULL.");
 
         glfwMakeContextCurrent(m_WindowHandle);
 
         /* Check if higher level openGl funcitons have been loaded */
         if(!s_GLADInitialized) {
-            GEOGL_CORE_INFO("Loading higher OpenGL functions with GLAD.");
             int gladStatus = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
             GEOGL_CORE_ASSERT_NOSTRIP(gladStatus, "Failed to load higher OpenGL functions with GLAD.");
 
             /* now, set the debug callback */
             glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-            glDebugMessageCallback(MessageCallback,0);
+            glDebugMessageCallback(MessageCallback,nullptr);
+            s_GLADInitialized = true;
         }
-
-        GEOGL_CORE_INFO_NOSTRIP("OpenGL Info:");
-        GEOGL_CORE_INFO_NOSTRIP("   Vendor: {}", glGetString(GL_VENDOR));
-        GEOGL_CORE_INFO_NOSTRIP("   Renderer: {}", glGetString(GL_RENDERER));
-        GEOGL_CORE_INFO_NOSTRIP("   OpenGL Version: {}.", (const char *)glGetString(GL_VERSION));
-        GEOGL_CORE_INFO_NOSTRIP("   GLSL Version {}.", (const char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     }
 
@@ -116,7 +111,7 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
-    void GraphicsContext::setViewport(const glm::vec2& topLeftCorner, const glm::vec2& dimensions){
+    void GraphicsContext::setViewport(const glm::ivec2& topLeftCorner, const glm::ivec2& dimensions){
         glViewport(topLeftCorner.x, topLeftCorner.y, dimensions.x, dimensions.y);
     }
 

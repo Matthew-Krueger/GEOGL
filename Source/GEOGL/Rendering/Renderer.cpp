@@ -28,16 +28,17 @@
 
 namespace GEOGL{
 
+    Renderer::SceneData* Renderer::m_SceneData = nullptr;
+
     void Renderer::init(){
 
+        m_SceneData = new SceneData;
         RenderCommand::init();
 
     }
-
-    Renderer::SceneData* Renderer::m_SceneData = new SceneData;
-
     void Renderer::beginScene(const OrthographicCamera& camera) {
 
+        GEOGL_CORE_ASSERT(m_SceneData, "Renderer::init not called before Renderer::beginScene");
         m_SceneData->projectionViewMatrix = camera.getProjectionViewMatrix();
 
     }

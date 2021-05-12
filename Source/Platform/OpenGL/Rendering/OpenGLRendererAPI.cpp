@@ -38,7 +38,14 @@ namespace GEOGL::Platform::OpenGL{
 
     void RendererAPI::init(){
 
-
+        /* Log GPU information */
+        {
+            GEOGL_CORE_INFO_NOSTRIP("OpenGL Info:");
+            GEOGL_CORE_INFO_NOSTRIP("   Vendor: {}", glGetString(GL_VENDOR));
+            GEOGL_CORE_INFO_NOSTRIP("   Renderer: {}", glGetString(GL_RENDERER));
+            GEOGL_CORE_INFO_NOSTRIP("   OpenGL Version: {}.", (const char *) glGetString(GL_VERSION));
+            GEOGL_CORE_INFO_NOSTRIP("   GLSL Version {}.", (const char *) glGetString(GL_SHADING_LANGUAGE_VERSION));
+        }
 
     }
 

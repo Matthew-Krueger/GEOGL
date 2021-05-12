@@ -201,7 +201,7 @@ namespace Example{
                 if(textureColor.a < .5){
                     discard;
                 }
-				color = vec4(textureColor.rgb, 1.0f);
+				color = textureColor; //vec4(textureColor.rgb, 1.0f);
 			}
 		)";
 

@@ -58,7 +58,7 @@ namespace GEOGL{
          * @param topLeftCorner The top left corner of the viewport
          * @param dimensions The dimensions of the viewport
          */
-        virtual void setViewport(const glm::vec2& topLeftCorner, const glm::vec2& dimensions) = 0;
+        virtual void setViewport(const glm::ivec2& topLeftCorner, const glm::ivec2& dimensions) = 0;
 
         /**
          * \brief Sets whether or not to run in vSync mode.
