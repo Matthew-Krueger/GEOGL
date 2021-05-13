@@ -103,114 +103,16 @@ namespace Example{
         }
 
         {
-            std::string vertexSrc = R"(
-			#version 330 core
+            m_PerVertexShader = GEOGL::Shader::create("Resources/Shaders/PerVertexColor");
+            m_FlatColorShader = GEOGL::Shader::create("Resources/Shaders/FlatColorShader");
+            m_TextureShader = GEOGL::Shader::create("Resources/Shaders/BasicTexture");
 
-			layout(location = 0) in vec3 a_Position;
-            layout(location = 1) in vec4 a_Color;
-
-            uniform mat4 u_ProjectionViewMatrix;
-            uniform mat4 u_TransformMatrix;
-
-			out vec4 v_Position;
-			void main()
-			{
-				v_Position = a_Color;
-				gl_Position = u_ProjectionViewMatrix * u_TransformMatrix * vec4(a_Position, 1.0);
-			}
-		)";
-
-            std::string fragmentSrc = R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 color;
-			in vec4 v_Position;
-
-			void main()
-			{
-				color = v_Position;
-			}
-		)";
-
-            m_PerVertexShader = GEOGL::Shader::create(vertexSrc, fragmentSrc);
-        }
-
-        {
-            std::string vertexSrc = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-            uniform mat4 u_ProjectionViewMatrix;
-            uniform mat4 u_TransformMatrix;
-
-			void main()
-			{
-				gl_Position = u_ProjectionViewMatrix * u_TransformMatrix * vec4(a_Position, 1.0);
-			}
-		)";
-
-            std::string fragmentSrc = R"(
-			#version 330 core
-
-            uniform vec3 u_Color;
-
-			layout(location = 0) out vec4 color;
-
-			void main()
-			{
-				color = vec4(u_Color,1.0f);
-			}
-		)";
-
-            m_FlatColorShader = GEOGL::Shader::create(vertexSrc, fragmentSrc);
-
-        }
-
-        /* Set up texture shader */
-        {
-            std::string vertexSrc = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-            layout(location = 1) in vec2 a_TextureCoord;
-
-            uniform mat4 u_ProjectionViewMatrix;
-            uniform mat4 u_TransformMatrix;
-
-            out vec2 v_TextureCoord;
-
-			void main()
-			{
-				gl_Position = u_ProjectionViewMatrix * u_TransformMatrix * vec4(a_Position, 1.0);
-			    v_TextureCoord = a_TextureCoord;
-            }
-		)";
-
-            std::string fragmentSrc = R"(
-			#version 330 core
-
-            in vec2 v_TextureCoord;
-
-            uniform sampler2D u_Texture;
-
-			layout(location = 0) out vec4 color;
-
-			void main()
-			{
-                vec4 textureColor = texture(u_Texture,v_TextureCoord);
-				color = textureColor;
-			}
-		)";
-
-            m_TextureShader = GEOGL::Shader::create(vertexSrc, fragmentSrc);
             m_TextureShader->bind();
             std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_TextureShader)->uploadUniformInt("u_Texture", 0);
-
-
         }
 
         /*
-         * Load Texture
+         * Load Textures
          */
         {
 
@@ -248,7 +150,6 @@ namespace Example{
         }
 
         // hide triangle
-        //GEOGL::Renderer::submit(m_PerVertexShader, m_VertexArrayTrianglePerVColor);
         m_TextureShader->bind();
         std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_TextureShader)->uploadUniformFloat3("u_Color", glm::vec3(0.8f,0.8f,0.8f));
 

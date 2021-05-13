@@ -35,6 +35,7 @@ namespace GEOGL::Platform::OpenGL{
     class GEOGL_API Shader : public GEOGL::Shader{
     public:
         Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
+        Shader(const std::string& folderPath);
         ~Shader() override;
 
         void bind() const override;
@@ -53,10 +54,14 @@ namespace GEOGL::Platform::OpenGL{
         void uploadUniformMat3(const char * uniformName, const glm::mat3& matrix);
         void uploadUniformMat4(const char * uniformName, const glm::mat4& matrix);
     private:
-        uint32_t m_RendererID;
-        uint32_t m_VertexID;
-        uint32_t m_FragmentID;
 
+        std::string readFile(const std::string& filePath);
+        std::unordered_map<uint32_t, std::string> preprocess(const std::string& source);
+        void compile(const std::unordered_map<GLenum, std::string>& shaderSources);
+
+    private:
+        uint32_t m_RendererID;
+        std::vector<uint32_t> m_programComponentIDs;
     };
 
 }

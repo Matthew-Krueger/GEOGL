@@ -73,7 +73,7 @@ namespace GEOGL{
 
         /**
          * Creates a shader from source files.
-         * \todo Change from vertexSrc and fragmentSrc to a more robust way. Maybe a struct with some bools describing the data? Just trying to think about vulkan in the future with SPIR-V and how we can impliment it with OpenGL.
+         * \todo Change from vertexSrc and fragmentSrc to a more robust way. Maybe a struct with some bools describing the data? Just trying to think about vulkan in the future with SPIR-V and how we can implement it with OpenGL.
          * \note If the shader source does not compile, there is no mechanism to catch the error.
          * This method will hard crash the program with an exit code of 2.
          *
@@ -82,6 +82,17 @@ namespace GEOGL{
          * @return A shared_ptr of the newly created shader. Ready for use.
          */
         static Ref<Shader> create(const std::string& vertexSrc, const std::string& fragmentSrc);
+
+        /**
+         * Creates a shader from source files stored on the disk
+         * \todo Change from vertexSrc and fragmentSrc to a more robust way. Maybe a struct with some bools describing the data? Just trying to think about vulkan in the future with SPIR-V and how we can impliment it with OpenGL.
+         * \note If the shader source does not compile, there is no mechanism to catch the error.
+         * This method will hard crash the program with an exit code of 2.
+         *
+         * @param folderPath the folder to the shader resources
+         * @return A shared_ptr of the newly created shader. Ready for use.
+         */
+        static Ref<Shader> create(const std::string& folderPath);
 
     protected:
         inline static void setBoundID( uint32_t uuid){s_BoundShaderID = uuid; };

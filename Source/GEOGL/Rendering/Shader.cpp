@@ -88,4 +88,25 @@ namespace GEOGL{
 
 
     }
+
+    Ref<Shader> Shader::create(const std::string& folderPath) {
+
+        const auto renderer = Renderer::getRendererAPI();
+
+        Ref<Shader> result;
+        switch(renderer->getRenderingAPI()){
+            case RendererAPI::RENDERING_OPENGL_DESKTOP:
+#ifdef GEOGL_BUILD_WITH_OPENGL
+                result.reset(new GEOGL::Platform::OpenGL::Shader(folderPath));
+                return result;
+#else
+                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
+#endif
+            default:
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
+                return result;
+        }
+
+
+    }
 }

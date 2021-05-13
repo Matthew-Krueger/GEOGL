@@ -25,8 +25,27 @@
 #include <glad/glad.h>
 #include "OpenGLShader.hpp"
 #include <glm/gtc/type_ptr.hpp>
+#include <fstream>
 
 namespace GEOGL::Platform::OpenGL{
+
+    static GLenum shaderTypeFromString(const std::string& type){
+
+        /* handle windows files. Boo windows */
+        std::string svType = (type.substr(type.size()-1,1) == "\r") ? type.substr(0,type.size()-1) : type;
+
+        if(svType == "vertex") {
+            return GL_VERTEX_SHADER;
+        }
+
+        if(svType == "fragment" || svType == "frag" || svType == "pixel") {
+            return GL_FRAGMENT_SHADER;
+        }
+
+        GEOGL_CORE_ASSERT_NOSTRIP(false, "Unknown shader type {}!", svType);
+        return GL_INVALID_ENUM;
+
+    }
 
     GLenum shaderDataTypeToOpenGLBaseType(enum ShaderDataType type){
         switch(type){
@@ -52,117 +71,35 @@ namespace GEOGL::Platform::OpenGL{
 
     Shader::Shader(const std::string &vertexSrc, const std::string &fragmentSrc) {
 
-        /* Create an empty vertex shader handle */
-        m_VertexID = glCreateShader(GL_VERTEX_SHADER);
+        std::unordered_map<GLenum, std::string> shaderSource;
+        shaderSource[GL_VERTEX_SHADER] = vertexSrc;
+        shaderSource[GL_FRAGMENT_SHADER] = fragmentSrc;
 
-        /* Send the vertex shader source code to GL */
-        const GLchar *source = vertexSrc.c_str();
-        glShaderSource(m_VertexID, 1, &source, 0);
-
-        /* Compile the vertex shader */
-        glCompileShader(m_VertexID);
-
-        GLint isCompiled = 0;
-        glGetShaderiv(m_VertexID, GL_COMPILE_STATUS, &isCompiled);
-        if(isCompiled == GL_FALSE)
-        {
-            GLint maxLength = 0;
-            glGetShaderiv(m_VertexID, GL_INFO_LOG_LENGTH, &maxLength);
-
-            // The maxLength includes the NULL character
-            std::string infoLog;
-            infoLog.resize(maxLength);
-            glGetShaderInfoLog(m_VertexID, maxLength, &maxLength, infoLog.data());
-
-            // We don't need the shader anymore.
-            glDeleteShader(m_VertexID);
-
-            // Use the infoLog as you see fit.
-            GEOGL_CORE_CRITICAL_NOSTRIP("Unable to compile Vertex Shader: {}", infoLog);
-
-            // In this simple m_RenderID, we'll just leave
-            exit(2);
-        }
-
-        /* Create an empty fragment shader handle */
-        m_FragmentID = glCreateShader(GL_FRAGMENT_SHADER);
-
-        /* Send the fragment shader source code to GL */
-        source = (const GLchar *)fragmentSrc.c_str();
-        glShaderSource(m_FragmentID, 1, &source, 0);
-
-        /* Compile the fragment shader */
-        glCompileShader(m_FragmentID);
-
-        /* Ensure it compiles */
-        glGetShaderiv(m_FragmentID, GL_COMPILE_STATUS, &isCompiled);
-        if (isCompiled == GL_FALSE){
-            GLint maxLength = 0;
-            glGetShaderiv(m_FragmentID, GL_INFO_LOG_LENGTH, &maxLength);
-
-            /* The maxLength includes the NULL character */
-            std::string infoLog;
-            infoLog.resize(maxLength);
-            glGetShaderInfoLog(m_FragmentID, maxLength, &maxLength, infoLog.data());
-
-            /* We don't need the shader anymore. */
-            glDeleteShader(m_FragmentID);
-            glDeleteShader(m_VertexID);
-
-            /* Log compile error */
-            GEOGL_CORE_CRITICAL_NOSTRIP("Unable to compile Fragment Shader: {}", infoLog);
-
-            exit(2);
-        }
-
-        /* Vertex and fragment shaders are successfully compiled.
-         * Now time to link them together into a m_RenderID.
-         * Get a m_RenderID object. */
-        m_RendererID = glCreateProgram();
-
-        /* Attach our shaders to our m_RenderID */
-        glAttachShader(m_RendererID, m_VertexID);
-        glAttachShader(m_RendererID, m_FragmentID);
-
-        /* Link our m_RenderID */
-        glLinkProgram(m_RendererID);
-
-        /* Note the different functions here: glGetProgram* instead of glGetShader* */
-        GLint isLinked = 0;
-        glGetProgramiv(m_RendererID, GL_LINK_STATUS, (int *)&isLinked);
-        if (isLinked == GL_FALSE){
-            GLint maxLength = 0;
-            glGetProgramiv(m_RendererID, GL_INFO_LOG_LENGTH, &maxLength);
-
-            /* The maxLength includes the NULL character */
-            std::string infoLog;
-            infoLog.resize(maxLength);
-            glGetProgramInfoLog(m_RendererID, maxLength, &maxLength, infoLog.data());
-
-            /* We don't need the m_RenderID anymore. */
-            glDeleteProgram(m_RendererID);
-            glDeleteShader(m_RendererID);
-            glDeleteShader(m_FragmentID);
-
-            GEOGL_CORE_CRITICAL_NOSTRIP("Unable to Link Vertex and Fragment shaders: {}", infoLog);
-
-            exit(2);
-
-        }
-
-        /* Always detach shaders after a successful link. */
-        glDetachShader(m_RendererID, m_VertexID);
-        glDetachShader(m_RendererID, m_FragmentID);
+        compile(shaderSource);
 
     }
 
+    Shader::Shader(const std::string& folderPath){
+
+        std::string fileToLoad = folderPath+"/shader.glsl";
+        GEOGL_CORE_INFO("Loading shader {}", fileToLoad);
+        std::string source = readFile(fileToLoad);
+
+        auto shaderSources = preprocess(source);
+
+        compile(shaderSources);
+
+    }
+
+
     Shader::~Shader() {
 
-        glDetachShader(m_RendererID, m_VertexID);
-        glDetachShader(m_RendererID, m_FragmentID);
-
-        glDeleteShader(m_VertexID);
-        glDeleteShader(m_FragmentID);
+        for(auto& kv : m_programComponentIDs){
+            glDetachShader(m_RendererID, kv);
+        }
+        for(auto& kv : m_programComponentIDs){
+            glDeleteShader(kv);
+        }
 
         glDeleteProgram(m_RendererID);
 
@@ -283,6 +220,161 @@ namespace GEOGL::Platform::OpenGL{
 
         /* now, upload the data */
         glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
+
+    }
+
+    std::string Shader::readFile(const std::string& filePath){
+
+        std::string result;
+        std::ifstream in(filePath, std::ios::binary);
+        GEOGL_CORE_ASSERT(in, "Could not open shader file {}", filePath);
+        if(!in){
+            GEOGL_CORE_ERROR_NOSTRIP("Could not find shader {}", filePath);
+            return "";
+        }
+
+        in.seekg(0, std::ios::end);
+        result.resize(in.tellg());
+        in.seekg(0, std::ios::beg);
+        in.read(&result[0], (std::streamsize)result.size());
+        in.close();
+
+        return result;
+
+    }
+
+    std::unordered_map<uint32_t, std::string> Shader::preprocess(const std::string& source){
+
+        std::unordered_map<uint32_t, std::string> shaderSources;
+
+        const char* typeToken = "#type";
+        size_t typeTokenLength = strlen(typeToken);
+        size_t pos = source.find(typeToken, 0);
+        while(pos != std::string::npos){
+            size_t eol = source.find_first_of('\n', pos);
+            GEOGL_CORE_ASSERT_NOSTRIP(eol != std::string::npos, "Syntax error parsing shader source!");
+            size_t begin = pos + typeTokenLength + 1;
+            std::string type = source.substr(begin, eol-begin);
+            GEOGL_CORE_ASSERT_NOSTRIP(shaderTypeFromString(type) != GL_INVALID_ENUM, "Invalid shader type specification {}", type);
+
+            size_t nextLinePos = source.find_first_not_of('\n', eol);
+            pos = source.find(typeToken, nextLinePos);
+            shaderSources[shaderTypeFromString(type)] = source.substr(nextLinePos, pos - (nextLinePos == std::string::npos ? source.size() -1 : nextLinePos));
+        }
+
+        /* Default shader, really flipping obnoxious */
+        if(shaderSources.find(GL_FRAGMENT_SHADER) == shaderSources.end()){
+            shaderSources[GL_FRAGMENT_SHADER] = R"(
+#version 330 core
+
+layout(location = 0) out vec4 color;
+
+void main()
+{
+    color = vec4(1.0f,0.0f,0.5f,1.0f);
+}
+
+)";
+        }
+
+        /* Default shader, really flipping obnoxious */
+        if(shaderSources.find(GL_VERTEX_SHADER) == shaderSources.end()){
+            shaderSources[GL_VERTEX_SHADER] = R"(
+#version 330 core
+
+layout(location = 0) in vec3 a_Position;
+
+void main()
+{
+    gl_Position = vec4(a_Position.xyz,1.0f);
+}
+
+)";
+        }
+
+
+        return shaderSources;
+
+    }
+
+    void Shader::compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
+
+        /* create a program */
+        GLuint programID = glCreateProgram();
+        m_programComponentIDs.resize(shaderSources.size());
+
+        for(auto& kv: shaderSources){
+            GLenum type = kv.first;
+            const std::string& source = kv.second;
+
+            GLuint shaderID = glCreateShader(type);
+
+            /* Send the vertex shader source code to GL */
+            const GLchar* sourceCstr = source.c_str();
+            glShaderSource(shaderID, 1, &sourceCstr, nullptr);
+
+            /* Compile the vertex shader */
+            glCompileShader(shaderID);
+
+            GLint isCompiled = 0;
+            glGetShaderiv(shaderID, GL_COMPILE_STATUS, &isCompiled);
+            if(isCompiled == GL_FALSE){
+                GLint maxLength = 0;
+                glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
+
+                // The maxLength includes the NULL character
+                std::string infoLog;
+                infoLog.resize(maxLength);
+                glGetShaderInfoLog(shaderID, maxLength, &maxLength, infoLog.data());
+
+                // We don't need the shader anymore.
+                glDeleteShader(shaderID);
+                for(auto& kv : m_programComponentIDs){
+                    glDeleteShader(kv);
+                }
+
+                // Use the infoLog as you see fit.
+                GEOGL_CORE_ASSERT(false, "Unable to compile Shader: {}", infoLog);
+            }
+
+            m_programComponentIDs.push_back(shaderID);
+
+            /* Attach our shaders to our m_RenderID */
+            glAttachShader(programID, shaderID);
+
+        }
+
+        /* Link our m_RenderID */
+        glLinkProgram(programID);
+
+        /* Note the different functions here: glGetProgram* instead of glGetShader* */
+        GLint isLinked = 0;
+        glGetProgramiv(programID, GL_LINK_STATUS, (int *)&isLinked);
+        if (isLinked == GL_FALSE){
+            GLint maxLength = 0;
+            glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &maxLength);
+
+            /* The maxLength includes the NULL character */
+            std::string infoLog;
+            infoLog.resize(maxLength);
+            glGetProgramInfoLog(programID, maxLength, &maxLength, infoLog.data());
+
+            /* We don't need the m_RenderID anymore. */
+            glDeleteProgram(programID);
+            for(auto& kv : m_programComponentIDs){
+                glDeleteShader(kv);
+            }
+
+            GEOGL_CORE_ASSERT(false, "Unable to Link shaders: {}", infoLog);
+            return;
+
+        }
+
+        m_RendererID = programID;
+
+        for(auto shaderID:m_programComponentIDs){
+            glDetachShader(m_RendererID,shaderID);
+        }
 
     }
 
