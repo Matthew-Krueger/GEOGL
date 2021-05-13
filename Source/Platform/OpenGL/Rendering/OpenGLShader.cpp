@@ -24,7 +24,9 @@
 
 #include <glad/glad.h>
 #include "OpenGLShader.hpp"
+#include <array>
 #include <glm/gtc/type_ptr.hpp>
+
 #include <fstream>
 
 namespace GEOGL::Platform::OpenGL{
@@ -94,10 +96,10 @@ namespace GEOGL::Platform::OpenGL{
 
     Shader::~Shader() {
 
-        for(auto& kv : m_programComponentIDs){
+        for(auto& kv : shaderIDs){
             glDetachShader(m_RendererID, kv);
         }
-        for(auto& kv : m_programComponentIDs){
+        for(auto& kv : shaderIDs){
             glDeleteShader(kv);
         }
 
@@ -226,7 +228,7 @@ namespace GEOGL::Platform::OpenGL{
     std::string Shader::readFile(const std::string& filePath){
 
         std::string result;
-        std::ifstream in(filePath, std::ios::binary);
+        std::ifstream in(filePath, std::ios::in | std::ios::binary);
         GEOGL_CORE_ASSERT(in, "Could not open shader file {}", filePath);
         if(!in){
             GEOGL_CORE_ERROR_NOSTRIP("Could not find shader {}", filePath);
@@ -301,8 +303,9 @@ void main()
 
         /* create a program */
         GLuint programID = glCreateProgram();
-        m_programComponentIDs.resize(shaderSources.size());
 
+        GEOGL_CORE_ASSERT(shaderSources.size() <=2, "We only support 4 shader components at a time!");
+        uint32_t glShaderIDIndex = 0;
         for(auto& kv: shaderSources){
             GLenum type = kv.first;
             const std::string& source = kv.second;
@@ -329,15 +332,15 @@ void main()
 
                 // We don't need the shader anymore.
                 glDeleteShader(shaderID);
-                for(auto& kv : m_programComponentIDs){
-                    glDeleteShader(kv);
+                for(auto& toDelete : shaderIDs){
+                    glDeleteShader(toDelete);
                 }
 
                 // Use the infoLog as you see fit.
                 GEOGL_CORE_ASSERT(false, "Unable to compile Shader: {}", infoLog);
             }
 
-            m_programComponentIDs.push_back(shaderID);
+            shaderIDs[glShaderIDIndex++] = shaderID;
 
             /* Attach our shaders to our m_RenderID */
             glAttachShader(programID, shaderID);
@@ -361,7 +364,7 @@ void main()
 
             /* We don't need the m_RenderID anymore. */
             glDeleteProgram(programID);
-            for(auto& kv : m_programComponentIDs){
+            for(auto& kv : shaderIDs){
                 glDeleteShader(kv);
             }
 
@@ -372,7 +375,7 @@ void main()
 
         m_RendererID = programID;
 
-        for(auto shaderID:m_programComponentIDs){
+        for(auto shaderID:shaderIDs){
             glDetachShader(m_RendererID,shaderID);
         }
 

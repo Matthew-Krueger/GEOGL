@@ -61,7 +61,7 @@ namespace GEOGL::Platform::OpenGL{
 
     private:
         uint32_t m_RendererID;
-        std::vector<uint32_t> m_programComponentIDs;
+        std::array<uint32_t, 4> shaderIDs{};
     };
 
 }
