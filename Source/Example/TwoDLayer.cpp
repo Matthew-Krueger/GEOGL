@@ -103,12 +103,14 @@ namespace Example{
         }
 
         {
-            m_PerVertexShader = GEOGL::Shader::create("Resources/Shaders/PerVertexColor");
-            m_FlatColorShader = GEOGL::Shader::create("Resources/Shaders/FlatColorShader");
-            m_TextureShader = GEOGL::Shader::create("Resources/Shaders/BasicTexture");
 
-            m_TextureShader->bind();
-            std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_TextureShader)->uploadUniformInt("u_Texture", 0);
+            m_ShaderLibrary.load("Resources/Shaders/PerVertexColor");
+            m_ShaderLibrary.load("Resources/Shaders/FlatColor");
+            m_ShaderLibrary.load("Resources/Shaders/BasicTexture");
+
+            auto textureShader = m_ShaderLibrary.get("BasicTexture");
+            textureShader->bind();
+            std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(textureShader)->uploadUniformInt("u_Texture", 0);
         }
 
         /*
@@ -134,29 +136,35 @@ namespace Example{
 
     void TwoDLayer::onUpdate(GEOGL::TimeStep timeStep) {
 
+        /* get needed shaders */
+        auto FlatColorShader = m_ShaderLibrary.get("FlatColor");
+        auto BasicTextureShader = m_ShaderLibrary.get("BasicTexture");
+
         pollCameraMovement(timeStep);
 
         GEOGL::Renderer::beginScene(m_Camera);
 
-        m_FlatColorShader->bind();
-        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_FlatColorShader)->uploadUniformFloat3("u_Color", m_SquareColor);
+        /* Upload flat color shader color */
+        {
+            FlatColorShader->bind();
+            std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(FlatColorShader)->uploadUniformFloat3("u_Color", m_SquareColor);
+        }
 
         for(unsigned int i=0; i<20; ++i){
             for(unsigned int j=0; j<20; ++j) {
                 glm::vec3 pos((j * .11f)-1, (i * .11f)-1, 0.0f);
                 glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * m_Scalepointoneone;
-                GEOGL::Renderer::submit(m_FlatColorShader, m_VertexArraySquare, transform);
+                GEOGL::Renderer::submit(FlatColorShader, m_VertexArraySquare, transform);
             }
         }
 
-        // hide triangle
-        m_TextureShader->bind();
-        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_TextureShader)->uploadUniformFloat3("u_Color", glm::vec3(0.8f,0.8f,0.8f));
-
+        /* Render the checkerboard */
         m_CheckerboardTexture->bind(0);
-        GEOGL::Renderer::submit(m_TextureShader,m_VertexArraySquare,scaleOne);
+        GEOGL::Renderer::submit(BasicTextureShader,m_VertexArraySquare,scaleOne);
+
+        /* Render the cherno logo. Credit to TheCherno */
         m_ChernoLogo->bind(0);
-        GEOGL::Renderer::submit(m_TextureShader,m_VertexArraySquare,scaleOne);
+        GEOGL::Renderer::submit(BasicTextureShader,m_VertexArraySquare,scaleOne);
 
         GEOGL::Renderer::endScene();
 

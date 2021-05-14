@@ -28,6 +28,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <fstream>
+#include <utility>
 
 namespace GEOGL::Platform::OpenGL{
 
@@ -71,7 +72,7 @@ namespace GEOGL::Platform::OpenGL{
         }
     }
 
-    Shader::Shader(const std::string &vertexSrc, const std::string &fragmentSrc) {
+    Shader::Shader(const std::string &vertexSrc, const std::string &fragmentSrc, std::string name) : m_Name(std::move(name)){
 
         std::unordered_map<GLenum, std::string> shaderSource;
         shaderSource[GL_VERTEX_SHADER] = vertexSrc;
@@ -90,6 +91,13 @@ namespace GEOGL::Platform::OpenGL{
         auto shaderSources = preprocess(source);
 
         compile(shaderSources);
+
+        /* Get the name from the folder path */
+        auto lastSlash = folderPath.find_last_of("/\\");
+        lastSlash = lastSlash == std::string::npos ? 0 : lastSlash +1;
+        auto count = folderPath.size() - lastSlash;
+
+        m_Name = folderPath.substr(lastSlash, count);
 
     }
 
@@ -380,5 +388,6 @@ void main()
         }
 
     }
+
 
 }

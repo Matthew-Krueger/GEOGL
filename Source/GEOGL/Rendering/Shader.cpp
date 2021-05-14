@@ -24,6 +24,8 @@
 
 
 #include <glad/glad.h>
+
+#include <memory>
 #include "Shader.hpp"
 #include "RendererAPI.hpp"
 #include "../Application/Application.hpp"
@@ -68,7 +70,7 @@ namespace GEOGL{
         }
     }
 
-    Ref<Shader> Shader::create(const std::string &vertexSrc, const std::string &fragmentSrc) {
+    Ref<Shader> Shader::create(const std::string &vertexSrc, const std::string &fragmentSrc, const std::string& name) {
 
         const auto renderer = Renderer::getRendererAPI();
 
@@ -76,7 +78,7 @@ namespace GEOGL{
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL
-            result.reset(new GEOGL::Platform::OpenGL::Shader(vertexSrc, fragmentSrc));
+            result = std::make_shared<GEOGL::Platform::OpenGL::Shader>(vertexSrc, fragmentSrc, name);
             return result;
 #else
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
@@ -97,7 +99,7 @@ namespace GEOGL{
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL
-                result.reset(new GEOGL::Platform::OpenGL::Shader(folderPath));
+                result = std::make_shared<GEOGL::Platform::OpenGL::Shader>(folderPath);
                 return result;
 #else
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
@@ -109,4 +111,41 @@ namespace GEOGL{
 
 
     }
+
+    void ShaderLibrary::add(const Ref <Shader> &shader) {
+
+        auto& name = shader->getName();
+        add(name, shader);
+
+    }
+
+    void ShaderLibrary::add(const std::string &customName, const Ref <Shader> &shader) {
+
+        GEOGL_CORE_ASSERT(m_Shaders.find(customName) == m_Shaders.end(), "Shader {} is already in the library!", customName);
+        m_Shaders[customName] = shader;
+
+    }
+
+    Ref<Shader> ShaderLibrary::load(const std::string &folderPath) {
+
+        auto shader = Shader::create(folderPath);
+        add(shader);
+        return shader;
+
+    }
+
+    Ref <Shader> ShaderLibrary::load(const std::string &name, const std::string &folderPath) {
+        return GEOGL::Ref<Shader>();
+    }
+
+    Ref <Shader> ShaderLibrary::get(const std::string &name) {
+
+        bool found = m_Shaders.find(name) != m_Shaders.end();
+        GEOGL_CORE_ASSERT(found, "Shader {} is not in the library!", name);
+        if(found)
+            return m_Shaders[name];
+        return nullptr; /* Return nullptr if not found. Should crash */
+
+    }
+
 }

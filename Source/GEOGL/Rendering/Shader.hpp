@@ -60,9 +60,6 @@ namespace GEOGL{
     public:
         virtual ~Shader() =default;
 
-        /**
-         * \brief Binds a shader to be used.
-         */
         virtual void bind() const = 0;
 
         /**
@@ -71,17 +68,20 @@ namespace GEOGL{
          */
         virtual void unbind() const = 0;
 
+        virtual const std::string& getName() const = 0;
+
         /**
          * Creates a shader from source files.
          * \todo Change from vertexSrc and fragmentSrc to a more robust way. Maybe a struct with some bools describing the data? Just trying to think about vulkan in the future with SPIR-V and how we can implement it with OpenGL.
          * \note If the shader source does not compile, there is no mechanism to catch the error.
          * This method will hard crash the program with an exit code of 2.
          *
+         * @param name The Shader's name
          * @param vertexSrc The literal source for the vertex shader
          * @param fragmentSrc The literal source for the fragment shader
          * @return A shared_ptr of the newly created shader. Ready for use.
          */
-        static Ref<Shader> create(const std::string& vertexSrc, const std::string& fragmentSrc);
+        static Ref<Shader> create(const std::string& vertexSrc, const std::string& fragmentSrc, const std::string& name);
 
         /**
          * Creates a shader from source files stored on the disk
@@ -100,6 +100,21 @@ namespace GEOGL{
 
     private:
         static uint32_t s_BoundShaderID;
+    };
+
+    class ShaderLibrary{
+
+    public:
+        void add(const std::string& customName, const Ref<Shader>& shader);
+        void add(const Ref<Shader>& shader);
+        Ref<Shader> load(const std::string& folderPath);
+        Ref<Shader> load(const std::string& name, const std::string& folderPath);
+
+        Ref<Shader> get (const std::string& name);
+
+    private:
+        std::unordered_map<std::string, Ref<Shader>> m_Shaders{};
+
     };
 
 }

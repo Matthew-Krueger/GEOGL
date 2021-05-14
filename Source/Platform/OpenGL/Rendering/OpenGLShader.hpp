@@ -34,12 +34,14 @@ namespace GEOGL::Platform::OpenGL{
 
     class GEOGL_API Shader : public GEOGL::Shader{
     public:
-        Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
+        Shader(const std::string& vertexSrc, const std::string& fragmentSrc, std::string  name);
         Shader(const std::string& folderPath);
         ~Shader() override;
 
         void bind() const override;
         void unbind() const override;
+
+        const std::string & getName() const override {return m_Name;};
 
         void uploadUniformInt(const char * uniformName, int value);
         void uploadUniformInt2(const char * uniformName, const glm::ivec2& vector);
@@ -62,6 +64,7 @@ namespace GEOGL::Platform::OpenGL{
     private:
         uint32_t m_RendererID;
         std::array<uint32_t, 4> shaderIDs{};
+        std::string m_Name;
     };
 
 }

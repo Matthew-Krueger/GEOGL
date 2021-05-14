@@ -50,8 +50,7 @@ namespace Example{
         GEOGL::Ref<GEOGL::VertexArray> m_VertexArrayTrianglePerVColor;
         GEOGL::Ref<GEOGL::VertexArray> m_VertexArraySquare;
 
-        GEOGL::Ref<GEOGL::Shader> m_PerVertexShader;
-        GEOGL::Ref<GEOGL::Shader> m_FlatColorShader, m_TextureShader;
+        GEOGL::ShaderLibrary m_ShaderLibrary;
 
         /* The cherno logo is from the cherno game engine series. Copyright belongs with him */
         GEOGL::Ref<GEOGL::Texture2D> m_CheckerboardTexture, m_ChernoLogo;
