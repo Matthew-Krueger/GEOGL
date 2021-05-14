@@ -9,7 +9,7 @@ addons:
     packages:
       - g++
       - cmake
-      - clang
+      - clang-10
       - doxygen
       - graphviz
       - libx11-dev
