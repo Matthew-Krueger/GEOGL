@@ -6,15 +6,12 @@ os: linux
 dist: focal
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
     packages:
       - g++
       - cmake
       - clang
       - doxygen
       - graphviz
-      - snap
       - libx11-dev
       - libxrandr-dev
       - libxinerama-dev
