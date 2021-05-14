@@ -22,40 +22,46 @@
  *                                                                             *
  *******************************************************************************/
 
+#include "VulkanRendererAPI.hpp"
 
-#include "Renderer.hpp"
+namespace GEOGL::Platform::Vulkan{
 
 
-#if GEOGL_BUILD_WITH_OPENGL == 1
-#include "../../Platform/OpenGL/Rendering/OpenGLShader.hpp"
-#endif
-
-namespace GEOGL{
-
-    Renderer::SceneData* Renderer::m_SceneData = nullptr;
-
-    void Renderer::init(){
-
-        m_SceneData = new SceneData;
-        RenderCommand::init();
-
-    }
-    void Renderer::beginScene(const OrthographicCamera& camera) {
-
-        GEOGL_CORE_ASSERT(m_SceneData, "Renderer::init not called before Renderer::beginScene");
-        m_SceneData->projectionViewMatrix = camera.getProjectionViewMatrix();
+    /* Since this is the OpenGL Rendering api, we know the api is OpenGL */
+    RendererAPI::RendererAPI() : GEOGL::RendererAPI(RENDERING_VULKAN_DESKTOP){
 
     }
 
-    void Renderer::endScene() {
+    RendererAPI::~RendererAPI() {
 
     }
 
-    void Renderer::submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,  const glm::mat4& transform) {
-        shader->bind();
-        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(shader)->uploadUniformMat4("u_ProjectionViewMatrix", m_SceneData->projectionViewMatrix);
-        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(shader)->uploadUniformMat4("u_TransformMatrix", transform);
-        vertexArray->bind();
-        RenderCommand::drawIndexed(vertexArray);
+    void RendererAPI::init(){
+
+        GEOGL_CORE_INFO("Initializing the RendererAPI");
+
+        /* Enable blending */
+
+        /* Log GPU information */
+
+    }
+
+    void RendererAPI::setClearColor(const glm::vec4 &color) {
+        m_ClearColor = color;
+    }
+
+    void RendererAPI::clear() {
+
+        GEOGL_CORE_INFO("Clearing Frame!");
+
+    }
+
+    void RendererAPI::drawIndexed(const Ref<VertexArray> &vertexArray) {
+
+        /* Issue a draw call for indexed */
+        /* glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr); */
+        GEOGL_CORE_INFO("Issuing a draw call!");
+
     }
 }
+

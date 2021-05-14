@@ -24,7 +24,16 @@
 
 
 #include "RendererAPI.hpp"
+
+#include <memory>
+
+#if GEOGL_BUILD_WITH_OPENGL == 1
 #include "../../Platform/OpenGL/Rendering/OpenGLRendererAPI.hpp"
+#endif
+
+#if GEOGL_BUILD_WITH_VULKAN == 1
+#include "../../Platform/Vulkan/Rendering/VulkanRendererAPI.hpp"
+#endif
 
 namespace GEOGL{
 
@@ -103,15 +112,27 @@ namespace GEOGL{
 
         Ref<RendererAPI> result;
         switch(api){
+
             case RendererAPI::RenderingAPIEnum::RENDERING_OPENGL_DESKTOP:
-#ifdef GEOGL_BUILD_WITH_OPENGL
-                result.reset(new GEOGL::Platform::OpenGL::RendererAPI());
+#if GEOGL_BUILD_WITH_OPENGL == 1
+                result = std::make_shared<GEOGL::Platform::OpenGL::RendererAPI>();
                 return result;
 #else
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
 #endif
+
+
+            case RendererAPI::RenderingAPIEnum::RENDERING_VULKAN_DESKTOP:
+#if GEOGL_BUILD_WITH_VULKAN == 1
+                result = std::make_shared<GEOGL::Platform::Vulkan::RendererAPI>();
+                return result;
+#else
+                GEOGL_CORE_CRITICAL("Platform Vulkan Selected but not supported!");
+#endif
+
+
             default:
-                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(api));
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} Rendering API. Unhandled path.", RendererAPI::getRenderingAPIName(api));
                 return nullptr;
         }
 

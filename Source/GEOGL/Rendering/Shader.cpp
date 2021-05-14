@@ -29,11 +29,10 @@
 #include "Shader.hpp"
 #include "RendererAPI.hpp"
 #include "../Application/Application.hpp"
-
-#ifdef GEOGL_BUILD_WITH_OPENGL
-#include "../../Platform/OpenGL/Rendering/OpenGLShader.hpp"
 #include "Renderer.hpp"
 
+#if GEOGL_BUILD_WITH_OPENGL == 1
+#include "../../Platform/OpenGL/Rendering/OpenGLShader.hpp"
 #endif
 
 namespace GEOGL{
@@ -77,7 +76,7 @@ namespace GEOGL{
         Ref<Shader> result;
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
-#ifdef GEOGL_BUILD_WITH_OPENGL
+#if GEOGL_BUILD_WITH_OPENGL == 1
             result = std::make_shared<GEOGL::Platform::OpenGL::Shader>(vertexSrc, fragmentSrc, name);
             return result;
 #else
@@ -98,7 +97,7 @@ namespace GEOGL{
         Ref<Shader> result;
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
-#ifdef GEOGL_BUILD_WITH_OPENGL
+#if GEOGL_BUILD_WITH_OPENGL == 1
                 result = std::make_shared<GEOGL::Platform::OpenGL::Shader>(folderPath);
                 return result;
 #else

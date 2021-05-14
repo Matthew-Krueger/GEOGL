@@ -23,39 +23,40 @@
  *******************************************************************************/
 
 
-#include "Renderer.hpp"
+#ifndef GEOGL_VULKANRENDERERAPI_HPP
+#define GEOGL_VULKANRENDERERAPI_HPP
+
+#include "../../../GEOGL/Rendering/RendererAPI.hpp"
+
+namespace GEOGL::Platform::Vulkan{
+
+    /**
+     * \brief Describes an Vulkan RendererAPI.
+     */
+    class GEOGL_API RendererAPI : public GEOGL::RendererAPI{
+    public:
+        /**
+         * Constructs a RendererAPI with the specified RenderingAPIEnum. The implementation is free to ignore this however.
+         * @param preferredAPI The preferred api to use for rendering
+         */
+        RendererAPI();
+        virtual ~RendererAPI();
+
+        void init() override;
+
+        void setClearColor(const glm::vec4& color) override;
+        void clear() override;
+
+        virtual void drawIndexed(const Ref<VertexArray>& vertexArray) override;
+
+    private:
+        glm::vec4 m_ClearColor;
 
 
-#if GEOGL_BUILD_WITH_OPENGL == 1
-#include "../../Platform/OpenGL/Rendering/OpenGLShader.hpp"
-#endif
+    };
 
-namespace GEOGL{
 
-    Renderer::SceneData* Renderer::m_SceneData = nullptr;
-
-    void Renderer::init(){
-
-        m_SceneData = new SceneData;
-        RenderCommand::init();
-
-    }
-    void Renderer::beginScene(const OrthographicCamera& camera) {
-
-        GEOGL_CORE_ASSERT(m_SceneData, "Renderer::init not called before Renderer::beginScene");
-        m_SceneData->projectionViewMatrix = camera.getProjectionViewMatrix();
-
-    }
-
-    void Renderer::endScene() {
-
-    }
-
-    void Renderer::submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,  const glm::mat4& transform) {
-        shader->bind();
-        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(shader)->uploadUniformMat4("u_ProjectionViewMatrix", m_SceneData->projectionViewMatrix);
-        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(shader)->uploadUniformMat4("u_TransformMatrix", transform);
-        vertexArray->bind();
-        RenderCommand::drawIndexed(vertexArray);
-    }
 }
+
+
+#endif //GEOGL_VULKANRENDERERAPI_HPP

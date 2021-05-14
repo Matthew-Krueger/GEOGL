@@ -26,7 +26,32 @@
 #ifndef GEOGL_VULKANGRAPHICSCONTEXT_HPP
 #define GEOGL_VULKANGRAPHICSCONTEXT_HPP
 
+#include "../../../GEOGL/Rendering/GraphicsContext.hpp"
 
+struct GLFWwindow;
+
+namespace GEOGL::Platform::Vulkan{
+
+    /**
+     * \brief Implements the Graphics context for OpenGL
+     */
+    class GEOGL_API GraphicsContext : public GEOGL::GraphicsContext{
+    public:
+        explicit GraphicsContext(GLFWwindow* windowHandle);
+        ~GraphicsContext() override;
+
+        void clearColor() override;
+
+        void setViewport(const glm::ivec2& topLeftCorner, const glm::ivec2& dimensions) override;
+        void setVSync(bool* vSyncStatus) override;
+        void swapBuffers() override;
+
+    private:
+        GLFWwindow* m_WindowHandle;
+
+    };
+
+}
 
 
 #endif //GEOGL_VULKANGRAPHICSCONTEXT_HPP

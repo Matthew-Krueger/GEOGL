@@ -141,7 +141,7 @@ namespace GEOGL::Platform::GLFW{
              */
             EventCallbackFn EventCallback;
 
-            GEOGL::Platform::OpenGL::GraphicsContext* graphicsContext;
+            GEOGL::GraphicsContext* graphicsContext;
         };
 
         /**
@@ -149,7 +149,7 @@ namespace GEOGL::Platform::GLFW{
          */
         WindowData m_Data;
 
-        GEOGL::Platform::OpenGL::GraphicsContext* m_GraphicsContext;
+        GEOGL::GraphicsContext* m_GraphicsContext;
 
     };
 

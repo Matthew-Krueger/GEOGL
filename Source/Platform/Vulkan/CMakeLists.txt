@@ -71,7 +71,7 @@ endif()
 #         Add Vulkan Library         #
 ######################################
 add_library(GEOGL_Platform_Vulkan ${GEOGL_LIBRARY_TYPE}
-        Rendering/VulkanGraphicsContext.cpp Rendering/VulkanGraphicsContext.hpp)
+        Rendering/VulkanGraphicsContext.cpp Rendering/VulkanGraphicsContext.hpp Rendering/VulkanRendererAPI.cpp Rendering/VulkanRendererAPI.hpp)
 
 ######################################
 #     Set name for use elsewhere     #

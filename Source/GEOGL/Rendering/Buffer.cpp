@@ -23,12 +23,15 @@
  *******************************************************************************/
 
 #include "Buffer.hpp"
+
+#include <memory>
 #include "../Application/Application.hpp"
-#ifdef GEOGL_BUILD_WITH_OPENGL
-#include "../../Platform/OpenGL/Rendering/OpenGLBuffer.hpp"
+
 #include "RendererAPI.hpp"
 #include "Renderer.hpp"
 
+#if GEOGL_BUILD_WITH_OPENGL == 1
+#include "../../Platform/OpenGL/Rendering/OpenGLBuffer.hpp"
 #endif
 
 namespace GEOGL{
@@ -81,8 +84,8 @@ namespace GEOGL{
         Ref<VertexBuffer> result;
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
-#ifdef GEOGL_BUILD_WITH_OPENGL
-                result.reset(new GEOGL::Platform::OpenGL::VertexBuffer(vertices));
+#if GEOGL_BUILD_WITH_OPENGL == 1
+                result = std::make_shared<GEOGL::Platform::OpenGL::VertexBuffer>(vertices);
                 return result;
 #else
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");

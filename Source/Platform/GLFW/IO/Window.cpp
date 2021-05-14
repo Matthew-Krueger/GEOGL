@@ -39,12 +39,18 @@
 #include "Input.hpp"
 #include "KeyCodes.hpp"
 
-#include "../../OpenGL/Rendering/OpenGLGraphicsContext.hpp"
 #include "../../../GEOGL/Rendering/Renderer.hpp"
 #include "../../../GEOGL/IO/Events/ApplicationEvent.hpp"
 #include "../../../GEOGL/IO/Events/KeyEvent.hpp"
 #include "../../../GEOGL/IO/Events/MouseEvent.hpp"
 
+#if GEOGL_BUILD_WITH_OPENGL == 1
+#include "../../OpenGL/Rendering/OpenGLGraphicsContext.hpp"
+#endif
+
+#if GEOGL_BUILD_WITH_VULKAN == 1
+#include "../../Vulkan/Rendering/VulkanGraphicsContext.hpp"
+#endif
 namespace GEOGL::Platform::GLFW{
 
     static uint8_t currentWindows = 0;
@@ -89,7 +95,8 @@ namespace GEOGL::Platform::GLFW{
             GEOGL_CORE_CRITICAL("Vulkan selected but not supported.");
             exit(1);
         }
-        if(!((renderingAPI == RendererAPI::RENDERING_OPENGL_DESKTOP) && (GEOGL_BUILD_WITH_OPENGL))){
+        if(renderingAPI == RendererAPI::RENDERING_OPENGL_DESKTOP)
+        if(!(GEOGL_BUILD_WITH_OPENGL)){
             GEOGL_CORE_CRITICAL("OpenGL selected but not supported.");
             exit(1);
         }
@@ -120,6 +127,8 @@ namespace GEOGL::Platform::GLFW{
 
                 /* Creating the window */
                 m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
+
+                m_GraphicsContext = new GEOGL::Platform::Vulkan::GraphicsContext(m_Window);
 
                 break;
             default:

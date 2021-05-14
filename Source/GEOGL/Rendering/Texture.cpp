@@ -24,8 +24,13 @@
 
 
 #include "Texture.hpp"
+
+#include <memory>
 #include "Renderer.hpp"
+
+#if GEOGL_BUILD_WITH_OPENGL == 1
 #include "../../Platform/OpenGL/Rendering/OpenGLTexture.hpp"
+#endif
 
 namespace GEOGL{
 
@@ -36,8 +41,8 @@ namespace GEOGL{
         Ref<Texture2D> result;
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
-#ifdef GEOGL_BUILD_WITH_OPENGL
-                result.reset(new GEOGL::Platform::OpenGL::Texture2D(filePath));
+#if GEOGL_BUILD_WITH_OPENGL == 1
+                result = std::make_shared<GEOGL::Platform::OpenGL::Texture2D>(filePath);
                 return result;
 #else
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
