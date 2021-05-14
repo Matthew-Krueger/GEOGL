@@ -22,25 +22,51 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_VULKANINPUT_HPP
-#define GEOGL_VULKANINPUT_HPP
 
-#include "../../../IO/Input.hpp"
+#define GEOGL_INCLUDE_MAIN
+#define GEOGL_INCLUDE_WIN_MAIN
+#include <GEOGL/MainCreator.hpp>
+#include "VulkanExampleApp.hpp"
 
-namespace GEOGL::Platform::Vulkan{
 
-    class GEOGL_API_HIDDEN Input : public GEOGL::Input{
+static bool show = true;
 
-    protected:
-        bool isKeyPressedImpl(KeyCode keycode) override;
+namespace VulkanExample{
 
-        bool isMouseButtonPressedImpl(MouseCode button) override;
-        bool getMouseXImpl() override;
-        bool getMouseYImpl() override;
-        glm::vec2 getMousePositionImpl() override;
+    VulkanExample::VulkanExample() : GEOGL::Application(
+            GEOGL::WindowProps(
+                    "GEOGL Example",
+                    1920,
+                    1080,
+                    "Resources/Runtime-Icon.png"
+            )) {
 
-    };
+        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
+        /* This is done in this way to make it explicit for the example that we are using RGBA. */
+
+        glm::vec4 clearColor;
+        clearColor = {0.1f,0.1f,0.1f,1.0f};
+        GEOGL::Renderer::setClearColor(clearColor);
+
+        //getWindow().setVSync(false);
+
+    }
+
+    VulkanExample::~VulkanExample(){
+
+        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
+
+    }
+
+    void VulkanExample::onUpdate(GEOGL::TimeStep timeStep) {
+        GEOGL::Renderer::clear();
+    }
 
 }
 
-#endif //GEOGL_VULKANINPUT_HPP
+GEOGL::Application* GEOGL::createApplication(){
+
+    GEOGL::Log::Init("vulkan-app-log.txt", "Vulkan App");
+    return new VulkanExample::VulkanExample();
+
+}

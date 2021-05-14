@@ -22,24 +22,4 @@
  *                                                                             *
  *******************************************************************************/
 
-#include "KeyCodes.hpp"
-
-namespace GEOGL::Platform::Vulkan{
-
-
-    int KeyCodes::getNativeKeyCodeImpl(KeyCode key) {
-        return static_cast<int>(key);
-    }
-
-    int KeyCodes::getNativeMouseCodeImpl(MouseCode button) {
-        return static_cast<int>(button);
-    }
-
-    KeyCode KeyCodes::getGEOGLKeyCodeImpl(int nativeKeyCode) {
-        return static_cast<KeyCode> (nativeKeyCode);
-    }
-
-    MouseCode KeyCodes::getGEOGLMouseCodeImpl(int nativeMouseCode) {
-        return static_cast<MouseCode> (nativeMouseCode);
-    }
-}
+#include "VulkanGraphicsContext.hpp"

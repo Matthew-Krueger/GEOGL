@@ -22,8 +22,11 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_VULKAN_HPP
-#define GEOGL_VULKAN_HPP
+
+#ifndef GEOGL_VULKANGRAPHICSCONTEXT_HPP
+#define GEOGL_VULKANGRAPHICSCONTEXT_HPP
 
 
-#endif //GEOGL_VULKAN_HPP
+
+
+#endif //GEOGL_VULKANGRAPHICSCONTEXT_HPP

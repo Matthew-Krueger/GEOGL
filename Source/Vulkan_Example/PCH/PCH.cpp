@@ -22,55 +22,7 @@
  *                                                                             *
  *******************************************************************************/
 
-#include "Input.hpp"
+#include "PCH.hpp"
 
-#include "../../../Application/Application.hpp"
-#include "../../../Utils/InputCodesConverter.hpp"
-
-#include <GLFW/glfw3.h>
-
-namespace GEOGL::Platform::Vulkan{
-
-
-    bool Input::isKeyPressedImpl(KeyCode keycode) {
-
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        auto state = glfwGetKey(window, InputCodesConverter::getNativeKeyCode(keycode));
-
-        return state == GLFW_PRESS || state == GLFW_REPEAT;
-
-    }
-
-    bool Input::isMouseButtonPressedImpl(MouseCode button) {
-
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        auto state = glfwGetMouseButton(window, InputCodesConverter::getNativeMouseCode(button));
-
-        return state == GLFW_PRESS;
-
-    }
-
-    bool Input::getMouseXImpl() {
-
-        return getMousePositionImpl().x;
-
-    }
-
-    bool Input::getMouseYImpl() {
-
-        return getMousePositionImpl().y;
-
-    }
-
-    glm::vec2 Input::getMousePositionImpl(){
-
-        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        double xpos, ypos;
-
-        glfwGetCursorPos(window, &xpos, &ypos);
-
-        return glm::vec2((float)xpos, (float)ypos);
-
-    }
-
-}
+/* So I have heard, a cpp is required to directly include a PCH for it to work with MSVC. It does not seem to do this
+ * for me, but it does not hurt anything. */
