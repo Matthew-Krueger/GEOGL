@@ -135,7 +135,11 @@ namespace GEOGL{
     }
 
     Ref <Shader> ShaderLibrary::load(const std::string &name, const std::string &folderPath) {
-        return GEOGL::Ref<Shader>();
+
+        auto shader = Shader::create(folderPath);
+        add(name, shader);
+        return shader;
+
     }
 
     Ref <Shader> ShaderLibrary::get(const std::string &name) {
