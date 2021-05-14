@@ -1,6 +1,5 @@
 language: c++
 compiler:
-  - clang
   - gcc
 os: linux
 dist: focal
@@ -9,7 +8,6 @@ addons:
     packages:
       - g++
       - cmake
-      - clang-10
       - doxygen
       - graphviz
       - libx11-dev
