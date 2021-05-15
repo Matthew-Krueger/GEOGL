@@ -128,7 +128,7 @@ namespace GEOGL::Platform::GLFW{
                 /* Creating the window */
                 m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
 
-                m_GraphicsContext = new GEOGL::Platform::Vulkan::GraphicsContext(m_Window);
+                m_GraphicsContext = new GEOGL::Platform::Vulkan::GraphicsContext(m_Window, props.title, props.versionMajor, props.versionMinor, props.versionPatch);
 
                 break;
             default:

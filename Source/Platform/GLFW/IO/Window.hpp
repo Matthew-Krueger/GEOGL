@@ -39,10 +39,6 @@
  */
 struct GLFWwindow;
 
-namespace GEOGL::Platform::OpenGL{
-    class GraphicsContext;
-}
-
 namespace GEOGL::Platform::GLFW{
 
     /**

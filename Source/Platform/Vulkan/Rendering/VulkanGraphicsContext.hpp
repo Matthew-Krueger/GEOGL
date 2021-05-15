@@ -28,6 +28,10 @@
 
 #include "../../../GEOGL/Rendering/GraphicsContext.hpp"
 
+#define GLFW_INCLUDE_VULKAN
+#include <vulkan/vulkan.h>
+#include <GLFW/glfw3.h>
+
 struct GLFWwindow;
 
 namespace GEOGL::Platform::Vulkan{
@@ -37,7 +41,7 @@ namespace GEOGL::Platform::Vulkan{
      */
     class GEOGL_API GraphicsContext : public GEOGL::GraphicsContext{
     public:
-        explicit GraphicsContext(GLFWwindow* windowHandle);
+        explicit GraphicsContext(GLFWwindow* windowHandle, std::string appName, uint32_t versionMajor, uint32_t versionMinor, uint32_t versionPatch);
         ~GraphicsContext() override;
 
         void clearColor() override;
@@ -47,7 +51,17 @@ namespace GEOGL::Platform::Vulkan{
         void swapBuffers() override;
 
     private:
+        void createInstance();
+
+        std::vector<const char*> getRequiredExtensions();
+
+        bool checkValidationLayerSupport();
+    private:
         GLFWwindow* m_WindowHandle;
+        std::string m_AppName;
+        uint32_t m_VersionMajor, m_VersionMinor, m_VersionPatch;
+
+        VkInstance m_Instance;
 
     };
 
