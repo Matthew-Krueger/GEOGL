@@ -4,7 +4,7 @@
 #         Add Vulkan Library         #
 ######################################
 add_library(GEOGL_Platform_Vulkan ${GEOGL_LIBRARY_TYPE}
-        Rendering/VulkanGraphicsContext.cpp Rendering/VulkanGraphicsContext.hpp Rendering/VulkanRendererAPI.cpp Rendering/VulkanRendererAPI.hpp)
+        Rendering/VulkanGraphicsContext.cpp Rendering/VulkanGraphicsContext.hpp Rendering/VulkanRendererAPI.cpp Rendering/VulkanRendererAPI.hpp VulkanExtensionsAndCallabacks/VulkanCallbacks.cpp VulkanExtensionsAndCallabacks/VulkanCallbacks.hpp VulkanExtensionsAndCallabacks/VulkanExtensions.cpp VulkanExtensionsAndCallabacks/VulkanExtensions.hpp)
 
 ######################################
 #     Set name for use elsewhere     #

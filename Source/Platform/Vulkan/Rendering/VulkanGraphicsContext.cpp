@@ -52,6 +52,8 @@
 
 #include <utility>
 #include "VulkanGraphicsContext.hpp"
+#include "../VulkanExtensionsAndCallabacks/VulkanCallbacks.hpp"
+#include "../VulkanExtensionsAndCallabacks/VulkanExtensions.hpp"
 
 namespace GEOGL::Platform::Vulkan{
 
@@ -75,14 +77,18 @@ namespace GEOGL::Platform::Vulkan{
         GEOGL_CORE_ASSERT(windowHandle, "Window Handle cannot be NULL.");
 
         createInstance();
-
+        setupDebugMessenger();
+        pickPhysicalDevice();
 
         GEOGL_CORE_ASSERT(false, "Crashing because not built");
-
 
     }
 
     GraphicsContext::~GraphicsContext() {
+
+        if(enableValidationLayers){
+            Extensions::vkDestroyDebugUtilsMessengerEXT(m_Instance, m_DebugMessanger, nullptr);
+        }
 
         vkDestroyInstance(m_Instance, nullptr);
 
@@ -139,11 +145,17 @@ namespace GEOGL::Platform::Vulkan{
             createInfo.ppEnabledExtensionNames = requiredExtensions.data();
 
             /* handle validation layers */
+            VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
             if(enableValidationLayers){
                 createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
                 createInfo.ppEnabledLayerNames = validationLayers.data();
+
+                populateDebugMessengerCreateInfo(debugCreateInfo);
+                createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
             }else {
                 createInfo.enabledLayerCount = 0;
+
+                createInfo.pNext = nullptr;
             }
 
             VkResult result = vkCreateInstance(&createInfo, nullptr, &m_Instance);
@@ -151,7 +163,58 @@ namespace GEOGL::Platform::Vulkan{
 
         }
 
+        vkDestroyInstance(m_Instance, nullptr);
 
+
+
+
+    }
+
+    void GraphicsContext::setupDebugMessenger(){
+
+        /* block against running if no validation layers are enabled */
+        if(!enableValidationLayers) return;
+
+        GEOGL_CORE_INFO("Setting up debug messengers.");
+
+        /* Create VkDebugUtilsMessengerEXT */
+        {
+            VkDebugUtilsMessengerCreateInfoEXT createInfo{};
+            populateDebugMessengerCreateInfo(createInfo);
+
+            VkResult result = Extensions::vkCreateDebugUtilsMessengerEXT(m_Instance, &createInfo, nullptr, &m_DebugMessanger);
+            GEOGL_CORE_ASSERT_NOSTRIP(result == VK_SUCCESS, "Unable to allocate a debug messenger.");
+        }
+
+    }
+
+    void GraphicsContext::pickPhysicalDevice() {
+
+        /* Get information about the physical devices */
+        uint32_t deviceCount = 0;
+        std::vector<VkPhysicalDevice> devices;
+        {
+            vkEnumeratePhysicalDevices(m_Instance, &deviceCount, nullptr);
+            GEOGL_CORE_ASSERT_NOSTRIP(deviceCount != 0, "Failed to find any GPUs with Vulkan Support");
+            devices.resize(deviceCount);
+            vkEnumeratePhysicalDevices(m_Instance, &deviceCount, devices.data());
+        }
+
+        /* pick candidates */
+        std::multimap<unsigned int, VkPhysicalDevice> candidates;
+        std::stringstream output;
+        output << GEOGL_FORMAT("Vulkan reports that {} physical devices are available:\n");
+        for (const auto& device:devices){
+            unsigned int score = rateDeviceSuitability(device);
+            candidates.insert(std::make_pair(score, device));
+            VkPhysicalDeviceProperties deviceProperties;
+            vkGetPhysicalDeviceProperties(device, &deviceProperties);
+            output << GEOGL_FORMAT("\tDevice: {}, Score: {}", deviceProperties.deviceName, score);
+        }
+
+        GEOGL_CORE_INFO_NOSTRIP(output.str());
+
+        GEOGL_CORE_ASSERT_NOSTRIP(m_PhysicalDevice != VK_NULL_HANDLE, "Failed to find a suitable GPU!");
 
     }
 
@@ -275,6 +338,59 @@ namespace GEOGL::Platform::Vulkan{
 
 
         return true;
+    }
+
+    void GraphicsContext::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
+        createInfo = {};
+        createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+        createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+        createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+        createInfo.pfnUserCallback = vulkanDebugCallback;
+    }
+
+    bool GraphicsContext::isDeviceSuitable(VkPhysicalDevice device) {
+
+        VkPhysicalDeviceProperties deviceProperties;
+        VkPhysicalDeviceFeatures deviceFeatures;
+        vkGetPhysicalDeviceProperties(device, &deviceProperties);
+        vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+
+        bool isSuitable = true;
+        if(!GEOGL_ENABLE_IGPU){
+            if(deviceProperties.deviceType != VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU){
+                isSuitable = false;
+            }
+        }
+
+        if(!deviceFeatures.geometryShader){
+            isSuitable = false;
+        }
+
+        return isSuitable;
+    }
+
+    unsigned int GraphicsContext::rateDeviceSuitability(VkPhysicalDevice device) {
+
+        VkPhysicalDeviceProperties deviceProperties;
+        VkPhysicalDeviceFeatures deviceFeatures;
+        vkGetPhysicalDeviceProperties(device, &deviceProperties);
+        vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+
+        unsigned int score = 0;
+
+        if(deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU){
+            score += 5000;
+        }
+
+        score += deviceProperties.limits.maxImageDimension2D;
+
+        /* Kick out no geometry shaders */
+        if(!deviceFeatures.geometryShader){
+            return 0;
+        }
+
+        return score;
+
     }
 
 }

@@ -23,59 +23,18 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_VULKANGRAPHICSCONTEXT_HPP
-#define GEOGL_VULKANGRAPHICSCONTEXT_HPP
 
-#include "../../../GEOGL/Rendering/GraphicsContext.hpp"
+#ifndef GEOGL_VULKANEXTENSIONS_HPP
+#define GEOGL_VULKANEXTENSIONS_HPP
 
-#define GLFW_INCLUDE_VULKAN
+
 #include <vulkan/vulkan.h>
-#include <GLFW/glfw3.h>
 
-struct GLFWwindow;
+namespace GEOGL::Platform::Vulkan::Extensions{
 
-namespace GEOGL::Platform::Vulkan{
-
-    /**
-     * \brief Implements the Graphics context for OpenGL
-     */
-    class GEOGL_API GraphicsContext : public GEOGL::GraphicsContext{
-    public:
-        explicit GraphicsContext(GLFWwindow* windowHandle, std::string appName, uint32_t versionMajor, uint32_t versionMinor, uint32_t versionPatch);
-        ~GraphicsContext() override;
-
-        void clearColor() override;
-
-        void setViewport(const glm::ivec2& topLeftCorner, const glm::ivec2& dimensions) override;
-        void setVSync(bool* vSyncStatus) override;
-        void swapBuffers() override;
-
-    private:
-        void createInstance();
-        void setupDebugMessenger();
-        void pickPhysicalDevice();
-
-        std::vector<const char*> getRequiredExtensions();
-
-        bool checkValidationLayerSupport();
-        void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
-        bool isDeviceSuitable(VkPhysicalDevice device);
-        unsigned int rateDeviceSuitability(VkPhysicalDevice device);
-    private:
-        GLFWwindow* m_WindowHandle;
-        std::string m_AppName;
-        uint32_t m_VersionMajor, m_VersionMinor, m_VersionPatch;
-
-        /* Vulkan Instance Information */
-        VkInstance m_Instance;
-        VkPhysicalDevice m_PhysicalDevice = VK_NULL_HANDLE;
-
-        /* Debug utils */
-        VkDebugUtilsMessengerEXT m_DebugMessanger;
-
-    };
+    VkResult vkCreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
+    void vkDestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 
 }
 
-
-#endif //GEOGL_VULKANGRAPHICSCONTEXT_HPP
+#endif //GEOGL_VULKANEXTENSIONS_HPP
