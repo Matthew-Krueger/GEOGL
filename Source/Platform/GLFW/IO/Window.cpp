@@ -117,8 +117,11 @@ namespace GEOGL::Platform::GLFW{
                 m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
 
                 /* Create context */
+#if GEOGL_BUILD_WITH_OPENGL == 1
                 m_GraphicsContext = new GEOGL::Platform::OpenGL::GraphicsContext(m_Window);
-
+#else
+                GEOGL_CORE_CRITICAL_NOSTRIP("Requested OpenGL,but OpenGL not supported.");
+#endif
                 break;
             case RendererAPI::RENDERING_VULKAN_DESKTOP:
 
@@ -128,8 +131,11 @@ namespace GEOGL::Platform::GLFW{
                 /* Creating the window */
                 m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
 
+#if GEOGL_BUILD_WITH_VULKAN == 1
                 m_GraphicsContext = new GEOGL::Platform::Vulkan::GraphicsContext(m_Window, props.title, props.versionMajor, props.versionMinor, props.versionPatch);
-
+#else
+                GEOGL_CORE_CRITICAL_NOSTRIP("Requested Vulkan, but Vulkan Not Supported");
+#endif
                 break;
             default:
                 GEOGL_CORE_CRITICAL("Error. No valid Graphics API selected. Please select {} for OpenGL in settings.json.", RendererAPI::RENDERING_VULKAN_DESKTOP);
