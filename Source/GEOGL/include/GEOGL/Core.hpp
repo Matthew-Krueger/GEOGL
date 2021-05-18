@@ -62,4 +62,7 @@
 #include "../../Rendering/Texture.hpp"
 
 
+/* Orthographic Camera Controller */
+#include "../../IO/CameraController.hpp"
+
 #endif //GEOGL_CORE_HPP

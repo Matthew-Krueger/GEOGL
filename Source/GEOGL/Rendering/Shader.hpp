@@ -105,10 +105,27 @@ namespace GEOGL{
     class ShaderLibrary{
 
     public:
+        struct ShaderInfo{
+            Ref<Shader> shader;
+            std::string name;
+        };
+
+    public:
         void add(const std::string& customName, const Ref<Shader>& shader);
         void add(const Ref<Shader>& shader);
-        Ref<Shader> load(const std::string& folderPath);
-        Ref<Shader> load(const std::string& name, const std::string& folderPath);
+        std::pair<std::string, Ref<Shader>> load(const std::string& folderPath);
+        /**
+         * \brief Loads a shader with a manually specified name from a folder.
+         * \note The path <b><u>MUST</u></b> be the folder which contains a shader.glsl, defined according to
+         * the shader format notated in the Info section. This is done to allow preferential SPIR-V or precompiled
+         * shader binary loading.
+         *
+         * @param name The name of the shader in the ShaderLibrary
+         * @param folderPath The path to the folder which contains shader.glsl
+         *
+         * @returns std::pair, The first being its name, The second being the reference to the shader created.
+         */
+        std::pair<std::string, Ref<Shader>> load(const std::string& name, const std::string& folderPath);
 
         Ref<Shader> get (const std::string& name);
 

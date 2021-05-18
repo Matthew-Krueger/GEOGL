@@ -69,7 +69,7 @@ void* operator new[](size_t bytesToAllocate){
     bytesAllocated+=bytesToAllocate;
     return calloc(1,bytesToAllocate);
 }
-void operator delete(void* ptrToDealloc, size_t size){
+void operator delete(void* ptrToDealloc, size_t size) noexcept{
     ++deallocations;
 
     bytesDeallocated+= size;
@@ -77,7 +77,7 @@ void operator delete(void* ptrToDealloc, size_t size){
     free(ptrToDealloc);
 }
 
-void operator delete[](void *ptrToDealloc, size_t size) {
+void operator delete[](void *ptrToDealloc, size_t size) noexcept{
     ++deallocations;
 
     bytesDeallocated+= size;

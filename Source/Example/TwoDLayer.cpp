@@ -39,13 +39,16 @@ namespace Example{
 
     static glm::mat4 scaleOne;
 
+
+    static std::string flatColorShaderName;
+    static std::string basicTextureShaderName;
+
+
     TwoDLayer::TwoDLayer() :
     /* The name of the layer */
-    GEOGL::Layer("2D Layer"),
+    GEOGL::Layer("2D Layer")
     /* The position of the camera */
-    m_CameraPosition(glm::vec3({0.0f,0.0f,0.0f})){
-        /* Now that we are properly in the constructor, we set up the camera and everything else */
-        m_Camera.setPosition(m_CameraPosition);
+    {
 
         scaleOne = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
 
@@ -105,12 +108,13 @@ namespace Example{
         {
 
             m_ShaderLibrary.load("Resources/Shaders/PerVertexColor");
-            m_ShaderLibrary.load("Resources/Shaders/FlatColor");
-            m_ShaderLibrary.load("Resources/Shaders/BasicTexture");
+            flatColorShaderName = m_ShaderLibrary.load("Resources/Shaders/FlatColor").first;
+            basicTextureShaderName =m_ShaderLibrary.load("Resources/Shaders/BasicTexture").first;
 
             auto textureShader = m_ShaderLibrary.get("BasicTexture");
             textureShader->bind();
             std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(textureShader)->uploadUniformInt("u_Texture", 0);
+
         }
 
         /*
@@ -126,6 +130,8 @@ namespace Example{
 
     void TwoDLayer::onAttach() {
 
+        m_CameraController = GEOGL::OrthographicCameraController(GEOGL::Application::get().getWindow().getDimensions());
+
         m_Scalepointoneone = glm::scale(glm::mat4(1.0f), {.10,.10,.0});
 
     }
@@ -136,13 +142,13 @@ namespace Example{
 
     void TwoDLayer::onUpdate(GEOGL::TimeStep timeStep) {
 
+        m_CameraController.onUpdate(timeStep);
+
         /* get needed shaders */
-        auto FlatColorShader = m_ShaderLibrary.get("FlatColor");
-        auto BasicTextureShader = m_ShaderLibrary.get("BasicTexture");
+        auto FlatColorShader = m_ShaderLibrary.get(flatColorShaderName);
+        auto BasicTextureShader = m_ShaderLibrary.get(basicTextureShaderName);
 
-        pollCameraMovement(timeStep);
-
-        GEOGL::Renderer::beginScene(m_Camera);
+        GEOGL::Renderer::beginScene(m_CameraController.getCamera());
 
         /* Upload flat color shader color */
         {
@@ -226,11 +232,12 @@ namespace Example{
 
     void TwoDLayer::onEvent(GEOGL::Event& event) {
 
+        m_CameraController.onEvent(event);
+
         GEOGL::EventDispatcher dispatcher(event);
 
         /* Dispatch the event to the appropriate functions */
         dispatcher.dispatch<GEOGL::KeyPressedEvent>(GEOGL_BIND_EVENT_FN(TwoDLayer::onKeyPressedEvent));
-        dispatcher.dispatch<GEOGL::WindowResizeEvent>(GEOGL_BIND_EVENT_FN(TwoDLayer::onWindowResizeEvent));
 
     }
 
@@ -256,61 +263,5 @@ namespace Example{
 
     }
 
-    bool TwoDLayer::onWindowResizeEvent(GEOGL::WindowResizeEvent &windowResizeEvent) {
-
-        /* Calculate the new OrthographicBounds and set it to the camera. This keeps
-         * a square a square no matter how much we resize the window */
-        GEOGL::OrthographicCamera::OrthographicBounds bounds = GEOGL::OrthographicCamera::calculateBestOrthographicBounds(
-                {windowResizeEvent.getWidth(), windowResizeEvent.getHeight()});
-
-        m_Camera.setOrthographicBounds(bounds);
-
-        return false;
-
-    }
-
-    void TwoDLayer::pollCameraMovement(GEOGL::TimeStep& timeStep) {
-
-        glm::vec3 deltaPosition(0.0f);
-
-        /* If dpad or q or e is pressed, translate or rotate */
-        if (GEOGL::Input::isKeyPressed(GEOGL::Key::Left)) {
-            deltaPosition.x -= m_CameraSpeed * timeStep;
-        }
-        if (GEOGL::Input::isKeyPressed(GEOGL::Key::Right)) {
-            deltaPosition.x += m_CameraSpeed * timeStep;
-        }
-        if (GEOGL::Input::isKeyPressed(GEOGL::Key::Down)) {
-            deltaPosition.y -= m_CameraSpeed * timeStep;
-        }
-        if (GEOGL::Input::isKeyPressed(GEOGL::Key::Up)) {
-            deltaPosition.y += m_CameraSpeed * timeStep;
-        }
-        if (GEOGL::Input::isKeyPressed(GEOGL::Key::Q)) {
-            m_CameraRotation -= m_CameraRotSpeed * timeStep;
-        }
-        if (GEOGL::Input::isKeyPressed(GEOGL::Key::E)) {
-            m_CameraRotation += m_CameraRotSpeed * timeStep;
-        }
-        /* Double the speed */
-        if (GEOGL::Input::isKeyPressed(GEOGL::Key::LeftShift) || GEOGL::Input::isKeyPressed(GEOGL::Key::RightShift)) {
-            deltaPosition *= glm::vec3(2.0f);
-        }
-
-        /* Now, update the camera position */
-        m_CameraPosition += deltaPosition;
-
-        /* if c is pressed, center everything */
-        if(GEOGL::Input::isKeyPressed(GEOGL::Key::C)){
-            m_CameraPosition = glm::vec3(0.0f);
-            m_CameraRotation = 0;
-        }
-
-
-        /* Now upload it to the camera */
-        m_Camera.setPosition(m_CameraPosition);
-        m_Camera.setRotationZ(m_CameraRotation);
-
-    }
 
 }

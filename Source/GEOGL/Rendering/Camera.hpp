@@ -35,7 +35,7 @@ namespace GEOGL{
         /**
          * Represents the bounds of an orthographic camera
          */
-        struct OrthographicBounds{
+        struct ProjectionBounds{
             float left;
             float right;
             float bottom;
@@ -62,7 +62,7 @@ namespace GEOGL{
          * @param bottom The Bottom Bound
          * @param top The Top Bound
          */
-        explicit OrthographicCamera(const OrthographicBounds& orthographicBounds);
+        explicit OrthographicCamera(const ProjectionBounds& orthographicBounds);
 
         const glm::vec3& getPosition() const { return m_Position; };
         inline void setPosition(const glm::vec3& position){ m_Position = position; recalculateViewMatrix(); };
@@ -74,10 +74,10 @@ namespace GEOGL{
         inline const glm::mat4& getViewMatrix() const { return m_ViewMatrix; };
         inline const glm::mat4& getProjectionViewMatrix() const { return m_ProjectionViewMatrix; };
 
-        inline const OrthographicBounds& getOrthographicBounds() const {return m_OrthographicBounds; };
-        void setOrthographicBounds(const OrthographicBounds& orthographicBounds);
+        inline const ProjectionBounds& getProjection() const {return m_OrthographicBounds; };
+        void setProjection(const ProjectionBounds& projectionBounds);
 
-        static OrthographicBounds calculateBestOrthographicBounds(const glm::ivec2& windowDimensions, const glm::vec2& clipPlanes = {-1.0f,1.0f});
+        static ProjectionBounds calculateBestOrthographicBounds(const glm::ivec2& windowDimensions, const glm::vec2& clipPlanes = {-1.0f, 1.0f});
 
     private:
         void recalculateViewMatrix();
@@ -86,7 +86,7 @@ namespace GEOGL{
         glm::mat4 m_ViewMatrix;
         glm::mat4 m_ProjectionViewMatrix;
 
-        OrthographicBounds m_OrthographicBounds;
+        ProjectionBounds m_OrthographicBounds;
 
         glm::vec3 m_Position = {0.0f,0.0f,0.0f};
         float m_RotationZ = 0.0f;

@@ -28,6 +28,8 @@
 #define GEOGL_MOUSEEVENT_HPP
 
 #include "../../Utils/InputCodes.hpp"
+#include "Event.hpp"
+
 
 namespace GEOGL{
 

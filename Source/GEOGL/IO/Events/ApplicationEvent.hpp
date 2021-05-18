@@ -27,6 +27,8 @@
 #ifndef GEOGL_APPLICATIONEVENT_HPP
 #define GEOGL_APPLICATIONEVENT_HPP
 
+#include "Event.hpp"
+
 namespace GEOGL{
 
     /**

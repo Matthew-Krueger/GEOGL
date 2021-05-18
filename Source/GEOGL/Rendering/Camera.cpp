@@ -50,24 +50,24 @@ namespace GEOGL{
 
     }
 
-    OrthographicCamera::OrthographicCamera(const OrthographicBounds& orthographicBounds)
+    OrthographicCamera::OrthographicCamera(const ProjectionBounds& bounds)
         : m_Projectionmatrix(
                 glm::ortho(
-                        orthographicBounds.left,
-                        orthographicBounds.right,
-                        orthographicBounds.bottom,
-                        orthographicBounds.top,
-                        orthographicBounds.zNearClipPlane,
-                        orthographicBounds.zFarClipPlane
+                        bounds.left,
+                        bounds.right,
+                        bounds.bottom,
+                        bounds.top,
+                        bounds.zNearClipPlane,
+                        bounds.zFarClipPlane
                 )),
         m_ViewMatrix(1.0f){
 
-        m_OrthographicBounds = orthographicBounds;
+        m_OrthographicBounds = bounds;
         m_ProjectionViewMatrix = m_Projectionmatrix * m_ViewMatrix;
 
     }
 
-    void OrthographicCamera::setOrthographicBounds(const OrthographicBounds& orthographicBounds) {
+    void OrthographicCamera::setProjection(const ProjectionBounds& orthographicBounds) {
 
         m_OrthographicBounds = orthographicBounds;
         m_Projectionmatrix = glm::ortho(m_OrthographicBounds.left,
@@ -83,9 +83,9 @@ namespace GEOGL{
 
 
 
-    OrthographicCamera::OrthographicBounds OrthographicCamera::calculateBestOrthographicBounds(const glm::ivec2 &windowDimensions, const glm::vec2& clipPlanes) {
+    OrthographicCamera::ProjectionBounds OrthographicCamera::calculateBestOrthographicBounds(const glm::ivec2 &windowDimensions, const glm::vec2& clipPlanes) {
 
-        OrthographicBounds newBounds;
+        ProjectionBounds newBounds;
 
         float aspectRatio = (float)windowDimensions.x/(float)windowDimensions.y;
 

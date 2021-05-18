@@ -55,8 +55,8 @@ GEOGL_API void* operator new(size_t bytesToAllocate);
 GEOGL_API void* operator new[](size_t bytesToAllocate);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wimplicit-exception-spec-mismatch"
-GEOGL_API void operator delete(void* ptrToDealloc, size_t size);
-GEOGL_API void operator delete[](void* ptrToDealloc, size_t size);
+GEOGL_API void operator delete(void* ptrToDealloc, size_t size) noexcept;
+GEOGL_API void operator delete[](void* ptrToDealloc, size_t size) noexcept;
 #pragma clang diagnostic pop
 #endif
 #endif

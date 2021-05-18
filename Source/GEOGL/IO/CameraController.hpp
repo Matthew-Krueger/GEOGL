@@ -23,48 +23,41 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_DEPENDENCIES_SOURCE_HPP
-#define GEOGL_DEPENDENCIES_SOURCE_HPP
+#ifndef GEOGL_CAMERACONTROLLER_HPP
+#define GEOGL_CAMERACONTROLLER_HPP
 
-#include "../Memory/TrackMemoryAllocations.hpp"
+#include "../Rendering/Camera.hpp"
+#include "Events/ApplicationEvent.hpp"
+#include "Events/MouseEvent.hpp"
 
+namespace GEOGL{
 
-#include <GEOGL/API_Utils/DLLExportsAndTraps.hpp>
+    class OrthographicCameraController{
+    public:
+        OrthographicCameraController(float aspectRatio, bool rotation = false);
+        OrthographicCameraController(const glm::ivec2& windowDimensions, bool rotation = false);
 
-/* JSON */
-#include <Nlohmann/json.hpp>
-using json = nlohmann::json;
+        inline const OrthographicCamera& getCamera() const { return m_OrthographicCamera; };
 
-/* STDLIB */
-#include <string>
-#include <sstream>
-#include <vector>
-#include <memory>
-#include <functional>
-#include <iostream>
-#include <map>
+        void onUpdate(TimeStep ts);
+        void onEvent(Event& e);
 
-/* spdlog */
-#include <spdlog/spdlog.h>
+    private:
+        bool onMouseScrolled(MouseScrolledEvent& e);
+        bool onWindowResize(WindowResizeEvent& e);
+    private:
+        float m_AspectRatio;
+        float m_ZoomLevel = 1.0f;
+        OrthographicCamera m_OrthographicCamera;
 
-/* glm */
-#ifdef GEOGL_SWIZZLE
-#define GLM_FORCE_SWIZZLE
-#endif
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+        bool m_RotationEnabled;
+        float m_CameraRotation = 0.0f;
+        glm::vec3 m_CameraPosition = {0.0f,0.0f,0.0f};
 
-#define BIT(x) (1 << x)
+        float m_CameraTranslationSpeed = 1.0f, m_CameraRotationSpeed = 1.0f;
 
-#include "../TimeStep.hpp"
+    };
 
+}
 
-
-
-#endif //GEOGL_DEPENDENCIES_HPP
+#endif //GEOGL_CAMERACONTROLLER_HPP

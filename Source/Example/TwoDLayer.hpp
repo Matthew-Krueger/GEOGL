@@ -42,9 +42,6 @@ namespace Example{
 
         void onEvent(GEOGL::Event& event) override;
         bool onKeyPressedEvent(GEOGL::KeyPressedEvent& event);
-        bool onWindowResizeEvent(GEOGL::WindowResizeEvent& windowResizeEvent);
-
-        void pollCameraMovement(GEOGL::TimeStep& timeStep);
 
     private:
         GEOGL::Ref<GEOGL::VertexArray> m_VertexArrayTrianglePerVColor;
@@ -56,11 +53,7 @@ namespace Example{
         GEOGL::Ref<GEOGL::Texture2D> m_CheckerboardTexture, m_ChernoLogo;
         glm::vec3 m_SquareColor = {0.2f,0.3f,0.8f};
 
-        GEOGL::OrthographicCamera m_Camera;
-        glm::vec3 m_CameraPosition;
-        float m_CameraRotation = 0.0f;
-        float m_CameraSpeed = 3.5f;
-        float m_CameraRotSpeed = 180.0f;
+        GEOGL::OrthographicCameraController m_CameraController = GEOGL::OrthographicCameraController(1.78);
 
         glm::mat4 m_Scalepointoneone;
 
