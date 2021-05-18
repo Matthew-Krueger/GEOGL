@@ -81,6 +81,8 @@ namespace GEOGL{
             m_CameraPosition = glm::vec3(0.0f);
             m_CameraRotation = 0;
             m_OrthographicCamera.setRotationZ(m_CameraRotation);
+            m_ZoomLevel = 1;
+            m_OrthographicCamera.setProjection({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
         }
 
 
@@ -100,7 +102,12 @@ namespace GEOGL{
 
     bool OrthographicCameraController::onMouseScrolled(MouseScrolledEvent &e) {
 
-        m_ZoomLevel -= e.getYOffset();
+        m_ZoomLevel -= e.getYOffset() * m_ZoomFactor * (m_ZoomLevel*m_ZoomFadeFactor);
+
+        /* Guard against high and low zoom levels */
+        m_ZoomLevel = std::max(m_ZoomLevel, m_ZoomMin);
+        m_ZoomLevel = std::min(m_ZoomLevel, m_ZoomMax);
+
         m_OrthographicCamera.setProjection({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
         return true;
 

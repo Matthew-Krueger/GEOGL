@@ -130,7 +130,7 @@ namespace Example{
 
     void TwoDLayer::onAttach() {
 
-        m_CameraController = GEOGL::OrthographicCameraController(GEOGL::Application::get().getWindow().getDimensions());
+        m_CameraController = GEOGL::OrthographicCameraController(GEOGL::Application::get().getWindow().getDimensions(), true);
 
         m_Scalepointoneone = glm::scale(glm::mat4(1.0f), {.10,.10,.0});
 
