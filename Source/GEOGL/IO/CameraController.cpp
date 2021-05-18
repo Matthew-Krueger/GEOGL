@@ -109,7 +109,7 @@ namespace GEOGL{
         m_ZoomLevel = std::min(m_ZoomLevel, m_ZoomMax);
 
         m_OrthographicCamera.setProjection({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
-        return true;
+        return false;
 
     }
 
@@ -118,7 +118,7 @@ namespace GEOGL{
         m_AspectRatio = (float)e.getWidth()/(float)e.getHeight();
 
         m_OrthographicCamera.setProjection({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
-        return true;
+        return false;
 
     }
 }

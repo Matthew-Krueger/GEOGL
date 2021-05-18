@@ -26,6 +26,6 @@
 #ifndef GEOGL_GLFW_HPP
 #define GEOGL_GLFW_HPP
 
-#include "../../../IO/Window.hpp"
+#include "../../../IO/GLFWWindow.hpp"
 
 #endif //GEOGL_GLFW_HPP

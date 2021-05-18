@@ -138,6 +138,9 @@ namespace GEOGL::Platform::GLFW{
             EventCallbackFn EventCallback;
 
             GEOGL::GraphicsContext* graphicsContext;
+
+            glm::ivec2 m_WindowDimensions;
+
         };
 
         /**
@@ -146,6 +149,7 @@ namespace GEOGL::Platform::GLFW{
         WindowData m_Data;
 
         GEOGL::GraphicsContext* m_GraphicsContext;
+
 
     };
 

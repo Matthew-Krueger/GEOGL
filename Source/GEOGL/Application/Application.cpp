@@ -105,10 +105,15 @@ namespace GEOGL{
             TimeStep timeStep = time - m_LastFrameTime;
             m_LastFrameTime = time;
 
-            onUpdate(timeStep);
+            if(!m_Minimized) {
+                onUpdate(timeStep);
 
-            for(Layer* layer : m_LayerStack){
-                layer->onUpdate(timeStep);
+                for (Layer *layer : m_LayerStack) {
+                    layer->onUpdate(timeStep);
+                }
+            }else{
+                /* Since we are not running, slow down the loop */
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000/5));
             }
 
             m_ImGuiLayer->begin();
@@ -129,6 +134,7 @@ namespace GEOGL{
 
         /* Bind a Window Close Event to Application::onWindowClose() */
         dispatcher.dispatch<WindowCloseEvent>(GEOGL_BIND_EVENT_FN(Application::onWindowClose)); // NOLINT(modernize-avoid-bind)
+        dispatcher.dispatch<WindowResizeEvent>(GEOGL_BIND_EVENT_FN(Application::onWindowResize));
 
         if(event.Handled)
             return;
@@ -145,6 +151,21 @@ namespace GEOGL{
         m_Running = false;
         event.Handled = true;
         return true;
+    }
+
+    bool Application::onWindowResize(WindowResizeEvent &event){
+
+        /* Guard against resizing to zero and rendering */
+        if(event.getWidth() == 0 || event.getHeight() == 0){
+            m_Minimized = true;
+            return false;
+        }
+
+        m_Minimized = false;
+        Renderer::onWindowResize({event.getWidth(), event.getHeight()});
+
+        return false;
+
     }
 
 

@@ -3,12 +3,12 @@
 #######################################
 add_library(GEOGL_GLFW ${GEOGL_LIBRARY_TYPE}
 
-        IO/Input.hpp
-        IO/Input.cpp
-        IO/KeyCodes.hpp
-        IO/KeyCodes.cpp
-        IO/Window.hpp
-        IO/Window.cpp
+        IO/GLFWInput.hpp
+        IO/GLFWInput.cpp
+        IO/GLFWKeyCodes.hpp
+        IO/GLFWKeyCodes.cpp
+        IO/GLFWWindow.hpp
+        IO/GLFWWindow.cpp
 
         include/GEOGL/Platform/GLFW.hpp
 

@@ -34,6 +34,7 @@ namespace GEOGL{
     public:
 
         inline static void init(){ s_RendererAPI->init(); };
+        inline static void setViewport(const glm::ivec2 &dimensions) { s_RendererAPI->setViewport(dimensions); };
 
         /**
          * Executes a set clear color command

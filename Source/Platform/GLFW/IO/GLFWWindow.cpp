@@ -35,9 +35,9 @@
 /* GLFW */
 #include <GLFW/glfw3.h>
 
-#include "Window.hpp"
-#include "Input.hpp"
-#include "KeyCodes.hpp"
+#include "GLFWWindow.hpp"
+#include "GLFWInput.hpp"
+#include "GLFWKeyCodes.hpp"
 
 #include "../../../GEOGL/Rendering/Renderer.hpp"
 #include "../../../GEOGL/IO/Events/ApplicationEvent.hpp"
@@ -71,7 +71,7 @@ namespace GEOGL::Platform::GLFW{
         Input::init(new Input());
 
         /* Initialize Input Polling */
-        InputCodesConverter::init(new KeyCodes());
+        InputCodesConverter::init(new GLFWKeyCodes());
 
         /* Set the data of the window */
         m_Data.title = props.title;
@@ -145,6 +145,7 @@ namespace GEOGL::Platform::GLFW{
         }
         glfwSetWindowUserPointer(m_Window, &m_Data);
         m_Data.graphicsContext = m_GraphicsContext;
+        m_Data.m_WindowDimensions = {props.width, props.height};
 
         /* Load the window icon */
         setWindowIcon(props.iconPath);
@@ -223,13 +224,12 @@ namespace GEOGL::Platform::GLFW{
             data->width = width;
             data->height = height;
 
-            /* Set the viewport before we get further. Better to do now then later */
-            glm::vec2 topLeft(0,0);
-            glm::vec2 dimensions(width, height);
-            data->graphicsContext->setViewport(topLeft, dimensions);
-
-            WindowResizeEvent event(width, height);
+            /* send the event, with m_WindowDimensions as old dimensions */
+            WindowResizeEvent event(width, height, data->m_WindowDimensions.x, data->m_WindowDimensions.y);
             data->EventCallback(event);
+
+            /* Now, set the old dimensions to this one */
+            data->m_WindowDimensions = {width, height};
         });
 
         glfwSetWindowCloseCallback(m_Window, [](GLFWwindow *window) {

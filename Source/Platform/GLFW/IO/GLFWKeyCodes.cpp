@@ -2,24 +2,24 @@
 // Created by matth on 2/15/21.
 //
 
-#include "KeyCodes.hpp"
+#include "GLFWKeyCodes.hpp"
 
 namespace GEOGL::Platform::GLFW{
 
 
-    int KeyCodes::getNativeKeyCodeImpl(KeyCode key) {
+    int GLFWKeyCodes::getNativeKeyCodeImpl(KeyCode key) {
         return static_cast<int>(key);
     }
 
-    int KeyCodes::getNativeMouseCodeImpl(MouseCode button) {
+    int GLFWKeyCodes::getNativeMouseCodeImpl(MouseCode button) {
         return static_cast<int>(button);
     }
 
-    KeyCode KeyCodes::getGEOGLKeyCodeImpl(int nativeKeyCode) {
+    KeyCode GLFWKeyCodes::getGEOGLKeyCodeImpl(int nativeKeyCode) {
         return static_cast<KeyCode> (nativeKeyCode);
     }
 
-    MouseCode KeyCodes::getGEOGLMouseCodeImpl(int nativeMouseCode) {
+    MouseCode GLFWKeyCodes::getGEOGLMouseCodeImpl(int nativeMouseCode) {
         return static_cast<MouseCode> (nativeMouseCode);
     }
 }

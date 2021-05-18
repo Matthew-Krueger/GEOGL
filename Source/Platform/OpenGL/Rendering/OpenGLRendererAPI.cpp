@@ -54,6 +54,12 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
+    void RendererAPI::setViewport(const glm::ivec2 &dimensions) {
+
+        glViewport(0,0,(GLsizei) dimensions.x, (GLsizei) dimensions.y);
+
+    }
+
     void RendererAPI::setClearColor(const glm::vec4 &color) {
         m_ClearColor = color;
     }
@@ -70,4 +76,5 @@ namespace GEOGL::Platform::OpenGL{
         glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 
     }
+
 }

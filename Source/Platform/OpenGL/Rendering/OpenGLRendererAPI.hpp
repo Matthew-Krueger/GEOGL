@@ -37,12 +37,12 @@ namespace GEOGL::Platform::OpenGL{
     public:
         /**
          * Constructs a RendererAPI with the specified RenderingAPIEnum. The implementation is free to ignore this however.
-         * @param preferredAPI The preferred api to use for rendering
          */
         RendererAPI();
         virtual ~RendererAPI();
 
         void init() override;
+        void setViewport(const glm::ivec2& dimensions) override;
 
         void setClearColor(const glm::vec4& color) override;
         void clear() override;

@@ -28,28 +28,56 @@
  *                                                                             *
  *******************************************************************************/
 
-#ifndef GEOGL_OPENGLKEYCODES_HPP
-#define GEOGL_OPENGLKEYCODES_HPP
-
-#include "../../../Utils/InputCodes.hpp"
+#include "GLFWInput.hpp"
 #include "../../../Utils/InputCodesConverter.hpp"
+#include "../../../GEOGL/Application/Application.hpp"
+
+#include <GLFW/glfw3.h>
 
 namespace GEOGL::Platform::GLFW{
 
-    /**
-     * \brief A wrapper for GLFW Key Codes.
-     *
-     * Since GLFW is identical to our keycodes, these just return the cast to int of the code.
-     */
-    class GEOGL_API_HIDDEN KeyCodes : public GEOGL::InputCodesConverter{
-    private:
-        int getNativeKeyCodeImpl(KeyCode key) override;
-        int getNativeMouseCodeImpl(MouseCode button) override;
-        KeyCode getGEOGLKeyCodeImpl(int nativeKeyCode) override;
-        MouseCode getGEOGLMouseCodeImpl(int nativeMouseCode) override;
 
-    };
+    bool Input::isKeyPressedImpl(KeyCode keycode) {
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        auto state = glfwGetKey(window, InputCodesConverter::getNativeKeyCode(keycode));
+
+        return state == GLFW_PRESS || state == GLFW_REPEAT;
+
+    }
+
+    bool Input::isMouseButtonPressedImpl(MouseCode button) {
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        auto state = glfwGetMouseButton(window, InputCodesConverter::getNativeMouseCode(button));
+
+        return state == GLFW_PRESS;
+
+    }
+
+    bool Input::getMouseXImpl() {
+
+        return getMousePositionImpl().x;
+
+    }
+
+    bool Input::getMouseYImpl() {
+
+        return getMousePositionImpl().y;
+
+    }
+
+    glm::vec2 Input::getMousePositionImpl(){
+
+        auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        double xpos, ypos;
+
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        return glm::vec2((float)xpos, (float)ypos);
+
+    }
 
 }
 
-#endif //GEOGL_OPENGLKEYCODES_HPP
+#include "GLFWInput.hpp"

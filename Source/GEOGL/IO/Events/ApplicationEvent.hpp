@@ -37,8 +37,9 @@ namespace GEOGL{
     class WindowResizeEvent : public Event
     {
     public:
-        WindowResizeEvent(unsigned int width, unsigned int height)
-                : m_Width(width), m_Height(height) {};
+
+        WindowResizeEvent(unsigned int width, unsigned int height, unsigned int previousWidth, unsigned int previousHeight)
+                : m_Width(width), m_Height(height), m_PreviousWidth(width), m_PreviousHeight(height){}
 
         /**
          * Gets the width the window was resized to
@@ -51,6 +52,10 @@ namespace GEOGL{
          * @return The height
          */
         unsigned int getHeight() const { return m_Height; }
+
+        unsigned int getPreviousWidth() const { return m_PreviousWidth; };
+
+        unsigned int getPreviousHeight() const { return m_PreviousHeight; };
 
         /**
          * Outputs a string describing the event
@@ -66,7 +71,7 @@ namespace GEOGL{
         EVENT_CLASS_CATEGORY(EventCategoryApplication)
 
     private:
-        unsigned int m_Width, m_Height;
+        unsigned int m_Width, m_Height, m_PreviousWidth, m_PreviousHeight;
     };
 
     /**

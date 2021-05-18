@@ -36,6 +36,7 @@ namespace GEOGL{
     public:
 
         static void init();
+        static void onWindowResize(const glm::ivec2& dimensions);
 
         /**
          * Sets the clear color

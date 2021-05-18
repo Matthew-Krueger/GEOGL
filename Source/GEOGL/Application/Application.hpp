@@ -83,14 +83,13 @@ namespace GEOGL{
         inline Window& getWindow() { return *m_Window; };
 
     private:
-        /**
-         * Is a callback for when the window is closed
-         * @param event The event that asks for the window to be closed
-         * @return returns true if successful
-         */
         bool onWindowClose(WindowCloseEvent& event);
+
+        bool onWindowResize(WindowResizeEvent& event);
+
         Scope<Window> m_Window;
         bool m_Running = true;
+        bool m_Minimized = false;
         LayerStack m_LayerStack;
         Settings m_Settings;
         ImGuiLayer* m_ImGuiLayer;

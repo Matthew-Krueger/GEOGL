@@ -40,6 +40,13 @@ namespace GEOGL{
         RenderCommand::init();
 
     }
+
+    void Renderer::onWindowResize(const glm::ivec2& dimensions) {
+
+        RenderCommand::setViewport(dimensions);
+
+    }
+
     void Renderer::beginScene(const OrthographicCamera& camera) {
 
         GEOGL_CORE_ASSERT(m_SceneData, "Renderer::init not called before Renderer::beginScene");
@@ -58,4 +65,5 @@ namespace GEOGL{
         vertexArray->bind();
         RenderCommand::drawIndexed(vertexArray);
     }
+
 }

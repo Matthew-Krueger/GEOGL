@@ -61,6 +61,7 @@ namespace GEOGL{
         float m_ZoomFadeFactor = 0.5;
         float m_ZoomMin = 0.15;
         float m_ZoomMax = 250;
+
     };
 
 }
