@@ -66,18 +66,18 @@ add_subdirectory(Dependencies/imgui-docking)
 ###################################
 #          Build GEOGL            #
 ###################################
-include_directories(Source/GEOGL/include)
-add_subdirectory(Source)
+include_directories(Engine/Source/GEOGL/include)
+add_subdirectory(Engine/Source)
 
 ###################################
 #          Build Example          #
 ###################################
-add_subdirectory(Source/Example)
+add_subdirectory(Projects/Example)
 
 ###################################
 #          Build Sandbox          #
 ###################################
-add_subdirectory(Source/Sandbox)
+add_subdirectory(Projects/Sandbox)
 
 ###################################
 #         Build Doxygen           #
