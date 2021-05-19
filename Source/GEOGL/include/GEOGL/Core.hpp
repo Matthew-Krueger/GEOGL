@@ -35,34 +35,8 @@
 /* Loading and Callbacks */
 #include "../../Utils/Callbacks.hpp"
 
-/* Events */
-#include "../../IO/Events/Event.hpp"
-#include "../../IO/Events/ApplicationEvent.hpp"
-#include "../../IO/Events/KeyEvent.hpp"
-#include "../../IO/Events/MouseEvent.hpp"
-
-/* Input Polling Section */
-#include "../../IO/Input.hpp"
-#include "../../Utils/InputCodes.hpp"
-
-/* Layers API */
-#include "../../Layers/Layer.hpp"
-#include "../../ImGui/ImGuiLayer.hpp"
-#include "../../Layers/LayerStack.hpp"
-
-/* Render api */
-#include "../../Rendering/Renderer.hpp"
-#include "../../Rendering/RenderCommand.hpp"
-#include "../../Rendering/GraphicsContext.hpp"
-
-#include "../../Rendering/VertexArray.hpp"
-#include "../../Rendering/Buffer.hpp"
-#include "../../Rendering/Shader.hpp"
-#include "../../Rendering/Camera.hpp"
-#include "../../Rendering/Texture.hpp"
 
 
-/* Orthographic Camera Controller */
-#include "../../IO/CameraController.hpp"
+
 
 #endif //GEOGL_CORE_HPP

@@ -28,6 +28,10 @@
 
 /* If not using a pch, the following include MUST be used in every file that uses GEOGL */
 /* #include <GEOGL/Core.hpp> */
+#include <GEOGL/Layers.hpp>
+#include <GEOGL/Renderer.hpp>
+#include <GEOGL/IO.hpp>
+
 
 namespace Example{
 

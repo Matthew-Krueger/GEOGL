@@ -22,52 +22,22 @@
  *                                                                             *
  *******************************************************************************/
 
-#define GEOGL_INCLUDE_MAIN
-#define GEOGL_INCLUDE_WIN_MAIN
-#include <GEOGL/MainCreator.hpp>
-#include <GEOGL/Renderer.hpp>
 
-#include "ExampleApplication.hpp"
-#include "TwoDLayer.hpp"
+#ifndef GEOGL_RENDERER_INCLUDE_HPP
+#define GEOGL_RENDERER_INCLUDE_HPP
 
-static bool show = true;
+#include "Core.hpp"
 
-namespace Example{
+/* Render api */
+#include "../../Rendering/Renderer.hpp"
+#include "../../Rendering/RenderCommand.hpp"
+#include "../../Rendering/GraphicsContext.hpp"
 
-    ExampleApp::ExampleApp() : GEOGL::Application(
-            GEOGL::WindowProps(
-                    "GEOGL Example",
-                    1920,
-                    1080,
-                    "Resources/Runtime-Icon.png"
-            )) {
+#include "../../Rendering/VertexArray.hpp"
+#include "../../Rendering/Buffer.hpp"
+#include "../../Rendering/Shader.hpp"
+#include "../../Rendering/Camera.hpp"
+#include "../../Rendering/Texture.hpp"
 
-        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
-        pushLayer(new TwoDLayer());
 
-        /* This is done in this way to make it explicit for the example that we are using RGBA. */
-
-        GEOGL::Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
-
-        //getWindow().setVSync(false);
-
-    }
-
-    ExampleApp::~ExampleApp(){
-
-        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
-
-    }
-
-    void ExampleApp::onUpdate(GEOGL::TimeStep timeStep) {
-        GEOGL::Renderer::clear();
-    }
-
-}
-
-GEOGL::Application* GEOGL::createApplication(){
-
-    GEOGL::Log::Init("example-app-log.txt", "Example App");
-    return new Example::ExampleApp();
-
-}
+#endif //GEOGL_RENDERER_INCLUDE_HPP

@@ -22,52 +22,16 @@
  *                                                                             *
  *******************************************************************************/
 
-#define GEOGL_INCLUDE_MAIN
-#define GEOGL_INCLUDE_WIN_MAIN
-#include <GEOGL/MainCreator.hpp>
-#include <GEOGL/Renderer.hpp>
 
-#include "ExampleApplication.hpp"
-#include "TwoDLayer.hpp"
+#ifndef GEOGL_EVENTS_INCLUDE_HPP
+#define GEOGL_EVENTS_INCLUDE_HPP
 
-static bool show = true;
+#include "Core.hpp"
 
-namespace Example{
+/* Events */
+#include "../../IO/Events/Event.hpp"
+#include "../../IO/Events/ApplicationEvent.hpp"
+#include "../../IO/Events/KeyEvent.hpp"
+#include "../../IO/Events/MouseEvent.hpp"
 
-    ExampleApp::ExampleApp() : GEOGL::Application(
-            GEOGL::WindowProps(
-                    "GEOGL Example",
-                    1920,
-                    1080,
-                    "Resources/Runtime-Icon.png"
-            )) {
-
-        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
-        pushLayer(new TwoDLayer());
-
-        /* This is done in this way to make it explicit for the example that we are using RGBA. */
-
-        GEOGL::Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
-
-        //getWindow().setVSync(false);
-
-    }
-
-    ExampleApp::~ExampleApp(){
-
-        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
-
-    }
-
-    void ExampleApp::onUpdate(GEOGL::TimeStep timeStep) {
-        GEOGL::Renderer::clear();
-    }
-
-}
-
-GEOGL::Application* GEOGL::createApplication(){
-
-    GEOGL::Log::Init("example-app-log.txt", "Example App");
-    return new Example::ExampleApp();
-
-}
+#endif //GEOGL_EVENTS_INCLUDE_HPP
