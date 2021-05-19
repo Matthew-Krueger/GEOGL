@@ -27,6 +27,7 @@
 #define GEOGL_SANDBOXAPP_HPP
 
 #include <GEOGL/Core.hpp>
+#include "DebugLayer.hpp"
 
 namespace SandboxApp{
 
@@ -34,6 +35,14 @@ namespace SandboxApp{
     public:
         SandboxApp();
         ~SandboxApp() override;
+
+        void onEvent(GEOGL::Event& event) override;
+
+        bool onKeyPressedEvent(GEOGL::KeyPressedEvent& event);
+
+    private:
+        DebugLayer* m_DebugLayer;
+        bool m_DebugLayerOnStack;
     };
 
 }

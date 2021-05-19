@@ -85,7 +85,7 @@ namespace GEOGL{
 
         /* Create window */
         m_Window = Scope<Window>(Window::create(WindowProps(props.appName, props.width, props.height, props.appVersionMajor, props.appVersionMinor, props.appVersionPatch)));
-        m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
+        m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::eventCallback)); // NOLINT(modernize-avoid-bind)
         m_Window->setWindowIcon(props.appIconPath);
 
         /* Initialize Renderer */
@@ -135,7 +135,7 @@ namespace GEOGL{
 
     }
 
-    void Application::onEvent(Event& event){
+    void Application::eventCallback(Event& event){
 
         EventDispatcher dispatcher(event);
 
@@ -151,6 +151,12 @@ namespace GEOGL{
                 break;
             }
         }
+
+        if(event.Handled)
+            return;
+
+        /* lastly, call the application's on event function, which may do other things */
+        onEvent(event);
 
     }
 
@@ -174,6 +180,5 @@ namespace GEOGL{
         return false;
 
     }
-
 
 }

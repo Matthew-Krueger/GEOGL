@@ -12,7 +12,7 @@ if(WIN32)
 
 endif(WIN32)
 
-add_executable(GEOGL_SandboxApp ${OPTIONS} ${ADDITIONAL_WIN32_FILES} SandboxApp.cpp SandboxApp.hpp Layer2D.cpp Layer2D.hpp)
+add_executable(GEOGL_SandboxApp ${OPTIONS} ${ADDITIONAL_WIN32_FILES} SandboxApp.cpp SandboxApp.hpp Layer2D.cpp Layer2D.hpp DebugLayer.cpp DebugLayer.hpp)
 
 add_dependencies(GEOGL_SandboxApp GEOGL::Engine)
 target_link_libraries(GEOGL_SandboxApp GEOGL::Engine)

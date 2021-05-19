@@ -22,64 +22,26 @@
  *                                                                             *
  *******************************************************************************/
 
-#define GEOGL_INCLUDE_MAIN
-#define GEOGL_INCLUDE_WIN_MAIN
-#include <GEOGL/MainCreator.hpp>
 
-#include <GEOGL/IO.hpp>
 
-#include "SandboxApp.hpp"
-#include "Layer2D.hpp"
+#ifndef GEOGL_DEBUGLAYER_HPP
+#define GEOGL_DEBUGLAYER_HPP
+
+#include <GEOGL/Layers.hpp>
 
 namespace SandboxApp{
 
-    SandboxApp::SandboxApp():
-            GEOGL::Application(
-                    {
-                            "Sandbox Application",
-                            "sandbox-app-log.txt",
-                            1920,
-                            1080,
-                            "SandboxResources/Runtime-Icon.png"
-                    }
-    ){
+    class DebugLayer : public GEOGL::Layer{
+    public:
+        DebugLayer() = default;
 
-        m_DebugLayer = new DebugLayer();
-        m_DebugLayerOnStack = false;
-        pushLayer(new Layer2D());
+        void onAttach() override;
+        void onDetach() override;
+        void onUpdate(GEOGL::TimeStep timeStep) override;
+        void onImGuiRender(GEOGL::TimeStep timeStep) override;
 
-    }
-
-    SandboxApp::~SandboxApp() {
-
-    }
-
-    void SandboxApp::onEvent(GEOGL::Event &event) {
-
-        GEOGL::EventDispatcher dispatcher(event);
-
-        dispatcher.dispatch<GEOGL::KeyPressedEvent>(GEOGL_BIND_EVENT_FN(SandboxApp::onKeyPressedEvent));
-
-    }
-
-    bool SandboxApp::onKeyPressedEvent(GEOGL::KeyPressedEvent &event) {
-
-        if(event.getKeyCode() == GEOGL::Key::D && (GEOGL::Input::isKeyPressed(GEOGL::Key::LeftControl) || GEOGL::Input::isKeyPressed(GEOGL::Key::RightControl))) {
-            if (m_DebugLayerOnStack) {
-                GEOGL::Application::get().popOverlay(m_DebugLayer);
-                m_DebugLayerOnStack = false;
-            } else {
-                GEOGL::Application::get().pushOverlay(m_DebugLayer);
-                m_DebugLayerOnStack = true;
-            }
-        }
-
-        return false;
-    }
-}
-
-GEOGL::Application* GEOGL::createApplication() {
-
-    return new SandboxApp::SandboxApp();
+    };
 
 }
+
+#endif //GEOGL_DEBUGLAYER_HPP

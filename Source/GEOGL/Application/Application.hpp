@@ -88,17 +88,14 @@ namespace GEOGL{
          * Application guarantees that this is called before any other on update functions.
          */
         virtual void onUpdate(TimeStep timeStep){};
+        virtual void onEvent(Event& event) {};
 
         /**
          * Contains the main run loop for the game
          */
         void run();
 
-        /**
-         * Handles events for the game
-         * @param e
-         */
-        void onEvent(Event& event);
+        void eventCallback(Event& event);
 
         inline void pushLayer(Layer* layer) { m_LayerStack.pushLayer(layer); };
         inline void pushOverlay(Layer* layer) { m_LayerStack.pushOverlay(layer); };
