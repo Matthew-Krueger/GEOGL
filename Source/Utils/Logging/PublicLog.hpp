@@ -58,15 +58,17 @@ namespace GEOGL{
      */
     class GEOGL_API Log{
     private:
-        static std::shared_ptr<spdlog::logger> coreLogger;
-        static std::shared_ptr<spdlog::logger> clientLogger;
 
     public:
-        static void Init(const std::string& filePath, const std::string& clientName = "Client");
+        static void init(const std::string& filePath, const std::string& clientName = "Client");
+        inline static bool isInitialized(){ return m_Initialized; };
 
         inline static std::shared_ptr<spdlog::logger>& getCoreLogger(){ return coreLogger; }
         inline static std::shared_ptr<spdlog::logger>& getClientLogger(){ return clientLogger; }
-
+    private:
+        static std::shared_ptr<spdlog::logger> coreLogger;
+        static std::shared_ptr<spdlog::logger> clientLogger;
+        static bool m_Initialized;
     };
 
 }

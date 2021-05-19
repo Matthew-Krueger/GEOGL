@@ -22,7 +22,40 @@
  *                                                                             *
  *******************************************************************************/
 
-#include "PCH.hpp"
 
-/* So I have heard, a cpp is required to directly include a PCH for it to work with MSVC. It does not seem to do this
- * for me, but it does not hurt anything. */
+#include "Layer2D.hpp"
+
+namespace SandboxApp{
+
+    Layer2D::Layer2D() = default;
+
+    void Layer2D::onAttach() {
+
+        m_DebugName = "Layer2D - Sandbox";
+
+    }
+
+    void Layer2D::onDetach() {
+
+
+
+    }
+
+    void Layer2D::onUpdate(GEOGL::TimeStep timeStep) {
+
+
+
+    }
+
+    void Layer2D::onImGuiRender(GEOGL::TimeStep timeStep) {
+
+
+
+    }
+
+    void Layer2D::onEvent(GEOGL::Event &event) {
+
+
+
+    }
+}

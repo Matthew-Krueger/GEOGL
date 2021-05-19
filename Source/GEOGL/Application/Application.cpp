@@ -33,7 +33,11 @@ namespace GEOGL{
 
 
 
-    Application::Application(const WindowProps& props){
+    Application::Application(const ApplicationProperties& props){
+
+        if(!GEOGL::Log::isInitialized()){
+            GEOGL::Log::init(props.logFileName, props.appName);
+        }
 
 #ifdef NDEBUG
         std::string releaseMode("Release");
@@ -80,8 +84,9 @@ namespace GEOGL{
         s_Instance = this;
 
         /* Create window */
-        m_Window = Scope<Window>(Window::create(props));
+        m_Window = Scope<Window>(Window::create(WindowProps(props.appName, props.width, props.height, props.appVersionMajor, props.appVersionMinor, props.appVersionPatch)));
         m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::onEvent)); // NOLINT(modernize-avoid-bind)
+        m_Window->setWindowIcon(props.appIconPath);
 
         /* Initialize Renderer */
         Renderer::init();
@@ -96,10 +101,12 @@ namespace GEOGL{
 
     void Application::run(){
 
+        GEOGL::Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
         GEOGL_CORE_INFO_NOSTRIP("Successfully started application. Entering Loop.");
 
         while(m_Running){
 
+            Renderer::clear();
             /* Measure platform time */
             float time = m_Window->getCurrentPlatformTime();
             TimeStep timeStep = time - m_LastFrameTime;

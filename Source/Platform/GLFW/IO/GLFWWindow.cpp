@@ -147,9 +147,6 @@ namespace GEOGL::Platform::GLFW{
         m_Data.graphicsContext = m_GraphicsContext;
         m_Data.m_WindowDimensions = {props.width, props.height};
 
-        /* Load the window icon */
-        setWindowIcon(props.iconPath);
-
         /* Set VSync true. Evidently, no virtual member functions from the constructor. */
         {
             bool vsync = true;

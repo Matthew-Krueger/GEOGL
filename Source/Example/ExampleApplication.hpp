@@ -33,9 +33,6 @@ namespace Example {
     public:
         ExampleApp();
         ~ExampleApp() override;
-
-        void onUpdate(GEOGL::TimeStep timeStep) override;
-
     };
 }
 

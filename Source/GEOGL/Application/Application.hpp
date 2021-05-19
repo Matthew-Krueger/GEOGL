@@ -42,6 +42,32 @@
 
 namespace GEOGL{
 
+    struct ApplicationProperties{
+
+        ApplicationProperties(
+                std::string appName,
+                std::string logFileName = "default-GEOGL-log.txt",
+                uint16_t width = 1280,
+                uint16_t height = 720,
+                std::string applicationIconPath = "",
+                unsigned int appVersionMajor = 0,
+                unsigned int appVersionMinor = 0,
+                unsigned int appVersionPatch = 1):
+                appName(std::move(appName)), logFileName(std::move(logFileName)), width(width), height(height), appIconPath(std::move(applicationIconPath)), appVersionMajor(appVersionMajor), appVersionMinor(appVersionMinor), appVersionPatch(appVersionPatch){
+
+        }
+
+        std::string appName;
+        std::string logFileName = "default-GEOGL-log.txt";
+        uint16_t width = 1280;
+        uint16_t height = 720;
+        std::string appIconPath = "";
+        unsigned int appVersionMajor = 0;
+        unsigned int appVersionMinor = 0;
+        unsigned int appVersionPatch = 1;
+
+    };
+
     /**
      * \brief An abstract representation of an application. To be extended in
      * the client.
@@ -53,7 +79,7 @@ namespace GEOGL{
     class GEOGL_API Application{
 
     public:
-        explicit Application(const WindowProps& props = WindowProps());
+        explicit Application(const ApplicationProperties& props = ApplicationProperties("Default GEOGL App"));
         virtual ~Application();
 
         /**

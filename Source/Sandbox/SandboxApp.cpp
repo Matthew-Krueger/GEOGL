@@ -22,10 +22,37 @@
  *                                                                             *
  *******************************************************************************/
 
+#define GEOGL_INCLUDE_MAIN
+#define GEOGL_INCLUDE_WIN_MAIN
+#include <GEOGL/MainCreator.hpp>
 
-#ifndef GEOGL_PCH_HPP
-#define GEOGL_PCH_HPP
+#include "SandboxApp.hpp"
+#include "Layer2D.hpp"
 
-#include <GEOGL/Core.hpp>
+namespace SandboxApp{
 
-#endif //GEOGL_PCH_HPP
+    SandboxApp::SandboxApp():
+            GEOGL::Application(
+                    {
+                            "Sandbox Application",
+                            "sandbox-app-log.txt",
+                            1920,
+                            1080,
+                            "SandboxResources/Runtime-Icon.png"
+                    }
+    ){
+
+        pushLayer(new Layer2D());
+
+    }
+
+    SandboxApp::~SandboxApp() {
+
+    }
+}
+
+GEOGL::Application* GEOGL::createApplication() {
+
+    return new SandboxApp::SandboxApp();
+
+}

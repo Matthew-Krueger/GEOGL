@@ -23,18 +23,19 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_VULKANEXAMPLEAPP_HPP
-#define GEOGL_VULKANEXAMPLEAPP_HPP
+#ifndef GEOGL_SANDBOXAPP_HPP
+#define GEOGL_SANDBOXAPP_HPP
 
-namespace VulkanExample {
-    class VulkanExample : public GEOGL::Application {
+#include <GEOGL/Core.hpp>
+
+namespace SandboxApp{
+
+    class SandboxApp : public GEOGL::Application{
     public:
-        VulkanExample();
-        ~VulkanExample() override;
-
-        void onUpdate(GEOGL::TimeStep timeStep) override;
-
+        SandboxApp();
+        ~SandboxApp() override;
     };
+
 }
 
-#endif //GEOGL_VULKANEXAMPLEAPP_HPP
+#endif //GEOGL_SANDBOXAPP_HPP

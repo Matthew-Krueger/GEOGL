@@ -23,50 +23,31 @@
  *******************************************************************************/
 
 
-#define GEOGL_INCLUDE_MAIN
-#define GEOGL_INCLUDE_WIN_MAIN
-#include <GEOGL/MainCreator.hpp>
-#include "VulkanExampleApp.hpp"
+#ifndef GEOGL_LAYER2D_HPP
+#define GEOGL_LAYER2D_HPP
+
+#include <GEOGL/Layers.hpp>
+
+namespace SandboxApp{
+
+    class Layer2D : public GEOGL::Layer{
+    public:
+        Layer2D();
+        Layer2D(const Layer2D&) = delete;
 
 
-static bool show = true;
+        void onAttach() override;
+        void onDetach() override;
+        void onUpdate(GEOGL::TimeStep timeStep) override;
+        void onImGuiRender(GEOGL::TimeStep timeStep) override;
 
-namespace VulkanExample{
+        void onEvent(GEOGL::Event& event) override;
 
-    VulkanExample::VulkanExample() : GEOGL::Application(
-            GEOGL::WindowProps(
-                    "GEOGL Example",
-                    1920,
-                    1080,
-                    "Resources/Runtime-Icon.png"
-            )) {
+    private:
 
-        GEOGL_INFO_NOSTRIP("Starting Sandbox Application.");
-        /* This is done in this way to make it explicit for the example that we are using RGBA. */
 
-        glm::vec4 clearColor;
-        clearColor = {0.1f,0.1f,0.1f,1.0f};
-        GEOGL::Renderer::setClearColor(clearColor);
-
-        //getWindow().setVSync(false);
-
-    }
-
-    VulkanExample::~VulkanExample(){
-
-        GEOGL_INFO_NOSTRIP("Closing Sandbox Application.");
-
-    }
-
-    void VulkanExample::onUpdate(GEOGL::TimeStep timeStep) {
-        GEOGL::Renderer::clear();
-    }
+    };
 
 }
 
-GEOGL::Application* GEOGL::createApplication(){
-
-    GEOGL::Log::Init("vulkan-app-log.txt", "Vulkan App");
-    return new VulkanExample::VulkanExample();
-
-}
+#endif //GEOGL_LAYER2D_HPP

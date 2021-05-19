@@ -73,7 +73,12 @@ add_subdirectory(Source)
 #          Build Example          #
 ###################################
 add_subdirectory(Source/Example)
-add_subdirectory(Source/Vulkan_Example)
+
+###################################
+#          Build Sandbox          #
+###################################
+add_subdirectory(Source/Sandbox)
+
 ###################################
 #         Build Doxygen           #
 ###################################

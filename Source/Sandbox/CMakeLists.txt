@@ -12,21 +12,17 @@ if(WIN32)
 
 endif(WIN32)
 
-add_executable(GEOGL_Example_Vulkan ${OPTIONS} ${ADDITIONAL_WIN32_FILES} VulkanExampleApp.cpp VulkanExampleApp.hpp PCH/PCH.cpp PCH/PCH.hpp)
+add_executable(GEOGL_SandboxApp ${OPTIONS} ${ADDITIONAL_WIN32_FILES} SandboxApp.cpp SandboxApp.hpp Layer2D.cpp Layer2D.hpp)
 
-target_precompile_headers("GEOGL_Example_Vulkan" PRIVATE PCH/PCH.hpp)
+add_dependencies(GEOGL_SandboxApp GEOGL::Engine)
+target_link_libraries(GEOGL_SandboxApp GEOGL::Engine)
 
-add_dependencies(GEOGL_Example_Vulkan GEOGL::Engine)
-target_link_libraries(GEOGL_Example_Vulkan GEOGL::Engine)
-
-set_target_properties(GEOGL_Example_Vulkan PROPERTIES
+set_target_properties(GEOGL_SandboxApp PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/
         )
 
-
-
 add_custom_command(
-        TARGET GEOGL_Example_Vulkan POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/${PATH_TO_GEOGL}/Source/Example/Resources" "${CMAKE_BINARY_DIR}/bin/Resources"
+        TARGET GEOGL_SandboxApp POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/${PATH_TO_GEOGL}/Source/Sandbox/SandboxResources" "${CMAKE_BINARY_DIR}/bin/SandboxResources"
         COMMENT "Copying resources to bin directory"
 )
