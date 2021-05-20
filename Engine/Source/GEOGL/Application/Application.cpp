@@ -137,6 +137,11 @@ namespace GEOGL{
 
     void Application::eventCallback(Event& event){
 
+        /* Firstly, call the application's on event function, which may do other things, such as push or pop layers */
+        onEvent(event);
+        if(event.Handled)
+            return;
+
         EventDispatcher dispatcher(event);
 
         /* Bind a Window Close Event to Application::onWindowClose() */
@@ -152,11 +157,6 @@ namespace GEOGL{
             }
         }
 
-        if(event.Handled)
-            return;
-
-        /* lastly, call the application's on event function, which may do other things */
-        onEvent(event);
 
     }
 

@@ -27,6 +27,8 @@
 #define GEOGL_LAYER2D_HPP
 
 #include <GEOGL/Layers.hpp>
+#include <GEOGL/IO.hpp>
+#include <GEOGL/Renderer.hpp>
 
 namespace SandboxApp{
 
@@ -44,6 +46,18 @@ namespace SandboxApp{
         void onEvent(GEOGL::Event& event) override;
 
     private:
+
+        /* Temporary Vertex Array */
+        GEOGL::Ref<GEOGL::VertexArray> m_SquareVA;
+
+        /* Temp Shader Utils */
+        GEOGL::Ref<GEOGL::Shader> m_Shader;
+
+        /* Camera utils */
+        GEOGL::OrthographicCameraController m_OrthographicCameraController;
+
+        /* Color Controllers */
+        glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 1.0f};
 
     };
 

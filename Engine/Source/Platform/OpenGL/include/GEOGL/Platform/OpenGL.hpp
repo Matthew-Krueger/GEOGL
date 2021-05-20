@@ -25,5 +25,11 @@
 #ifndef GEOGL_OPENGL_HPP
 #define GEOGL_OPENGL_HPP
 
+#include "../Rendering/OpenGLBuffer.hpp"
+#include "../Rendering/OpenGLGraphicsContext.hpp"
+#include "../Rendering/OpenGLRendererAPI.hpp"
+#include "../Rendering/OpenGLShader.hpp"
+#include "../Rendering/OpenGLTexture.hpp"
+#include "../Rendering/OpenGLVertexArray.hpp"
 
 #endif //GEOGL_OPENGL_HPP

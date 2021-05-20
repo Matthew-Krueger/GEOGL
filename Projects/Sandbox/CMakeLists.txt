@@ -26,3 +26,4 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/${PATH_TO_GEOGL}/Projects/Sandbox/SandboxResources" "${CMAKE_BINARY_DIR}/bin/SandboxResources"
         COMMENT "Copying resources to bin directory"
 )
+

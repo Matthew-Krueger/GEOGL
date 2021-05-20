@@ -64,7 +64,7 @@ namespace SandboxApp{
 
     bool SandboxApp::onKeyPressedEvent(GEOGL::KeyPressedEvent &event) {
 
-        if(event.getKeyCode() == GEOGL::Key::D && (GEOGL::Input::isKeyPressed(GEOGL::Key::LeftControl) || GEOGL::Input::isKeyPressed(GEOGL::Key::RightControl))) {
+        if(event.getKeyCode() == GEOGL::Key::F5) {
             if (m_DebugLayerOnStack) {
                 GEOGL::Application::get().popOverlay(m_DebugLayer);
                 m_DebugLayerOnStack = false;
@@ -72,6 +72,9 @@ namespace SandboxApp{
                 GEOGL::Application::get().pushOverlay(m_DebugLayer);
                 m_DebugLayerOnStack = true;
             }
+
+            return true;
+
         }
 
         return false;

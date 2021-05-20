@@ -76,7 +76,7 @@ namespace SandboxApp{
 
 
             ImGui::Begin("Debug Info");
-            ImGui::SetWindowFontScale(2.0);
+            ImGui::SetWindowFontScale(1.25f);
             ImGui::Text("Window size %d x %d", dimensions.x, dimensions.y);
             ImGui::Text("Aspect Ratio %f", (float)dimensions.x/(float)dimensions.y);
             ImGui::Text("VSync Enabled: %s", (GEOGL::Application::get().getWindow().isVSync()) ? "TRUE" : "FALSE");
@@ -105,7 +105,7 @@ namespace SandboxApp{
             ImGui::End();
         }else{
             ImGui::Begin("Preparing Debug Info");
-            ImGui::SetWindowFontScale(2.0);
+            ImGui::SetWindowFontScale(1.25f);
             ImGui::Text("Waiting for FPS to stabilize.");
             ImGui::End();
         }
