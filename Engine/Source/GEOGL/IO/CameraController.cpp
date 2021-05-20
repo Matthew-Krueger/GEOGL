@@ -43,20 +43,22 @@ namespace GEOGL{
     void OrthographicCameraController::onUpdate(TimeStep ts) {
 
 
+        float deltaAmount = ts * ((m_ZoomLevel * m_CameraTranslationFadeFactor) + m_CameraTranslationBias);
+
         glm::vec3 deltaPosition(0.0f);
 
         /* If dpad or q or e is pressed, translate or rotate */
         if (Input::isKeyPressed(Key::A)) {
-            deltaPosition.x -= m_CameraTranslationSpeed * ts;
+            deltaPosition.x -= m_CameraTranslationSpeed * deltaAmount;
         }
         if (Input::isKeyPressed(Key::D)) {
-            deltaPosition.x += m_CameraTranslationSpeed * ts;
+            deltaPosition.x += m_CameraTranslationSpeed * deltaAmount;
         }
         if (Input::isKeyPressed(Key::S)) {
-            deltaPosition.y -= m_CameraTranslationSpeed * ts;
+            deltaPosition.y -= m_CameraTranslationSpeed * deltaAmount;
         }
         if (Input::isKeyPressed(Key::W)) {
-            deltaPosition.y += m_CameraTranslationSpeed * ts;
+            deltaPosition.y += m_CameraTranslationSpeed * deltaAmount;
         }
 
         if(m_RotationEnabled) {

@@ -54,7 +54,12 @@ namespace GEOGL{
         float m_CameraRotation = 0.0f;
         glm::vec3 m_CameraPosition = {0.0f,0.0f,0.0f};
 
-        float m_CameraTranslationSpeed = 3.5f, m_CameraRotationSpeed = 180.0f;
+        float m_CameraRotationSpeed = 180.0f;
+
+        /* Translation Controls */
+        float m_CameraTranslationSpeed = 2.0f;
+        float m_CameraTranslationFadeFactor = 0.35f;
+        float m_CameraTranslationBias = 1.0f;
 
         /* Zoom Controls */
         float m_ZoomFactor = 0.5f;
