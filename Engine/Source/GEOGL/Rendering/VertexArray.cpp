@@ -44,7 +44,7 @@ namespace GEOGL{
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #if GEOGL_BUILD_WITH_OPENGL == 1
-                result = std::make_shared<GEOGL::Platform::OpenGL::VertexArray>();
+                result = createRef<GEOGL::Platform::OpenGL::VertexArray>();
                 return result;
 #else
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");

@@ -59,6 +59,8 @@ namespace SandboxApp{
         /* Color Controllers */
         glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 1.0f};
 
+        std::vector<GEOGL::ProfileResult> m_ProfileResults;
+
     };
 
 }

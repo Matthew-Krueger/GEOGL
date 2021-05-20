@@ -77,7 +77,7 @@ namespace GEOGL{
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #if GEOGL_BUILD_WITH_OPENGL == 1
-            result = std::make_shared<GEOGL::Platform::OpenGL::Shader>(vertexSrc, fragmentSrc, name);
+            result = createRef<GEOGL::Platform::OpenGL::Shader>(vertexSrc, fragmentSrc, name);
             return result;
 #else
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
@@ -98,7 +98,7 @@ namespace GEOGL{
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #if GEOGL_BUILD_WITH_OPENGL == 1
-                result = std::make_shared<GEOGL::Platform::OpenGL::Shader>(folderPath);
+                result = createRef<GEOGL::Platform::OpenGL::Shader>(folderPath);
                 return result;
 #else
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");

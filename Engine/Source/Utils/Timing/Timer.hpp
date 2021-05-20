@@ -22,50 +22,51 @@
  *                                                                             *
  *******************************************************************************/
 
+#ifndef GEOGL_TIMER_HPP
+#define GEOGL_TIMER_HPP
 
-#ifndef GEOGL_DEPENDENCIES_SOURCE_HPP
-#define GEOGL_DEPENDENCIES_SOURCE_HPP
+namespace GEOGL{
 
-#include "../Memory/TrackMemoryAllocations.hpp"
+    struct ProfileResult{
+        const char* name;
+        float time;
+    };
 
+    template<typename Fn>
+    class Timer{
+    public:
+        Timer(const char * name, Fn&& callback)
+                : m_Name(name), m_Stopped(false), m_Callback(callback){
 
-#include <GEOGL/API_Utils/DLLExportsAndTraps.hpp>
+            m_StartTimePoint = std::chrono::high_resolution_clock::now();
 
-/* JSON */
-#include <Nlohmann/json.hpp>
-using json = nlohmann::json;
+        }
 
-/* STDLIB */
-#include <string>
-#include <sstream>
-#include <vector>
-#include <memory>
-#include <functional>
-#include <iostream>
-#include <map>
+        inline ~Timer() { if(!m_Stopped) stop(); };
 
-/* spdlog */
-#include <spdlog/spdlog.h>
+        void stop(){
 
-/* glm */
-#ifdef GEOGL_SWIZZLE
-#define GLM_FORCE_SWIZZLE
-#endif
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+            auto endTimePoint = std::chrono::high_resolution_clock::now();
 
-#define BIT(x) (1 << x)
+            long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimePoint).time_since_epoch().count();
+            long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimePoint).time_since_epoch().count();
 
-#include "../TimeStep.hpp"
-#include "../Timing/Timer.hpp"
+            m_Stopped = true;
 
+            m_Callback({m_Name, (float)(end-start)*.001f});
 
+        }
 
+    private:
+        const char * m_Name;
+        std::chrono::time_point<std::chrono::steady_clock> m_StartTimePoint;
+        bool m_Stopped;
+        Fn m_Callback;
 
-#endif //GEOGL_DEPENDENCIES_HPP
+    };
+
+#define PROFILE_SCOPE(name) GEOGL::Timer timer##__func__##__LINE__(name, [&](GEOGL::ProfileResult profileResult){ m_ProfileResults.push_back(profileResult); })
+
+}
+
+#endif //GEOGL_TIMER_HPP

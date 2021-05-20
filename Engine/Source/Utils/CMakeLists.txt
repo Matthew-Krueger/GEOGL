@@ -38,6 +38,9 @@ add_library(GEOGL_Utils ${GEOGL_LIBRARY_TYPE}
         TimeStep.hpp
         Memory/TrackMemoryAllocations.hpp
         Memory/TrackMemoryAllocations.cpp
+
+        Timing/Timer.cpp Timing/Timer.hpp
+
         Headers/Refs.hpp)
 
 ######################################

@@ -71,6 +71,7 @@ namespace SandboxApp{
 
     void DebugLayer::onImGuiRender(GEOGL::TimeStep timeStep) {
 
+
         /* Only run the fps min and max afterwords to give time to stabalize */
         if(frameCount++ > 45) {
 

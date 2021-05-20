@@ -23,49 +23,8 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_DEPENDENCIES_SOURCE_HPP
-#define GEOGL_DEPENDENCIES_SOURCE_HPP
+#include "Timer.hpp"
 
-#include "../Memory/TrackMemoryAllocations.hpp"
+namespace GEOGL{
 
-
-#include <GEOGL/API_Utils/DLLExportsAndTraps.hpp>
-
-/* JSON */
-#include <Nlohmann/json.hpp>
-using json = nlohmann::json;
-
-/* STDLIB */
-#include <string>
-#include <sstream>
-#include <vector>
-#include <memory>
-#include <functional>
-#include <iostream>
-#include <map>
-
-/* spdlog */
-#include <spdlog/spdlog.h>
-
-/* glm */
-#ifdef GEOGL_SWIZZLE
-#define GLM_FORCE_SWIZZLE
-#endif
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vector_relational.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#define BIT(x) (1 << x)
-
-#include "../TimeStep.hpp"
-#include "../Timing/Timer.hpp"
-
-
-
-
-#endif //GEOGL_DEPENDENCIES_HPP
+}
