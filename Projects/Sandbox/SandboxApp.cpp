@@ -38,8 +38,8 @@ namespace SandboxApp{
                     {
                             "Sandbox Application",
                             "sandbox-app-log.txt",
-                            1920,
-                            1080,
+                            1280,
+                            720,
                             "SandboxResources/Runtime-Icon.png"
                     }
     ){

@@ -28,6 +28,8 @@
 
 #if GEOGL_BUILD_WITH_OPENGL == 1
 #include "../../Platform/OpenGL/Rendering/OpenGLShader.hpp"
+#include "Renderer2D.hpp"
+
 #endif
 
 namespace GEOGL{
@@ -38,6 +40,7 @@ namespace GEOGL{
 
         m_SceneData = new SceneData;
         RenderCommand::init();
+        Renderer2D::init();
 
     }
 

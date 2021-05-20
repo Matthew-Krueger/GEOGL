@@ -38,6 +38,7 @@
 #include "../../Rendering/Shader.hpp"
 #include "../../Rendering/Camera.hpp"
 #include "../../Rendering/Texture.hpp"
+#include "../../Rendering/Renderer2D.hpp"
 
 
 #endif //GEOGL_RENDERER_INCLUDE_HPP
