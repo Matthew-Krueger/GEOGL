@@ -88,13 +88,14 @@ namespace SandboxApp{
             std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(m_Shader)->uploadUniformFloat4("u_Color", m_SquareColor);
         }
 
-        for(unsigned int i=0; i<20; ++i){
+        /*for(unsigned int i=0; i<20; ++i){
             for(unsigned int j=0; j<20; ++j) {
                 glm::vec3 pos((j * .11f)-1, (i * .11f)-1, 0.0f);
                 glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scalePointOneOne;
                 GEOGL::Renderer::submit(m_Shader, m_SquareVA, transform);
             }
-        }
+        }*/
+        GEOGL::Renderer::submit(m_Shader, m_SquareVA);
 
         GEOGL::Renderer::endScene();
 

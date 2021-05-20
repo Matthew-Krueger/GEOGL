@@ -36,6 +36,7 @@ namespace SandboxApp{
     public:
         Layer2D();
         Layer2D(const Layer2D&) = delete;
+        ~Layer2D() override = default;
 
 
         void onAttach() override;
