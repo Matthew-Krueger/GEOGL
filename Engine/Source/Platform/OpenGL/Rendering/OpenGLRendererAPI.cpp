@@ -37,6 +37,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void RendererAPI::init(){
+        GEOGL_PROFILE_FUNCTION();
 
         GEOGL_CORE_INFO("Initializing the RendererAPI");
 
@@ -57,6 +58,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void RendererAPI::setViewport(const glm::ivec2 &dimensions) {
+        GEOGL_PROFILE_FUNCTION();
 
         glViewport(0,0,(GLsizei) dimensions.x, (GLsizei) dimensions.y);
 
@@ -67,6 +69,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void RendererAPI::clear() {
+        GEOGL_PROFILE_FUNCTION();
 
         glClearColor(m_ClearColor.r, m_ClearColor.g, m_ClearColor.b, m_ClearColor.a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -74,6 +77,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void RendererAPI::drawIndexed(const Ref<VertexArray> &vertexArray) {
+        GEOGL_PROFILE_FUNCTION();
 
         glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 

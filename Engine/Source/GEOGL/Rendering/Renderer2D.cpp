@@ -39,6 +39,7 @@ namespace GEOGL{
     static glm::mat4 s_IdentMatrix;
 
     void GEOGL::Renderer2D::init() {
+        GEOGL_PROFILE_FUNCTION();
 
         s_Data = new Renderer2DStorage();
 
@@ -83,12 +84,14 @@ namespace GEOGL{
     }
 
     void GEOGL::Renderer2D::shutdown() {
+        GEOGL_PROFILE_FUNCTION();
 
         delete s_Data;
 
     }
 
     void GEOGL::Renderer2D::beginScene(const OrthographicCamera &camera) {
+        GEOGL_PROFILE_FUNCTION();
 
         auto projectionViewMatrix = camera.getProjectionViewMatrix();
 
@@ -98,16 +101,19 @@ namespace GEOGL{
     }
 
     void GEOGL::Renderer2D::endScene() {
+        GEOGL_PROFILE_FUNCTION();
 
     }
 
     void GEOGL::Renderer2D::drawQuad(const glm::vec2 &position, const glm::vec2 &size, const glm::vec4 &color, float rotation) {
+        GEOGL_PROFILE_FUNCTION();
 
         drawQuad({position.x, position.y, 0}, size, color, rotation);
 
     }
 
     void GEOGL::Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const glm::vec4 &color, float rotation) {
+        GEOGL_PROFILE_FUNCTION();
 
         s_Data->textureShader->bind();
         s_Data->whiteTexture->bind(0);
@@ -126,12 +132,14 @@ namespace GEOGL{
     }
 
     void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, float rotation, const glm::vec4& colorTint){
+        GEOGL_PROFILE_FUNCTION();
 
         drawQuad({position.x, position.y, 0}, size, texture, tilingFactor, rotation, colorTint);
 
     }
 
     void Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const Ref<Texture2D>& texture, float tilingFactor, float rotation, const glm::vec4& colorTint) {
+        GEOGL_PROFILE_FUNCTION();
 
         s_Data->textureShader->bind();
         texture->bind(0);

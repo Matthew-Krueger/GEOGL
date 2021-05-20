@@ -85,7 +85,7 @@ namespace GEOGL{
  * Enables asserts when compiling in debug mode
  */
 #   define GEOGL_ENABLE_ASSERTS
-#   define GEOGL_TRACE(...)       ::GEOGL::Log::getClientLogger()->trace(GEOGL_PREPARE_LOG_ENTRY(__VA_ARGS__))
+#   define GEOGL_TRACE(...)         ::GEOGL::Log::getClientLogger()->trace(GEOGL_PREPARE_LOG_ENTRY(__VA_ARGS__))
 #   define GEOGL_INFO(...)          ::GEOGL::Log::getClientLogger()->info(GEOGL_PREPARE_LOG_ENTRY(__VA_ARGS__))
 #   define GEOGL_WARN(...)          ::GEOGL::Log::getClientLogger()->warn(GEOGL_PREPARE_LOG_ENTRY(__VA_ARGS__))
 #   define GEOGL_ERROR(...)         ::GEOGL::Log::getClientLogger()->error(GEOGL_PREPARE_LOG_ENTRY(__VA_ARGS__))

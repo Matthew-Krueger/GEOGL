@@ -32,30 +32,42 @@ namespace GEOGL::Platform::OpenGL {
 
     Texture2D::Texture2D(uint32_t width, uint32_t height) :
         m_Width(width), m_Height(height), m_Path("No Path, Loaded by Data"){
+        GEOGL_PROFILE_FUNCTION();
 
         m_InternalFormat = GL_RGBA8;
         m_Format= GL_RGBA;
 
-        glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-        glTextureStorage2D(m_RendererID, 1, m_InternalFormat, (GLsizei) m_Width, (GLsizei) m_Height);
+        {
+            GEOGL_PROFILE_SCOPE("Create Texture and set Format, width, and height");
+            glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+            glTextureStorage2D(m_RendererID, 1, m_InternalFormat, (GLsizei) m_Width, (GLsizei) m_Height);
+        }
 
-        glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        {
+            GEOGL_PROFILE_SCOPE("Set Texture parameters");
+            glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        }
 
     }
 
     Texture2D::Texture2D(std::string filePath)
     : m_Path(std::move(filePath)){
-        int width, height, channels;
-        stbi_set_flip_vertically_on_load(1);
-        stbi_uc* data = stbi_load(m_Path.c_str(), &width, &height, &channels, 0);
-        GEOGL_CORE_ASSERT_NOSTRIP(data, "Failed to load image {}", m_Path);
-        m_Width = width;
-        m_Height = height;
+        GEOGL_PROFILE_FUNCTION();
 
+        int width, height, channels;
+        stbi_uc *data = nullptr;
+        {
+            GEOGL_PROFILE_SCOPE("Load image from file");
+            stbi_set_flip_vertically_on_load(1);
+            data = stbi_load(m_Path.c_str(), &width, &height, &channels, 0);
+            GEOGL_CORE_ASSERT_NOSTRIP(data, "Failed to load image {}", m_Path);
+            m_Width = width;
+            m_Height = height;
+        }
 
         m_InternalFormat = GL_INVALID_ENUM;
         m_Format = GL_INVALID_ENUM;
@@ -75,30 +87,43 @@ namespace GEOGL::Platform::OpenGL {
                 break;
         }
 
+        {
+            GEOGL_PROFILE_SCOPE("Create Texture and set Format, width, and height");
+            glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+            glTextureStorage2D(m_RendererID, 1, m_InternalFormat, (GLsizei) m_Width, (GLsizei) m_Height);
+        }
 
-        glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-        glTextureStorage2D(m_RendererID, 1, m_InternalFormat, (GLsizei) m_Width, (GLsizei) m_Height);
+        {
+            GEOGL_PROFILE_SCOPE("Set Texture parameters");
+            glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        }
 
-        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        {
+            GEOGL_PROFILE_SCOPE("Substitute Texture into GPU Memory");
+            glTextureSubImage2D(m_RendererID, 0, 0, 0, (GLsizei) m_Width, (GLsizei) m_Height, m_Format,
+                                GL_UNSIGNED_BYTE, (void *) data);
+        }
 
-        glTextureSubImage2D(m_RendererID, 0, 0, 0, (GLsizei) m_Width, (GLsizei) m_Height, m_Format, GL_UNSIGNED_BYTE, (void*) data);
-
-        stbi_image_free(data);
-
+        {
+            GEOGL_PROFILE_SCOPE("Free the image from memory");
+            stbi_image_free(data);
+        }
     }
 
 
     Texture2D::~Texture2D() {
+        GEOGL_PROFILE_FUNCTION();
 
         glDeleteTextures(1, &m_RendererID);
 
     }
 
     void Texture2D::setData(void *data, uint32_t size) {
+        GEOGL_PROFILE_FUNCTION();
 
         uint32_t bpp = m_Format == GL_RGBA ? 4 : 3;
         GEOGL_CORE_ASSERT(size == m_Width * m_Height * bpp, "The size of the data must be the entire texture.");
@@ -107,6 +132,7 @@ namespace GEOGL::Platform::OpenGL {
     }
 
     void Texture2D::bind(uint32_t slotID) const {
+        GEOGL_PROFILE_FUNCTION();
 
         glBindTextureUnit(slotID, m_RendererID);
 

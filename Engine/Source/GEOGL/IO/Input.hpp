@@ -48,8 +48,8 @@ namespace GEOGL{
     protected:
         virtual bool isKeyPressedImpl(KeyCode keycode)=0;
         virtual bool isMouseButtonPressedImpl(MouseCode button) = 0;
-        virtual bool getMouseXImpl() = 0;
-        virtual bool getMouseYImpl() = 0;
+        virtual float getMouseXImpl() = 0;
+        virtual float getMouseYImpl() = 0;
         virtual glm::vec2 getMousePositionImpl() = 0;
 
     private:

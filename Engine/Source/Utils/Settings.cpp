@@ -33,12 +33,14 @@ namespace GEOGL{
     Settings::Settings() =default;
 
     Settings::~Settings() {
+        GEOGL_PROFILE_FUNCTION();
 
         flush();
 
     }
 
     bool Settings::open(std::string filePath) {
+        GEOGL_PROFILE_FUNCTION();
 
         m_FilePath = std::move(filePath);
 
@@ -48,6 +50,7 @@ namespace GEOGL{
     }
 
     bool Settings::reload() {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Try to load settings file */
         std::ifstream settingsFile(m_FilePath);
@@ -64,6 +67,7 @@ namespace GEOGL{
     }
 
     void Settings::flush() {
+        GEOGL_PROFILE_FUNCTION();
 
         std::ofstream outputFile;
         outputFile.open(m_FilePath, std::ios::out | std::ios::trunc);

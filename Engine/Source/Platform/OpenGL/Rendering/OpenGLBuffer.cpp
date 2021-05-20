@@ -34,6 +34,7 @@ namespace GEOGL::Platform::OpenGL{
      */
 
     VertexBuffer::VertexBuffer(const std::vector<float> &vertices) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Obtain a copy of vertices */
         m_CPUData = vertices;
@@ -43,15 +44,26 @@ namespace GEOGL::Platform::OpenGL{
         uint32_t vectorSizeBytes = m_CPUData.size() * sizeof(float); // Times size of glm::vec3 component vector.
 
         /* Now, upload to the GPU */
-        glCreateBuffers(1, &m_VBOID);
-        glBindBuffer(GL_ARRAY_BUFFER, m_VBOID);
-        glBufferData(GL_ARRAY_BUFFER, vectorSizeBytes, vector, GL_STATIC_DRAW);
+        {
+            GEOGL_PROFILE_SCOPE("Create Buffer");
+            glCreateBuffers(1, &m_VBOID);
+        }
 
+        {
+            GEOGL_PROFILE_SCOPE("Bind Buffer");
+            glBindBuffer(GL_ARRAY_BUFFER, m_VBOID);
+        }
+
+        {
+            GEOGL_PROFILE_SCOPE("Upload Buffer");
+            glBufferData(GL_ARRAY_BUFFER, vectorSizeBytes, vector, GL_STATIC_DRAW);
+        }
 
 
     }
 
     VertexBuffer::~VertexBuffer() {
+        GEOGL_PROFILE_FUNCTION();
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glDeleteBuffers(1, &m_VBOID);
@@ -59,12 +71,14 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void VertexBuffer::bind() const {
+        GEOGL_PROFILE_FUNCTION();
 
         glBindBuffer(GL_ARRAY_BUFFER, m_VBOID);
 
     }
 
     void VertexBuffer::unbind() const {
+        GEOGL_PROFILE_FUNCTION();
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -75,6 +89,7 @@ namespace GEOGL::Platform::OpenGL{
      *  Index Buffer
      */
     IndexBuffer::IndexBuffer(const std::vector<uint32_t> &indices) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Obtain a copy of vertices */
         m_CPUData = indices;
@@ -82,14 +97,26 @@ namespace GEOGL::Platform::OpenGL{
 
         uint64_t vectorSizeBytes = m_CPUData.size() * sizeof(uint32_t); // Times size of glm::vec3 component vector.
 
-        /* Now, upload to the GPU */
-        glCreateBuffers(1, &m_IndexBufferID);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, vectorSizeBytes, (void*)m_CPUData.data(), GL_STATIC_DRAW);
+        {
+            GEOGL_PROFILE_SCOPE("Create Buffer");
+            glCreateBuffers(1, &m_IndexBufferID);
+        }
+
+        {
+            GEOGL_PROFILE_SCOPE("Bind Buffer");
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
+        }
+
+        {
+            GEOGL_PROFILE_SCOPE("Upload Buffer");
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, vectorSizeBytes, (void*)m_CPUData.data(), GL_STATIC_DRAW);
+        }
+
 
     }
 
     IndexBuffer::~IndexBuffer() {
+        GEOGL_PROFILE_FUNCTION();
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glDeleteBuffers(1, &m_IndexBufferID);
@@ -97,12 +124,14 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void IndexBuffer::bind() const {
+        GEOGL_PROFILE_FUNCTION();
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
 
     }
 
     void IndexBuffer::unbind() const {
+        GEOGL_PROFILE_FUNCTION();
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 

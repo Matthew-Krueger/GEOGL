@@ -39,6 +39,7 @@ namespace GEOGL{
 
 
     std::string RendererAPI::getRenderingAPIName(RendererAPI::RenderingAPIEnum api) {
+        GEOGL_PROFILE_FUNCTION();
 
         switch(api){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
@@ -58,6 +59,7 @@ namespace GEOGL{
     }
 
     std::string RendererAPI::getWindowingAPIName(RendererAPI::WindowingAPIEnum api) {
+        GEOGL_PROFILE_FUNCTION();
 
         switch(api){
 
@@ -71,6 +73,8 @@ namespace GEOGL{
     }
 
     bool RendererAPI::isAPISupported(RendererAPI::RenderingAPIEnum api) {
+        GEOGL_PROFILE_FUNCTION();
+
         switch (api){
             case RenderingAPIEnum::RENDERING_OPENGL_DESKTOP:
                 return (bool) GEOGL_BUILD_WITH_OPENGL && (bool) GEOGL_BUILD_WITH_GLFW;
@@ -83,6 +87,8 @@ namespace GEOGL{
     }
 
     Ref<RendererAPI> RendererAPI::create(RendererAPI::RenderingAPIEnum preferredAPI) {
+        GEOGL_PROFILE_FUNCTION();
+
         /* get the best API */
         RendererAPI::RenderingAPIEnum api = RenderingAPIEnum::RENDERING_INVALID;
 
@@ -144,6 +150,7 @@ namespace GEOGL{
     }
 
     RendererAPI::WindowingAPIEnum RendererAPI::getWindowingAPI(){
+        GEOGL_PROFILE_FUNCTION();
 
         if(WindowingAPIEnum::WINDOWING_GLFW_DESKTOP & m_API)
             return WindowingAPIEnum::WINDOWING_GLFW_DESKTOP;

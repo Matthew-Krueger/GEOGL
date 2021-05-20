@@ -36,6 +36,7 @@ namespace SandboxApp{
     };
 
     void Layer2D::onAttach() {
+        GEOGL_PROFILE_FUNCTION();
 
         scalePointOneOne = glm::scale(glm::mat4(1.0f), {.10,.10,.0});
 
@@ -102,6 +103,7 @@ namespace SandboxApp{
     }
 
     void Layer2D::onEvent(GEOGL::Event &event) {
+        GEOGL_PROFILE_FUNCTION();
 
         m_OrthographicCameraController.onEvent(event);
 

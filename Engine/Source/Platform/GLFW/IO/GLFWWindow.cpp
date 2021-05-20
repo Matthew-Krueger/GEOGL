@@ -58,10 +58,14 @@ namespace GEOGL::Platform::GLFW{
     static bool s_UsedGLAD = false;
 
     static void glfwErrorCallbackOpenGL(int errorCode, const char * errorText){
+        GEOGL_PROFILE_FUNCTION();
+
         GEOGL_CORE_CRITICAL_NOSTRIP("GLFW Error code {}, error text: {}", errorCode, errorText);
     }
 
     Window::Window(const WindowProps& props){
+        GEOGL_PROFILE_FUNCTION();
+
         m_Window = nullptr;
 
         /* Get all of the rendering api data */
@@ -81,6 +85,7 @@ namespace GEOGL::Platform::GLFW{
 
         /* Check if GLFW has been initialized, if not, load GLFW */
         if (!s_GLFWInitialized){
+            GEOGL_PROFILE_SCOPE("Init GLFW");
             // TODO: glfwTerminate on system shutdown
             GEOGL_CORE_INFO("Initializing GLFW");
             int success = glfwInit();
@@ -104,18 +109,24 @@ namespace GEOGL::Platform::GLFW{
         /* Do window hints for GLFW */
         switch(renderingAPI){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
+                {
+                    GEOGL_PROFILE_SCOPE("Sending window hints");
 
-                GEOGL_CORE_INFO("Creating Window with OpenGL Context");
-                glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-                glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-                glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-                glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-                glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+                    GEOGL_CORE_INFO("Creating Window with OpenGL Context");
+                    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+                    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+                    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+                    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+                    glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-                s_UsedGLAD = true;
-
+                    s_UsedGLAD = true;
+                }
                 /* Creating the window */
-                m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
+                {
+                    GEOGL_PROFILE_SCOPE("Creating GLFW Window");
+                    m_Window = glfwCreateWindow((int) props.width, (int) props.height, m_Data.title.c_str(), nullptr,
+                                                nullptr);
+                }
 
                 /* Create context */
 #if GEOGL_BUILD_WITH_OPENGL == 1
@@ -170,6 +181,8 @@ namespace GEOGL::Platform::GLFW{
     }
 
     Window::~Window(){
+        GEOGL_PROFILE_FUNCTION();
+
         --currentWindows;
         glfwDestroyWindow(m_Window);
         GEOGL_CORE_INFO("Quit a window. Noting the current window count is {}.", currentWindows);
@@ -187,11 +200,14 @@ namespace GEOGL::Platform::GLFW{
     }
 
     void Window::onUpdate(){
+        GEOGL_PROFILE_FUNCTION();
+
         glfwPollEvents();
         m_GraphicsContext->swapBuffers();
     }
 
     void Window::setVSync(bool enabled){
+        GEOGL_PROFILE_FUNCTION();
 
         m_GraphicsContext->setVSync(&enabled);
         m_Data.vSync = enabled;
@@ -199,13 +215,20 @@ namespace GEOGL::Platform::GLFW{
     }
 
     void Window::setWindowIcon(const std::string& windowIcon){
+        GEOGL_PROFILE_FUNCTION();
 
         if(windowIcon.empty())
             return;
         GLFWimage image[1];
-        image->pixels = stbi_load(windowIcon.c_str(), &image->width, &image->height, 0,4);
+        {
+            GEOGL_PROFILE_SCOPE("Loading image into memory");
+            image->pixels = stbi_load(windowIcon.c_str(), &image->width, &image->height, 0, 4);
+        }
         GEOGL_ASSERT(image->pixels, "Could not load image");
-        glfwSetWindowIcon(m_Window, 1, image);
+        {
+            GEOGL_PROFILE_SCOPE("Loading image into window");
+            glfwSetWindowIcon(m_Window, 1, image);
+        }
         stbi_image_free(image->pixels);
 
     }
@@ -215,8 +238,11 @@ namespace GEOGL::Platform::GLFW{
     }
 
     void Window::setUpEventCallbacks(){
+        GEOGL_PROFILE_FUNCTION();
 
         glfwSetWindowSizeCallback(m_Window, [](GLFWwindow *window, int width, int height) {
+            GEOGL_PROFILE_FUNCTION();
+
             auto *data = (WindowData *) glfwGetWindowUserPointer(window);
 
             data->width = width;
@@ -231,12 +257,16 @@ namespace GEOGL::Platform::GLFW{
         });
 
         glfwSetWindowCloseCallback(m_Window, [](GLFWwindow *window) {
+            GEOGL_PROFILE_FUNCTION();
+
             auto *data = (WindowData *) glfwGetWindowUserPointer(window);
             WindowCloseEvent event;
             data->EventCallback(event);
         });
 
         glfwSetKeyCallback(m_Window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
+            GEOGL_PROFILE_FUNCTION();
+
             auto *data = (WindowData *) glfwGetWindowUserPointer(window);
 
             switch (action) {
@@ -262,6 +292,7 @@ namespace GEOGL::Platform::GLFW{
         });
 
         glfwSetCharCallback(m_Window, [](GLFWwindow *window, unsigned int character) {
+            GEOGL_PROFILE_FUNCTION();
 
             auto data = (WindowData *) glfwGetWindowUserPointer(window);
 
@@ -271,6 +302,8 @@ namespace GEOGL::Platform::GLFW{
         });
 
         glfwSetMouseButtonCallback(m_Window, [](GLFWwindow *window, int button, int action, int mods) {
+            GEOGL_PROFILE_FUNCTION();
+
             auto data = (WindowData *) glfwGetWindowUserPointer(window);
             switch (action) {
                 case GLFW_PRESS: {
@@ -290,6 +323,7 @@ namespace GEOGL::Platform::GLFW{
         });
 
         glfwSetScrollCallback(m_Window, [](GLFWwindow *window, double xOffset, double yOffset) {
+            GEOGL_PROFILE_FUNCTION();
 
             auto data = (WindowData *) glfwGetWindowUserPointer(window);
 
@@ -299,6 +333,8 @@ namespace GEOGL::Platform::GLFW{
         });
 
         glfwSetCursorPosCallback(m_Window, [](GLFWwindow *window, double xPos, double yPos) {
+            GEOGL_PROFILE_FUNCTION();
+
             auto data = (WindowData *) glfwGetWindowUserPointer(window);
 
             MouseMovedEvent event((float) xPos, (float) yPos);

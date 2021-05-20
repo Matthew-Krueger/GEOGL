@@ -43,8 +43,8 @@ namespace GEOGL::Platform::GLFW{
         bool isKeyPressedImpl(KeyCode keycode) override;
 
         bool isMouseButtonPressedImpl(MouseCode button) override;
-        bool getMouseXImpl() override;
-        bool getMouseYImpl() override;
+        float getMouseXImpl() override;
+        float getMouseYImpl() override;
         glm::vec2 getMousePositionImpl() override;
 
     };

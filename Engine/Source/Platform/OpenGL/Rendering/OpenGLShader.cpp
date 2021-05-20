@@ -33,6 +33,7 @@
 namespace GEOGL::Platform::OpenGL{
 
     static GLenum shaderTypeFromString(const std::string& type){
+        GEOGL_PROFILE_FUNCTION();
 
         /* handle windows files. Boo windows */
         std::string svType = (type.substr(type.size()-1,1) == "\r") ? type.substr(0,type.size()-1) : type;
@@ -73,6 +74,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     Shader::Shader(const std::string &vertexSrc, const std::string &fragmentSrc, std::string name) : m_Name(std::move(name)){
+        GEOGL_PROFILE_FUNCTION();
 
         std::unordered_map<GLenum, std::string> shaderSource;
         shaderSource[GL_VERTEX_SHADER] = vertexSrc;
@@ -83,6 +85,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     Shader::Shader(const std::string& folderPath){
+        GEOGL_PROFILE_FUNCTION();
 
         std::string fileToLoad = folderPath+"/shader.glsl";
         GEOGL_CORE_INFO("Loading shader {}", fileToLoad);
@@ -103,6 +106,7 @@ namespace GEOGL::Platform::OpenGL{
 
 
     Shader::~Shader() {
+        GEOGL_PROFILE_FUNCTION();
 
         for(auto& kv : shaderIDs){
             glDetachShader(m_RendererID, kv);
@@ -116,6 +120,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::bind() const {
+        GEOGL_PROFILE_FUNCTION();
 
         if(m_RendererID != getBoundID()) {
             glUseProgram(m_RendererID);
@@ -125,6 +130,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::unbind() const {
+        GEOGL_PROFILE_FUNCTION();
 
         setBoundID(0);
         glUseProgram(0);
@@ -168,6 +174,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformInt(const char *uniformName, int value) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -178,6 +185,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformInt2(const char *uniformName, const glm::ivec2& vector) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -188,6 +196,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformInt3(const char *uniformName, const glm::ivec3& vector) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -198,6 +207,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformInt4(const char *uniformName, const glm::ivec4& vector) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -208,6 +218,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformFloat(const char *uniformName, float value) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -218,6 +229,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformFloat2(const char *uniformName, const glm::vec2 &vector) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -228,6 +240,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformFloat3(const char *uniformName, const glm::vec3 &vector) {
+        GEOGL_PROFILE_FUNCTION();
 
         bind();
 
@@ -240,6 +253,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformFloat4(const char *uniformName, const glm::vec4 &vector) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -250,6 +264,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformMat3(const char *uniformName, const glm::mat3 &matrix) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -260,6 +275,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformMat4(const char *uniformName, const glm::mat4 &matrix) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Tried caching uniforms. It was about 15% slower. So, just query OpenGL every frame */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -270,6 +286,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     std::string Shader::readFile(const std::string& filePath){
+        GEOGL_PROFILE_FUNCTION();
 
         std::string result;
         std::ifstream in(filePath, std::ios::in | std::ios::binary);
@@ -290,6 +307,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     std::unordered_map<uint32_t, std::string> Shader::preprocess(const std::string& source){
+        GEOGL_PROFILE_FUNCTION();
 
         std::unordered_map<uint32_t, std::string> shaderSources;
 
@@ -344,55 +362,67 @@ void main()
     }
 
     void Shader::compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
+        GEOGL_PROFILE_FUNCTION();
 
+        GLuint programID = 0;
         /* create a program */
-        GLuint programID = glCreateProgram();
+        {
+            GEOGL_PROFILE_SCOPE("Create Program");
+            programID = glCreateProgram();
+        }
 
         GEOGL_CORE_ASSERT(shaderSources.size() <=2, "We only support 4 shader components at a time!");
         uint32_t glShaderIDIndex = 0;
-        for(auto& kv: shaderSources){
-            GLenum type = kv.first;
-            const std::string& source = kv.second;
+        {
+            GEOGL_PROFILE_SCOPE("Compiling shaders");
 
-            GLuint shaderID = glCreateShader(type);
+            for (auto &kv: shaderSources) {
+                GLenum type = kv.first;
+                const std::string &source = kv.second;
 
-            /* Send the vertex shader source code to GL */
-            const GLchar* sourceCstr = source.c_str();
-            glShaderSource(shaderID, 1, &sourceCstr, nullptr);
+                GLuint shaderID = glCreateShader(type);
 
-            /* Compile the vertex shader */
-            glCompileShader(shaderID);
+                /* Send the vertex shader source code to GL */
+                const GLchar *sourceCstr = source.c_str();
+                glShaderSource(shaderID, 1, &sourceCstr, nullptr);
 
-            GLint isCompiled = 0;
-            glGetShaderiv(shaderID, GL_COMPILE_STATUS, &isCompiled);
-            if(isCompiled == GL_FALSE){
-                GLint maxLength = 0;
-                glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
+                /* Compile the vertex shader */
+                glCompileShader(shaderID);
 
-                // The maxLength includes the NULL character
-                std::string infoLog;
-                infoLog.resize(maxLength);
-                glGetShaderInfoLog(shaderID, maxLength, &maxLength, infoLog.data());
+                GLint isCompiled = 0;
+                glGetShaderiv(shaderID, GL_COMPILE_STATUS, &isCompiled);
+                if (isCompiled == GL_FALSE) {
+                    GLint maxLength = 0;
+                    glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
 
-                // We don't need the shader anymore.
-                glDeleteShader(shaderID);
-                for(auto& toDelete : shaderIDs){
-                    glDeleteShader(toDelete);
+                    // The maxLength includes the NULL character
+                    std::string infoLog;
+                    infoLog.resize(maxLength);
+                    glGetShaderInfoLog(shaderID, maxLength, &maxLength, infoLog.data());
+
+                    // We don't need the shader anymore.
+                    glDeleteShader(shaderID);
+                    for (auto &toDelete : shaderIDs) {
+                        glDeleteShader(toDelete);
+                    }
+
+                    // Use the infoLog as you see fit.
+                    GEOGL_CORE_ASSERT(false, "Unable to compile Shader: {}", infoLog);
                 }
 
-                // Use the infoLog as you see fit.
-                GEOGL_CORE_ASSERT(false, "Unable to compile Shader: {}", infoLog);
+                shaderIDs[glShaderIDIndex++] = shaderID;
+
+                /* Attach our shaders to our m_RenderID */
+                glAttachShader(programID, shaderID);
+
             }
-
-            shaderIDs[glShaderIDIndex++] = shaderID;
-
-            /* Attach our shaders to our m_RenderID */
-            glAttachShader(programID, shaderID);
-
         }
 
         /* Link our m_RenderID */
-        glLinkProgram(programID);
+        {
+            GEOGL_PROFILE_SCOPE("Linking shader");
+            glLinkProgram(programID);
+        }
 
         /* Note the different functions here: glGetProgram* instead of glGetShader* */
         GLint isLinked = 0;

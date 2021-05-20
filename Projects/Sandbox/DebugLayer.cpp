@@ -38,6 +38,7 @@ namespace SandboxApp{
     static glm::ivec2 dimensions;
 
     void DebugLayer::onAttach() {
+        GEOGL_PROFILE_FUNCTION();
 
         m_DebugName = "Debug Layer";
 
@@ -57,6 +58,7 @@ namespace SandboxApp{
     }
 
     void DebugLayer::onUpdate(GEOGL::TimeStep timeStep) {
+        GEOGL_PROFILE_FUNCTION();
 
         /* update stats */
         totalFrameTime += timeStep;
@@ -70,6 +72,7 @@ namespace SandboxApp{
     }
 
     void DebugLayer::onImGuiRender(GEOGL::TimeStep timeStep) {
+        GEOGL_PROFILE_FUNCTION();
 
 
         /* Only run the fps min and max afterwords to give time to stabalize */

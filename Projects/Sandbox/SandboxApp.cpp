@@ -43,6 +43,7 @@ namespace SandboxApp{
                             "Resources/Runtime-Icon.png"
                     }
     ){
+        GEOGL_PROFILE_FUNCTION();
 
         m_DebugLayer = new DebugLayer();
         m_DebugLayerOnStack = false;
@@ -55,6 +56,7 @@ namespace SandboxApp{
     }
 
     void SandboxApp::onEvent(GEOGL::Event &event) {
+        GEOGL_PROFILE_FUNCTION();
 
         GEOGL::EventDispatcher dispatcher(event);
 
@@ -63,6 +65,7 @@ namespace SandboxApp{
     }
 
     bool SandboxApp::onKeyPressedEvent(GEOGL::KeyPressedEvent &event) {
+        GEOGL_PROFILE_FUNCTION();
 
         if(event.getKeyCode() == GEOGL::Key::F5) {
             if (m_DebugLayerOnStack) {
@@ -86,6 +89,7 @@ namespace SandboxApp{
 }
 
 GEOGL::Application* GEOGL::createApplication() {
+    GEOGL_PROFILE_FUNCTION();
 
     return new SandboxApp::SandboxApp();
 

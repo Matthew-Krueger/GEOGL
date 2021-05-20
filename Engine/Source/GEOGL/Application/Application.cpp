@@ -100,11 +100,13 @@ namespace GEOGL{
     Application::~Application() = default;
 
     void Application::run(){
+        GEOGL_PROFILE_FUNCTION();
 
         GEOGL::Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
         GEOGL_CORE_INFO_NOSTRIP("Successfully started application. Entering Loop.");
 
         while(m_Running){
+            GEOGL_PROFILE_SCOPE("Application::run() while loop");
 
             Renderer::clear();
             /* Measure platform time */
@@ -136,6 +138,7 @@ namespace GEOGL{
     }
 
     void Application::eventCallback(Event& event){
+        GEOGL_PROFILE_FUNCTION();
 
         /* Firstly, call the application's on event function, which may do other things, such as push or pop layers */
         onEvent(event);
@@ -161,12 +164,15 @@ namespace GEOGL{
     }
 
     bool Application::onWindowClose(WindowCloseEvent& event){
+        GEOGL_PROFILE_FUNCTION();
+
         m_Running = false;
         event.Handled = true;
         return true;
     }
 
     bool Application::onWindowResize(WindowResizeEvent &event){
+        GEOGL_PROFILE_FUNCTION();
 
         /* Guard against resizing to zero and rendering */
         if(event.getWidth() == 0 || event.getHeight() == 0){

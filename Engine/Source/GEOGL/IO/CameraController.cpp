@@ -41,6 +41,7 @@ namespace GEOGL{
 
 
     void OrthographicCameraController::onUpdate(TimeStep ts) {
+        GEOGL_PROFILE_FUNCTION();
 
 
         float deltaAmount = ts * ((m_ZoomLevel * m_CameraTranslationFadeFactor) + m_CameraTranslationBias);
@@ -94,6 +95,7 @@ namespace GEOGL{
     }
 
     void OrthographicCameraController::onEvent(Event &e) {
+        GEOGL_PROFILE_FUNCTION();
 
         EventDispatcher dispatcher(e);
 
@@ -103,6 +105,7 @@ namespace GEOGL{
     }
 
     bool OrthographicCameraController::onMouseScrolled(MouseScrolledEvent &e) {
+        GEOGL_PROFILE_FUNCTION();
 
         m_ZoomLevel -= e.getYOffset() * m_ZoomFactor * (m_ZoomLevel*m_ZoomFadeFactor);
 
@@ -116,6 +119,7 @@ namespace GEOGL{
     }
 
     bool OrthographicCameraController::onWindowResize(WindowResizeEvent &e) {
+        GEOGL_PROFILE_FUNCTION();
 
         m_AspectRatio = (float)e.getWidth()/(float)e.getHeight();
 

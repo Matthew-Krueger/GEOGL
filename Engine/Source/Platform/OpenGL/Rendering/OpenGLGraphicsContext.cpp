@@ -44,6 +44,8 @@ namespace GEOGL::Platform::OpenGL{
                      const GLchar* message,
                      const void* userParam )
     {
+        GEOGL_PROFILE_FUNCTION();
+
 
         std::string header = GEOGL_FORMAT(      "Open GL {}, ID {}:", glGetString(severity), id);
         std::string errorType = GEOGL_FORMAT(   "   Type: {}", glGetString(type));
@@ -88,14 +90,19 @@ namespace GEOGL::Platform::OpenGL{
      * Graphics context
      */
     GraphicsContext::GraphicsContext(GLFWwindow* windowHandle) : m_WindowHandle(windowHandle){
+        GEOGL_PROFILE_FUNCTION();
 
         GEOGL_CORE_INFO("Loading OpenGL Graphics Context using GLAD");
         GEOGL_CORE_ASSERT(windowHandle, "Window Handle cannot be NULL.");
 
-        glfwMakeContextCurrent(m_WindowHandle);
+        {
+            GEOGL_PROFILE_SCOPE("Making GLFW Context Current");
+            glfwMakeContextCurrent(m_WindowHandle);
+        }
 
         /* Check if higher level openGl funcitons have been loaded */
         if(!s_GLADInitialized) {
+            GEOGL_PROFILE_SCOPE("Loading GLAD and enabling debugmessenger.");
             int gladStatus = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
             GEOGL_CORE_ASSERT_NOSTRIP(gladStatus, "Failed to load higher OpenGL functions with GLAD.");
 
@@ -112,10 +119,13 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void GraphicsContext::setViewport(const glm::ivec2& topLeftCorner, const glm::ivec2& dimensions){
+        GEOGL_PROFILE_FUNCTION();
+
         glViewport(topLeftCorner.x, topLeftCorner.y, dimensions.x, dimensions.y);
     }
 
     void GraphicsContext::clearColor(){
+        GEOGL_PROFILE_FUNCTION();
 
         glClearColor(.1f,.1f,.1f,1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -123,20 +133,21 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void GraphicsContext::setVSync(bool* vSyncStatus){
+        GEOGL_PROFILE_FUNCTION();
 
         glfwSwapInterval(*vSyncStatus);
 
     }
 
     void GraphicsContext::swapBuffers() {
-
-
+        GEOGL_PROFILE_FUNCTION();
 
         glfwSwapBuffers(m_WindowHandle);
 
     }
 
     void GraphicsContext::deInitGlad(){
+        GEOGL_PROFILE_FUNCTION();
 
         s_GLADInitialized = false;
 

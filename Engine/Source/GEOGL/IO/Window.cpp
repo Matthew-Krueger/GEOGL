@@ -35,6 +35,7 @@
 namespace GEOGL{
 
     Window* Window::create(const WindowProps& props){
+        GEOGL_PROFILE_FUNCTION();
 
         switch(Renderer::getRendererAPI()->getWindowingAPI()){
             case RendererAPI::WINDOWING_GLFW_DESKTOP:

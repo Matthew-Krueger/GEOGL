@@ -69,6 +69,8 @@ namespace GEOGL{
     }
 
     void BufferLayout::calculateOffsetAndStride(){
+        GEOGL_PROFILE_FUNCTION();
+
         uint32_t offset = 0;
         m_Stride = 0;
         for(auto& element: m_Elements){
@@ -79,6 +81,8 @@ namespace GEOGL{
     }
 
     Ref<VertexBuffer> VertexBuffer::create(const std::vector<float> &vertices) {
+        GEOGL_PROFILE_FUNCTION();
+
         const auto renderer = Renderer::getRendererAPI();
 
         Ref<VertexBuffer> result;
@@ -98,6 +102,8 @@ namespace GEOGL{
     }
 
     Ref<IndexBuffer> IndexBuffer::create(const std::vector<uint32_t> &indices) {
+        GEOGL_PROFILE_FUNCTION();
+
         const auto renderer = Renderer::getRendererAPI();
 
         Ref<IndexBuffer> result;

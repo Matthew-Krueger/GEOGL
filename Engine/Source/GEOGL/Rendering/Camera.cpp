@@ -32,6 +32,7 @@ namespace GEOGL{
 
 
     OrthographicCamera::OrthographicCamera() {
+        GEOGL_PROFILE_FUNCTION();
 
         auto orthographicBounds = calculateBestOrthographicBounds(Application::get().getWindow().getDimensions());
 
@@ -61,6 +62,7 @@ namespace GEOGL{
                         bounds.zFarClipPlane
                 )),
         m_ViewMatrix(1.0f){
+        GEOGL_PROFILE_FUNCTION();
 
         m_OrthographicBounds = bounds;
         m_ProjectionViewMatrix = m_Projectionmatrix * m_ViewMatrix;
@@ -68,6 +70,7 @@ namespace GEOGL{
     }
 
     void OrthographicCamera::setProjection(const ProjectionBounds& orthographicBounds) {
+        GEOGL_PROFILE_FUNCTION();
 
         m_OrthographicBounds = orthographicBounds;
         m_Projectionmatrix = glm::ortho(m_OrthographicBounds.left,

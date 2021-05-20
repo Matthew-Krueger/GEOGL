@@ -38,6 +38,8 @@ namespace GEOGL{
     uint32_t VertexArray::s_BoundVAOID = 0;
 
     Ref<VertexArray> VertexArray::create() {
+        GEOGL_PROFILE_FUNCTION();
+
         const auto renderer = Renderer::getRendererAPI();
 
         Ref<VertexArray> result;

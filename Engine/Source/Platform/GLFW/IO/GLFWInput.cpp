@@ -38,6 +38,7 @@ namespace GEOGL::Platform::GLFW{
 
 
     bool Input::isKeyPressedImpl(KeyCode keycode) {
+        GEOGL_PROFILE_FUNCTION();
 
         auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
         auto state = glfwGetKey(window, InputCodesConverter::getNativeKeyCode(keycode));
@@ -47,6 +48,7 @@ namespace GEOGL::Platform::GLFW{
     }
 
     bool Input::isMouseButtonPressedImpl(MouseCode button) {
+        GEOGL_PROFILE_FUNCTION();
 
         auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
         auto state = glfwGetMouseButton(window, InputCodesConverter::getNativeMouseCode(button));
@@ -55,19 +57,22 @@ namespace GEOGL::Platform::GLFW{
 
     }
 
-    bool Input::getMouseXImpl() {
+    float Input::getMouseXImpl() {
+        GEOGL_PROFILE_FUNCTION();
 
         return getMousePositionImpl().x;
 
     }
 
-    bool Input::getMouseYImpl() {
+    float Input::getMouseYImpl() {
+        GEOGL_PROFILE_FUNCTION();
 
         return getMousePositionImpl().y;
 
     }
 
     glm::vec2 Input::getMousePositionImpl(){
+        GEOGL_PROFILE_FUNCTION();
 
         auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
         double xpos, ypos;

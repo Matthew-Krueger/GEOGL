@@ -70,6 +70,7 @@ namespace GEOGL{
     }
 
     Ref<Shader> Shader::create(const std::string &vertexSrc, const std::string &fragmentSrc, const std::string& name) {
+        GEOGL_PROFILE_FUNCTION();
 
         const auto renderer = Renderer::getRendererAPI();
 
@@ -91,6 +92,7 @@ namespace GEOGL{
     }
 
     Ref<Shader> Shader::create(const std::string& folderPath) {
+        GEOGL_PROFILE_FUNCTION();
 
         const auto renderer = Renderer::getRendererAPI();
 
@@ -112,6 +114,7 @@ namespace GEOGL{
     }
 
     void ShaderLibrary::add(const Ref <Shader> &shader) {
+        GEOGL_PROFILE_FUNCTION();
 
         auto& name = shader->getName();
         add(name, shader);
@@ -119,6 +122,7 @@ namespace GEOGL{
     }
 
     void ShaderLibrary::add(const std::string &customName, const Ref <Shader> &shader) {
+        GEOGL_PROFILE_FUNCTION();
 
         GEOGL_CORE_ASSERT(m_Shaders.find(customName) == m_Shaders.end(), "Shader {} is already in the library!", customName);
         m_Shaders[customName] = shader;
@@ -126,6 +130,7 @@ namespace GEOGL{
     }
 
     std::pair<std::string, Ref<Shader>> ShaderLibrary::load(const std::string &folderPath) {
+        GEOGL_PROFILE_FUNCTION();
 
         auto shader = Shader::create(folderPath);
         add(shader);
@@ -134,6 +139,7 @@ namespace GEOGL{
     }
 
     std::pair<std::string, Ref<Shader>> ShaderLibrary::load(const std::string &name, const std::string &folderPath) {
+        GEOGL_PROFILE_FUNCTION();
 
         auto shader = Shader::create(folderPath);
         add(name, shader);
@@ -142,6 +148,7 @@ namespace GEOGL{
     }
 
     Ref <Shader> ShaderLibrary::get(const std::string &name) {
+        GEOGL_PROFILE_FUNCTION();
 
         bool found = m_Shaders.find(name) != m_Shaders.end();
         GEOGL_CORE_ASSERT(found, "Shader {} is not in the library!", name);

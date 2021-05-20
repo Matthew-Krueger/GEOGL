@@ -37,6 +37,7 @@ namespace GEOGL{
     Renderer::SceneData* Renderer::m_SceneData = nullptr;
 
     void Renderer::init(){
+        GEOGL_PROFILE_FUNCTION();
 
         m_SceneData = new SceneData;
         RenderCommand::init();
@@ -45,12 +46,14 @@ namespace GEOGL{
     }
 
     void Renderer::onWindowResize(const glm::ivec2& dimensions) {
+        GEOGL_PROFILE_FUNCTION();
 
         RenderCommand::setViewport(dimensions);
 
     }
 
     void Renderer::beginScene(const OrthographicCamera& camera) {
+        GEOGL_PROFILE_FUNCTION();
 
         GEOGL_CORE_ASSERT(m_SceneData, "Renderer::init not called before Renderer::beginScene");
         m_SceneData->projectionViewMatrix = camera.getProjectionViewMatrix();
@@ -62,11 +65,14 @@ namespace GEOGL{
     }
 
     void Renderer::submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,  const glm::mat4& transform) {
+        GEOGL_PROFILE_FUNCTION();
+
         shader->bind();
         std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(shader)->uploadUniformMat4("u_ProjectionViewMatrix", m_SceneData->projectionViewMatrix);
         std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(shader)->uploadUniformMat4("u_TransformMatrix", transform);
         vertexArray->bind();
         RenderCommand::drawIndexed(vertexArray);
+
     }
 
 }
