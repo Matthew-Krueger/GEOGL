@@ -34,6 +34,26 @@
 
 namespace GEOGL{
 
+    Ref <Texture2D> Texture2D::create(uint32_t width, uint32_t height) {
+
+        const auto renderer = Renderer::getRendererAPI();
+
+        Ref<Texture2D> result;
+        switch(renderer->getRenderingAPI()){
+            case RendererAPI::RENDERING_OPENGL_DESKTOP:
+#if GEOGL_BUILD_WITH_OPENGL == 1
+                result = createRef<GEOGL::Platform::OpenGL::Texture2D>(width, height);
+                return result;
+#else
+                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
+#endif
+            default:
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
+                return result;
+        }
+
+    }
+
     Ref<Texture2D> Texture2D::create(const std::string& filePath){
 
         const auto renderer = Renderer::getRendererAPI();
@@ -42,7 +62,7 @@ namespace GEOGL{
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #if GEOGL_BUILD_WITH_OPENGL == 1
-                result = std::make_shared<GEOGL::Platform::OpenGL::Texture2D>(filePath);
+                result = createRef<GEOGL::Platform::OpenGL::Texture2D>(filePath);
                 return result;
 #else
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
@@ -52,5 +72,6 @@ namespace GEOGL{
                 return result;
         }
     }
+
 
 }

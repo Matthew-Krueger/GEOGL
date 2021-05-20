@@ -58,7 +58,7 @@ namespace SandboxApp{
         GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
 
         //GEOGL::Renderer2D::drawQuad({0,0,1}, {1,1}, {1-m_SquareColor.r, 1-m_SquareColor.g, 1-m_SquareColor.b, m_SquareColor.a}, 45);
-        GEOGL::Renderer2D::drawQuad({0,0,-.9}, {10,10}, m_Checkerboard, 10, 0, {0.8,0.8,0.2,1.0});
+        GEOGL::Renderer2D::drawQuad({0,0,-.9}, {10,10}, m_Checkerboard, 10, 0, {1-m_SquareColor.r, 1-m_SquareColor.g, 1-m_SquareColor.b, m_SquareColor.a});
         GEOGL::Renderer2D::drawQuad({0,0,.5}, {1,1}, m_Checkerboard,1, 45);
         GEOGL::Renderer2D::drawQuad({0,0}, {sqrt(2), sqrt(2)}, m_SquareColor);
         GEOGL::Renderer2D::drawQuad({-.05,0,1}, {1,1}, m_ChernoLogo);

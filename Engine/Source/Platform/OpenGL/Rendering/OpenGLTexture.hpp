@@ -31,11 +31,14 @@ namespace GEOGL::Platform::OpenGL{
 
     class Texture2D : public GEOGL::Texture2D{
     public:
+        Texture2D(uint32_t width, uint32_t height);
         explicit Texture2D(std::string  filePath);
         ~Texture2D();
 
         [[nodiscard]] inline uint32_t getWidth() const override { return m_Width; };
         [[nodiscard]] inline uint32_t getHeight() const override { return m_Height; };
+
+        void setData(void* data, uint32_t size) override;
 
         /**
          * Binds the texture for rendering
@@ -46,6 +49,7 @@ namespace GEOGL::Platform::OpenGL{
         std::string m_Path;
         uint32_t m_Width, m_Height;
         uint32_t m_RendererID;
+        uint32_t m_InternalFormat, m_Format;
     };
 
 }

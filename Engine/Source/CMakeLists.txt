@@ -127,6 +127,12 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     link_directories(${VULKAN_PATH}/Bin;${VULKAN_PATH}/Lib;)
 endif()
 
+# decode OpenMP
+set(GEOGL_OPENMP_BUILD_FLAG 0)
+if(OpenMP_CXX_FOUND)
+    set(GEOGL_OPENMP_BUILD_FLAG 1)
+endif()
+
 #######################################################################
 #           Add Dummy target relating to macro definitions            #
 #######################################################################
@@ -165,6 +171,9 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     endif()
 endif()
 
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(GEOGL_Interface INTERFACE OpenMP::OpenMP_CXX)
+endif()
 #target_precompile_headers(GEOGL_Interface INTERFACE Modules/Utils/Headers/PCH.hpp)
 
 #######################################################################

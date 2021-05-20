@@ -58,7 +58,11 @@ set_property(TARGET spdlog PROPERTY POSITION_INDEPENDENT_CODE ON)
 # stbimage
 add_subdirectory(Dependencies/STB)
 
-# GLM
+# OpenMP
+find_package(OpenMP)
+if(OpenMP_CXX_FOUND)
+    message("-- Using OpenMP for Multiprocessing Acceleration.")
+endif()
 
 # ImGui
 add_subdirectory(Dependencies/imgui-docking)

@@ -31,8 +31,8 @@ namespace GEOGL{
 
     struct Renderer2DStorage{
         Ref<VertexArray> quadVertexArray;
-        Ref<Shader> flatColorShader;
         Ref<Shader> textureShader;
+        Ref<Texture2D> whiteTexture;
     };
 
     static Renderer2DStorage* s_Data;
@@ -69,11 +69,15 @@ namespace GEOGL{
             s_Data->quadVertexArray->setIndexBuffer(indexBuffer);
         }
 
+        /* Creat eh the white texture */
+        s_Data->whiteTexture = Texture2D::create(1,1);
+        uint32_t whiteTextureData = 0xFFFFFFFF;
+        s_Data->whiteTexture->setData(&whiteTextureData, sizeof(whiteTextureData));
+
         /* Create the shaders */
         {
-            s_Data->flatColorShader = Shader::create("Resources/Shaders/2DRenderer/FlatColor");
             s_Data->textureShader = Shader::create("Resources/Shaders/2DRenderer/Texture");
-            s_Data->flatColorShader->setInt("u_Texture", 0);
+            s_Data->textureShader->setInt("u_Texture", 0);
         }
 
     }
@@ -87,9 +91,6 @@ namespace GEOGL{
     void GEOGL::Renderer2D::beginScene(const OrthographicCamera &camera) {
 
         auto projectionViewMatrix = camera.getProjectionViewMatrix();
-
-        s_Data->flatColorShader->bind();
-        s_Data->flatColorShader->setMat4("u_ProjectionViewMatrix", projectionViewMatrix);
 
         s_Data->textureShader->bind();
         s_Data->textureShader->setMat4("u_ProjectionViewMatrix", projectionViewMatrix);
@@ -108,15 +109,16 @@ namespace GEOGL{
 
     void GEOGL::Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const glm::vec4 &color, float rotation) {
 
-        s_Data->flatColorShader->bind();
-        s_Data->flatColorShader->setFloat4("u_Color", color);
+        s_Data->textureShader->bind();
+        s_Data->whiteTexture->bind(0);
+        s_Data->textureShader->setFloat4("u_TintColor", color);
+        /* Setting the tiling factor does not matter. Leave it as previous */
 
         /* Build transform and upload */
         glm::mat4 transform = glm::translate(s_IdentMatrix, position);
         transform = glm::rotate(transform, glm::radians(rotation), {0,0,1});
         transform = glm::scale(transform, {size.x, size.y, 1.0f});
-
-        s_Data->flatColorShader->setMat4("u_TransformationMatrix", transform);
+        s_Data->textureShader->setMat4("u_TransformationMatrix", transform);
 
         s_Data->quadVertexArray->bind();
         RenderCommand::drawIndexed(s_Data->quadVertexArray);
@@ -132,18 +134,15 @@ namespace GEOGL{
     void Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const Ref<Texture2D>& texture, float tilingFactor, float rotation, const glm::vec4& colorTint) {
 
         s_Data->textureShader->bind();
+        texture->bind(0);
+        s_Data->textureShader->setFloat4("u_TintColor", colorTint);
+        s_Data->textureShader->setFloat("u_TilingFactor", tilingFactor);
 
         /* Build transform and upload */
         glm::mat4 transform = glm::translate(s_IdentMatrix, position);
         transform = glm::rotate(transform, glm::radians(rotation), {0,0,1});
         transform = glm::scale(transform, {size.x, size.y, 1.0f});
-
         s_Data->textureShader->setMat4("u_TransformationMatrix", transform);
-        s_Data->textureShader->setFloat("u_TilingFactor", tilingFactor);
-        s_Data->textureShader->setFloat4("u_TintColor", colorTint);
-
-
-        texture->bind(0);
 
         s_Data->quadVertexArray->bind();
         RenderCommand::drawIndexed(s_Data->quadVertexArray);
