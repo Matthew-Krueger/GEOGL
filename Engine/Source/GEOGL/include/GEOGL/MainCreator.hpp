@@ -75,9 +75,18 @@ extern GEOGL::Application* GEOGL::createApplication();
 int main(int argc, char ** argv){
 
     atexit(GEOGL::atExitCallback);
+    GEOGL_PROFILE_BEGIN_SESSION("GEOGL_STARTUP_PROFILE", "GEOGL_STARTUP_PROFILE.json");
     GEOGL::Application* application = GEOGL::createApplication();
+    GEOGL_PROFILE_END_SESSION();
+    GEOGL_PROFILE_BEGIN_SESSION("GEOGL_RUNTIME_PROFILE", "GEOGL_RUNTIME_PROFILE.json");
     application->run();
+    GEOGL_PROFILE_END_SESSION();
+    GEOGL_PROFILE_BEGIN_SESSION("GEOGL_SHUTDOWN_PROFILE", "GEOGL_SHUTDOWN_PROFILE.json");
     delete application;
+    GEOGL_PROFILE_END_SESSION();
+#if GEOGL_BUILD_WITH_PROFILING
+    ::GEOGL::Log::getCoreLogger()->warn("Profiling was enabled. Please open Chrome (or another chrome based browser) and load GEOGL_STARTUP_PROFILE.json ,GEOGL_RUNTIME_PROFILE.json, or GEOGL_SHUTDOWN_PROFILE.json in chrome://tracing to see more information.");
+#endif
 
 }
 #endif

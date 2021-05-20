@@ -54,16 +54,14 @@ namespace SandboxApp{
 
     void Layer2D::onUpdate(GEOGL::TimeStep timeStep) {
 
-        PROFILE_SCOPE("Layer2D::onUpdate");
+        GEOGL_PROFILE_FUNCTION();
+
         m_OrthographicCameraController.onUpdate(timeStep);
 
-        {
-            PROFILE_SCOPE("Render Setup");
-            GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
-        }
+        GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
+
         //GEOGL::Renderer2D::drawQuad({0,0,1}, {1,1}, {1-m_SquareColor.r, 1-m_SquareColor.g, 1-m_SquareColor.b, m_SquareColor.a}, 45);
         {
-            PROFILE_SCOPE("Render");
 
             GEOGL::Renderer2D::drawQuad({0, 0, -.9}, {10, 10}, m_Checkerboard, 10, 0,
                                         {1 - m_SquareColor.r, 1 - m_SquareColor.g, 1 - m_SquareColor.b,
@@ -95,19 +93,11 @@ namespace SandboxApp{
 
     void Layer2D::onImGuiRender(GEOGL::TimeStep timeStep) {
 
+        GEOGL_PROFILE_FUNCTION();
+
         ImGui::Begin("Color Picker");
         ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
         ImGui::End();
-
-        ImGui::Begin("Profile Results");
-        for(auto& result: m_ProfileResults){
-            char label[50];
-            strcpy_s(label, "%.3fms  ");
-            strcat_s(label, result.name);
-            ImGui::Text(label, result.time);
-        }
-        ImGui::End();
-        m_ProfileResults.clear();
 
     }
 
