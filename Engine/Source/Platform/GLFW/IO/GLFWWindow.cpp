@@ -204,6 +204,7 @@ namespace GEOGL::Platform::GLFW{
             return;
         GLFWimage image[1];
         image->pixels = stbi_load(windowIcon.c_str(), &image->width, &image->height, 0,4);
+        GEOGL_ASSERT(image->pixels, "Could not load image");
         glfwSetWindowIcon(m_Window, 1, image);
         stbi_image_free(image->pixels);
 

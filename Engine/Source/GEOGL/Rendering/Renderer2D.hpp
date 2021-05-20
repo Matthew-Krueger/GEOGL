@@ -28,6 +28,7 @@
 #include "Camera.hpp"
 #include "VertexArray.hpp"
 #include "Shader.hpp"
+#include "Texture.hpp"
 
 namespace GEOGL {
 
@@ -40,10 +41,12 @@ namespace GEOGL {
         static void endScene();
 
         // primitives rendering
-        static void drawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
-        static void drawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);
+        static void drawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color, float rotation = 0.0);
+        static void drawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, float rotation = 0.0);
+        static void drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor = 1, float rotation = 0.0, const glm::vec4& colorTint = {1.0,1.0,1.0,1.0});
+        static void drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor = 1, float rotation = 0.0, const glm::vec4& colorTint = {1.0,1.0,1.0,1.0});
 
-	};
+    };
 
 }
 

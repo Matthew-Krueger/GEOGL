@@ -48,14 +48,13 @@ namespace SandboxApp{
 
     private:
 
-        /* Temporary Vertex Array */
-        GEOGL::Ref<GEOGL::VertexArray> m_SquareVA;
-
-        /* Temp Shader Utils */
-        GEOGL::Ref<GEOGL::Shader> m_Shader;
-
         /* Camera utils */
         GEOGL::OrthographicCameraController m_OrthographicCameraController;
+
+        /* Textures */
+        /* Cherno Logo (Copyright the Cherno) */
+        GEOGL::Ref<GEOGL::Texture2D> m_ChernoLogo;
+        GEOGL::Ref<GEOGL::Texture2D> m_Checkerboard;
 
         /* Color Controllers */
         glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 1.0f};

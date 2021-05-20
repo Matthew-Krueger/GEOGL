@@ -118,7 +118,7 @@ namespace GEOGL::Platform::OpenGL{
     void GraphicsContext::clearColor(){
 
         glClearColor(.1f,.1f,.1f,1);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     }
 

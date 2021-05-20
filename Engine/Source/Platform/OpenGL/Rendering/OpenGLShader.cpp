@@ -131,6 +131,42 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
+    void Shader::setInt(const char *name, int value){
+
+        uploadUniformInt(name, value);
+
+    }
+
+    void Shader::setFloat(const char *name, float value) {
+
+        uploadUniformFloat(name, value);
+
+    }
+
+    void Shader::setFloat2(const char * name, const glm::vec2 &value) {
+
+        uploadUniformFloat2(name, value);
+
+    }
+
+    void Shader::setFloat3(const char * name, const glm::vec3 &value) {
+
+        uploadUniformFloat3(name, value);
+
+    }
+
+    void Shader::setFloat4(const char * name, const glm::vec4 &value) {
+
+        uploadUniformFloat4(name, value);
+
+    }
+
+    void Shader::setMat4(const char * name, const glm::mat4 &value) {
+
+        uploadUniformMat4(name, value);
+
+    }
+
     void Shader::uploadUniformInt(const char *uniformName, int value) {
 
         /* Get the uniform's location */

@@ -20,13 +20,13 @@ add_dependencies(GEOGL_Example GEOGL::Engine)
 target_link_libraries(GEOGL_Example GEOGL::Engine)
 
 set_target_properties(GEOGL_Example PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/Example
         )
 
 
 
 add_custom_command(
         TARGET GEOGL_Example POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/${PATH_TO_GEOGL}/Projects/Example/Resources" "${CMAKE_BINARY_DIR}/bin/Resources"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/${PATH_TO_GEOGL}/Projects/Example/Resources" "${CMAKE_BINARY_DIR}/bin/Example/Resources"
         COMMENT "Copying resources to bin directory"
 )

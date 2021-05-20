@@ -41,6 +41,13 @@ namespace GEOGL::Platform::OpenGL{
         void bind() const override;
         void unbind() const override;
 
+        void setInt(const char * name, int value) override;
+        void setFloat(const char * name, float value) override;
+        void setFloat2(const char * name, const glm::vec2& value) override;
+        void setFloat3(const char * name, const glm::vec3& value) override;
+        void setFloat4(const char * name, const glm::vec4& value) override;
+        void setMat4(const char * name, const glm::mat4& value) override;
+
         const std::string & getName() const override {return m_Name;};
 
         void uploadUniformInt(const char * uniformName, int value);

@@ -32,27 +32,33 @@ namespace GEOGL{
     struct Renderer2DStorage{
         Ref<VertexArray> quadVertexArray;
         Ref<Shader> flatColorShader;
+        Ref<Shader> textureShader;
     };
 
     static Renderer2DStorage* s_Data;
+    static glm::mat4 s_IdentMatrix;
 
     void GEOGL::Renderer2D::init() {
 
         s_Data = new Renderer2DStorage();
 
+        /* Store a blank identity matrix to save on compute */
+        s_IdentMatrix = glm::mat4(1.0f);
+
         s_Data->quadVertexArray = VertexArray::create();
 
         /* Create the quad vertex array */
         {
-            std::vector<float> vertices = {-0.5f,  -0.5f,   0.0f,
-                                            0.5f,  -0.5f,   0.0f,
-                                            0.5f,   0.5f,   0.0f,
-                                           -0.5f,   0.5f,   0.0f};
+            std::vector<float> vertices = {-0.5f,  -0.5f,   0.0f,   0.0f,   0.0f,
+                                            0.5f,  -0.5f,   0.0f,   1.0f,   0.0f,
+                                            0.5f,   0.5f,   0.0f,   1.0f,   1.0f,
+                                           -0.5f,   0.5f,   0.0f,   0.0f,   1.0f};
 
             auto vertexBuffer = VertexBuffer::create(vertices);
             {
                 vertexBuffer->setLayout({
                                                 {ShaderDataType::FLOAT3, "a_Position"},
+                                                {ShaderDataType::FLOAT2, "a_TextureCoord"}
                                         });
             }
 
@@ -63,7 +69,12 @@ namespace GEOGL{
             s_Data->quadVertexArray->setIndexBuffer(indexBuffer);
         }
 
-        s_Data->flatColorShader = Shader::create("SandboxResources/Shaders/FlatColor");
+        /* Create the shaders */
+        {
+            s_Data->flatColorShader = Shader::create("Resources/Shaders/2DRenderer/FlatColor");
+            s_Data->textureShader = Shader::create("Resources/Shaders/2DRenderer/Texture");
+            s_Data->flatColorShader->setInt("u_Texture", 0);
+        }
 
     }
 
@@ -75,9 +86,13 @@ namespace GEOGL{
 
     void GEOGL::Renderer2D::beginScene(const OrthographicCamera &camera) {
 
+        auto projectionViewMatrix = camera.getProjectionViewMatrix();
+
         s_Data->flatColorShader->bind();
-        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(s_Data->flatColorShader)->uploadUniformMat4("u_ProjectionViewMatrix", camera.getProjectionViewMatrix());
-        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(s_Data->flatColorShader)->uploadUniformMat4("u_TransformationMatrix", glm::mat4(1.0f));
+        s_Data->flatColorShader->setMat4("u_ProjectionViewMatrix", projectionViewMatrix);
+
+        s_Data->textureShader->bind();
+        s_Data->textureShader->setMat4("u_ProjectionViewMatrix", projectionViewMatrix);
 
     }
 
@@ -85,16 +100,50 @@ namespace GEOGL{
 
     }
 
-    void GEOGL::Renderer2D::drawQuad(const glm::vec2 &position, const glm::vec2 &size, const glm::vec4 &color) {
+    void GEOGL::Renderer2D::drawQuad(const glm::vec2 &position, const glm::vec2 &size, const glm::vec4 &color, float rotation) {
 
-        drawQuad({position.x, position.y, 0}, size, color);
+        drawQuad({position.x, position.y, 0}, size, color, rotation);
 
     }
 
-    void GEOGL::Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const glm::vec4 &color) {
+    void GEOGL::Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const glm::vec4 &color, float rotation) {
 
         s_Data->flatColorShader->bind();
-        std::dynamic_pointer_cast<GEOGL::Platform::OpenGL::Shader>(s_Data->flatColorShader)->uploadUniformFloat4("u_Color", color);
+        s_Data->flatColorShader->setFloat4("u_Color", color);
+
+        /* Build transform and upload */
+        glm::mat4 transform = glm::translate(s_IdentMatrix, position);
+        transform = glm::rotate(transform, glm::radians(rotation), {0,0,1});
+        transform = glm::scale(transform, {size.x, size.y, 1.0f});
+
+        s_Data->flatColorShader->setMat4("u_TransformationMatrix", transform);
+
+        s_Data->quadVertexArray->bind();
+        RenderCommand::drawIndexed(s_Data->quadVertexArray);
+
+    }
+
+    void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, float rotation, const glm::vec4& colorTint){
+
+        drawQuad({position.x, position.y, 0}, size, texture, tilingFactor, rotation, colorTint);
+
+    }
+
+    void Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const Ref<Texture2D>& texture, float tilingFactor, float rotation, const glm::vec4& colorTint) {
+
+        s_Data->textureShader->bind();
+
+        /* Build transform and upload */
+        glm::mat4 transform = glm::translate(s_IdentMatrix, position);
+        transform = glm::rotate(transform, glm::radians(rotation), {0,0,1});
+        transform = glm::scale(transform, {size.x, size.y, 1.0f});
+
+        s_Data->textureShader->setMat4("u_TransformationMatrix", transform);
+        s_Data->textureShader->setFloat("u_TilingFactor", tilingFactor);
+        s_Data->textureShader->setFloat4("u_TintColor", colorTint);
+
+
+        texture->bind(0);
 
         s_Data->quadVertexArray->bind();
         RenderCommand::drawIndexed(s_Data->quadVertexArray);

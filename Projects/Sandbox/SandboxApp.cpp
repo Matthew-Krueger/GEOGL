@@ -40,7 +40,7 @@ namespace SandboxApp{
                             "sandbox-app-log.txt",
                             1280,
                             720,
-                            "SandboxResources/Runtime-Icon.png"
+                            "Resources/Runtime-Icon.png"
                     }
     ){
 
@@ -75,6 +75,10 @@ namespace SandboxApp{
 
             return true;
 
+        }
+
+        if(event.getKeyCode() == GEOGL::Key::F1){
+            getWindow().setVSync(!getWindow().isVSync());
         }
 
         return false;
