@@ -72,8 +72,9 @@ namespace GEOGL {
          * caller. Once this pop happens, the layer will no longer be managed by the LayerStack. You must then
          * explicitly delete the Layer.
          * @param layer The layer to pop.
+         * @returns If the layer was popped
          */
-        void popLayer(Layer* layer);
+        bool popLayer(Layer* layer);
 
         /**
          * Pops a layer from the LayerStack
@@ -81,8 +82,9 @@ namespace GEOGL {
          * caller. Once this pop happens, the layer will no longer be managed by the LayerStack. You must then
          * explicitly delete the Layer.
          * @param layer The layer to pop. (Overlay - a layer that should be inserted on the end of the stack)
+         * @return if the overlay was popped
          */
-        void popOverlay(Layer* overlay);
+        bool popOverlay(Layer* overlay);
 
         /**
          * The beginning iterator

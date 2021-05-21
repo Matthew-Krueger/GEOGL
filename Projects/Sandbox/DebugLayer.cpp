@@ -54,6 +54,7 @@ namespace SandboxApp{
 
     void DebugLayer::onDetach() {
 
+        GEOGL_INFO("Called ondetach {}", m_DebugName);
 
     }
 

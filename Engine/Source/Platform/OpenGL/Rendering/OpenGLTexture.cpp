@@ -123,7 +123,7 @@ namespace GEOGL::Platform::OpenGL {
     }
 
     void Texture2D::setData(void *data, uint32_t size) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         uint32_t bpp = m_Format == GL_RGBA ? 4 : 3;
         GEOGL_CORE_ASSERT(size == m_Width * m_Height * bpp, "The size of the data must be the entire texture.");
@@ -132,7 +132,7 @@ namespace GEOGL::Platform::OpenGL {
     }
 
     void Texture2D::bind(uint32_t slotID) const {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         glBindTextureUnit(slotID, m_RendererID);
 

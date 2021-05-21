@@ -106,7 +106,7 @@ namespace GEOGL{
         GEOGL_CORE_INFO_NOSTRIP("Successfully started application. Entering Loop.");
 
         while(m_Running){
-            GEOGL_PROFILE_SCOPE("Application::run() while loop");
+            GEOGL_PROFILE_SCOPE("Run Loop");
 
             Renderer::clear();
             /* Measure platform time */
@@ -116,6 +116,7 @@ namespace GEOGL{
 
             if(!m_Minimized) {
                 onUpdate(timeStep);
+                GEOGL_PROFILE_SCOPE("Layer Stack Propagation");
 
                 for (Layer *layer : m_LayerStack) {
                     layer->onUpdate(timeStep);
@@ -125,11 +126,14 @@ namespace GEOGL{
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000/5));
             }
 
-            m_ImGuiLayer->begin();
-            for(Layer* layer : m_LayerStack){
-                layer->onImGuiRender(timeStep);
+            {
+                GEOGL_PROFILE_SCOPE("ImGui Render and propagation");
+                m_ImGuiLayer->begin();
+                for (Layer *layer : m_LayerStack) {
+                    layer->onImGuiRender(timeStep);
+                }
+                m_ImGuiLayer->end();
             }
-            m_ImGuiLayer->end();
 
             m_Window->onUpdate();
 

@@ -52,6 +52,7 @@ namespace GEOGL{
     }
 
     void ImGuiLayer::onAttach() {
+        GEOGL_PROFILE_FUNCTION();
 
         // Setup Dear ImGui context
         IMGUI_CHECKVERSION();
@@ -88,6 +89,7 @@ namespace GEOGL{
     }
 
     void ImGuiLayer::onDetach() {
+        GEOGL_PROFILE_FUNCTION();
 
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
@@ -96,6 +98,7 @@ namespace GEOGL{
     }
 
     void ImGuiLayer::begin(){
+        GEOGL_PROFILE_FUNCTION();
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -104,6 +107,7 @@ namespace GEOGL{
     }
 
     void ImGuiLayer::end(){
+        GEOGL_PROFILE_FUNCTION();
 
         ImGuiIO& io = ImGui::GetIO();
         Application& app = Application::get();

@@ -87,6 +87,7 @@ namespace GEOGL{
 
 
     OrthographicCamera::ProjectionBounds OrthographicCamera::calculateBestOrthographicBounds(const glm::ivec2 &windowDimensions, const glm::vec2& clipPlanes) {
+        GEOGL_PROFILE_FUNCTION();
 
         ProjectionBounds newBounds;
 
@@ -104,6 +105,7 @@ namespace GEOGL{
     }
 
     void OrthographicCamera::recalculateViewMatrix() {
+        GEOGL_PROFILE_FUNCTION();
 
         /* Translate the matrix by position */
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_Position);

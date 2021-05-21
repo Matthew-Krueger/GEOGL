@@ -54,7 +54,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void VertexArray::bind() const{
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         if(m_RendererID != getBoundID()) {
             glBindVertexArray(m_RendererID);
@@ -64,7 +64,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void VertexArray::unbind() const{
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         setBoundID(0);
         glBindVertexArray(0);
@@ -72,7 +72,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void VertexArray::addVertexBuffer(const Ref<GEOGL::VertexBuffer> &vertexBuffer){
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         GEOGL_CORE_ASSERT_NOSTRIP(vertexBuffer->getLayout().getElements().size(),
                                   "OpenGL Vertex Buffer elements appears to be empty. Please call setLayout() with a valid BufferLayout on your VertexBuffer before calling {}().", __func__);
@@ -105,7 +105,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void VertexArray::setIndexBuffer(const Ref<GEOGL::IndexBuffer> &indexBuffer){
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         glBindVertexArray(m_RendererID);
         indexBuffer->bind();

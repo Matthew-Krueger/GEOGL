@@ -87,6 +87,7 @@ namespace GEOGL::Platform::OpenGL{
     Shader::Shader(const std::string& folderPath){
         GEOGL_PROFILE_FUNCTION();
 
+
         std::string fileToLoad = folderPath+"/shader.glsl";
         GEOGL_CORE_INFO("Loading shader {}", fileToLoad);
         std::string source = readFile(fileToLoad);
@@ -120,7 +121,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::bind() const {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         if(m_RendererID != getBoundID()) {
             glUseProgram(m_RendererID);
@@ -130,7 +131,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::unbind() const {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         setBoundID(0);
         glUseProgram(0);
@@ -174,7 +175,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformInt(const char *uniformName, int value) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -185,7 +186,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformInt2(const char *uniformName, const glm::ivec2& vector) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -196,7 +197,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformInt3(const char *uniformName, const glm::ivec3& vector) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -207,7 +208,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformInt4(const char *uniformName, const glm::ivec4& vector) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -218,7 +219,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformFloat(const char *uniformName, float value) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -229,7 +230,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformFloat2(const char *uniformName, const glm::vec2 &vector) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -240,7 +241,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformFloat3(const char *uniformName, const glm::vec3 &vector) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         bind();
 
@@ -253,7 +254,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformFloat4(const char *uniformName, const glm::vec4 &vector) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -264,7 +265,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformMat3(const char *uniformName, const glm::mat3 &matrix) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         /* Get the uniform's location */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -275,7 +276,7 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Shader::uploadUniformMat4(const char *uniformName, const glm::mat4 &matrix) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         /* Tried caching uniforms. It was about 15% slower. So, just query OpenGL every frame */
         int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
@@ -367,7 +368,7 @@ void main()
         GLuint programID = 0;
         /* create a program */
         {
-            GEOGL_PROFILE_SCOPE("Create Program");
+            GEOGL_RENDERER_PROFILE_SCOPE("Create Program");
             programID = glCreateProgram();
         }
 

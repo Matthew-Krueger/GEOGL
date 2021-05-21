@@ -55,6 +55,7 @@ namespace SandboxApp{
         /* Cherno Logo (Copyright the Cherno) */
         GEOGL::Ref<GEOGL::Texture2D> m_ChernoLogo;
         GEOGL::Ref<GEOGL::Texture2D> m_Checkerboard;
+        GEOGL::Ref<GEOGL::Texture2D> m_Sandman;
 
         /* Color Controllers */
         glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 1.0f};

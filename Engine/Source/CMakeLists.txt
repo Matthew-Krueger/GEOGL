@@ -135,8 +135,14 @@ endif()
 
 # decode profiling
 set (GEOGL_PROFILING_BUILD_FLAG 0)
+set (GEOGL_PROFILING_RENDERER_BUILD_FLAG 0)
 if(GEOGL_BUILD_WITH_PROFILING)
     set(GEOGL_PROFILING_BUILD_FLAG 1)
+    message("-- Building GEOGL with Profiling")
+    if(GEOGL_BUILD_WITH_RENDERER_PROFILING)
+        message("-- Building with Renderer Profiling")
+        set(GEOGL_PROFILING_RENDERER_BUILD_FLAG 1)
+    endif()
 endif()
 
 #######################################################################
@@ -154,6 +160,7 @@ target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_OPENGL=$
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_ENABLE_IGPU=${GEOGL_ENABLE_IGPU_DEF})
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_GLFW=${GEOGL_GLFW_BUILD_FLAG})
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_PROFILING=${GEOGL_PROFILING_BUILD_FLAG})
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_RENDERER_PROFILING=${GEOGL_PROFILING_RENDERER_BUILD_FLAG})
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_OPENMP=${GEOGL_OPENMP_BUILD_FLAG})
 if(NOT BUILD_SHARED_LIBS)
     target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_STATIC)

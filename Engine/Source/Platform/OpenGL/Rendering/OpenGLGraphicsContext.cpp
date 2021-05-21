@@ -44,7 +44,7 @@ namespace GEOGL::Platform::OpenGL{
                      const GLchar* message,
                      const void* userParam )
     {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
 
         std::string header = GEOGL_FORMAT(      "Open GL {}, ID {}:", glGetString(severity), id);
@@ -119,13 +119,13 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void GraphicsContext::setViewport(const glm::ivec2& topLeftCorner, const glm::ivec2& dimensions){
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         glViewport(topLeftCorner.x, topLeftCorner.y, dimensions.x, dimensions.y);
     }
 
     void GraphicsContext::clearColor(){
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         glClearColor(.1f,.1f,.1f,1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -133,21 +133,21 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void GraphicsContext::setVSync(bool* vSyncStatus){
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         glfwSwapInterval(*vSyncStatus);
 
     }
 
     void GraphicsContext::swapBuffers() {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         glfwSwapBuffers(m_WindowHandle);
 
     }
 
     void GraphicsContext::deInitGlad(){
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         s_GLADInitialized = false;
 

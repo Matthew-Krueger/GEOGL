@@ -9,12 +9,13 @@ project(GEOGL)
 ###################################
 #             Options             #
 ###################################
-option(BUILD_SHARED_LIBS       "Build shared libraries of DLL and Dependencies ONLY FOR POSIX"      OFF)
-option(GEOGL_BUILD_WITH_OPENGL "Build GEOGL with OpenGL support"                                    ON)
-option(GEOGL_BUILD_WITH_VULKAN "Build GEOGL with Vulkan Support"                                    OFF)
-option(GEOGL_ENABLE_IGPU       "Build GEOGL to enable IGPU support in Vulkan"                       ON)
-option(GEOGL_TRACK_MEMORY_ALLOC "Build GEOGL to track memory allocations (slow)"                    ON)
-option(GEOGL_BUILD_WITH_PROFILING "Build GEOGL to self-profile"                                     OFF)
+option(BUILD_SHARED_LIBS                    "Build shared libraries of DLL and Dependencies ONLY FOR POSIX" OFF)
+option(GEOGL_BUILD_WITH_OPENGL              "Build GEOGL with OpenGL support"                               ON)
+option(GEOGL_BUILD_WITH_VULKAN              "Build GEOGL with Vulkan Support"                               OFF)
+option(GEOGL_ENABLE_IGPU                    "Build GEOGL to enable IGPU support in Vulkan"                  ON)
+option(GEOGL_TRACK_MEMORY_ALLOC             "Build GEOGL to track memory allocations (slow)"                ON)
+option(GEOGL_BUILD_WITH_PROFILING           "Build GEOGL to self-profile"                                   ON)
+option(GEOGL_BUILD_WITH_RENDERER_PROFILING  "Build GEOGL to self-profile the Renderer"                      OFF)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)

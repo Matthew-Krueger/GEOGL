@@ -106,7 +106,6 @@ namespace GEOGL{
     }
 
     void GEOGL::Renderer2D::drawQuad(const glm::vec2 &position, const glm::vec2 &size, const glm::vec4 &color, float rotation) {
-        GEOGL_PROFILE_FUNCTION();
 
         drawQuad({position.x, position.y, 0}, size, color, rotation);
 
@@ -132,7 +131,6 @@ namespace GEOGL{
     }
 
     void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, float rotation, const glm::vec4& colorTint){
-        GEOGL_PROFILE_FUNCTION();
 
         drawQuad({position.x, position.y, 0}, size, texture, tilingFactor, rotation, colorTint);
 

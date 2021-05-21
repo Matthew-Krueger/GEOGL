@@ -97,10 +97,10 @@ namespace GEOGL{
 
         void eventCallback(Event& event);
 
-        inline void pushLayer(Layer* layer) { m_LayerStack.pushLayer(layer); };
-        inline void pushOverlay(Layer* layer) { m_LayerStack.pushOverlay(layer); };
-        inline void popLayer(Layer* layer) { m_LayerStack.popLayer(layer); };
-        inline void popOverlay(Layer* layer) { m_LayerStack.popOverlay(layer); };
+        inline void pushLayer(Layer* layer) { m_LayerStack.pushLayer(layer); layer->onAttach(); };
+        inline void pushOverlay(Layer* layer) { m_LayerStack.pushOverlay(layer); layer->onAttach(); };
+        inline void popLayer(Layer* layer) { if(m_LayerStack.popLayer(layer)) layer->onDetach(); };
+        inline void popOverlay(Layer* layer) { if(m_LayerStack.popOverlay(layer)) layer->onDetach(); };
 
         static inline Application& get() { return *Application::s_Instance; };
         inline Window& getWindow() { return *m_Window; };

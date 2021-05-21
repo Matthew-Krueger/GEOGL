@@ -71,14 +71,14 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void VertexBuffer::bind() const {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         glBindBuffer(GL_ARRAY_BUFFER, m_VBOID);
 
     }
 
     void VertexBuffer::unbind() const {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -124,14 +124,14 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void IndexBuffer::bind() const {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
 
     }
 
     void IndexBuffer::unbind() const {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
