@@ -34,6 +34,30 @@ namespace GEOGL {
 
 	class Renderer2D {
 	public:
+
+	    /**
+	     * Defines the properties of a Quad to be rendered by the Renderer2D.
+	     */
+	    struct QuadProperties{
+
+	        inline QuadProperties(  const glm::vec3& quadPosition = {0,0,0},
+                                    const glm::vec2& quadSize = {1,1},
+                                    const glm::vec4& quadColorTint = {1,1,1,1},
+                                    float quadTilingFactor = 1,
+                                    float quadRotation = 0)
+                               : position(quadPosition), size(quadSize), colorTint(quadColorTint), tilingFactor(quadTilingFactor), rotation(quadRotation){};
+
+	        glm::vec3 position      = {0,0,0};
+	        glm::vec2 size          = {1,1};
+	        glm::vec4 colorTint     = {1,1,1,1};
+	        float tilingFactor      = 1;
+	        /**
+	         * Rotation in radians
+	         */
+            float rotation          = 0;
+	    };
+
+	public:
 	    static void init();
 	    static void shutdown();
 
@@ -41,10 +65,8 @@ namespace GEOGL {
         static void endScene();
 
         // primitives rendering
-        static void drawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color, float rotation = 0.0);
-        static void drawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, float rotation = 0.0);
-        static void drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor = 1, float rotation = 0.0, const glm::vec4& colorTint = {1.0,1.0,1.0,1.0});
-        static void drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor = 1, float rotation = 0.0, const glm::vec4& colorTint = {1.0,1.0,1.0,1.0});
+        static void drawQuad(const QuadProperties& properties);
+        static void drawQuad(const QuadProperties& properties, const Ref<Texture2D>& texture);
 
     };
 

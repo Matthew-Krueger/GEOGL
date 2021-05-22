@@ -109,6 +109,11 @@ namespace GEOGL::Platform::OpenGL {
         }
 
         {
+            GEOGL_PROFILE_SCOPE("Generate MipMaps");
+            glGenerateTextureMipmap(m_RendererID);
+        }
+
+        {
             GEOGL_PROFILE_SCOPE("Free the image from memory");
             stbi_image_free(data);
         }
@@ -128,6 +133,12 @@ namespace GEOGL::Platform::OpenGL {
         uint32_t bpp = m_Format == GL_RGBA ? 4 : 3;
         GEOGL_CORE_ASSERT(size == m_Width * m_Height * bpp, "The size of the data must be the entire texture.");
         glTextureSubImage2D(m_RendererID, 0, 0, 0, (GLsizei) m_Width, (GLsizei) m_Height, m_Format, GL_UNSIGNED_BYTE, (void*) data);
+
+
+        {
+            GEOGL_RENDERER_PROFILE_SCOPE("Generate MipMaps");
+            glGenerateTextureMipmap(m_RendererID);
+        }
 
     }
 

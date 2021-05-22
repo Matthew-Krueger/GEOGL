@@ -105,49 +105,25 @@ namespace GEOGL{
 
     }
 
-    void GEOGL::Renderer2D::drawQuad(const glm::vec2 &position, const glm::vec2 &size, const glm::vec4 &color, float rotation) {
-
-        drawQuad({position.x, position.y, 0}, size, color, rotation);
-
-    }
-
-    void GEOGL::Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const glm::vec4 &color, float rotation) {
+    void GEOGL::Renderer2D::drawQuad(const QuadProperties& properties) {
         GEOGL_PROFILE_FUNCTION();
 
-        s_Data->textureShader->bind();
-        s_Data->whiteTexture->bind(0);
-        s_Data->textureShader->setFloat4("u_TintColor", color);
-        /* Setting the tiling factor does not matter. Leave it as previous */
-
-        /* Build transform and upload */
-        glm::mat4 transform = glm::translate(s_IdentMatrix, position);
-        transform = glm::rotate(transform, glm::radians(rotation), {0,0,1});
-        transform = glm::scale(transform, {size.x, size.y, 1.0f});
-        s_Data->textureShader->setMat4("u_TransformationMatrix", transform);
-
-        s_Data->quadVertexArray->bind();
-        RenderCommand::drawIndexed(s_Data->quadVertexArray);
+        drawQuad(properties, s_Data->whiteTexture);
 
     }
 
-    void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, float rotation, const glm::vec4& colorTint){
-
-        drawQuad({position.x, position.y, 0}, size, texture, tilingFactor, rotation, colorTint);
-
-    }
-
-    void Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const Ref<Texture2D>& texture, float tilingFactor, float rotation, const glm::vec4& colorTint) {
+    void Renderer2D::drawQuad(const QuadProperties& properties, const Ref<Texture2D>& texture) {
         GEOGL_PROFILE_FUNCTION();
 
         s_Data->textureShader->bind();
         texture->bind(0);
-        s_Data->textureShader->setFloat4("u_TintColor", colorTint);
-        s_Data->textureShader->setFloat("u_TilingFactor", tilingFactor);
+        s_Data->textureShader->setFloat4("u_TintColor", properties.colorTint);
+        s_Data->textureShader->setFloat("u_TilingFactor", properties.tilingFactor);
 
         /* Build transform and upload */
-        glm::mat4 transform = glm::translate(s_IdentMatrix, position);
-        transform = glm::rotate(transform, glm::radians(rotation), {0,0,1});
-        transform = glm::scale(transform, {size.x, size.y, 1.0f});
+        glm::mat4 transform = glm::translate(s_IdentMatrix, properties.position);
+        transform = (properties.rotation!=0) ? glm::rotate(transform, (properties.rotation), {0,0,1}) : transform;
+        transform = glm::scale(transform, {properties.size.x, properties.size.y, 1.0f});
         s_Data->textureShader->setMat4("u_TransformationMatrix", transform);
 
         s_Data->quadVertexArray->bind();

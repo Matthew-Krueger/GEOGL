@@ -64,21 +64,19 @@ namespace SandboxApp{
 
         {
 
-            GEOGL::Renderer2D::drawQuad({0, 0, -.9}, {10, 10}, m_Checkerboard, 10, 0,
-                                        {1 - m_SquareColor.r, 1 - m_SquareColor.g, 1 - m_SquareColor.b,
-                                         m_SquareColor.a});
-            GEOGL::Renderer2D::drawQuad({0, 0, .5}, {1, 1}, m_Checkerboard, 1, 45);
-            GEOGL::Renderer2D::drawQuad({0, 0}, {sqrt(2), sqrt(2)}, m_SquareColor);
-            GEOGL::Renderer2D::drawQuad({-.05, 0, 1}, {1, 1}, m_ChernoLogo);
+            GEOGL::Renderer2D::drawQuad({{0,  0, -.9}, {10, 10}, {1 - m_SquareColor.r, 1 - m_SquareColor.g, 1 - m_SquareColor.b, m_SquareColor.a}, 10, 0}, m_Checkerboard);
+            GEOGL::Renderer2D::drawQuad({{0, 0, .5}, {1, 1}, {1,1,1,1}, .5, glm::radians(45.0)}, m_Checkerboard);
+            GEOGL::Renderer2D::drawQuad({{0,0,0},{sqrt(2), sqrt(2)}, m_SquareColor});
+            GEOGL::Renderer2D::drawQuad({{-.05, 0, 1}, {1, 1}}, m_ChernoLogo);
 
-            GEOGL::Renderer2D::drawQuad({-3,0,0}, {2,2}, m_Sandman);
-            GEOGL::Renderer2D::drawQuad({-3,-3,0}, {2,2}, m_Sandman);
-            GEOGL::Renderer2D::drawQuad({0,-3,0}, {2,2}, m_Sandman);
-            GEOGL::Renderer2D::drawQuad({3,-3,0}, {2,2}, m_Sandman);
-            GEOGL::Renderer2D::drawQuad({3,0,0}, {2,2}, m_Sandman);
-            GEOGL::Renderer2D::drawQuad({3,3,0}, {2,2}, m_Sandman);
-            GEOGL::Renderer2D::drawQuad({0,3,0}, {2,2}, m_Sandman);
-            GEOGL::Renderer2D::drawQuad({-3,3,0}, {2,2}, m_Sandman);
+            GEOGL::Renderer2D::drawQuad({{-3,0,0}, {2,2}}, m_Sandman);
+            GEOGL::Renderer2D::drawQuad({{-3,-3,0}, {2,2}}, m_Sandman);
+            GEOGL::Renderer2D::drawQuad({{0, -3, 0},{2, 2}}, m_Sandman);
+            GEOGL::Renderer2D::drawQuad({{3, -3, 0},{2, 2}}, m_Sandman);
+            GEOGL::Renderer2D::drawQuad({{3, 0, 0},{2, 2}}, m_Sandman);
+            GEOGL::Renderer2D::drawQuad({{3, 3, 0},{2, 2}}, m_Sandman);
+            GEOGL::Renderer2D::drawQuad({{0, 3, 0},{2, 2}}, m_Sandman);
+            GEOGL::Renderer2D::drawQuad({{-3, 3, 0},{2,  2}}, m_Sandman);
         }
 
         GEOGL::Renderer2D::endScene();

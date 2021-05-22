@@ -62,6 +62,8 @@ namespace GEOGL{
         inline InstrumentationTimer(const char* name)
                 : m_Name(name), m_Stopped(false){
             m_StartTimepoint = std::chrono::high_resolution_clock::now();
+            m_StartTime = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
+            static long long currentTime = 0;
         }
         inline ~InstrumentationTimer(){
             if (!m_Stopped)
@@ -82,6 +84,7 @@ namespace GEOGL{
 
     private:
         const char* m_Name;
+        long long m_StartTime;
         std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint;
         bool m_Stopped;
     };
