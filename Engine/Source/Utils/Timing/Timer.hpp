@@ -63,7 +63,11 @@ namespace GEOGL{
                 : m_Name(name), m_Stopped(false){
             m_StartTimepoint = std::chrono::high_resolution_clock::now();
             m_StartTime = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
-            static long long currentTime = 0;
+            static long long previousTime = 0;
+            if(m_StartTime == previousTime) {
+                m_StartTime++;
+            }
+            previousTime = m_StartTime;
         }
         inline ~InstrumentationTimer(){
             if (!m_Stopped)
@@ -73,11 +77,11 @@ namespace GEOGL{
         inline void stop(){
             auto endTimepoint = std::chrono::high_resolution_clock::now();
 
-            long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
+            //long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
             long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
 
             uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-            Instrumentor::get().writeProfile({ m_Name, start, end, threadID });
+            Instrumentor::get().writeProfile({ m_Name, m_StartTime, end, threadID });
 
             m_Stopped = true;
         }

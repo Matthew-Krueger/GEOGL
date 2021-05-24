@@ -87,7 +87,7 @@ namespace GEOGL::Platform::OpenGL{
     Shader::Shader(const std::string& folderPath){
         GEOGL_PROFILE_FUNCTION();
 
-
+        /* first, read the source */
         std::string fileToLoad = folderPath+"/shader.glsl";
         GEOGL_CORE_INFO("Loading shader {}", fileToLoad);
         std::string source = readFile(fileToLoad);
@@ -455,6 +455,5 @@ void main()
         }
 
     }
-
 
 }

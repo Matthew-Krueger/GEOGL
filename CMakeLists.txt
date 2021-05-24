@@ -16,6 +16,7 @@ option(GEOGL_ENABLE_IGPU                    "Build GEOGL to enable IGPU support 
 option(GEOGL_TRACK_MEMORY_ALLOC             "Build GEOGL to track memory allocations (slow)"                ON)
 option(GEOGL_BUILD_WITH_PROFILING           "Build GEOGL to self-profile"                                   ON)
 option(GEOGL_BUILD_WITH_RENDERER_PROFILING  "Build GEOGL to self-profile the Renderer"                      OFF)
+option(GEOGL_CACHE_COMPILED_SHADERS         "Maintain a cache of compiled shaders"                          ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
@@ -67,6 +68,9 @@ endif()
 
 # ImGui
 add_subdirectory(Dependencies/imgui-docking)
+
+# Crypto
+add_subdirectory(Dependencies/Crypto)
 
 ###################################
 #          Build GEOGL            #

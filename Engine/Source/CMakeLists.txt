@@ -145,6 +145,12 @@ if(GEOGL_BUILD_WITH_PROFILING)
     endif()
 endif()
 
+# decode caching
+set(GEOGL_SHADER_CACHING_BUILD_FLAG 0)
+if(GEOGL_CACHE_COMPILED_SHADERS)
+    set(GEOGL_SHADER_CACHING_BUILD_FLAG 1)
+endif()
+
 #######################################################################
 #           Add Dummy target relating to macro definitions            #
 #######################################################################
@@ -162,6 +168,7 @@ target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_GLFW=${G
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_PROFILING=${GEOGL_PROFILING_BUILD_FLAG})
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_RENDERER_PROFILING=${GEOGL_PROFILING_RENDERER_BUILD_FLAG})
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_OPENMP=${GEOGL_OPENMP_BUILD_FLAG})
+target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_CACHE_COMPILED_SHADERS=${GEOGL_SHADER_CACHING_BUILD_FLAG})
 if(NOT BUILD_SHARED_LIBS)
     target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_STATIC)
 endif(NOT BUILD_SHARED_LIBS)
@@ -178,6 +185,7 @@ target_include_directories("GEOGL_Interface" INTERFACE include
         ../../Dependencies/STB/include
         ../../Dependencies/GLM-0.9.9.8.7/glm
         ../../Dependencies/imgui-docking/include
+        ../../Dependencies/Crypto/include
         )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -188,6 +196,10 @@ endif()
 
 if(OpenMP_CXX_FOUND)
     target_link_libraries(GEOGL_Interface INTERFACE OpenMP::OpenMP_CXX)
+endif()
+
+if(GEOGL_CACHE_COMPILED_SHADERS)
+    target_link_libraries(GEOGL_Interface INTERFACE GEOGL::Crypto)
 endif()
 #target_precompile_headers(GEOGL_Interface INTERFACE Modules/Utils/Headers/PCH.hpp)
 
