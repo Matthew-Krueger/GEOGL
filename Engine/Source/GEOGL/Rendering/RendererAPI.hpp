@@ -106,8 +106,6 @@ namespace GEOGL{
 
         inline RenderingAPIEnum getRenderingAPI() { return m_API; } ;
         RendererAPI::WindowingAPIEnum getWindowingAPI();
-        inline uint32_t getNumberDrawCalls() { return m_DrawCalls; };
-        inline void resetDrawCalls() { m_DrawCalls = 0; };
 
     protected:
         /**
@@ -115,7 +113,6 @@ namespace GEOGL{
          * @param preferredAPI The preferred api to use for rendering
          */
         RendererAPI(RendererAPI::RenderingAPIEnum preferredAPI);
-        uint32_t m_DrawCalls;
 
     private:
         RenderingAPIEnum m_API;

@@ -67,6 +67,20 @@ namespace GEOGL {
         static void drawRotatedQuad(const QuadProperties& properties, float rotation = 0);
         static void drawRotatedQuad(const QuadProperties& properties, const Ref<Texture2D>& texture, float rotation = 0);
 
+	public:
+        struct Statistics{
+            uint32_t drawCalls;
+            uint32_t quadCount;
+
+            inline uint32_t getTotalVertexCount() {return quadCount*4; };
+            inline uint32_t getTotalIndexCount() { return quadCount*6; };
+        };
+
+
+        static void resetStats();
+        static Statistics getStatistics();
+
+
     };
 
 }

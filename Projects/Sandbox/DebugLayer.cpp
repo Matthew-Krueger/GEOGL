@@ -80,10 +80,14 @@ namespace SandboxApp{
         /* Only run the fps min and max afterwords to give time to stabalize */
         if(frameCount++ > 45) {
 
+            auto stats = GEOGL::Renderer2D::getStatistics();
 
             ImGui::Begin("Debug Info");
             ImGui::SetWindowFontScale(1.25f);
-            ImGui::Text("Draw Calls %d", GEOGL::RenderCommand::getNumberDrawCalls());
+            ImGui::Text("2D Draw Calls %d", GEOGL::Renderer2D::getStatistics().drawCalls);
+            ImGui::Text("2D Quads %d", GEOGL::Renderer2D::getStatistics().quadCount);
+            ImGui::Text("2D Vertices %d", GEOGL::Renderer2D::getStatistics().getTotalVertexCount());
+            ImGui::Text("2D Indices %d", GEOGL::Renderer2D::getStatistics().getTotalIndexCount());
             ImGui::Text("Window size %d x %d", dimensions.x, dimensions.y);
             ImGui::Text("Aspect Ratio %f", (float)dimensions.x/(float)dimensions.y);
             ImGui::Text("VSync Enabled: %s", (GEOGL::Application::get().getWindow().isVSync()) ? "TRUE" : "FALSE");

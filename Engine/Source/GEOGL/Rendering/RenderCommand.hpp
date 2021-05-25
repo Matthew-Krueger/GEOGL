@@ -65,9 +65,6 @@ namespace GEOGL{
          */
         inline static void setRendererAPI(Ref<RendererAPI>& rendererApi) { s_RendererAPI = rendererApi; };
 
-        inline static uint32_t getNumberDrawCalls(){ return s_RendererAPI->getNumberDrawCalls(); };
-        inline static void resetNumberDrawCalls(){ s_RendererAPI->resetDrawCalls(); };
-
     private:
         static Ref<RendererAPI> s_RendererAPI;
     };

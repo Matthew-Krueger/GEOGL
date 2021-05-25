@@ -54,11 +54,13 @@ namespace GEOGL{
         QuadVertex* quadVertexBufferBase = nullptr;
         QuadVertex* quadVertexBufferPtr = nullptr;
 
-        glm::vec4 quadVertexPositions[4];
+        glm::vec4 quadVertexPositions[4] = {};
 
         //TODO: GUID identifier
         std::array<Ref<Texture2D>, maxTextureSlots> textureSlots;
         uint32_t textureSlotIndex = 0;
+
+        Renderer2D::Statistics stats;
     };
 
 
@@ -186,8 +188,11 @@ namespace GEOGL{
 
         uint32_t dataSize = (uint8_t*)s_Data.quadVertexBufferPtr - (uint8_t*)s_Data.quadVertexBufferBase;
         s_Data.quadVertexBuffer->setData(s_Data.quadVertexBufferBase, dataSize);
-        auto f = s_Data.quadVertexBufferBase;
+
         RenderCommand::drawIndexed(s_Data.quadVertexArray, s_Data.quadIndexCount);
+        s_Data.stats.drawCalls++;
+
+        auto stats = getStatistics();
 
         s_Data.quadIndexCount = 0;
         s_Data.quadVertexBufferPtr = s_Data.quadVertexBufferBase;
@@ -205,6 +210,11 @@ namespace GEOGL{
 
     void Renderer2D::drawQuad(const QuadProperties& properties, const Ref<Texture2D>& texture) {
         GEOGL_PROFILE_FUNCTION();
+
+        /* guard against buffer overflow */
+        if(s_Data.quadIndexCount >= s_Data.maxIndices || s_Data.textureSlotIndex >= GEOGL::Renderer2DData::maxTextureSlots){
+            flush();
+        }
 
         glm::mat4 transform = glm::translate(s_IdentMatrix, properties.position);
         transform = glm::scale(transform, {properties.size.x, properties.size.y, 1.0f});
@@ -310,6 +320,8 @@ namespace GEOGL{
         s_Data.quadIndexCount += 6;
          */
 
+        ++s_Data.stats.quadCount;
+
     }
 
     void Renderer2D::drawRotatedQuad(const Renderer2D::QuadProperties &properties, float rotation) {
@@ -319,6 +331,11 @@ namespace GEOGL{
     }
 
     void Renderer2D::drawRotatedQuad(const Renderer2D::QuadProperties &properties, const Ref <Texture2D> &texture, float rotation) {
+
+        /* guard against buffer overflow */
+        if(s_Data.quadIndexCount >= s_Data.maxIndices || s_Data.textureSlotIndex >= GEOGL::Renderer2DData::maxTextureSlots){
+            flush();
+        }
 
         glm::mat4 transform = glm::translate(s_IdentMatrix, properties.position);
         transform = (rotation!=0) ? glm::rotate(transform, (rotation), {0,0,1}) : transform;
@@ -370,6 +387,20 @@ namespace GEOGL{
         s_Data.quadVertexBufferPtr++;
 
         s_Data.quadIndexCount += 6;
+
+        ++s_Data.stats.quadCount;
+
+    }
+
+    void Renderer2D::resetStats() {
+
+        memset(&s_Data.stats, 0, sizeof(Statistics));
+
+    }
+
+    Renderer2D::Statistics Renderer2D::getStatistics() {
+
+        return s_Data.stats;
 
     }
 }

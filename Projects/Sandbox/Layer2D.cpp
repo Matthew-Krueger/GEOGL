@@ -57,6 +57,8 @@ namespace SandboxApp{
 
         GEOGL_PROFILE_FUNCTION();
 
+        GEOGL::Renderer2D::resetStats();
+
         m_OrthographicCameraController.onUpdate(timeStep);
 
         GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
@@ -66,12 +68,12 @@ namespace SandboxApp{
 
         {
 
-            GEOGL::Renderer2D::drawQuad({{0,  0, -.9}, {10, 10}, {1 - m_SquareColor.r, 1 - m_SquareColor.g, 1 - m_SquareColor.b, m_SquareColor.a}, 10}, m_Checkerboard);
-            GEOGL::Renderer2D::drawRotatedQuad({{0, 0, .5}, {1, 1}, {1,1,1,1}}, m_Checkerboard, glm::radians(rotation));
+            GEOGL::Renderer2D::drawQuad({{0,  0, -.9}, {100, 100}, {1 - m_SquareColor.r, 1 - m_SquareColor.g, 1 - m_SquareColor.b, m_SquareColor.a}, 100}, m_Checkerboard);
+            GEOGL::Renderer2D::drawRotatedQuad({{0, 0, .2}, {1, 1}, {1,1,1,1}}, m_Checkerboard, glm::radians(rotation));
             GEOGL::Renderer2D::drawQuad({{0,0,0},{sqrt(2), sqrt(2)}, m_SquareColor});
             //GEOGL::Renderer2D::drawQuad({{5,5,0},{sqrt(2), sqrt(2)}, m_SquareColor});
 
-            GEOGL::Renderer2D::drawQuad({{-.05, 0, 1}, {1, 1}}, m_ChernoLogo);
+            GEOGL::Renderer2D::drawQuad({{-.05, 0, .3}, {1, 1}}, m_ChernoLogo);
 
             GEOGL::Renderer2D::drawQuad({{-3,0,0}, {2,2}}, m_Sandman);
             GEOGL::Renderer2D::drawQuad({{-3,-3,0}, {2,2}}, m_Sandman);
@@ -82,8 +84,22 @@ namespace SandboxApp{
             GEOGL::Renderer2D::drawQuad({{0, 3, 0},{2, 2}}, m_Sandman);
             GEOGL::Renderer2D::drawQuad({{-3, 3, 0},{2,  2}}, m_Sandman);
 
-            for(int i=0; i<9000; i++){
+            for(int i=0; i<0; i++){
                 GEOGL::Renderer2D::drawQuad({{-3, 3, 0},{2,  2}}, m_Sandman);
+            }
+
+        }
+
+        GEOGL::Renderer2D::endScene();
+
+        GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
+
+        for(float y=-5.0f; y<= 5.0f; y+=0.1f){
+
+            for(float x=-5.0f; x<= 5.0f; x+=.1f){
+                glm::vec4 color = {(x+5)/10, .3, (y+5)/10, 1};
+                GEOGL::Renderer2D::drawQuad({{x,y, .9},{.45,.45}, color});
+
             }
 
         }

@@ -82,7 +82,6 @@ namespace GEOGL::Platform::OpenGL{
         GLsizei count = indexCount ? (GLsizei) indexCount : (GLsizei) vertexArray->getIndexBuffer()->getCount();
 
         glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
-        ++m_DrawCalls;
 
     }
 
