@@ -144,10 +144,14 @@ namespace GEOGL::Platform::OpenGL {
 
     void Texture2D::bind(uint32_t slotID) const {
         GEOGL_RENDERER_PROFILE_FUNCTION();
+        //GEOGL_CORE_INFO("Binding texture {} to slot {}", m_RendererID, slotID);
 
+        //glBindTexture(GL_TEXTURE0+slotID, m_RendererID);
         glBindTextureUnit(slotID, m_RendererID);
+        //glBindTextures(GL_TEXTURE0+slotID, 1, &m_RendererID);
+        //glActiveTexture(GL_TEXTURE0+slotID);
+        //glBindTexture(GL_TEXTURE_2D, m_RendererID);
 
     }
-
 
 }

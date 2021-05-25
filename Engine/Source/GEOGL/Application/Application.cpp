@@ -137,6 +137,8 @@ namespace GEOGL{
 
             m_Window->onUpdate();
 
+            RenderCommand::resetNumberDrawCalls();
+
         }
 
     }

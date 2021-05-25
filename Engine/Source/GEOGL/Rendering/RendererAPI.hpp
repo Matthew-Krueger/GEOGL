@@ -102,10 +102,12 @@ namespace GEOGL{
          * Draws an indexed VertexArray.
          * @param vertexArray The VertexArray to draw
          */
-        virtual void drawIndexed(const Ref<VertexArray>& vertexArray) = 0;
+        virtual void drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0) = 0;
 
         inline RenderingAPIEnum getRenderingAPI() { return m_API; } ;
         RendererAPI::WindowingAPIEnum getWindowingAPI();
+        inline uint32_t getNumberDrawCalls() { return m_DrawCalls; };
+        inline void resetDrawCalls() { m_DrawCalls = 0; };
 
     protected:
         /**
@@ -113,6 +115,7 @@ namespace GEOGL{
          * @param preferredAPI The preferred api to use for rendering
          */
         RendererAPI(RendererAPI::RenderingAPIEnum preferredAPI);
+        uint32_t m_DrawCalls;
 
     private:
         RenderingAPIEnum m_API;

@@ -93,7 +93,7 @@ namespace GEOGL{
         bool m_Stopped;
     };
 }
-
+#undef GEOGL_BUILD_WITH_PROFILING
 #if GEOGL_BUILD_WITH_PROFILING
 #ifdef __GNUC__
 #define _GEOGL_PROFILE_FUNCTION_NAME                    __PRETTY_FUNCTION__

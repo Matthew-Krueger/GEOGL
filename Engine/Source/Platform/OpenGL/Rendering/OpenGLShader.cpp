@@ -144,6 +144,12 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
+    void Shader::setIntArray(const char * name, int* values, uint32_t count){
+
+        uploadUniformIntArray(name, values, count);
+
+    }
+
     void Shader::setFloat(const char *name, float value) {
 
         uploadUniformFloat(name, value);
@@ -182,6 +188,18 @@ namespace GEOGL::Platform::OpenGL{
 
         /* now, upload the data */
         glUniform1i(uniformLocation, value);
+
+    }
+
+    void Shader::uploadUniformIntArray(const char * uniformName, int* values, uint32_t count){
+
+        /* Get the uniform's location */
+        int uniformLocation = glGetUniformLocation(m_RendererID, uniformName);
+
+        GEOGL_CORE_ASSERT(uniformLocation != -1, "Uniform {} not found.", uniformName);
+
+        /* now, upload the data */
+        glUniform1uiv(uniformLocation, (GLsizei)count, (GLuint*) values);
 
     }
 

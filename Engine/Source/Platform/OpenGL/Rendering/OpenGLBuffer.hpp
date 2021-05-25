@@ -31,37 +31,37 @@ namespace GEOGL::Platform::OpenGL{
 
     class GEOGL_API VertexBuffer : public GEOGL::VertexBuffer{
     public:
-        VertexBuffer(const std::vector<float>& vertices);
+        VertexBuffer(uint32_t size);
+        VertexBuffer(float* vertices, uint32_t size);
         virtual ~VertexBuffer();
 
         virtual void bind() const override;
         virtual void unbind() const override;
+        virtual void setData(const void* data, uint32_t size) override;
 
         inline void setLayout(const BufferLayout& layout) override { m_Layout = layout; };
         inline const BufferLayout& getLayout() const override { return m_Layout; };
 
 
     private:
-        std::vector<float> m_CPUData;
+        uint32_t m_Size;
         uint32_t m_VBOID;
         BufferLayout m_Layout;
-
     };
 
 
     class GEOGL_API IndexBuffer : public GEOGL::IndexBuffer{
     public:
-        IndexBuffer(const std::vector<uint32_t>& indices);
+        IndexBuffer(uint32_t* indices, uint32_t count);
         virtual ~IndexBuffer();
 
         virtual void bind() const override;
         virtual void unbind() const override;
 
-        virtual inline uint32_t getCount() const override {return m_CPUDataSizeCache; };
+        virtual inline uint32_t getCount() const override {return m_Count; };
 
     private:
-        std::vector<uint32_t> m_CPUData;
-        uint32_t m_CPUDataSizeCache;
+        uint32_t m_Count;
         uint32_t m_IndexBufferID;
 
     };

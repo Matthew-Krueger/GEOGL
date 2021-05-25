@@ -80,7 +80,7 @@ namespace GEOGL{
         }
     }
 
-    Ref<VertexBuffer> VertexBuffer::create(const std::vector<float> &vertices) {
+    Ref <VertexBuffer> VertexBuffer::create(uint32_t size) {
         GEOGL_PROFILE_FUNCTION();
 
         const auto renderer = Renderer::getRendererAPI();
@@ -89,19 +89,39 @@ namespace GEOGL{
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #if GEOGL_BUILD_WITH_OPENGL == 1
-                result = createRef<GEOGL::Platform::OpenGL::VertexBuffer>(vertices);
+                result = createRef<GEOGL::Platform::OpenGL::VertexBuffer>(size);
                 return result;
 #else
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
 #endif
             default:
-                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} shader. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} Vertex Buffer. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
+                return nullptr;
+        }
+    }
+
+    Ref<VertexBuffer> VertexBuffer::create(float* vertices, uint32_t size) {
+        GEOGL_PROFILE_FUNCTION();
+
+        const auto renderer = Renderer::getRendererAPI();
+
+        Ref<VertexBuffer> result;
+        switch(renderer->getRenderingAPI()){
+            case RendererAPI::RENDERING_OPENGL_DESKTOP:
+#if GEOGL_BUILD_WITH_OPENGL == 1
+                result = createRef<GEOGL::Platform::OpenGL::VertexBuffer>(vertices, size);
+                return result;
+#else
+                GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");
+#endif
+            default:
+                GEOGL_CORE_CRITICAL_NOSTRIP("Unable to create a {} Vertex Buffer. Unhandled path.", RendererAPI::getRenderingAPIName(renderer->getRenderingAPI()));
                 return nullptr;
         }
 
     }
 
-    Ref<IndexBuffer> IndexBuffer::create(const std::vector<uint32_t> &indices) {
+    Ref<IndexBuffer> IndexBuffer::create(uint32_t* indices, uint32_t count) {
         GEOGL_PROFILE_FUNCTION();
 
         const auto renderer = Renderer::getRendererAPI();
@@ -110,7 +130,7 @@ namespace GEOGL{
         switch(renderer->getRenderingAPI()){
             case RendererAPI::RENDERING_OPENGL_DESKTOP:
 #ifdef GEOGL_BUILD_WITH_OPENGL
-                result.reset(new GEOGL::Platform::OpenGL::IndexBuffer(indices));
+                result.reset(new GEOGL::Platform::OpenGL::IndexBuffer(indices, count));
                 return result;
 #else
                 GEOGL_CORE_CRITICAL("Platform OpenGL Slected but not supported.");

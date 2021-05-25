@@ -26,6 +26,7 @@
 #include "DebugLayer.hpp"
 #include <ImGui/imgui.h>
 #include <GEOGL/Core.hpp>
+#include <GEOGL/Renderer.hpp>
 
 namespace SandboxApp{
 
@@ -82,6 +83,7 @@ namespace SandboxApp{
 
             ImGui::Begin("Debug Info");
             ImGui::SetWindowFontScale(1.25f);
+            ImGui::Text("Draw Calls %d", GEOGL::RenderCommand::getNumberDrawCalls());
             ImGui::Text("Window size %d x %d", dimensions.x, dimensions.y);
             ImGui::Text("Aspect Ratio %f", (float)dimensions.x/(float)dimensions.y);
             ImGui::Text("VSync Enabled: %s", (GEOGL::Application::get().getWindow().isVSync()) ? "TRUE" : "FALSE");

@@ -76,10 +76,13 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
-    void RendererAPI::drawIndexed(const Ref<VertexArray> &vertexArray) {
+    void RendererAPI::drawIndexed(const Ref<VertexArray> &vertexArray, uint32_t indexCount) {
         GEOGL_RENDERER_PROFILE_FUNCTION();
 
-        glDrawElements(GL_TRIANGLES, (GLsizei) vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+        GLsizei count = indexCount ? (GLsizei) indexCount : (GLsizei) vertexArray->getIndexBuffer()->getCount();
+
+        glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+        ++m_DrawCalls;
 
     }
 

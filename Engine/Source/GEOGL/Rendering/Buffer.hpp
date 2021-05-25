@@ -181,6 +181,13 @@ namespace GEOGL{
         virtual void unbind() const = 0;
 
         /**
+         * Sets the data in the vertex buffer to the specified data
+         * @param data The data to upload
+         * @param size \brief The size of the data to upload
+         */
+        virtual void setData(const void* data, uint32_t size) = 0;
+
+        /**
          * \brief Sets the layout of the VertexBuffer. Use an initializer list.
          *
          * Usage:
@@ -203,11 +210,20 @@ namespace GEOGL{
         virtual const BufferLayout& getLayout() const = 0;
 
         /**
+         * \brief Creates an empty Vertex Buffer
+         * @param size The size of the vertex buffer to create, in bytes
+         * @return The Ref<VertexBuffer>
+         */
+        static Ref<VertexBuffer> create(uint32_t size);
+
+        /**
          * \brief Creates a VertexBuffer using the API stored in the Application singleton.
          * @param vertices The data to upload to the GPU
+         * @param size The size of the data to upload, in bytes
          * @return The VertexBuffer object using the selected API.
          */
-        static Ref<VertexBuffer> create(const std::vector<float>& data);
+        static Ref<VertexBuffer> create(float* vertices, uint32_t size);
+
     };
 
 
@@ -242,9 +258,10 @@ namespace GEOGL{
         /**
          * \brief Creates a IndexBuffer using the API stored in the Application singleton.
          * @param indices The data to upload to the GPU
+         * @param count The number of indices
          * @return The IndexBuffer object using the selected API.
          */
-        static Ref<IndexBuffer> create(const std::vector<uint32_t>& indices);
+        static Ref<IndexBuffer> create(uint32_t* indices, uint32_t count);
 
     };
 

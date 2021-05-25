@@ -33,15 +33,11 @@ namespace GEOGL::Platform::OpenGL{
      * Vertex Buffer
      */
 
-    VertexBuffer::VertexBuffer(const std::vector<float> &vertices) {
+    VertexBuffer::VertexBuffer(uint32_t size) {
+
         GEOGL_PROFILE_FUNCTION();
 
-        /* Obtain a copy of vertices */
-        m_CPUData = vertices;
-
-        /* Do some evil pointer manipulation to get a void* to the data, so I can access GLM's memory */
-        void* vector = (void*)m_CPUData.data();
-        uint32_t vectorSizeBytes = m_CPUData.size() * sizeof(float); // Times size of glm::vec3 component vector.
+        m_Size = size;
 
         /* Now, upload to the GPU */
         {
@@ -56,11 +52,38 @@ namespace GEOGL::Platform::OpenGL{
 
         {
             GEOGL_PROFILE_SCOPE("Upload Buffer");
-            glBufferData(GL_ARRAY_BUFFER, vectorSizeBytes, vector, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+        }
+
+
+
+    }
+
+    VertexBuffer::VertexBuffer(float* vertices, uint32_t size) {
+        GEOGL_PROFILE_FUNCTION();
+
+        m_Size = size;
+        void* vector = (void*)vertices;
+
+        /* Now, upload to the GPU */
+        {
+            GEOGL_PROFILE_SCOPE("Create Buffer");
+            glCreateBuffers(1, &m_VBOID);
+        }
+
+        {
+            GEOGL_PROFILE_SCOPE("Bind Buffer");
+            glBindBuffer(GL_ARRAY_BUFFER, m_VBOID);
+        }
+
+        {
+            GEOGL_PROFILE_SCOPE("Upload Buffer");
+            glBufferData(GL_ARRAY_BUFFER, m_Size, vector, GL_STATIC_DRAW);
         }
 
 
     }
+
 
     VertexBuffer::~VertexBuffer() {
         GEOGL_PROFILE_FUNCTION();
@@ -84,18 +107,26 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
+    void VertexBuffer::setData(const void* data, uint32_t size) {
+        GEOGL_RENDERER_PROFILE_FUNCTION();
+
+        glBindBuffer(GL_ARRAY_BUFFER, m_VBOID);
+
+        glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+
+    }
+
 
     /*
      *  Index Buffer
      */
-    IndexBuffer::IndexBuffer(const std::vector<uint32_t> &indices) {
+    IndexBuffer::IndexBuffer(uint32_t* indices, uint32_t count) {
         GEOGL_PROFILE_FUNCTION();
 
         /* Obtain a copy of vertices */
-        m_CPUData = indices;
-        m_CPUDataSizeCache = static_cast<uint32_t>(m_CPUData.size());
+        m_Count = count;
 
-        uint64_t vectorSizeBytes = m_CPUData.size() * sizeof(uint32_t); // Times size of glm::vec3 component vector.
+        GLsizeiptr vectorSizeBytes = count * sizeof(uint32_t); // Times size of glm::vec3 component vector.
 
         {
             GEOGL_PROFILE_SCOPE("Create Buffer");
@@ -109,7 +140,7 @@ namespace GEOGL::Platform::OpenGL{
 
         {
             GEOGL_PROFILE_SCOPE("Upload Buffer");
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, vectorSizeBytes, (void*)m_CPUData.data(), GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, vectorSizeBytes, (void*)indices, GL_STATIC_DRAW);
         }
 
 

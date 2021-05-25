@@ -45,6 +45,10 @@ namespace GEOGL::Platform::OpenGL{
          */
         void bind(uint32_t slotID) const override;
 
+        bool operator==(const GEOGL::Texture2D& other) const override{
+            return m_RendererID == ((GEOGL::Platform::OpenGL::Texture2D&) other).m_RendererID;
+        };
+
     private:
         std::string m_Path;
         uint32_t m_Width, m_Height;

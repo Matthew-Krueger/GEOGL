@@ -43,18 +43,13 @@ namespace GEOGL {
 	        inline QuadProperties(  const glm::vec3& quadPosition = {0,0,0},
                                     const glm::vec2& quadSize = {1,1},
                                     const glm::vec4& quadColorTint = {1,1,1,1},
-                                    float quadTilingFactor = 1,
-                                    float quadRotation = 0)
-                               : position(quadPosition), size(quadSize), colorTint(quadColorTint), tilingFactor(quadTilingFactor), rotation(quadRotation){};
+                                    float quadTilingFactor = 1)
+                               : position(quadPosition), size(quadSize), colorTint(quadColorTint), tilingFactor(quadTilingFactor){};
 
 	        glm::vec3 position      = {0,0,0};
 	        glm::vec2 size          = {1,1};
 	        glm::vec4 colorTint     = {1,1,1,1};
 	        float tilingFactor      = 1;
-	        /**
-	         * Rotation in radians
-	         */
-            float rotation          = 0;
 	    };
 
 	public:
@@ -63,10 +58,14 @@ namespace GEOGL {
 
 		static void beginScene(const OrthographicCamera& camera);
         static void endScene();
+        static void flush();
 
         // primitives rendering
         static void drawQuad(const QuadProperties& properties);
         static void drawQuad(const QuadProperties& properties, const Ref<Texture2D>& texture);
+
+        static void drawRotatedQuad(const QuadProperties& properties, float rotation = 0);
+        static void drawRotatedQuad(const QuadProperties& properties, const Ref<Texture2D>& texture, float rotation = 0);
 
     };
 

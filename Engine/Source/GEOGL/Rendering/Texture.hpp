@@ -46,6 +46,7 @@ namespace GEOGL{
          */
         virtual void bind(uint32_t slotID) const = 0;
 
+
     };
 
     class Texture2D : public Texture{
@@ -53,6 +54,8 @@ namespace GEOGL{
 
         static Ref<Texture2D> create(uint32_t width, uint32_t height);
         static Ref<Texture2D> create(const std::string& filePath);
+
+        virtual bool operator==(const Texture2D& other) const = 0;
 
     };
 
