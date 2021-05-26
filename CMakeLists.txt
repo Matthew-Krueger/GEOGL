@@ -17,6 +17,7 @@ option(GEOGL_TRACK_MEMORY_ALLOC             "Build GEOGL to track memory allocat
 option(GEOGL_BUILD_WITH_PROFILING           "Build GEOGL to self-profile"                                   ON)
 option(GEOGL_BUILD_WITH_RENDERER_PROFILING  "Build GEOGL to self-profile the Renderer"                      OFF)
 option(GEOGL_CACHE_COMPILED_SHADERS         "Maintain a cache of compiled shaders"                          ON)
+option(GEOGL_BUILD_WITH_SSE2                "Build GEOGL with SSE2"                                         ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
@@ -41,6 +42,15 @@ set(GEOGL_VERSION_FULL "${GEOGL_VERSION}.${GEOGL_VERSION_PATCH}-${GEOGL_VERSION_
 ###################################
 #           Dependencies          #
 ###################################
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
+
+add_library(sse2 INTERFACE IMPORTED)
+if(MSVC)
+    target_compile_options(sse2 INTERFACE /arch:sse2)
+else()
+    target_compile_options(sse2 INTERFACE -msse2)
+endif()
 
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
@@ -68,9 +78,6 @@ endif()
 
 # ImGui
 add_subdirectory(Dependencies/imgui-docking)
-
-# Crypto
-add_subdirectory(Dependencies/Crypto)
 
 ###################################
 #          Build GEOGL            #

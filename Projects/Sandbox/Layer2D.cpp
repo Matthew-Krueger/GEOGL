@@ -22,7 +22,7 @@
  *                                                                             *
  *******************************************************************************/
 
-
+#define GEOGL_SWIZZLE
 #include "Layer2D.hpp"
 #include <GEOGL/Core.hpp>
 #include <ImGui/imgui.h>

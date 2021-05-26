@@ -185,7 +185,6 @@ target_include_directories("GEOGL_Interface" INTERFACE include
         ../../Dependencies/STB/include
         ../../Dependencies/GLM-0.9.9.8.7/glm
         ../../Dependencies/imgui-docking/include
-        ../../Dependencies/Crypto/include
         )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -198,9 +197,10 @@ if(OpenMP_CXX_FOUND)
     target_link_libraries(GEOGL_Interface INTERFACE OpenMP::OpenMP_CXX)
 endif()
 
-if(GEOGL_CACHE_COMPILED_SHADERS)
-    target_link_libraries(GEOGL_Interface INTERFACE GEOGL::Crypto)
+if(BUILD_GEOGL_WITH_SSE2)
+    target_link_libraries(GEOGL_Interface INTERFACE sse2)
 endif()
+
 #target_precompile_headers(GEOGL_Interface INTERFACE Modules/Utils/Headers/PCH.hpp)
 
 #######################################################################
