@@ -39,7 +39,7 @@ namespace GEOGL{
     };
 
     struct Renderer2DData{
-        const uint32_t maxQuads = 10000;
+        const uint32_t maxQuads = 7500;
         const uint32_t maxVertices = maxQuads * 4;
         const uint32_t maxIndices = maxQuads * 6;
         static const uint32_t maxTextureSlots = 32; //TODO: Get from RenderCaps
@@ -60,7 +60,9 @@ namespace GEOGL{
         std::array<Ref<Texture2D>, maxTextureSlots> textureSlots;
         uint32_t textureSlotIndex = 0;
 
-        Renderer2D::Statistics stats;
+        Renderer2D::Statistics stats{};
+
+        bool wireframe = false;
     };
 
 
@@ -131,11 +133,6 @@ namespace GEOGL{
                 s_Data.textureShader->setInt(GEOGL_FORMAT("u_Textures[{}]", i).c_str(), i);
             }
             s_Data.textureShader->setIntArray("u_Textures", samplers, GEOGL::Renderer2DData::maxTextureSlots);
-            /*s_Data.textureShader->setInt("u_Texture", 0);
-            s_Data.textureShader->setInt("u_Texture2", 1);
-            s_Data.textureShader->setInt("u_Texture3", 2);
-            s_Data.textureShader->setInt("u_Texture4", 3);
-            s_Data.textureShader->setInt("u_Texture5", 4);*/
         }
 
         s_Data.quadVertexPositions[0] = {-0.5,  -0.5,   0.0f,   1.0f};
@@ -170,10 +167,16 @@ namespace GEOGL{
 
         Renderer2D::flush();
 
+        if(s_Data.wireframe){
+            Renderer2D::renderWireframe(false);
+        }
+
     }
 
     void GEOGL::Renderer2D::flush(){
         GEOGL_PROFILE_FUNCTION();
+
+        if(s_Data.quadVertexBufferPtr == s_Data.quadVertexBufferBase) return; /* Since there is no data to render, skip the remainder of the function */
 
         s_Data.textureShader->bind();
         s_Data.quadVertexArray->bind();
@@ -192,12 +195,18 @@ namespace GEOGL{
         RenderCommand::drawIndexed(s_Data.quadVertexArray, s_Data.quadIndexCount);
         s_Data.stats.drawCalls++;
 
-        auto stats = getStatistics();
-
         s_Data.quadIndexCount = 0;
         s_Data.quadVertexBufferPtr = s_Data.quadVertexBufferBase;
 
         s_Data.textureSlotIndex = 0;
+
+    }
+
+    void Renderer2D::renderWireframe(bool status) {
+
+        Renderer2D::flush();
+        RenderCommand::renderWireframe(&status);
+        s_Data.wireframe = status;
 
     }
 
@@ -403,5 +412,6 @@ namespace GEOGL{
         return s_Data.stats;
 
     }
+
 }
 

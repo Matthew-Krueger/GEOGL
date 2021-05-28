@@ -48,6 +48,7 @@ namespace GEOGL::Platform::OpenGL{
         void clear() override;
 
         virtual void drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0) override;
+        virtual void renderWireframe(bool* status) override;
 
     private:
         glm::vec4 m_ClearColor;

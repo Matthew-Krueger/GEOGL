@@ -104,6 +104,8 @@ namespace GEOGL{
          */
         virtual void drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0) = 0;
 
+        virtual void renderWireframe(bool* status) = 0;
+
         inline RenderingAPIEnum getRenderingAPI() { return m_API; } ;
         RendererAPI::WindowingAPIEnum getWindowingAPI();
 

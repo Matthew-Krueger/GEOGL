@@ -84,19 +84,21 @@ namespace SandboxApp{
             GEOGL::Renderer2D::drawQuad({{0, 3, 0},{2, 2}}, m_Sandman);
             GEOGL::Renderer2D::drawQuad({{-3, 3, 0},{2,  2}}, m_Sandman);
 
-            for(int i=0; i<0; i++){
-                GEOGL::Renderer2D::drawQuad({{-3, 3, 0},{2,  2}}, m_Sandman);
-            }
+            //for(int i=0; i<0; i++){
+              //  GEOGL::Renderer2D::drawQuad({{-3, 3, 0},{2,  2}}, m_Sandman);
+            //}
 
         }
 
         GEOGL::Renderer2D::endScene();
 
-        GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
+        /*GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
+        GEOGL::Renderer2D::renderWireframe(true);
 
         for(float y=-5.0f; y<= 5.0f; y+=0.1f){
 
             for(float x=-5.0f; x<= 5.0f; x+=.1f){
+
                 glm::vec4 color = {(x+5)/10, .3, (y+5)/10, 1};
                 GEOGL::Renderer2D::drawQuad({{x,y, .9},{.45,.45}, color});
 
@@ -105,7 +107,7 @@ namespace SandboxApp{
         }
 
         GEOGL::Renderer2D::endScene();
-
+        */
     }
 
     void Layer2D::onImGuiRender(GEOGL::TimeStep timeStep) {

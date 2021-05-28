@@ -85,4 +85,14 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
+    void RendererAPI::renderWireframe(bool *status) {
+
+        if(*status){
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }else{
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
+
+    }
+
 }

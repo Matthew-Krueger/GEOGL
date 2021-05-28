@@ -54,6 +54,12 @@ namespace GEOGL{
         inline static void drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0){ s_RendererAPI->drawIndexed(vertexArray, indexCount); };
 
         /**
+         * Sets whether or not the render should render wireframe
+         * @param status Whether or not to render wireframe. Will be changed to the current status
+         */
+        inline static void renderWireframe(bool* status) { s_RendererAPI->renderWireframe(status); };
+
+        /**
          * Gets the rendererAPI
          * @return
          */
@@ -64,6 +70,7 @@ namespace GEOGL{
          * @param rendererApi
          */
         inline static void setRendererAPI(Ref<RendererAPI>& rendererApi) { s_RendererAPI = rendererApi; };
+
 
     private:
         static Ref<RendererAPI> s_RendererAPI;

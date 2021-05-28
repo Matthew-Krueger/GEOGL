@@ -60,6 +60,12 @@ namespace GEOGL {
         static void endScene();
         static void flush();
 
+        /**
+         * Sets whether or not to use wireframe. endScene clears this
+         * @param status
+         */
+        static void renderWireframe(bool status);
+
         // primitives rendering
         static void drawQuad(const QuadProperties& properties);
         static void drawQuad(const QuadProperties& properties, const Ref<Texture2D>& texture);
