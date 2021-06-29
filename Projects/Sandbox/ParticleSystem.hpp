@@ -22,50 +22,68 @@
  *                                                                             *
  *******************************************************************************/
 
+#ifndef GEOGL_PARTICLESYSTEM_HPP
+#define GEOGL_PARTICLESYSTEM_HPP
 
-#ifndef GEOGL_LAYER2D_HPP
-#define GEOGL_LAYER2D_HPP
+#define GEOGL_SWIZZLE
+#include <GEOGL/Core.hpp>
+#include <random>
 
-#include "ParticleSystem.hpp"
-#include <GEOGL/Layers.hpp>
-#include <GEOGL/IO.hpp>
-#include <GEOGL/Renderer.hpp>
 
 namespace SandboxApp{
 
-    class Layer2D : public GEOGL::Layer{
+
+    class Random{
     public:
-        Layer2D();
-        Layer2D(const Layer2D&) = delete;
-        ~Layer2D() override = default;
+        static void Init(){
+            s_RandomEngine.seed(std::random_device()());
+        }
 
-
-        void onAttach() override;
-        void onDetach() override;
-        void onUpdate(GEOGL::TimeStep timeStep) override;
-        void onImGuiRender(GEOGL::TimeStep timeStep) override;
-
-        void onEvent(GEOGL::Event& event) override;
+        static float Float(){
+            auto limit = (float)0xFFFFFFFF;
+            return (float)s_Distribution(s_RandomEngine) / limit;
+        }
 
     private:
+        static std::mt19937 s_RandomEngine;
+        static std::uniform_int_distribution<std::mt19937::result_type> s_Distribution;
+    };
 
-        /* Camera utils */
-        GEOGL::OrthographicCameraController m_OrthographicCameraController;
 
-        /* Textures */
-        /* Cherno Logo (Copyright the Cherno) */
-        GEOGL::Ref<GEOGL::Texture2D> m_ChernoLogo;
-        GEOGL::Ref<GEOGL::Texture2D> m_Checkerboard;
-        GEOGL::Ref<GEOGL::Texture2D> m_Sandman;
+    struct ParticleProperties{
+        glm::vec2 position;
+        glm::vec2 velocity, velocityVariation;
+        glm::vec4 colorBegin, colorEnd;
+        float sizeBegin, sizeEnd, sizeVariation;
+        float lifeTime = 1.0f;
+    };
 
-        /* Color Controllers */
-        glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 1.0f};
+    class ParticleSystem{
+    public:
+        ParticleSystem();
 
-        /* Particle System */
-        GEOGL::Scope<ParticleSystem> m_ParticleSystem;
+        void onUpdate(GEOGL::TimeStep ts);
+        void onRender(const GEOGL::OrthographicCamera& camera);
+
+        void emit(const ParticleProperties& particleProperties);
+    private:
+        struct Particle{
+            glm::vec2 position;
+            glm::vec2 velocity;
+            glm::vec4 colorBegin, colorEnd;
+            float rotation = 0.0f;
+            float sizeBegin, sizeEnd;
+
+            float lifeTime = 1.0f;
+            float lifeRemaining = 0.0f;
+
+            bool active = false;
+        };
+        std::vector<Particle> m_ParticlePool;
+        uint32_t m_PoolIndex = 999;
 
     };
 
 }
 
-#endif //GEOGL_LAYER2D_HPP
+#endif //GEOGL_PARTICLESYSTEM_HPP

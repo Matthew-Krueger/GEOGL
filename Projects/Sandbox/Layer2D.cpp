@@ -46,6 +46,8 @@ namespace SandboxApp{
         m_Checkerboard = GEOGL::Texture2D::create("Resources/Textures/Checkerboard.png");
         m_Sandman = GEOGL::Texture2D::create("Resources/Textures/Sandman.png");
 
+        m_ParticleSystem = GEOGL::createScope<ParticleSystem>();
+
     }
 
     void Layer2D::onDetach() {
@@ -61,12 +63,12 @@ namespace SandboxApp{
 
         m_OrthographicCameraController.onUpdate(timeStep);
 
-        GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
+        /*GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
 
 
         rotation += timeStep * 20;
 
-        {
+        /*{
 
             GEOGL::Renderer2D::drawQuad({{0,  0, -.9}, {100, 100}, {1 - m_SquareColor.r, 1 - m_SquareColor.g, 1 - m_SquareColor.b, m_SquareColor.a}, 100}, m_Checkerboard);
             GEOGL::Renderer2D::drawRotatedQuad({{0, 0, .2}, {1, 1}, {1,1,1,1}}, m_Checkerboard, glm::radians(rotation));
@@ -90,24 +92,53 @@ namespace SandboxApp{
 
         }
 
-        GEOGL::Renderer2D::endScene();
+        GEOGL::Renderer2D::endScene();*/
 
-        /*GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
-        GEOGL::Renderer2D::renderWireframe(true);
-
-        for(float y=-5.0f; y<= 5.0f; y+=0.1f){
-
-            for(float x=-5.0f; x<= 5.0f; x+=.1f){
-
-                glm::vec4 color = {(x+5)/10, .3, (y+5)/10, 1};
-                GEOGL::Renderer2D::drawQuad({{x,y, .9},{.45,.45}, color});
-
-            }
-
+        /* emit one particle */
+        {
+            ParticleProperties properties{};
+            properties.position = {0, 0};
+            properties.velocity = {(Random::Float()-.5)*2, (Random::Float()-.5)*2};
+            properties.velocityVariation = {Random::Float()/5, Random::Float()/5};
+            properties.sizeVariation = Random::Float()/5;
+            properties.sizeBegin = 0.2f;
+            properties.sizeEnd = 0;
+            properties.lifeTime = std::max(1.0f,Random::Float() * 4);
+            properties.colorBegin = {.2,.2f,.8f,1};
+            properties.colorEnd = {0.6f, 0.2f,0.2f,1};
+            m_ParticleSystem->emit(properties);
+        }
+        {
+            ParticleProperties properties{};
+            properties.position = {0, 0};
+            properties.velocity = {(Random::Float()-.5)*2, (Random::Float()-.5)*2};
+            properties.velocityVariation = {Random::Float()/5, Random::Float()/5};
+            properties.sizeVariation = Random::Float()/5;
+            properties.sizeBegin = 0.2f;
+            properties.sizeEnd = 0;
+            properties.lifeTime = std::max(1.0f,Random::Float() * 4);
+            properties.colorBegin = {.2,.2f,.8f,1};
+            properties.colorEnd = {0.6f, 0.2f,0.2f,1};
+            m_ParticleSystem->emit(properties);
+        }
+        {
+            ParticleProperties properties{};
+            properties.position = {0, 0};
+            properties.velocity = {(Random::Float()-.5)*2, (Random::Float()-.5)*2};
+            properties.velocityVariation = {Random::Float()/5, Random::Float()/5};
+            properties.sizeVariation = Random::Float()/5;
+            properties.sizeBegin = 0.2f;
+            properties.sizeEnd = 0;
+            properties.lifeTime = std::max(1.0f,Random::Float() * 4);
+            properties.colorBegin = {.2,.2f,.8f,1};
+            properties.colorEnd = {0.6f, 0.2f,0.2f,1};
+            m_ParticleSystem->emit(properties);
         }
 
-        GEOGL::Renderer2D::endScene();
-        */
+        m_ParticleSystem->onUpdate(timeStep);
+
+        m_ParticleSystem->onRender(m_OrthographicCameraController.getCamera());
+
     }
 
     void Layer2D::onImGuiRender(GEOGL::TimeStep timeStep) {
