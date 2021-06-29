@@ -53,6 +53,12 @@ namespace GEOGL{
             }
         }
 
+        uint32_t getCount() const{ return *m_RefCount; };
+
+        T* get() const{ return m_Ptr; };
+        T* operator->() const{ return m_Ptr; };
+        T& operator*() const{ return *m_Ptr; };
+
     private:
         uint32_t* m_RefCount;
         T* m_Ptr;
