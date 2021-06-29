@@ -1,0 +1,1 @@
+target_sources(GEOGL_TESTS PRIVATE Catch2Test.cpp)

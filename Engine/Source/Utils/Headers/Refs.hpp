@@ -27,6 +27,7 @@
 #define GEOGL_REFS_HPP
 
 #include <memory>
+#include "../Memory/Pointers.hpp"
 
 namespace GEOGL{
 

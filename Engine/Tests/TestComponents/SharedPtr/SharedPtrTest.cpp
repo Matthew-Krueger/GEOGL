@@ -22,44 +22,41 @@
  *                                                                             *
  *******************************************************************************/
 
+#include <Catch/Catch2.hpp>
+#include <GEOGL/Utils.hpp>
 
-#ifndef GEOGL_TRACKMEMORYALLOCATIONS_HPP
-#define GEOGL_TRACKMEMORYALLOCATIONS_HPP
+class Test1{
+public:
+    explicit Test1(std::string string): storedString(std::move(string)){
+        std::cerr << "Created a test object\n";
+    };
 
-/* This file is included in the PCH. This file will be used in conjunction with cmake to either
- * strip out memory allocations or track memory allocations */
+    ~Test1(){
+        std::cerr << "Destroying a Test Object\n";
+    };
 
-/* Due to operator new restrictions, we cannot really namespace this. The getters will
- * be namespaced though */
+private:
+    std::string storedString;
+    int storedInt;
 
 
-#include <cstddef>
-#include <GEOGL/API_Utils/DLLExportsAndTraps.hpp>
-namespace GEOGL{
+};
 
-    GEOGL_API size_t getNumberAllocations();
-    GEOGL_API size_t getNumberDeallocations();
-    GEOGL_API size_t getBytesAllocated();
-    GEOGL_API size_t getBytesDeallocated();
+void createTest1String(){
 
-    GEOGL_API double getKilobytesAllocated();
-    GEOGL_API double getMegabytesAllocated();
+    std::cerr << "Testing creating and destructing a test object works\n";
 
-    GEOGL_API double getKilobytesDeallocated();
-    GEOGL_API double getMegabytesDeallocated();
+    size_t bytesInUse = GEOGL::getBytesAllocated()-GEOGL::getBytesDeallocated();
+    {
+        GEOGL::shared_ptr<Test1> test("Hello");
+    }
+    size_t bytesInUseAfter = GEOGL::getBytesAllocated() - GEOGL::getBytesDeallocated();
+    REQUIRE(bytesInUse == bytesInUseAfter);
 
 }
 
-#if (GEOGL_TRACK_MEMORY_ALLOC_FLAG == 1)
-#ifndef WIN32
-GEOGL_API void* operator new(size_t bytesToAllocate);
-GEOGL_API void* operator new[](size_t bytesToAllocate);
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wimplicit-exception-spec-mismatch"
-GEOGL_API void operator delete(void* ptrToDealloc, size_t size) noexcept;
-GEOGL_API void operator delete[](void* ptrToDealloc, size_t size) noexcept;
-#pragma clang diagnostic pop
-#endif
-#endif
+TEST_CASE("Trying to create a GEOGL::shared_ptr.", "[SharedPtrTests]") {
 
-#endif //GEOGL_TRACKMEMORYALLOCATIONS_HPP
+    REQUIRE_NOTHROW(createTest1String());
+
+}

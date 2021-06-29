@@ -23,43 +23,41 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_TRACKMEMORYALLOCATIONS_HPP
-#define GEOGL_TRACKMEMORYALLOCATIONS_HPP
+#ifndef GEOGL_POINTERS_HPP
+#define GEOGL_POINTERS_HPP
 
-/* This file is included in the PCH. This file will be used in conjunction with cmake to either
- * strip out memory allocations or track memory allocations */
-
-/* Due to operator new restrictions, we cannot really namespace this. The getters will
- * be namespaced though */
-
-
-#include <cstddef>
-#include <GEOGL/API_Utils/DLLExportsAndTraps.hpp>
 namespace GEOGL{
 
-    GEOGL_API size_t getNumberAllocations();
-    GEOGL_API size_t getNumberDeallocations();
-    GEOGL_API size_t getBytesAllocated();
-    GEOGL_API size_t getBytesDeallocated();
+    //template<typename T, typename ... Args>
+    //make_shared(Args&& ... args){
 
-    GEOGL_API double getKilobytesAllocated();
-    GEOGL_API double getMegabytesAllocated();
+    //}
+    template<typename T>
+    class GEOGL_API shared_ptr{
 
-    GEOGL_API double getKilobytesDeallocated();
-    GEOGL_API double getMegabytesDeallocated();
+    public:
+        template<typename ... Args>
+        shared_ptr(Args&& ... args){
+            m_Ptr = new T(std::forward<Args>(args)...);
+            m_RefCount = new uint32_t;
+            *m_RefCount = 1;
+        }
+
+        ~shared_ptr(){
+            (*m_RefCount)--;
+
+            /* If our refcount is zero, we can safely delete everything as it would otherwise become inaccessible */
+            if(*m_RefCount == 0){
+                delete m_Ptr;
+                delete m_RefCount;
+            }
+        }
+
+    private:
+        uint32_t* m_RefCount;
+        T* m_Ptr;
+    };
 
 }
 
-#if (GEOGL_TRACK_MEMORY_ALLOC_FLAG == 1)
-#ifndef WIN32
-GEOGL_API void* operator new(size_t bytesToAllocate);
-GEOGL_API void* operator new[](size_t bytesToAllocate);
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wimplicit-exception-spec-mismatch"
-GEOGL_API void operator delete(void* ptrToDealloc, size_t size) noexcept;
-GEOGL_API void operator delete[](void* ptrToDealloc, size_t size) noexcept;
-#pragma clang diagnostic pop
-#endif
-#endif
-
-#endif //GEOGL_TRACKMEMORYALLOCATIONS_HPP
+#endif //GEOGL_POINTERS_HPP

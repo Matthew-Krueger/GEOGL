@@ -41,6 +41,10 @@ size_t GEOGL::getBytesAllocated() {
     return bytesAllocated;
 }
 
+size_t GEOGL::getBytesDeallocated(){
+    return bytesDeallocated;
+}
+
 double GEOGL::getKilobytesAllocated() {
     return (double)bytesAllocated/(double)1024;
 }

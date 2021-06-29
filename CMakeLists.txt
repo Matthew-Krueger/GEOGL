@@ -22,6 +22,13 @@ option(GEOGL_BUILD_WITH_SSE2                "Build GEOGL with SSE2"             
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
 
+
+
+###################################
+#         Testing Options         #
+###################################
+option(GEOGL_TEST_SHARED_PTR                "Test the GEOGL::shared_ptr class"                              ON)
+
 ###################################
 #              Info               #
 ###################################
@@ -54,6 +61,9 @@ endif()
 
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
+# Catch2
+include_directories(Dependencies/Catch2/include)
+
 # JSON
 include_directories(Dependencies/Nlohmann/JSON/include)
 
@@ -84,6 +94,7 @@ add_subdirectory(Dependencies/imgui-docking)
 ###################################
 include_directories(Engine/Source/GEOGL/include)
 add_subdirectory(Engine/Source)
+add_subdirectory(Engine/Tests)
 
 ###################################
 #          Build Example          #

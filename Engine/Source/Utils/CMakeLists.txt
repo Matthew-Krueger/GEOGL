@@ -41,7 +41,7 @@ add_library(GEOGL_Utils ${GEOGL_LIBRARY_TYPE}
 
         Timing/Timer.cpp Timing/Timer.hpp
 
-        Headers/Refs.hpp)
+        Headers/Refs.hpp Memory/Pointers.hpp)
 
 ######################################
 #     Set name for use elsewhere     #
