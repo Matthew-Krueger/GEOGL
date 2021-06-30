@@ -157,3 +157,4 @@ TEST_CASE("Copy Assignment", "[SharedPtrTests]") {
     }
 
 }
+
