@@ -24,6 +24,7 @@
 
 #include <Catch/Catch2.hpp>
 #include <GEOGL/Utils.hpp>
+#include "../../../Source/Utils/Memory/Pointers.hpp"
 
 class Test1{
 public:

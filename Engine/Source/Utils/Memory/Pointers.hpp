@@ -39,7 +39,7 @@ namespace GEOGL{
             *m_RefCount = 1;
         }
 
-        explicit shared_ptr<T>(T* ptr = nullptr)
+        shared_ptr<T>(T* ptr = nullptr)
         {
             m_Ptr = ptr;
             m_RefCount = new uint32_t;
@@ -85,9 +85,6 @@ namespace GEOGL{
             return *this;
 
         };
-
-        /* polymorphic cast */
-
 
         /* Move Semantics */
         shared_ptr<T>(shared_ptr<T>&& dyingObj) noexcept{
@@ -156,7 +153,6 @@ namespace GEOGL{
             m_Ptr = dyingObj.m_Ptr; // share the underlying pointer
 
             dyingObj.m_Ptr = nullptr;
-            dyingObj.m_RefCount = nullptr; // clean the dying object
         }
 
         unique_ptr<T>& operator=(unique_ptr<T>&& dyingObj) noexcept{

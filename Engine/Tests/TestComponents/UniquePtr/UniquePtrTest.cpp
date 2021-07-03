@@ -25,6 +25,8 @@
 #include <Catch/Catch2.hpp>
 #include <GEOGL/Utils.hpp>
 
+#include "../../../Source/Utils/Memory/Pointers.hpp"
+
 class Test1{
 public:
     explicit Test1(std::string string): storedString(std::move(string)){
@@ -62,7 +64,7 @@ TEST_CASE("Trying to create a GEOGL::unique_ptr.", "[UniquePtrTests]") {
 
 }
 
-TEST_CASE("DeReferencing overloads", "[UniquePtrTests]") {
+TEST_CASE("DeReferencing UniquePtr overloads", "[UniquePtrTests]") {
 
     std::cerr << "Testing DeReferencing overloads\n";
 
@@ -99,7 +101,7 @@ TEST_CASE("DeReferencing overloads", "[UniquePtrTests]") {
 
 }
 
-TEST_CASE("Move Assignment", "[UniquePtrTests]") {
+TEST_CASE("Move Assignment Unique Ptr", "[UniquePtrTests]") {
 
     SECTION("Testing with string ABC123DoReMiABC123") {
 
