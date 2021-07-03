@@ -107,6 +107,9 @@ TEST_CASE("Copy Assignment", "[SharedPtrTests]") {
         GEOGL::shared_ptr<Test1> test("ABC123DoReMiABC123");
         GEOGL::shared_ptr<Test1> test2 = test;
 
+        REQUIRE(test.getCount() == 2);
+        REQUIRE(test2.getCount() == 2);
+
         REQUIRE(test.getCount() == test2.getCount());
         REQUIRE(test.get() == test2.get());
         REQUIRE(test.get() != nullptr);
@@ -124,6 +127,9 @@ TEST_CASE("Copy Assignment", "[SharedPtrTests]") {
 
         GEOGL::shared_ptr<Test1> test("Its as Easy as 123");
         GEOGL::shared_ptr<Test1> test2 = test;
+
+        REQUIRE(test.getCount() == 2);
+        REQUIRE(test2.getCount() == 2);
 
         REQUIRE(test.getCount() == test2.getCount());
         REQUIRE(test.get() == test2.get());
@@ -143,6 +149,9 @@ TEST_CASE("Copy Assignment", "[SharedPtrTests]") {
         GEOGL::shared_ptr<Test1> test("Staring Michael Jackson");
         GEOGL::shared_ptr<Test1> test2 = test;
 
+        REQUIRE(test.getCount() == 2);
+        REQUIRE(test2.getCount() == 2);
+
         REQUIRE(test.getCount() == test2.getCount());
         REQUIRE(test.get() == test2.get());
         REQUIRE(test.get() != nullptr);
@@ -158,3 +167,67 @@ TEST_CASE("Copy Assignment", "[SharedPtrTests]") {
 
 }
 
+TEST_CASE("Move Assignment", "[SharedPtrTests]") {
+
+    std::cerr << "Testing MoveAssignment\n";
+
+    SECTION("Testing with string ABC123DoReMiABC123") {
+
+        std::string startString = "ABC123DoReMiABC123";
+        GEOGL::shared_ptr<Test1> test(startString);
+        GEOGL::shared_ptr<Test1> test2(std::move(test));
+
+        REQUIRE(test2.getCount() == 1);
+
+        REQUIRE(test2.get());
+        /* NOLINT bugprone-use-after-move can be disabled because I want to make sure it fails */
+        REQUIRE(test.get() == nullptr); // NOLINT(bugprone-use-after-move)
+        REQUIRE(test2.get() != nullptr); /* even though if test test.get != nullptr, and test2.get() == test1.get() it should be identical, no harm in checking */
+
+        /* Test it both ways to ensure there is no difference in accessing the pointer */
+        REQUIRE((*test2).getStoredString() == startString);
+        REQUIRE(test2->getStoredString() == startString);
+
+    }
+
+    SECTION("Testing with string Its as Easy as 123") {
+
+        std::string startString = "Its as Easy as 123";
+        GEOGL::shared_ptr<Test1> test(startString);
+        GEOGL::shared_ptr<Test1> test2(std::move(test));
+
+        REQUIRE(test2.getCount() == 1);
+
+        REQUIRE(test2.get());
+        /* NOLINT bugprone-use-after-move can be disabled because I want to make sure it fails */
+        REQUIRE(test.get() == nullptr); // NOLINT(bugprone-use-after-move)
+        REQUIRE(test2.get() != nullptr); /* even though if test test.get != nullptr, and test2.get() == test1.get() it should be identical, no harm in checking */
+
+        /* Test it both ways to ensure there is no difference in accessing the pointer */
+        REQUIRE((*test2).getStoredString() == startString);
+        REQUIRE(test2->getStoredString() == startString);
+
+
+    }
+
+    SECTION("Testing with string Staring Michael Jackson") {
+
+        std::string startString = "Staring Michael Jackson";
+        GEOGL::shared_ptr<Test1> test(startString);
+        GEOGL::shared_ptr<Test1> test2(std::move(test));
+
+        REQUIRE(test2.getCount() == 1);
+
+        REQUIRE(test2.get());
+        /* NOLINT bugprone-use-after-move can be disabled because I want to make sure it fails */
+        REQUIRE(test.get() == nullptr); // NOLINT(bugprone-use-after-move)
+        REQUIRE(test2.get() != nullptr); /* even though if test test.get != nullptr, and test2.get() == test1.get() it should be identical, no harm in checking */
+
+        /* Test it both ways to ensure there is no difference in accessing the pointer */
+        REQUIRE((*test2).getStoredString() == startString);
+        REQUIRE(test2->getStoredString() == startString);
+
+
+    }
+
+}

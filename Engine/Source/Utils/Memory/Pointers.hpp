@@ -37,32 +37,49 @@ namespace GEOGL{
 
     public:
         template<typename ... Args>
-        explicit shared_ptr(Args&& ... args){
+        explicit shared_ptr<T>(Args&& ... args){
             m_Ptr = new T(std::forward<Args>(args)...);
             m_RefCount = new uint32_t;
             *m_RefCount = 1;
         }
 
-        ~shared_ptr(){
-            (*m_RefCount)--;
-
-            /* If our refcount is zero, we can safely delete everything as it would otherwise become inaccessible */
-            if(*m_RefCount == 0){
-                if(m_Ptr) delete m_Ptr;
-                delete m_RefCount;
+        explicit shared_ptr<T>(T* ptr = nullptr)
+        {
+            m_Ptr = ptr;
+            m_RefCount = new uint32_t;
+            if (ptr){
+                (*m_RefCount)++;
             }
         }
 
-        uint32_t getCount() const{ return *m_RefCount; };
+        ~shared_ptr<T>(){
+            if(m_RefCount){
+                /* We exclusively own the object, go ahead and do normal math */
+                (*m_RefCount)--;
+
+                /* If our refcount is zero, we can safely delete everything as it would otherwise become inaccessible */
+                if(*m_RefCount == 0){
+                    if(m_Ptr) delete m_Ptr;
+                    delete m_RefCount;
+                }
+            }else{
+                /* ownership has been transferred out with move semantics */
+                if(m_Ptr){
+                    /* even though I have been avoiding exceptions, I am trying to prevent a circular dependency on my logs */
+                    throw std::exception("Pointer exists on object that was moved out of");
+                }
+            }
+
+        }
 
         /* Copy Semantics */
-        shared_ptr(const shared_ptr& obj){
+        shared_ptr<T>(const shared_ptr<T>& obj) noexcept{
             m_Ptr = obj.m_Ptr;
             m_RefCount = obj.m_RefCount;
             (*m_RefCount)++;
         }
 
-        shared_ptr& operator=(const shared_ptr& obj){ // copy assignment
+        shared_ptr<T>& operator=(const shared_ptr<T>& obj) noexcept{ // copy assignment
 
             // Assign incoming object's data to this object
             m_Ptr = obj.m_Ptr; // share the underlying pointer
@@ -72,23 +89,33 @@ namespace GEOGL{
         };
 
         /* Move Semantics */
-        shared_ptr(shared_ptr&& dyingObj) // move constructor
-        {
+        shared_ptr<T>(shared_ptr<T>&& dyingObj) noexcept{
+            m_Ptr = dyingObj.m_Ptr; // share the underlying pointer
+            m_RefCount = dyingObj.m_RefCount;
+
+            dyingObj.m_Ptr = nullptr;
+            dyingObj.m_RefCount = nullptr; // clean the dying object
+        }
+
+        shared_ptr<T>& operator=(shared_ptr<T>&& dyingObj) noexcept{
+
             m_Ptr = dyingObj.m_Ptr; // share the underlying pointer
             m_RefCount = dyingObj.m_RefCount;
 
             dyingObj.m_Ptr = dyingObj.m_RefCount = nullptr; // clean the dying object
-        }
-
-        shared_ptr& operator=(shared_ptr && dyingObj) // move assignment
-        {
-
-            m_Ptr = dyingObj.m_Ptr; // share the underlying pointer
-            m_RefCount = dyingObj.m_RefCount;
-
-            dyingObj.m_Ptr = dyingObj.m_RefCount = nullptr; // clean the dying object
 
         }
+
+        uint32_t getCount() const{
+
+#ifndef NDEBUG
+            if(!*m_RefCount)
+                throw std::exception("Bad reference to a shared ptr refcount");
+#endif
+
+            return *m_RefCount;
+
+        };
 
         T* get() const{ return m_Ptr; };
         T* operator->() const{ return m_Ptr; };
