@@ -42,13 +42,13 @@ private:
 };
 
 /* Note, test case does not work individually, for some reason. My allocation tracking code is weird */
-TEST_CASE("Trying to create a GEOGL::shared_ptr.", "[SharedPtrTests]") {
+TEST_CASE("Trying to create a GEOGL::unique_ptr.", "[UniquePtrTests]") {
 
     std::cerr << "Testing creating and destructing a test object works\n";
 
     size_t bytesInUse = GEOGL::getBytesAllocated()-GEOGL::getBytesDeallocated();
     {
-        GEOGL::shared_ptr<Test1> test("Hello");
+        GEOGL::unique_ptr<Test1> test("Hello");
         /* don't test require that the starting bytes in use are different for current if in release mode, or
          * if track memory allocations is off. Otherwise it could get weird */
 #if GEOGL_TRACK_MEMORY_ALLOC_FLAG
@@ -62,13 +62,13 @@ TEST_CASE("Trying to create a GEOGL::shared_ptr.", "[SharedPtrTests]") {
 
 }
 
-TEST_CASE("DeReferencing overloads", "[SharedPtrTests]") {
+TEST_CASE("DeReferencing overloads", "[UniquePtrTests]") {
 
     std::cerr << "Testing DeReferencing overloads\n";
 
     SECTION("Testing with string Test1") {
         std::string testString = "Test1";
-        GEOGL::shared_ptr<Test1> test(testString);
+        GEOGL::unique_ptr<Test1> test(testString);
 
         REQUIRE(testString == (*test).getStoredString());
         REQUIRE(testString == test->getStoredString());
@@ -78,7 +78,7 @@ TEST_CASE("DeReferencing overloads", "[SharedPtrTests]") {
 
     SECTION("Testing with string TheQuickBrownFoxJumpedOverTheLazyDog") {
         std::string testString = "TheQuickBrownFoxJumpedOverTheLazyDog";
-        GEOGL::shared_ptr<Test1> test(testString);
+        GEOGL::unique_ptr<Test1> test(testString);
 
         REQUIRE(testString == (*test).getStoredString());
         REQUIRE(testString == test->getStoredString());
@@ -89,7 +89,7 @@ TEST_CASE("DeReferencing overloads", "[SharedPtrTests]") {
     SECTION("Testing with string The Big Sun in The $ky1234") {
 
         std::string testString = "The Big Sun in The $ky1234";
-        GEOGL::shared_ptr<Test1> test(testString);
+        GEOGL::unique_ptr<Test1> test(testString);
 
         REQUIRE(testString == (*test).getStoredString());
         REQUIRE(testString == test->getStoredString());
@@ -99,85 +99,13 @@ TEST_CASE("DeReferencing overloads", "[SharedPtrTests]") {
 
 }
 
-TEST_CASE("Copy Assignment", "[SharedPtrTests]") {
-
-    std::cerr << "Testing CopyAssignment\n";
-
-    SECTION("Testing with string ABC123DoReMiABC123") {
-        GEOGL::shared_ptr<Test1> test("ABC123DoReMiABC123");
-        GEOGL::shared_ptr<Test1> test2 = test;
-
-        REQUIRE(test.getCount() == 2);
-        REQUIRE(test2.getCount() == 2);
-
-        REQUIRE(test.getCount() == test2.getCount());
-        REQUIRE(test.get() == test2.get());
-        REQUIRE(test.get() != nullptr);
-        REQUIRE(test2.get() != nullptr); /* even though if test test.get != nullptr, and test2.get() == test1.get() it should be identical, no harm in checking */
-
-        /* Test it both ways to ensure there is no difference in accessing the pointer */
-        REQUIRE((*test).getStoredString() == (*test2).getStoredString());
-        REQUIRE(test->getStoredString() == test2->getStoredString());
-        REQUIRE((*test).getStoredString() == test2->getStoredString());
-        REQUIRE(test->getStoredString() == (*test2).getStoredString());
-
-    }
-
-    SECTION("Testing with string Its as Easy as 123") {
-
-        GEOGL::shared_ptr<Test1> test("Its as Easy as 123");
-        GEOGL::shared_ptr<Test1> test2 = test;
-
-        REQUIRE(test.getCount() == 2);
-        REQUIRE(test2.getCount() == 2);
-
-        REQUIRE(test.getCount() == test2.getCount());
-        REQUIRE(test.get() == test2.get());
-        REQUIRE(test.get() != nullptr);
-        REQUIRE(test2.get() != nullptr); /* even though if test test.get != nullptr, and test2.get() == test1.get() it should be identical, no harm in checking */
-
-        /* Test it both ways to ensure there is no difference in accessing the pointer */
-        REQUIRE((*test).getStoredString() == (*test2).getStoredString());
-        REQUIRE(test->getStoredString() == test2->getStoredString());
-        REQUIRE((*test).getStoredString() == test2->getStoredString());
-        REQUIRE(test->getStoredString() == (*test2).getStoredString());
-
-    }
-
-    SECTION("Testing with string Staring Michael Jackson") {
-
-        GEOGL::shared_ptr<Test1> test("Staring Michael Jackson");
-        GEOGL::shared_ptr<Test1> test2 = test;
-
-        REQUIRE(test.getCount() == 2);
-        REQUIRE(test2.getCount() == 2);
-
-        REQUIRE(test.getCount() == test2.getCount());
-        REQUIRE(test.get() == test2.get());
-        REQUIRE(test.get() != nullptr);
-        REQUIRE(test2.get() != nullptr); /* even though if test test.get != nullptr, and test2.get() == test1.get() it should be identical, no harm in checking */
-
-        /* Test it both ways to ensure there is no difference in accessing the pointer */
-        REQUIRE((*test).getStoredString() == (*test2).getStoredString());
-        REQUIRE(test->getStoredString() == test2->getStoredString());
-        REQUIRE((*test).getStoredString() == test2->getStoredString());
-        REQUIRE(test->getStoredString() == (*test2).getStoredString());
-
-    }
-
-}
-
-TEST_CASE("Move Assignment", "[SharedPtrTests]") {
-
-    std::cerr << "Testing MoveAssignment\n";
+TEST_CASE("Move Assignment", "[UniquePtrTests]") {
 
     SECTION("Testing with string ABC123DoReMiABC123") {
 
         std::string startString = "ABC123DoReMiABC123";
-        GEOGL::shared_ptr<Test1> test(startString);
-        GEOGL::shared_ptr<Test1> test2(std::move(test));
-
-        REQUIRE(test2.getCount() == 1);
+        GEOGL::unique_ptr<Test1> test(startString);
+        GEOGL::unique_ptr<Test1> test2(std::move(test));
 
         REQUIRE(test2.get());
         /* NOLINT bugprone-use-after-move can be disabled because I want to make sure it fails */
@@ -193,10 +121,8 @@ TEST_CASE("Move Assignment", "[SharedPtrTests]") {
     SECTION("Testing with string Its as Easy as 123") {
 
         std::string startString = "Its as Easy as 123";
-        GEOGL::shared_ptr<Test1> test(startString);
-        GEOGL::shared_ptr<Test1> test2(std::move(test));
-
-        REQUIRE(test2.getCount() == 1);
+        GEOGL::unique_ptr<Test1> test(startString);
+        GEOGL::unique_ptr<Test1> test2(std::move(test));
 
         REQUIRE(test2.get());
         /* NOLINT bugprone-use-after-move can be disabled because I want to make sure it fails */
@@ -213,10 +139,8 @@ TEST_CASE("Move Assignment", "[SharedPtrTests]") {
     SECTION("Testing with string Staring Michael Jackson") {
 
         std::string startString = "Staring Michael Jackson";
-        GEOGL::shared_ptr<Test1> test(startString);
-        GEOGL::shared_ptr<Test1> test2(std::move(test));
-
-        REQUIRE(test2.getCount() == 1);
+        GEOGL::unique_ptr<Test1> test(startString);
+        GEOGL::unique_ptr<Test1> test2(std::move(test));
 
         REQUIRE(test2.get());
         /* NOLINT bugprone-use-after-move can be disabled because I want to make sure it fails */
@@ -232,16 +156,14 @@ TEST_CASE("Move Assignment", "[SharedPtrTests]") {
 
 }
 
-TEST_CASE("make_shared Assignment", "[SharedPtrTests]") {
+TEST_CASE("make_unique Assignment", "[UniquePtrTest]") {
 
-    std::cerr << "Testing make_shared Assignment\n";
+    std::cerr << "Testing make_unique Assignment\n";
 
     SECTION("Testing with string ABC123DoReMiABC123") {
 
         std::string startString = "ABC123DoReMiABC123";
-        auto test = GEOGL::make_shared<Test1>(startString);
-
-        REQUIRE(test.getCount() == 1);
+        auto test = GEOGL::make_unique<Test1>(startString);
 
         REQUIRE(test.get());
         REQUIRE(test.get() != nullptr);
@@ -255,9 +177,7 @@ TEST_CASE("make_shared Assignment", "[SharedPtrTests]") {
     SECTION("Testing with string Its as Easy as 123") {
 
         std::string startString = "ABC123DoReMiABC123";
-        auto test = GEOGL::make_shared<Test1>(startString);
-
-        REQUIRE(test.getCount() == 1);
+        auto test = GEOGL::make_unique<Test1>(startString);
 
         REQUIRE(test.get());
         REQUIRE(test.get() != nullptr);
@@ -271,9 +191,7 @@ TEST_CASE("make_shared Assignment", "[SharedPtrTests]") {
     SECTION("Testing with string Staring Michael Jackson") {
 
         std::string startString = "ABC123DoReMiABC123";
-        auto test = GEOGL::make_shared<Test1>(startString);
-
-        REQUIRE(test.getCount() == 1);
+        auto test = GEOGL::make_unique<Test1>(startString);
 
         REQUIRE(test.get());
         REQUIRE(test.get() != nullptr);

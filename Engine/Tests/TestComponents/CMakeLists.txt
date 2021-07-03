@@ -1,2 +1,3 @@
 add_subdirectory(Catch2Test)
 add_subdirectory(SharedPtr)
+add_subdirectory(UniquePtr)

@@ -28,10 +28,6 @@
 
 namespace GEOGL{
 
-    //template<typename T, typename ... Args>
-    //make_shared(Args&& ... args){
-
-    //}
     template<typename T>
     class GEOGL_API shared_ptr{
 
@@ -66,7 +62,7 @@ namespace GEOGL{
                 /* ownership has been transferred out with move semantics */
                 if(m_Ptr){
                     /* even though I have been avoiding exceptions, I am trying to prevent a circular dependency on my logs */
-                    throw std::exception("Pointer exists on object that was moved out of");
+                    //throw std::exception("Pointer exists on object that was moved out of");
                 }
             }
 
@@ -86,7 +82,12 @@ namespace GEOGL{
             m_RefCount = obj.m_RefCount;
             (*m_RefCount)++;
 
+            return *this;
+
         };
+
+        /* polymorphic cast */
+
 
         /* Move Semantics */
         shared_ptr<T>(shared_ptr<T>&& dyingObj) noexcept{
@@ -102,7 +103,10 @@ namespace GEOGL{
             m_Ptr = dyingObj.m_Ptr; // share the underlying pointer
             m_RefCount = dyingObj.m_RefCount;
 
-            dyingObj.m_Ptr = dyingObj.m_RefCount = nullptr; // clean the dying object
+            dyingObj.m_Ptr = nullptr;
+            dyingObj.m_RefCount = nullptr; // clean the dying object
+
+            return *this;
 
         }
 
@@ -126,6 +130,64 @@ namespace GEOGL{
         T* m_Ptr;
     };
 
+    template<typename T>
+    class GEOGL_API unique_ptr{
+
+    public:
+        template<typename ... Args>
+        explicit unique_ptr<T>(Args&& ... args){
+            m_Ptr = new T(std::forward<Args>(args)...);
+        }
+
+        explicit unique_ptr<T>(T* ptr = nullptr){
+            m_Ptr = ptr;
+        }
+
+        ~unique_ptr<T>(){
+            if(m_Ptr) delete m_Ptr;
+        }
+
+        /* Copy Semantics */
+        unique_ptr<T>(const unique_ptr<T>& obj) = delete;
+        unique_ptr<T>& operator=(const unique_ptr<T>& obj) = delete;
+
+        /* Move Semantics */
+        unique_ptr<T>(unique_ptr<T>&& dyingObj) noexcept{
+            m_Ptr = dyingObj.m_Ptr; // share the underlying pointer
+
+            dyingObj.m_Ptr = nullptr;
+            dyingObj.m_RefCount = nullptr; // clean the dying object
+        }
+
+        unique_ptr<T>& operator=(unique_ptr<T>&& dyingObj) noexcept{
+
+            m_Ptr = dyingObj.m_Ptr; // share the underlying pointer
+            dyingObj.m_Ptr = nullptr; // clean the dying object
+
+            return *this;
+
+        }
+
+        T* get() const{ return m_Ptr; };
+        T* operator->() const{ return m_Ptr; };
+        T& operator*() const{ return *m_Ptr; };
+
+    private:
+        T* m_Ptr;
+    };
+
+    template<typename T, typename ... Args>
+    GEOGL::shared_ptr<T> make_shared(Args&& ... args){
+        return GEOGL::shared_ptr<T>(std::forward<Args>(args)...);
+    }
+
+    template<typename T, typename ... Args>
+    GEOGL::unique_ptr<T> make_unique(Args&& ... args){
+        return GEOGL::unique_ptr<T>(std::forward<Args>(args)...);
+    }
+
 }
+
+
 
 #endif //GEOGL_POINTERS_HPP
