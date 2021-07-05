@@ -88,10 +88,11 @@ namespace GEOGL{
         /* Create window */
         m_Window = Scope<Window>(Window::create(WindowProps(props.appName, props.width, props.height, props.appVersionMajor, props.appVersionMinor, props.appVersionPatch)));
         m_Window->setEventCallback(GEOGL_BIND_EVENT_FN(Application::eventCallback)); // NOLINT(modernize-avoid-bind)
-        m_Window->setWindowIcon(props.appIconPath);
+        if(!props.appIconPath.empty())
+            m_Window->setWindowIcon(props.applicationResourceDirectory + "/" + props.appIconPath);
 
         /* Initialize Renderer */
-        Renderer::init();
+        Renderer::init(props.applicationResourceDirectory);
 
         /* Initialize ImGuiLayer */
         m_ImGuiLayer = new ImGuiLayer;

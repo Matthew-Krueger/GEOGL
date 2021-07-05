@@ -22,58 +22,57 @@
  *                                                                             *
  *******************************************************************************/
 
+#include "2DGame.hpp"
+#include "DebugLayer.hpp"
+#include "GameLayer.hpp"
+
 #define GEOGL_INCLUDE_MAIN
 #define GEOGL_INCLUDE_WIN_MAIN
 #include <GEOGL/MainCreator.hpp>
-#include <ImGui/imgui.h>
 
-#include <GEOGL/IO.hpp>
+namespace TwoDGame{
 
-#include "SandboxApp.hpp"
-#include "Layer2D.hpp"
 
-namespace SandboxApp{
-
-    SandboxApp::SandboxApp():
+    TwoDGameApp::TwoDGameApp() :
             GEOGL::Application(
                     {
-                            "Sandbox Application",
-                            "sandbox-app-log.txt",
-                            1280,
-                            720,
-                            "SandboxResources", // application resource directory
+                            "2D Game Example",
+                            "2d-game-example-log.txt",
+                            1920,
+                            1080,
+                            "Example2DGameResources", // application resource directory
                             "Runtime-Icon.png" // window Icon
                     }
-    ){
+       ){
         GEOGL_PROFILE_FUNCTION();
 
         m_DebugLayer = new DebugLayer();
         m_DebugLayerOnStack = false;
-        pushLayer(new Layer2D());
+        pushLayer(new GameLayer());
 
     }
 
-    SandboxApp::~SandboxApp() {
+    TwoDGameApp::~TwoDGameApp() {
 
         if(!m_DebugLayerOnStack)
         delete m_DebugLayer;
 
     }
 
-    void SandboxApp::onEvent(GEOGL::Event &event) {
+    void TwoDGameApp::onEvent(GEOGL::Event &event) {
         GEOGL_PROFILE_FUNCTION();
 
         GEOGL::EventDispatcher dispatcher(event);
 
-        dispatcher.dispatch<GEOGL::KeyPressedEvent>(GEOGL_BIND_EVENT_FN(SandboxApp::onKeyPressedEvent));
+        dispatcher.dispatch<GEOGL::KeyPressedEvent>(GEOGL_BIND_EVENT_FN(TwoDGameApp::onKeyPressedEvent));
 
     }
 
-    void SandboxApp::setUpImGui(ImGuiContext* context){
+    void TwoDGameApp::setUpImGui(ImGuiContext *context) {
         ImGui::SetCurrentContext(context);
     }
 
-    bool SandboxApp::onKeyPressedEvent(GEOGL::KeyPressedEvent &event) {
+    bool TwoDGameApp::onKeyPressedEvent(GEOGL::KeyPressedEvent &event) {
         GEOGL_PROFILE_FUNCTION();
 
         if(event.getKeyCode() == GEOGL::Key::F5) {
@@ -95,6 +94,7 @@ namespace SandboxApp{
         }
 
         return false;
+
     }
 
 }
@@ -102,6 +102,6 @@ namespace SandboxApp{
 GEOGL::Application* GEOGL::createApplication() {
     GEOGL_PROFILE_FUNCTION();
 
-    return new SandboxApp::SandboxApp();
+    return new TwoDGame::TwoDGameApp();
 
 }

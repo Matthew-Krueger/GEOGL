@@ -36,12 +36,12 @@ namespace GEOGL{
 
     Renderer::SceneData* Renderer::m_SceneData = nullptr;
 
-    void Renderer::init(){
+    void Renderer::init(const std::string& applicationResourceDirectory){
         GEOGL_PROFILE_FUNCTION();
 
         m_SceneData = new SceneData;
         RenderCommand::init();
-        Renderer2D::init();
+        Renderer2D::init(applicationResourceDirectory);
 
     }
 

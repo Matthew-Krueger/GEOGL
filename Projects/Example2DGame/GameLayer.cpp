@@ -23,67 +23,38 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_RENDERER_HPP
-#define GEOGL_RENDERER_HPP
+#include "GameLayer.hpp"
 
-#include "Camera.hpp"
-#include "RenderCommand.hpp"
-#include "Shader.hpp"
+namespace TwoDGame{
 
-namespace GEOGL{
+    void GameLayer::onAttach() {
 
-    class GEOGL_API Renderer{
-    public:
+        m_OrthographicCameraController = GEOGL::OrthographicCameraController(GEOGL::Application::get().getWindow().getDimensions());
+        m_DebugName = "Game Layer - 2D Game Example";
 
-        static void init(const std::string& applicationResourceDirectory);
-        static void shutdown();
-        static void onWindowResize(const glm::ivec2& dimensions);
+    }
 
-        /**
-         * Sets the clear color
-         * @param color
-         */
-        inline static void setClearColor(const glm::vec4& color){ RenderCommand::setClearColor(color); };
+    void GameLayer::onDetach() {
 
-        inline static void clear(){ RenderCommand::clear(); };
+    }
 
-        /**
-         * \brief Begins the scene, setting up the renderer
-         */
-        static void beginScene(const OrthographicCamera& camera);
+    void GameLayer::onUpdate(GEOGL::TimeStep timeStep) {
 
-        /**
-         * \brief Ends the scene (and will eventually dispatch on the rendercommandque)
-         */
-        static void endScene();
+        GEOGL::Renderer2D::resetStats();
 
-        /**
-         * \brief Submit a VertexArray for drawing
-         * @param vertexArray The vertex array to submit
-         */
-        static void submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f));
+        m_OrthographicCameraController.onUpdate(timeStep);
 
-        /**
-         * Gets the rendererAPI
-         * @return
-         */
-        inline static const Ref<RendererAPI>& getRendererAPI() { return RenderCommand::getRendererAPI(); };
+    }
 
-        /**
-         * Sets the rendererAPI
-         * @param rendererApi the Api Instance to set
-         */
-        inline static void setRendererAPI(Ref<RendererAPI> rendererApi) { RenderCommand::setRendererAPI(rendererApi); };
+    void GameLayer::onImGuiRender(GEOGL::TimeStep timeStep) {
 
-    private:
-        struct SceneData{
-            glm::mat4 projectionViewMatrix;
-        };
 
-        static SceneData* m_SceneData;
+    }
 
-    };
+    void GameLayer::onEvent(GEOGL::Event &event) {
+
+        m_OrthographicCameraController.onEvent(event);
+
+    }
 
 }
-
-#endif //GEOGL_RENDERER_HPP

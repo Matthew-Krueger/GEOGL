@@ -101,8 +101,9 @@ add_subdirectory(Engine/Source)
 add_subdirectory(Engine/Tests)
 
 ###################################
-#          Build Example          #
+#          Build Examples         #
 ###################################
+add_subdirectory(Projects/Example2DGame)
 
 ###################################
 #          Build Sandbox          #

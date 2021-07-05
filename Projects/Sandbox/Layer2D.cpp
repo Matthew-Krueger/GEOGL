@@ -43,9 +43,9 @@ namespace SandboxApp{
         m_OrthographicCameraController = GEOGL::OrthographicCameraController(GEOGL::Application::get().getWindow().getDimensions());
         m_DebugName = "Layer2D - Sandbox";
 
-        m_ChernoLogo = GEOGL::Texture2D::create("Resources/Textures/ChernoLogo.png");
-        m_Checkerboard = GEOGL::Texture2D::create("Resources/Textures/Checkerboard.png");
-        m_Sandman = GEOGL::Texture2D::create("Resources/Textures/Sandman.png");
+        m_ChernoLogo = GEOGL::Texture2D::create("SandboxResources/Textures/ChernoLogo.png");
+        m_Checkerboard = GEOGL::Texture2D::create("SandboxResources/Textures/Checkerboard.png");
+        m_Sandman = GEOGL::Texture2D::create("SandboxResources/Textures/Sandman.png");
 
         m_ParticleSystem = GEOGL::createScope<ParticleSystem>(10000);
 

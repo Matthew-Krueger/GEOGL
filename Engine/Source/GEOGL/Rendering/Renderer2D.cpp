@@ -69,7 +69,7 @@ namespace GEOGL{
     static Renderer2DData s_Data;
     static glm::mat4 s_IdentMatrix;
 
-    void GEOGL::Renderer2D::init() {
+    void GEOGL::Renderer2D::init(const std::string& applicationResourceDirectory) {
         GEOGL_PROFILE_FUNCTION();
 
         /* Store a blank identity matrix to save on compute */
@@ -125,7 +125,7 @@ namespace GEOGL{
 
         /* Create the shaders */
         {
-            s_Data.textureShader = Shader::create("Resources/Shaders/2DRenderer/Texture");
+            s_Data.textureShader = Shader::create(applicationResourceDirectory + "/Shaders/2DRenderer/Texture");
             s_Data.textureShader->bind();
 
             int32_t samplers[GEOGL::Renderer2DData::maxTextureSlots];

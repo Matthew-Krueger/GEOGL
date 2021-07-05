@@ -53,7 +53,7 @@ namespace GEOGL {
 	    };
 
 	public:
-	    static void init();
+	    static void init(const std::string& applicationResourceDirectory);
 	    static void shutdown();
 
 		static void beginScene(const OrthographicCamera& camera);

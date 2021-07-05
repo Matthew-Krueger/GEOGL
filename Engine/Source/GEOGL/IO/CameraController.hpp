@@ -34,6 +34,7 @@ namespace GEOGL{
 
     class GEOGL_API OrthographicCameraController{
     public:
+        OrthographicCameraController() = default;
         OrthographicCameraController(float aspectRatio, bool rotation = false);
         OrthographicCameraController(const glm::ivec2& windowDimensions, bool rotation = false);
 
@@ -46,7 +47,7 @@ namespace GEOGL{
         bool onMouseScrolled(MouseScrolledEvent& e);
         bool onWindowResize(WindowResizeEvent& e);
     private:
-        float m_AspectRatio;
+        float m_AspectRatio = 0;
         float m_ZoomLevel = 1.0f;
         OrthographicCamera m_OrthographicCamera;
 
