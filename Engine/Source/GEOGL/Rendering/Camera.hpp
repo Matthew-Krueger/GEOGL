@@ -86,11 +86,11 @@ namespace GEOGL{
     private:
         void recalculateViewMatrix();
     private:
+        ProjectionBounds m_OrthographicBounds;
+
         glm::mat4 m_Projectionmatrix;
         glm::mat4 m_ViewMatrix;
         glm::mat4 m_ProjectionViewMatrix;
-
-        ProjectionBounds m_OrthographicBounds;
 
         glm::vec3 m_Position = {0.0f,0.0f,0.0f};
         float m_RotationZ = 0.0f;
