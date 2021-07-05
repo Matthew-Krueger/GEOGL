@@ -24,7 +24,8 @@ echo "Configuring CMake done."
 if [ "$build" == "TRUE" ]; then
   # C Compiling
   echo "Compiling the engine and example meta package"
-  make GEOGL_Example
+  make GEOGL_SandboxApp
+  make GEOGL_Example2DGame
   echo "Engine and example meta package compiled"
 fi
 
