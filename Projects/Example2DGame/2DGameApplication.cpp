@@ -22,7 +22,7 @@
  *                                                                             *
  *******************************************************************************/
 
-#include "2DGame.hpp"
+#include "2DGameApplication.hpp"
 #include "DebugLayer.hpp"
 #include "GameLayer.hpp"
 
@@ -91,6 +91,12 @@ namespace TwoDGame{
 
         if(event.getKeyCode() == GEOGL::Key::F1){
             getWindow().setVSync(!getWindow().isVSync());
+        }
+
+        /* quit if escape */
+        if(event.getKeyCode() == GEOGL::Key::Escape){
+            GEOGL_INFO("Close requested via escape key. Notifying engine to shutdown on next refresh.");
+            setRunning(false);
         }
 
         return false;

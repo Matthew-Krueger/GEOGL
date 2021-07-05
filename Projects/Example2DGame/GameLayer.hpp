@@ -47,6 +47,9 @@ namespace TwoDGame{
         /* Camera utils */
         GEOGL::OrthographicCameraController m_OrthographicCameraController;
 
+        /* Textures */
+        GEOGL::Ref<GEOGL::Texture2D> m_SpriteSheet;
+
     };
 
 }

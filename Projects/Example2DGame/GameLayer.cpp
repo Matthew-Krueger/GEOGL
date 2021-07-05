@@ -32,6 +32,8 @@ namespace TwoDGame{
         m_OrthographicCameraController = GEOGL::OrthographicCameraController(GEOGL::Application::get().getWindow().getDimensions());
         m_DebugName = "Game Layer - 2D Game Example";
 
+        m_SpriteSheet = GEOGL::Texture2D::create("Example2DGameResources/Textures/Kenny-RPG-Pack/RPGpack_sheet_2X.png");
+
     }
 
     void GameLayer::onDetach() {
@@ -43,6 +45,13 @@ namespace TwoDGame{
         GEOGL::Renderer2D::resetStats();
 
         m_OrthographicCameraController.onUpdate(timeStep);
+
+        GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
+
+        GEOGL::Renderer2D::drawQuad({{0,0,0},{2,1}}, m_SpriteSheet);
+
+        GEOGL::Renderer2D::endScene();
+
 
     }
 

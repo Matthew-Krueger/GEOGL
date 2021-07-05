@@ -109,6 +109,11 @@ namespace GEOGL{
         inline Window& getWindow() { return *m_Window; };
 
         inline bool getShouldRestart(){ return m_ShouldRestart; };
+        /**
+         * Set if the game should continue running. If not, during the next update, the game loop will exit.
+         * @param running Whether or not to keep running
+         */
+        inline void setRunning(bool running){m_Running = running; };
 
     private:
         bool onWindowClose(WindowCloseEvent& event);

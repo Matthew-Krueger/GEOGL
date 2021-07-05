@@ -23,8 +23,8 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_2DGAME_HPP
-#define GEOGL_2DGAME_HPP
+#ifndef GEOGL_2DGAMEAPPLICATION_HPP
+#define GEOGL_2DGAMEAPPLICATION_HPP
 
 #include "DebugLayer.hpp"
 
@@ -47,4 +47,4 @@ namespace TwoDGame{
 
 }
 
-#endif //GEOGL_2DGAME_HPP
+#endif //GEOGL_2DGAMEAPPLICATION_HPP

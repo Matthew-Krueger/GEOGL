@@ -12,7 +12,7 @@ if(WIN32)
 
 endif(WIN32)
 
-add_executable(GEOGL_Example2DGame ${OPTIONS} ${ADDITIONAL_WIN32_FILES} PCH/PCH.cpp PCH/PCH.hpp 2DGame.cpp 2DGame.hpp DebugLayer.cpp DebugLayer.hpp GameLayer.cpp GameLayer.hpp)
+add_executable(GEOGL_Example2DGame ${OPTIONS} ${ADDITIONAL_WIN32_FILES} PCH/PCH.cpp PCH/PCH.hpp 2DGameApplication.cpp 2DGameApplication.hpp DebugLayer.cpp DebugLayer.hpp GameLayer.cpp GameLayer.hpp)
 
 target_precompile_headers(GEOGL_Example2DGame PRIVATE PCH/PCH.hpp)
 
