@@ -83,6 +83,7 @@ namespace GEOGL{
     public:
 
         virtual void init() = 0;
+        virtual void shutdown() = 0;
         virtual void setViewport(const glm::ivec2& dimensions) = 0;
 
         virtual ~RendererAPI() = default;

@@ -144,7 +144,12 @@ namespace GEOGL{
 
     void GEOGL::Renderer2D::shutdown() {
         GEOGL_PROFILE_FUNCTION();
+        if(s_Data.quadVertexBufferBase)
+            delete s_Data.quadVertexBufferBase;
+        s_Data.quadVertexBufferBase = nullptr;
+        s_Data.quadVertexBufferPtr = nullptr;
 
+        s_Data.textureShader.reset();
     }
 
     void GEOGL::Renderer2D::beginScene(const OrthographicCamera &camera) {

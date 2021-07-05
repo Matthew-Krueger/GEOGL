@@ -38,10 +38,12 @@
 #include "../IO/Events/KeyEvent.hpp"
 #include "../IO/Events/MouseEvent.hpp"
 #include "../IO/Events/ApplicationEvent.hpp"
+#include <ImGui/imgui.h>
 
 
 
 namespace GEOGL{
+
 
     class GEOGL_API ImGuiLayer : public Layer{
     public:
@@ -53,6 +55,8 @@ namespace GEOGL{
 
         void begin();
         void end();
+
+        static ImGuiContext* getImGuiContext();
 
     private:
         float m_Time = 0;

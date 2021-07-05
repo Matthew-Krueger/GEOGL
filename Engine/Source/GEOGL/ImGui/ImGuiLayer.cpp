@@ -64,6 +64,7 @@ namespace GEOGL{
         io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
         //io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
         //io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
+        io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleFonts;
 
         // Setup Dear ImGui style
         ImGui::StyleColorsDark();
@@ -73,7 +74,7 @@ namespace GEOGL{
         ImGuiStyle& style = ImGui::GetStyle();
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
-            style.WindowRounding = 0.0f;
+            style.WindowRounding = 15.0f;
             style.Colors[ImGuiCol_WindowBg].w = 1.0f;
         }
 
@@ -124,6 +125,10 @@ namespace GEOGL{
             glfwMakeContextCurrent(backup_current_context);
         }
 
+    }
+
+    ImGuiContext *ImGuiLayer::getImGuiContext() {
+        return ImGui::GetCurrentContext();
     }
 
 }

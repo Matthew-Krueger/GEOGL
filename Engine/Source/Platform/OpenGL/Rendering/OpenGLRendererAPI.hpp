@@ -42,6 +42,7 @@ namespace GEOGL::Platform::OpenGL{
         virtual ~RendererAPI();
 
         void init() override;
+        void shutdown() override;
         void setViewport(const glm::ivec2& dimensions) override;
 
         void setClearColor(const glm::vec4& color) override;

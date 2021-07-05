@@ -89,6 +89,7 @@ namespace GEOGL{
          */
         virtual void onUpdate(TimeStep timeStep){};
         virtual void onEvent(Event& event) {};
+        virtual void setUpImGui(ImGuiContext* context) {};
 
         /**
          * Contains the main run loop for the game
@@ -105,9 +106,12 @@ namespace GEOGL{
         static inline Application& get() { return *Application::s_Instance; };
         inline Window& getWindow() { return *m_Window; };
 
+        inline bool getShouldRestart(){ return m_ShouldRestart; };
+
     private:
         bool onWindowClose(WindowCloseEvent& event);
 
+        bool onKeyPressedEvent(KeyPressedEvent& event);
         bool onWindowResize(WindowResizeEvent& event);
 
         Scope<Window> m_Window;
@@ -116,12 +120,14 @@ namespace GEOGL{
         LayerStack m_LayerStack;
         Settings m_Settings;
         ImGuiLayer* m_ImGuiLayer;
+        bool m_ShouldRestart = false;
 
     private:
         float m_LastFrameTime = 0.0f;
 
     private:
-        static Application* s_Instance;
+        static Application*
+        s_Instance;
 
     };
 

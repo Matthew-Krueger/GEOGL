@@ -25,6 +25,7 @@
 #define GEOGL_INCLUDE_MAIN
 #define GEOGL_INCLUDE_WIN_MAIN
 #include <GEOGL/MainCreator.hpp>
+#include <ImGui/imgui.h>
 
 #include <GEOGL/IO.hpp>
 
@@ -64,6 +65,10 @@ namespace SandboxApp{
 
     }
 
+    void SandboxApp::setUpImGui(ImGuiContext* context){
+        ImGui::SetCurrentContext(context);
+    }
+
     bool SandboxApp::onKeyPressedEvent(GEOGL::KeyPressedEvent &event) {
         GEOGL_PROFILE_FUNCTION();
 
@@ -80,12 +85,14 @@ namespace SandboxApp{
 
         }
 
+
         if(event.getKeyCode() == GEOGL::Key::F1){
             getWindow().setVSync(!getWindow().isVSync());
         }
 
         return false;
     }
+
 }
 
 GEOGL::Application* GEOGL::createApplication() {

@@ -29,7 +29,7 @@
 
 namespace GEOGL::Platform::OpenGL{
 
-    class Texture2D : public GEOGL::Texture2D{
+    class GEOGL_API Texture2D : public GEOGL::Texture2D{
     public:
         Texture2D(uint32_t width, uint32_t height);
         explicit Texture2D(std::string  filePath);

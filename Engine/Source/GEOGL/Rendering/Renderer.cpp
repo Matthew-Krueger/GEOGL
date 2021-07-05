@@ -45,6 +45,13 @@ namespace GEOGL{
 
     }
 
+    void Renderer::shutdown() {
+
+        RenderCommand::shutdown();
+        Renderer2D::shutdown();
+
+    }
+
     void Renderer::onWindowResize(const glm::ivec2& dimensions) {
         GEOGL_PROFILE_FUNCTION();
 

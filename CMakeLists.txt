@@ -9,7 +9,10 @@ project(GEOGL)
 ###################################
 #             Options             #
 ###################################
-option(BUILD_SHARED_LIBS                    "Build shared libraries of DLL and Dependencies ONLY FOR POSIX" OFF)
+option(GEOGL_BUILD_SHARED_LIBS              "Build shared libraries of DLL and Dependencies"                ON)
+    # The build shared libs option will link GEOGL and dependencies into one large DLL
+    # I don't feel like dealing with MSVC's annoying stuff getting linking across that many dlls to work.
+    # maybe in the future, should the need arise by a large codebase
 option(GEOGL_BUILD_WITH_OPENGL              "Build GEOGL with OpenGL support"                               ON)
 option(GEOGL_BUILD_WITH_VULKAN              "Build GEOGL with Vulkan Support"                               OFF)
 option(GEOGL_ENABLE_IGPU                    "Build GEOGL to enable IGPU support in Vulkan"                  ON)
@@ -54,6 +57,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 
 add_library(sse2 INTERFACE IMPORTED)
 if(MSVC)
+    #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
     target_compile_options(sse2 INTERFACE /arch:sse2)
 else()
     target_compile_options(sse2 INTERFACE -msse2)
@@ -99,7 +103,6 @@ add_subdirectory(Engine/Tests)
 ###################################
 #          Build Example          #
 ###################################
-add_subdirectory(Projects/Example)
 
 ###################################
 #          Build Sandbox          #

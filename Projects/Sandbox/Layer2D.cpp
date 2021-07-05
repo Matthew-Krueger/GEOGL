@@ -145,7 +145,7 @@ namespace SandboxApp{
 
         GEOGL_PROFILE_FUNCTION();
 
-        ImGui::Begin("Color Picker");
+        ImGui::Begin("Color Pick");
         ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
         ImGui::End();
 

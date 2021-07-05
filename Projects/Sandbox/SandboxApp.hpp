@@ -37,6 +37,7 @@ namespace SandboxApp{
         ~SandboxApp() override;
 
         void onEvent(GEOGL::Event& event) override;
+        void setUpImGui(ImGuiContext* context) override;
 
         bool onKeyPressedEvent(GEOGL::KeyPressedEvent& event);
 

@@ -32,7 +32,7 @@
 
 namespace GEOGL {
 
-	class Renderer2D {
+	class GEOGL_API Renderer2D {
 	public:
 
 	    /**

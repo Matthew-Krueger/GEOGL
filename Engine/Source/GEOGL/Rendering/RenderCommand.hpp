@@ -34,6 +34,7 @@ namespace GEOGL{
     public:
 
         inline static void init(){ s_RendererAPI->init(); };
+        inline static void shutdown(){s_RendererAPI->shutdown(); s_RendererAPI.reset(); };
         inline static void setViewport(const glm::ivec2 &dimensions) { s_RendererAPI->setViewport(dimensions); };
 
         /**

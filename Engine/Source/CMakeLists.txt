@@ -7,15 +7,15 @@ set(GEOGL_VULKAN_BUILD_FLAG 0)
 set(GEOGL_PLATFORM_DEPS "")
 set(GEOGL_PLATFORM_DEPS_WINDOWING "")
 
-if(BUILD_SHARED_LIBS)
-    set(GEOGL_LIBRARY_TYPE SHARED)
+if(GEOGL_BUILD_SHARED_LIBS)
+    set(GEOGL_LIBRARY_TYPE OBJECT)
     set(GEOGL_MAIN_LIBRARY_TYPE SHARED)
     message("-- Building GEOGL and dependencies as DLLs")
-else(BUILD_SHARED_LIBS)
+else(GEOGL_BUILD_SHARED_LIBS)
     set(GEOGL_LIBRARY_TYPE OBJECT)
     set(GEOGL_MAIN_LIBRARY_TYPE STATIC)
     message("-- Building GEOGL and dependencies as Object Libraries")
-endif(BUILD_SHARED_LIBS)
+endif(GEOGL_BUILD_SHARED_LIBS)
 
 #######################################################################
 #                Configure IGPU Support (Where applicable)            #
@@ -169,9 +169,9 @@ target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_PROFILIN
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_RENDERER_PROFILING=${GEOGL_PROFILING_RENDERER_BUILD_FLAG})
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_WITH_OPENMP=${GEOGL_OPENMP_BUILD_FLAG})
 target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_CACHE_COMPILED_SHADERS=${GEOGL_SHADER_CACHING_BUILD_FLAG})
-if(NOT BUILD_SHARED_LIBS)
+if(NOT GEOGL_BUILD_SHARED_LIBS)
     target_compile_definitions("GEOGL_Interface" INTERFACE GEOGL_BUILD_STATIC)
-endif(NOT BUILD_SHARED_LIBS)
+endif(NOT GEOGL_BUILD_SHARED_LIBS)
 
 target_include_directories("GEOGL_Interface" INTERFACE include
         Platform/OpenGL/include

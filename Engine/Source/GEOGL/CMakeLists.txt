@@ -73,6 +73,8 @@ set_target_properties(${GEOGL_LIBRARY_NAME} PROPERTIES
 
 set_target_properties(${GEOGL_LIBRARY_NAME} PROPERTIES POSITION_INDEPENDENT_CODE on)
 
+target_compile_definitions(${GEOGL_LIBRARY_NAME} PRIVATE GEOGL_BUILD_LIBRARY=1)
+
 ######################################
 #  PostBuild Copy VK_LAYER_SETTINGS  #
 ######################################

@@ -25,6 +25,8 @@
 
 #include "Application.hpp"
 #include "../Rendering/Renderer.hpp"
+#include "../Rendering/Renderer2D.hpp"
+#include "../IO/Input.hpp"
 #include <fstream>
 
 namespace GEOGL{
@@ -97,10 +99,17 @@ namespace GEOGL{
 
     }
 
-    Application::~Application() = default;
+    Application::~Application(){
+
+        s_Instance = nullptr;
+        Renderer2D::shutdown();
+        Renderer::shutdown();
+
+    };
 
     void Application::run(){
         GEOGL_PROFILE_FUNCTION();
+        setUpImGui(ImGuiLayer::getImGuiContext());
 
         GEOGL::Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
         GEOGL_CORE_INFO_NOSTRIP("Successfully started application. Entering Loop.");
@@ -154,6 +163,7 @@ namespace GEOGL{
         /* Bind a Window Close Event to Application::onWindowClose() */
         dispatcher.dispatch<WindowCloseEvent>(GEOGL_BIND_EVENT_FN(Application::onWindowClose)); // NOLINT(modernize-avoid-bind)
         dispatcher.dispatch<WindowResizeEvent>(GEOGL_BIND_EVENT_FN(Application::onWindowResize));
+        dispatcher.dispatch<KeyPressedEvent>(GEOGL_BIND_EVENT_FN(Application::onKeyPressedEvent));
 
         if(event.Handled)
             return;
@@ -173,6 +183,22 @@ namespace GEOGL{
         m_Running = false;
         event.Handled = true;
         return true;
+    }
+
+    bool Application::onKeyPressedEvent(KeyPressedEvent& event){
+
+        if(
+                event.getKeyCode() == GEOGL::Key::R &&
+                (GEOGL::Input::isKeyPressed(GEOGL::Key::LeftShift) || GEOGL::Input::isKeyPressed(GEOGL::Key::RightShift)) &&
+                (GEOGL::Input::isKeyPressed(GEOGL::Key::LeftControl) || GEOGL::Input::isKeyPressed(GEOGL::Key::RightControl))){
+
+            m_Running = false;
+            m_ShouldRestart = true;
+            event.Handled = true;
+            return true;
+
+        }
+
     }
 
     bool Application::onWindowResize(WindowResizeEvent &event){

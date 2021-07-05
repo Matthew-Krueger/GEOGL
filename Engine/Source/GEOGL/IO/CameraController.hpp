@@ -32,7 +32,7 @@
 
 namespace GEOGL{
 
-    class OrthographicCameraController{
+    class GEOGL_API OrthographicCameraController{
     public:
         OrthographicCameraController(float aspectRatio, bool rotation = false);
         OrthographicCameraController(const glm::ivec2& windowDimensions, bool rotation = false);

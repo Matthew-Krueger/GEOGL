@@ -57,6 +57,12 @@ namespace GEOGL::Platform::OpenGL{
 
     }
 
+    void RendererAPI::shutdown(){
+
+        GEOGL_CORE_INFO_NOSTRIP("Shutting down GEOGL OpenGL Renderer.");
+
+    }
+
     void RendererAPI::setViewport(const glm::ivec2 &dimensions) {
         GEOGL_RENDERER_PROFILE_FUNCTION();
 

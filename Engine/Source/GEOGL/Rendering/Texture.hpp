@@ -31,7 +31,7 @@ namespace GEOGL{
     /**
      * Defines the abstract form of a texture
      */
-    class Texture{
+    class GEOGL_API Texture{
     public:
 
         virtual ~Texture() = default;
@@ -49,7 +49,7 @@ namespace GEOGL{
 
     };
 
-    class Texture2D : public Texture{
+    class GEOGL_API Texture2D : public Texture{
     public:
 
         static Ref<Texture2D> create(uint32_t width, uint32_t height);

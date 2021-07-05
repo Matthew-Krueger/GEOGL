@@ -18,12 +18,11 @@ add_dependencies(GEOGL_SandboxApp GEOGL::Engine)
 target_link_libraries(GEOGL_SandboxApp GEOGL::Engine)
 
 set_target_properties(GEOGL_SandboxApp PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/Sandbox
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
         )
 
 add_custom_command(
         TARGET GEOGL_SandboxApp POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/${PATH_TO_GEOGL}/Projects/Sandbox/Resources" "${CMAKE_BINARY_DIR}/bin/Sandbox/Resources"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/${PATH_TO_GEOGL}/Projects/Sandbox/Resources" "${CMAKE_BINARY_DIR}/bin/Resources"
         COMMENT "Copying resources to bin directory"
 )
-

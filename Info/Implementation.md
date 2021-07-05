@@ -27,6 +27,11 @@ public:
     ExampleApp() override;
 };
 ```
+-------------------------------------------
+### ImGui Notes
+ImGui is weird with DLLs. The application has a callback `void SandboxApp::setUpImGui(ImGuiContext* context)` that will
+be sent the current ImGui context. You can then implement another callback which can set this context
+everywhere (every DLL or regular EXE) that you plan to use ImGui
 ## CMake
 Please make sure to include the following as part of your cmake
 root.
