@@ -60,7 +60,7 @@ namespace SandboxApp{
 
     class ParticleSystem{
     public:
-        ParticleSystem();
+        ParticleSystem(uint32_t maxParticles);
 
         void onUpdate(GEOGL::TimeStep ts);
         void onRender(const GEOGL::OrthographicCamera& camera);
@@ -80,7 +80,7 @@ namespace SandboxApp{
             bool active = false;
         };
         std::vector<Particle> m_ParticlePool;
-        uint32_t m_PoolIndex = 999;
+        uint32_t m_PoolIndex;
 
     };
 

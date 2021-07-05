@@ -35,9 +35,9 @@ namespace SandboxApp{
     std::mt19937 Random::s_RandomEngine;
     std::uniform_int_distribution<std::mt19937::result_type> Random::s_Distribution;
 
-    ParticleSystem::ParticleSystem(){
+    ParticleSystem::ParticleSystem(uint32_t maxParticles) : m_PoolIndex(maxParticles-1){
         Random::Init();
-        m_ParticlePool.resize(10000);
+        m_ParticlePool.resize(maxParticles);
     }
 
     void ParticleSystem::onUpdate(GEOGL::TimeStep ts){

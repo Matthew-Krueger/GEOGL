@@ -25,6 +25,7 @@
 
 #include "Layer2D.hpp"
 #include <GEOGL/Core.hpp>
+#include <GEOGL/IO.hpp>
 #include <ImGui/imgui.h>
 #include <GEOGL/Platform/OpenGL.hpp>
 
@@ -46,7 +47,7 @@ namespace SandboxApp{
         m_Checkerboard = GEOGL::Texture2D::create("Resources/Textures/Checkerboard.png");
         m_Sandman = GEOGL::Texture2D::create("Resources/Textures/Sandman.png");
 
-        m_ParticleSystem = GEOGL::createScope<ParticleSystem>();
+        m_ParticleSystem = GEOGL::createScope<ParticleSystem>(10000);
 
     }
 
@@ -94,30 +95,33 @@ namespace SandboxApp{
         GEOGL::Renderer2D::endScene();*/
 
         /* emit 50 particle */
-        auto mousePos = GEOGL::Input::getMousePosition();
-        glm::ivec2 windowDimensions = GEOGL::Application::get().getWindow().getDimensions();
+        if(GEOGL::Input::isMouseButtonPressed(GEOGL::Mouse::ButtonLeft)){
+            auto mousePos = GEOGL::Input::getMousePosition();
+            glm::ivec2 windowDimensions = GEOGL::Application::get().getWindow().getDimensions();
 
-        auto& bounds = m_OrthographicCameraController.getCamera().getProjectionBounds();
-        auto& cameraPosition = m_OrthographicCameraController.getCamera().getPosition();
+            auto& bounds = m_OrthographicCameraController.getCamera().getProjectionBounds();
+            auto& cameraPosition = m_OrthographicCameraController.getCamera().getPosition();
 
-        glm::vec2 worldSpaceEmitterPosition = {0,0};
-        worldSpaceEmitterPosition.x = ((mousePos.x/(float)windowDimensions.x) * bounds.getWidth()) - bounds.getWidth() * 0.5f;
-        worldSpaceEmitterPosition.y = bounds.getHeight()*0.5f - ((mousePos.y/(float)windowDimensions.y) * bounds.getHeight());
+            glm::vec2 worldSpaceEmitterPosition = {0,0};
+            worldSpaceEmitterPosition.x = ((mousePos.x/(float)windowDimensions.x) * bounds.getWidth()) - bounds.getWidth() * 0.5f;
+            worldSpaceEmitterPosition.y = bounds.getHeight()*0.5f - ((mousePos.y/(float)windowDimensions.y) * bounds.getHeight());
+            worldSpaceEmitterPosition = worldSpaceEmitterPosition + cameraPosition.xy;
 
-        //GEOGL_INFO("Coords X: {}, Y: {}", openGLCoords.x, openGLCoords.y);
-#pragma omp for
-        for(int i=0; i<50; ++i){
-            ParticleProperties properties{};
-            properties.position = worldSpaceEmitterPosition;
-            properties.velocity = {0,0};//{0, .7};
-            properties.velocityVariation = {5,5};//{Random::Float(), Random::Float()/2};
-            properties.sizeVariation = 0.02;
-            properties.sizeBegin = 0.2f;
-            properties.sizeEnd = 0;
-            properties.lifeTime = std::max(0.05f,Random::Float()*2);
-            properties.colorBegin = {.5,.5f,.8f,1};
-            properties.colorEnd = {0.6f, 0.6f,0.2f,1};
-            m_ParticleSystem->emit(properties);
+            //GEOGL_INFO("Coords X: {}, Y: {}", openGLCoords.x, openGLCoords.y);
+    #pragma omp for
+            for(int i=0; i<50; ++i){
+                ParticleProperties properties{};
+                properties.position = worldSpaceEmitterPosition;
+                properties.velocity = {0,0};//{0, .7};
+                properties.velocityVariation = {5,5};//{Random::Float(), Random::Float()/2};
+                properties.sizeVariation = 0.02;
+                properties.sizeBegin = 0.2f;
+                properties.sizeEnd = 0;
+                properties.lifeTime = std::max(0.05f,Random::Float()*2);
+                properties.colorBegin = {.5,.5f,.8f,1};
+                properties.colorEnd = {0.6f, 0.6f,0.2f,1};
+                m_ParticleSystem->emit(properties);
+            }
         }
 
         m_ParticleSystem->onUpdate(timeStep);
