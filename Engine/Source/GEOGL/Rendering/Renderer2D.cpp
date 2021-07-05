@@ -120,6 +120,7 @@ namespace GEOGL{
         /* Creat eh the white texture */
         s_Data.whiteTexture = Texture2D::create(1,1);
         uint32_t whiteTextureData = 0xFFFFFFFF;
+        auto whttxtr = s_Data.whiteTexture;
         s_Data.whiteTexture->setData(&whiteTextureData, sizeof(whiteTextureData));
 
         /* Create the shaders */
@@ -149,7 +150,16 @@ namespace GEOGL{
         s_Data.quadVertexBufferBase = nullptr;
         s_Data.quadVertexBufferPtr = nullptr;
 
-        s_Data.textureShader.reset();
+        s_Data.quadVertexArray = nullptr;
+        s_Data.quadVertexBuffer = nullptr;
+
+        for(uint32_t i=0; i<GEOGL::Renderer2DData::maxTextureSlots; ++i){
+            s_Data.textureSlots[i] = nullptr;
+        }
+
+        s_Data.whiteTexture = nullptr;
+
+        s_Data.textureShader = nullptr;
     }
 
     void GEOGL::Renderer2D::beginScene(const OrthographicCamera &camera) {

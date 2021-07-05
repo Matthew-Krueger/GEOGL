@@ -68,12 +68,11 @@ namespace SandboxApp{
 
         rotation += timeStep * 20;
 
-        /*{
+        {
 
             GEOGL::Renderer2D::drawQuad({{0,  0, -.9}, {100, 100}, {1 - m_SquareColor.r, 1 - m_SquareColor.g, 1 - m_SquareColor.b, m_SquareColor.a}, 100}, m_Checkerboard);
             GEOGL::Renderer2D::drawRotatedQuad({{0, 0, .2}, {1, 1}, {1,1,1,1}}, m_Checkerboard, glm::radians(rotation));
-            GEOGL::Renderer2D::drawQuad({{0,0,0},{sqrt(2), sqrt(2)}, m_SquareColor});
-            //GEOGL::Renderer2D::drawQuad({{5,5,0},{sqrt(2), sqrt(2)}, m_SquareColor});
+            GEOGL::Renderer2D::drawRotatedQuad({{0,0,0},{sqrt(2), sqrt(2)}, m_SquareColor}, glm::radians(180.0f));
 
             GEOGL::Renderer2D::drawQuad({{-.05, 0, .3}, {1, 1}}, m_ChernoLogo);
 
@@ -94,44 +93,24 @@ namespace SandboxApp{
 
         GEOGL::Renderer2D::endScene();*/
 
-        /* emit one particle */
-        {
+        /* emit 50 particle */
+        glm::mat4 projectionViewMatrix = m_OrthographicCameraController.getCamera().getProjectionViewMatrix();
+        glm::mat4 projectionViewMatrixInv = glm::inverse(projectionViewMatrix);
+        glm::vec2 mousePos = GEOGL::Input::getMousePosition();
+        glm::vec4 openGLCoords = (projectionViewMatrix * glm::vec4(mousePos.x, mousePos.y, 0.0f, 0.0f));
+        //GEOGL_INFO("Coords X: {}, Y: {}", openGLCoords.x, openGLCoords.y);
+#pragma omp for
+        for(int i=0; i<50; ++i){
             ParticleProperties properties{};
-            properties.position = {0, 0};
-            properties.velocity = {(Random::Float()-.5)*2, (Random::Float()-.5)*2};
-            properties.velocityVariation = {Random::Float()/5, Random::Float()/5};
-            properties.sizeVariation = Random::Float()/5;
-            properties.sizeBegin = 0.2f;
+            properties.position = {0,-.7f};//{openGLCoords.x, -openGLCoords.y};
+            properties.velocity = {0, .7};
+            properties.velocityVariation = {Random::Float(), Random::Float()/2};
+            properties.sizeVariation = Random::Float()/20;
+            properties.sizeBegin = 0.08f;
             properties.sizeEnd = 0;
-            properties.lifeTime = std::max(1.0f,Random::Float() * 4);
-            properties.colorBegin = {.2,.2f,.8f,1};
-            properties.colorEnd = {0.6f, 0.2f,0.2f,1};
-            m_ParticleSystem->emit(properties);
-        }
-        {
-            ParticleProperties properties{};
-            properties.position = {0, 0};
-            properties.velocity = {(Random::Float()-.5)*2, (Random::Float()-.5)*2};
-            properties.velocityVariation = {Random::Float()/5, Random::Float()/5};
-            properties.sizeVariation = Random::Float()/5;
-            properties.sizeBegin = 0.2f;
-            properties.sizeEnd = 0;
-            properties.lifeTime = std::max(1.0f,Random::Float() * 4);
-            properties.colorBegin = {.2,.2f,.8f,1};
-            properties.colorEnd = {0.6f, 0.2f,0.2f,1};
-            m_ParticleSystem->emit(properties);
-        }
-        {
-            ParticleProperties properties{};
-            properties.position = {0, 0};
-            properties.velocity = {(Random::Float()-.5)*2, (Random::Float()-.5)*2};
-            properties.velocityVariation = {Random::Float()/5, Random::Float()/5};
-            properties.sizeVariation = Random::Float()/5;
-            properties.sizeBegin = 0.2f;
-            properties.sizeEnd = 0;
-            properties.lifeTime = std::max(1.0f,Random::Float() * 4);
-            properties.colorBegin = {.2,.2f,.8f,1};
-            properties.colorEnd = {0.6f, 0.2f,0.2f,1};
+            properties.lifeTime = std::max(0.05f,Random::Float()*2);
+            properties.colorBegin = {.5,.5f,.8f,1};
+            properties.colorEnd = {0.6f, 0.6f,0.2f,1};
             m_ParticleSystem->emit(properties);
         }
 
@@ -145,9 +124,10 @@ namespace SandboxApp{
 
         GEOGL_PROFILE_FUNCTION();
 
-        ImGui::Begin("Color Pick");
+        ImGui::Begin("Color Picker");
         ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
         ImGui::End();
+
 
     }
 

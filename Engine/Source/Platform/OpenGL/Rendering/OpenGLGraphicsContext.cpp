@@ -116,6 +116,8 @@ namespace GEOGL::Platform::OpenGL{
 
     GraphicsContext::~GraphicsContext() {
 
+        s_GLADInitialized = false;
+
     }
 
     void GraphicsContext::setViewport(const glm::ivec2& topLeftCorner, const glm::ivec2& dimensions){

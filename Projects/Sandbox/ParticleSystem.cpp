@@ -37,7 +37,7 @@ namespace SandboxApp{
 
     ParticleSystem::ParticleSystem(){
         Random::Init();
-        m_ParticlePool.resize(1000);
+        m_ParticlePool.resize(10000);
     }
 
     void ParticleSystem::onUpdate(GEOGL::TimeStep ts)

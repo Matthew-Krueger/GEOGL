@@ -117,6 +117,7 @@ namespace GEOGL::Platform::OpenGL{
         }
 
         glDeleteProgram(m_RendererID);
+        setBoundID(0);
 
     }
 

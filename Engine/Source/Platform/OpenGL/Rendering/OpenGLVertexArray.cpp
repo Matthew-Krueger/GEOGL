@@ -39,6 +39,7 @@ namespace GEOGL::Platform::OpenGL{
 
     VertexArray::~VertexArray(){
         GEOGL_PROFILE_FUNCTION();
+        //GEOGL_CORE_CRITICAL_NOSTRIP("Destroyed the vao #{}", m_RendererID);
 
         /* Bind the vertex array so we no longer have the VBOs bound */
         glBindVertexArray(m_RendererID);
@@ -46,6 +47,7 @@ namespace GEOGL::Platform::OpenGL{
             vertexBuffer->unbind();
         }
         m_IndexBuffer->unbind();
+        setBoundID(0);
 
         /* now, delete the VAO */
         glBindVertexArray(0);
@@ -57,6 +59,7 @@ namespace GEOGL::Platform::OpenGL{
         GEOGL_RENDERER_PROFILE_FUNCTION();
 
         if(m_RendererID != getBoundID()) {
+            //GEOGL_CORE_CRITICAL_NOSTRIP("Binding the VAO #{}", m_RendererID);
             glBindVertexArray(m_RendererID);
             setBoundID(m_RendererID);
         }

@@ -76,6 +76,8 @@ namespace GEOGL::Platform::OpenGL{
             glBindBuffer(GL_ARRAY_BUFFER, m_VBOID);
         }
 
+        GEOGL_CORE_CRITICAL_NOSTRIP("Creating the vertex buffer #{}", m_VBOID);
+
         {
             GEOGL_PROFILE_SCOPE("Upload Buffer");
             glBufferData(GL_ARRAY_BUFFER, m_Size, vector, GL_STATIC_DRAW);

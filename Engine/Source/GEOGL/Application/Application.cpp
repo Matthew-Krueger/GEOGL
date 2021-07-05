@@ -130,6 +130,10 @@ namespace GEOGL{
                 for (Layer *layer : m_LayerStack) {
                     layer->onUpdate(timeStep);
                 }
+
+                //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+
             }else{
                 /* Since we are not running, slow down the loop */
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000/5));
