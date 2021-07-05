@@ -42,6 +42,10 @@ namespace GEOGL{
             float top;
             float zNearClipPlane = -1.0;
             float zFarClipPlane = 1.0;
+
+            inline float getWidth() const  { return right-left; };
+            inline float getHeight() const { return top-bottom; };
+
         };
 
     public:
@@ -74,8 +78,8 @@ namespace GEOGL{
         inline const glm::mat4& getViewMatrix() const { return m_ViewMatrix; };
         inline const glm::mat4& getProjectionViewMatrix() const { return m_ProjectionViewMatrix; };
 
-        inline const ProjectionBounds& getProjection() const {return m_OrthographicBounds; };
-        void setProjection(const ProjectionBounds& projectionBounds);
+        inline const ProjectionBounds& getProjectionBounds() const {return m_OrthographicBounds; };
+        void setProjectionBounds(const ProjectionBounds& projectionBounds);
 
         static ProjectionBounds calculateBestOrthographicBounds(const glm::ivec2& windowDimensions, const glm::vec2& clipPlanes = {-1.0f, 1.0f});
 

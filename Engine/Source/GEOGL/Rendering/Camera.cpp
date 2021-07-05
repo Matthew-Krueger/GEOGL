@@ -69,7 +69,7 @@ namespace GEOGL{
 
     }
 
-    void OrthographicCamera::setProjection(const ProjectionBounds& orthographicBounds) {
+    void OrthographicCamera::setProjectionBounds(const ProjectionBounds& orthographicBounds) {
         GEOGL_PROFILE_FUNCTION();
 
         m_OrthographicBounds = orthographicBounds;

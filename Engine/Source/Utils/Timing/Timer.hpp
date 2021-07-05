@@ -7,7 +7,7 @@
 
 namespace GEOGL{
 
-    const char* cStringEscape(const char* toEscape);
+    GEOGL_API const char* cStringEscape(const char* toEscape);
 
     struct ProfileResult{
         const char* Name;
@@ -19,7 +19,7 @@ namespace GEOGL{
         std::string Name;
     };
 
-    class Instrumentor{
+    class GEOGL_API Instrumentor{
     public:
         Instrumentor();
 
@@ -57,7 +57,7 @@ namespace GEOGL{
         int m_ProfileCount;
     };
 
-    class InstrumentationTimer{
+    class GEOGL_API InstrumentationTimer{
     public:
         inline InstrumentationTimer(const char* name)
                 : m_Name(name), m_Stopped(false){
@@ -93,7 +93,7 @@ namespace GEOGL{
         bool m_Stopped;
     };
 }
-#undef GEOGL_BUILD_WITH_PROFILING
+
 #if GEOGL_BUILD_WITH_PROFILING
 #ifdef __GNUC__
 #define _GEOGL_PROFILE_FUNCTION_NAME                    __PRETTY_FUNCTION__

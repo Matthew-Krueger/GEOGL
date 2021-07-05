@@ -203,6 +203,8 @@ namespace GEOGL{
 
         }
 
+        return false;
+
     }
 
     bool Application::onWindowResize(WindowResizeEvent &event){

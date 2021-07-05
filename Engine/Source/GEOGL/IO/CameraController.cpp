@@ -85,7 +85,7 @@ namespace GEOGL{
             m_CameraRotation = 0;
             m_OrthographicCamera.setRotationZ(m_CameraRotation);
             m_ZoomLevel = 1;
-            m_OrthographicCamera.setProjection({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
+            m_OrthographicCamera.setProjectionBounds({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
         }
 
 
@@ -113,7 +113,7 @@ namespace GEOGL{
         m_ZoomLevel = std::max(m_ZoomLevel, m_ZoomMin);
         m_ZoomLevel = std::min(m_ZoomLevel, m_ZoomMax);
 
-        m_OrthographicCamera.setProjection({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
+        m_OrthographicCamera.setProjectionBounds({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
         return false;
 
     }
@@ -123,7 +123,7 @@ namespace GEOGL{
 
         m_AspectRatio = (float)e.getWidth()/(float)e.getHeight();
 
-        m_OrthographicCamera.setProjection({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
+        m_OrthographicCamera.setProjectionBounds({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
         return false;
 
     }

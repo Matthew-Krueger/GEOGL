@@ -22,7 +22,7 @@
  *                                                                             *
  *******************************************************************************/
 
-#define GEOGL_SWIZZLE
+
 #include "Layer2D.hpp"
 #include <GEOGL/Core.hpp>
 #include <ImGui/imgui.h>
@@ -94,19 +94,25 @@ namespace SandboxApp{
         GEOGL::Renderer2D::endScene();*/
 
         /* emit 50 particle */
-        glm::mat4 projectionViewMatrix = m_OrthographicCameraController.getCamera().getProjectionViewMatrix();
-        glm::mat4 projectionViewMatrixInv = glm::inverse(projectionViewMatrix);
-        glm::vec2 mousePos = GEOGL::Input::getMousePosition();
-        glm::vec4 openGLCoords = (projectionViewMatrix * glm::vec4(mousePos.x, mousePos.y, 0.0f, 0.0f));
+        auto mousePos = GEOGL::Input::getMousePosition();
+        glm::ivec2 windowDimensions = GEOGL::Application::get().getWindow().getDimensions();
+
+        auto& bounds = m_OrthographicCameraController.getCamera().getProjectionBounds();
+        auto& cameraPosition = m_OrthographicCameraController.getCamera().getPosition();
+
+        glm::vec2 worldSpaceEmitterPosition = {0,0};
+        worldSpaceEmitterPosition.x = ((mousePos.x/(float)windowDimensions.x) * bounds.getWidth()) - bounds.getWidth() * 0.5f;
+        worldSpaceEmitterPosition.y = bounds.getHeight()*0.5f - ((mousePos.y/(float)windowDimensions.y) * bounds.getHeight());
+
         //GEOGL_INFO("Coords X: {}, Y: {}", openGLCoords.x, openGLCoords.y);
 #pragma omp for
         for(int i=0; i<50; ++i){
             ParticleProperties properties{};
-            properties.position = {0,-.7f};//{openGLCoords.x, -openGLCoords.y};
-            properties.velocity = {0, .7};
-            properties.velocityVariation = {Random::Float(), Random::Float()/2};
-            properties.sizeVariation = Random::Float()/20;
-            properties.sizeBegin = 0.08f;
+            properties.position = worldSpaceEmitterPosition;
+            properties.velocity = {0,0};//{0, .7};
+            properties.velocityVariation = {5,5};//{Random::Float(), Random::Float()/2};
+            properties.sizeVariation = 0.02;
+            properties.sizeBegin = 0.2f;
             properties.sizeEnd = 0;
             properties.lifeTime = std::max(0.05f,Random::Float()*2);
             properties.colorBegin = {.5,.5f,.8f,1};

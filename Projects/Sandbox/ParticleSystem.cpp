@@ -40,32 +40,31 @@ namespace SandboxApp{
         m_ParticlePool.resize(10000);
     }
 
-    void ParticleSystem::onUpdate(GEOGL::TimeStep ts)
-    {
-        for (auto& particle : m_ParticlePool)
-        {
-            if (!particle.active)
-                continue;
+    void ParticleSystem::onUpdate(GEOGL::TimeStep ts){
 
-            if (particle.lifeRemaining <= 0.0f)
-            {
+        for (auto& particle : m_ParticlePool){
+            if (!particle.active){
+                continue;
+            }
+
+            if (particle.lifeRemaining <= 0.0f){
                 particle.active = false;
                 continue;
             }
 
-            particle.lifeRemaining -= ts;
+            //particle.lifeRemaining -= ts;
+            glm::vec2 particleOldPos = particle.position;
             particle.position += particle.velocity * (float)ts;
+            particle.lifeRemaining -= std::abs(glm::distance(particle.position,particleOldPos));
             particle.rotation += 0.01f * ts;
         }
     }
 
-    void ParticleSystem::onRender(const GEOGL::OrthographicCamera& camera)
-    {
+    void ParticleSystem::onRender(const GEOGL::OrthographicCamera& camera){
 
         GEOGL::Renderer2D::beginScene(camera);
 
-        for (auto& particle : m_ParticlePool)
-        {
+        for (auto& particle : m_ParticlePool){
             if (!particle.active)
                 continue;
 

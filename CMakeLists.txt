@@ -17,7 +17,7 @@ option(GEOGL_BUILD_WITH_OPENGL              "Build GEOGL with OpenGL support"   
 option(GEOGL_BUILD_WITH_VULKAN              "Build GEOGL with Vulkan Support"                               OFF)
 option(GEOGL_ENABLE_IGPU                    "Build GEOGL to enable IGPU support in Vulkan"                  ON)
 option(GEOGL_TRACK_MEMORY_ALLOC             "Build GEOGL to track memory allocations (slow)"                ON)
-option(GEOGL_BUILD_WITH_PROFILING           "Build GEOGL to self-profile"                                   ON)
+option(GEOGL_BUILD_WITH_PROFILING           "Build GEOGL to self-profile"                                   OFF)
 option(GEOGL_BUILD_WITH_RENDERER_PROFILING  "Build GEOGL to self-profile the Renderer"                      OFF)
 option(GEOGL_CACHE_COMPILED_SHADERS         "Maintain a cache of compiled shaders"                          ON)
 option(GEOGL_BUILD_WITH_SSE2                "Build GEOGL with SSE2"                                         ON)
