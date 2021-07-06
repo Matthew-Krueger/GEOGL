@@ -23,38 +23,28 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_GAMELAYER_HPP
-#define GEOGL_GAMELAYER_HPP
+#ifndef GEOGL_SUBTEXTURE2D_HPP
+#define GEOGL_SUBTEXTURE2D_HPP
 
-namespace TwoDGame{
+#include "Texture.hpp"
 
-    class GameLayer : public GEOGL::Layer{
+namespace GEOGL{
+
+    class GEOGL_API SubTexture2D{
     public:
-        GameLayer() = default;
-        GameLayer(const GameLayer&) = delete;
-        ~GameLayer() override = default;
+        SubTexture2D(const Ref<Texture2D>& textureAtlas, const glm::vec2& minBound, const glm::vec2& maxBound);
 
+        [[nodiscard]] const Ref<Texture2D>& getTexture() const { return m_Texture; };
+        [[nodiscard]] const glm::vec2* getTextureCoords() const {return m_TextureCoords; };
 
-        void onAttach() override;
-        void onDetach() override;
-        void onUpdate(GEOGL::TimeStep timeStep) override;
-        void onImGuiRender(GEOGL::TimeStep timeStep) override;
-
-        void onEvent(GEOGL::Event& event) override;
+        static Ref<SubTexture2D> createFromCoords(const Ref <Texture2D>& textureAtlas, const glm::vec2& spritePosition, const glm::vec2& cellSize, const glm::vec2& spriteDimensions = {1,1});
 
     private:
+        Ref<Texture2D> m_Texture;
 
-        /* Camera utils */
-        GEOGL::OrthographicCameraController m_OrthographicCameraController;
-
-        /* Textures */
-        GEOGL::Ref<GEOGL::Texture2D> m_SpriteSheet;
-        GEOGL::Ref<GEOGL::SubTexture2D> m_TextureStairs;
-        GEOGL::Ref<GEOGL::SubTexture2D> m_TextureBarrel;
-        GEOGL::Ref<GEOGL::SubTexture2D> m_TextureTree;
-
+        glm::vec2 m_TextureCoords[4]{};
     };
 
 }
 
-#endif //GEOGL_GAMELAYER_HPP
+#endif //GEOGL_SUBTEXTURE2D_HPP

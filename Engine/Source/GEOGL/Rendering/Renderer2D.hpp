@@ -29,6 +29,7 @@
 #include "VertexArray.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
+#include "SubTexture2D.hpp"
 
 namespace GEOGL {
 
@@ -68,10 +69,13 @@ namespace GEOGL {
 
         // primitives rendering
         static void drawQuad(const QuadProperties& properties);
-        static void drawQuad(const QuadProperties& properties, const Ref<Texture2D>& texture);
+        static void drawQuad(const QuadProperties& properties, const Ref<Texture2D>& texture);;
+        static void drawQuad(const QuadProperties& properties, const Ref<SubTexture2D>& texture);
+
 
         static void drawRotatedQuad(const QuadProperties& properties, float rotation = 0);
         static void drawRotatedQuad(const QuadProperties& properties, const Ref<Texture2D>& texture, float rotation = 0);
+        static void drawRotatedQuad(const QuadProperties& properties, const Ref<SubTexture2D>& texture, float rotation = 0);
 
 	public:
         struct Statistics{

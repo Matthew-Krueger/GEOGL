@@ -38,6 +38,7 @@
 #include "../../Rendering/Shader.hpp"
 #include "../../Rendering/Camera.hpp"
 #include "../../Rendering/Texture.hpp"
+#include "../../Rendering/SubTexture2D.hpp"
 #include "../../Rendering/Renderer2D.hpp"
 
 

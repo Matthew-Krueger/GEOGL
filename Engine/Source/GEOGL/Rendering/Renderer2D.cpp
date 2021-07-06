@@ -226,14 +226,13 @@ namespace GEOGL{
     }
 
     void GEOGL::Renderer2D::drawQuad(const QuadProperties& properties) {
-        GEOGL_PROFILE_FUNCTION();
 
         drawQuad(properties, s_Data.whiteTexture);
 
     }
 
     void Renderer2D::drawQuad(const QuadProperties& properties, const Ref<Texture2D>& texture) {
-        GEOGL_PROFILE_FUNCTION();
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         /* guard against buffer overflow */
         if(s_Data.quadIndexCount >= s_Data.maxIndices || s_Data.textureSlotIndex >= GEOGL::Renderer2DData::maxTextureSlots){
@@ -260,38 +259,34 @@ namespace GEOGL{
             ++s_Data.textureSlotIndex;
         }
 
-        s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[0];
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {0,0};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
+        glm::vec2 textureCoords[] = {{0,0}, {1,0}, {1,1}, {0,1}};
 
-        s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[1];
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {1,0};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
-
-        s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[2];
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {1,1};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
-
-        s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[3];
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {0,1};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
+        for(int i=0; i<4; ++i){
+            s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[i];
+            s_Data.quadVertexBufferPtr->color = properties.colorTint;
+            s_Data.quadVertexBufferPtr->textureCoord = textureCoords[i];
+            s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
+            s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
+            s_Data.quadVertexBufferPtr++;
+        }
 
         s_Data.quadIndexCount += 6;
 
-        /* other code for not using matrix math */
-        /*
+        ++s_Data.stats.quadCount;
+
+    }
+
+    void Renderer2D::drawQuad(const Renderer2D::QuadProperties &properties, const Ref <SubTexture2D> &subTexture) {
+
+        GEOGL_RENDERER_PROFILE_FUNCTION();
+
+        auto texture = subTexture->getTexture();
+
+        /* guard against buffer overflow */
+        if(s_Data.quadIndexCount >= s_Data.maxIndices || s_Data.textureSlotIndex >= GEOGL::Renderer2DData::maxTextureSlots){
+            flush();
+        }
+
         glm::mat4 transform = glm::translate(s_IdentMatrix, properties.position);
         transform = glm::scale(transform, {properties.size.x, properties.size.y, 1.0f});
 
@@ -312,37 +307,18 @@ namespace GEOGL{
             ++s_Data.textureSlotIndex;
         }
 
+        auto textureCoords = subTexture->getTextureCoords();
 
-        s_Data.quadVertexBufferPtr->position = {position.x-(0.5*properties.size.x), position.y-(0.5*properties.size.y), position.z};
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {0,0};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
-
-        s_Data.quadVertexBufferPtr->position = {position.x+(0.5*properties.size.x), position.y-(0.5*properties.size.y), position.z};
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {1,0};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
-
-        s_Data.quadVertexBufferPtr->position = {position.x+(0.5*properties.size.x), position.y+(0.5*properties.size.y), position.z};
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {1,1};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
-
-        s_Data.quadVertexBufferPtr->position = {position.x-(0.5*properties.size.x), position.y+(0.5*properties.size.y), position.z};
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {0,1};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
+        for(int i=0; i<4; ++i){
+            s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[i];
+            s_Data.quadVertexBufferPtr->color = properties.colorTint;
+            s_Data.quadVertexBufferPtr->textureCoord = textureCoords[i];
+            s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
+            s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
+            s_Data.quadVertexBufferPtr++;
+        }
 
         s_Data.quadIndexCount += 6;
-         */
 
         ++s_Data.stats.quadCount;
 
@@ -355,6 +331,7 @@ namespace GEOGL{
     }
 
     void Renderer2D::drawRotatedQuad(const Renderer2D::QuadProperties &properties, const Ref <Texture2D> &texture, float rotation) {
+        GEOGL_RENDERER_PROFILE_FUNCTION();
 
         /* guard against buffer overflow */
         if(s_Data.quadIndexCount >= s_Data.maxIndices || s_Data.textureSlotIndex >= GEOGL::Renderer2DData::maxTextureSlots){
@@ -382,33 +359,69 @@ namespace GEOGL{
             ++s_Data.textureSlotIndex;
         }
 
-        s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[0];
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {0,0};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
+        glm::vec2 textureCoords[] = {{0,0}, {1,0}, {1,1}, {0,1}};
 
-        s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[1];
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {1,0};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
+        for(int i=0; i<4; ++i){
+            s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[i];
+            s_Data.quadVertexBufferPtr->color = properties.colorTint;
+            s_Data.quadVertexBufferPtr->textureCoord = textureCoords[i];
+            s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
+            s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
+            s_Data.quadVertexBufferPtr++;
+        }
 
-        s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[2];
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {1,1};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
 
-        s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[3];
-        s_Data.quadVertexBufferPtr->color = properties.colorTint;
-        s_Data.quadVertexBufferPtr->textureCoord = {0,1};
-        s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
-        s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
-        s_Data.quadVertexBufferPtr++;
+        s_Data.quadIndexCount += 6;
+
+        ++s_Data.stats.quadCount;
+
+    }
+
+
+
+    void Renderer2D::drawRotatedQuad(const Renderer2D::QuadProperties &properties, const Ref <SubTexture2D> &subTexture, float rotation) {
+        GEOGL_RENDERER_PROFILE_FUNCTION();
+
+        /* guard against buffer overflow */
+        if(s_Data.quadIndexCount >= s_Data.maxIndices || s_Data.textureSlotIndex >= GEOGL::Renderer2DData::maxTextureSlots){
+            flush();
+        }
+
+        auto texture = subTexture->getTexture();
+
+        glm::mat4 transform = glm::translate(s_IdentMatrix, properties.position);
+        transform = (rotation!=0) ? glm::rotate(transform, (rotation), {0,0,1}) : transform;
+        transform = glm::scale(transform, {properties.size.x, properties.size.y, 1.0f});
+
+        glm::vec3 position = properties.position;
+
+        float textureIndex = -1;
+
+        for(uint32_t i=0; i<s_Data.textureSlotIndex;++i){
+            if(*s_Data.textureSlots[i] == *texture){
+                textureIndex = (float)i;
+                break;
+            }
+        }
+
+        if(textureIndex==-1){
+            textureIndex = (float)s_Data.textureSlotIndex;
+            s_Data.textureSlots[s_Data.textureSlotIndex] = texture;
+            ++s_Data.textureSlotIndex;
+        }
+
+        //glm::vec2 textureCoords[] = {{0,0}, {1,0}, {1,1}, {0,1}};
+        auto textureCoords = subTexture->getTextureCoords();
+
+        for(int i=0; i<4; ++i){
+            s_Data.quadVertexBufferPtr->position = transform * s_Data.quadVertexPositions[i];
+            s_Data.quadVertexBufferPtr->color = properties.colorTint;
+            s_Data.quadVertexBufferPtr->textureCoord = textureCoords[i];
+            s_Data.quadVertexBufferPtr->tilingFactor = properties.tilingFactor;
+            s_Data.quadVertexBufferPtr->textureIndex = textureIndex;
+            s_Data.quadVertexBufferPtr++;
+        }
+
 
         s_Data.quadIndexCount += 6;
 
@@ -427,6 +440,7 @@ namespace GEOGL{
         return s_Data.stats;
 
     }
+
 
 }
 

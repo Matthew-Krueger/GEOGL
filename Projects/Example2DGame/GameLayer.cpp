@@ -33,6 +33,9 @@ namespace TwoDGame{
         m_DebugName = "Game Layer - 2D Game Example";
 
         m_SpriteSheet = GEOGL::Texture2D::create("Example2DGameResources/Textures/Kenny-RPG-Pack/RPGpack_sheet_2X.png");
+        m_TextureBarrel = GEOGL::SubTexture2D::createFromCoords(m_SpriteSheet, {9,2}, {128,128});
+        m_TextureStairs = GEOGL::SubTexture2D::createFromCoords(m_SpriteSheet, {7,6}, {128,128});
+        m_TextureTree = GEOGL::SubTexture2D::createFromCoords(m_SpriteSheet, {2,1}, {128,128}, {1,2});
 
     }
 
@@ -48,7 +51,9 @@ namespace TwoDGame{
 
         GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
 
-        GEOGL::Renderer2D::drawQuad({{0,0,0},{2,1}}, m_SpriteSheet);
+        GEOGL::Renderer2D::drawQuad({{-.7,0,0},{0.5,0.5}}, m_TextureStairs);
+        GEOGL::Renderer2D::drawQuad({{.7,0,0}, {0.5,0.5}}, m_TextureBarrel);
+        GEOGL::Renderer2D::drawQuad({{0,0,0}, {0.5,1}}, m_TextureTree);
 
         GEOGL::Renderer2D::endScene();
 

@@ -23,38 +23,33 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_GAMELAYER_HPP
-#define GEOGL_GAMELAYER_HPP
+#include "SubTexture2D.hpp"
 
-namespace TwoDGame{
-
-    class GameLayer : public GEOGL::Layer{
-    public:
-        GameLayer() = default;
-        GameLayer(const GameLayer&) = delete;
-        ~GameLayer() override = default;
+namespace GEOGL{
 
 
-        void onAttach() override;
-        void onDetach() override;
-        void onUpdate(GEOGL::TimeStep timeStep) override;
-        void onImGuiRender(GEOGL::TimeStep timeStep) override;
+    SubTexture2D::SubTexture2D(const Ref <Texture2D> &textureAtlas, const glm::vec2 &minBound,
+                               const glm::vec2 &maxBound) : m_Texture(textureAtlas){
 
-        void onEvent(GEOGL::Event& event) override;
+        m_TextureCoords[0] = {minBound.x, minBound.y};
+        m_TextureCoords[1] = {maxBound.x, minBound.y};
+        m_TextureCoords[2] = {maxBound.x, maxBound.y};
+        m_TextureCoords[3] = {minBound.x, maxBound.y};
 
-    private:
+    }
 
-        /* Camera utils */
-        GEOGL::OrthographicCameraController m_OrthographicCameraController;
+    Ref <SubTexture2D> SubTexture2D::createFromCoords(const Ref<Texture2D>& textureAtlas, const glm::vec2 &spritePosition, const glm::vec2& cellSize, const glm::vec2& spriteDimensions) {
 
-        /* Textures */
-        GEOGL::Ref<GEOGL::Texture2D> m_SpriteSheet;
-        GEOGL::Ref<GEOGL::SubTexture2D> m_TextureStairs;
-        GEOGL::Ref<GEOGL::SubTexture2D> m_TextureBarrel;
-        GEOGL::Ref<GEOGL::SubTexture2D> m_TextureTree;
 
-    };
+        glm::vec2 minBounds = {
+                (spritePosition.x * cellSize.x)/(float)textureAtlas->getWidth(),
+                (spritePosition.y * cellSize.y)/(float)textureAtlas->getHeight()};
+        glm::vec2 maxBounds = {
+                ((spritePosition.x + spriteDimensions.x) * cellSize.x) / (float)textureAtlas->getWidth(),
+                ((spritePosition.y + spriteDimensions.y) * cellSize.y) / (float)textureAtlas->getHeight()};
 
+
+        return createRef<SubTexture2D>(textureAtlas, minBounds, maxBounds);
+
+    }
 }
-
-#endif //GEOGL_GAMELAYER_HPP

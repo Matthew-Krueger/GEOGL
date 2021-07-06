@@ -39,7 +39,7 @@ add_library(GEOGL ${GEOGL_MAIN_LIBRARY_TYPE}
         Rendering/Renderer.hpp
         Rendering/RenderCommand.cpp
         Rendering/Camera.cpp
-        Rendering/Camera.hpp Rendering/Texture.cpp Rendering/Texture.hpp IO/CameraController.cpp IO/CameraController.hpp include/GEOGL/IO.hpp include/GEOGL/Renderer.hpp include/GEOGL/Events.hpp include/GEOGL/Layers.hpp Rendering/Renderer2D.hpp Rendering/Renderer2D.cpp include/GEOGL/GEOGL.hpp)
+        Rendering/Camera.hpp Rendering/Texture.cpp Rendering/Texture.hpp IO/CameraController.cpp IO/CameraController.hpp include/GEOGL/IO.hpp include/GEOGL/Renderer.hpp include/GEOGL/Events.hpp include/GEOGL/Layers.hpp Rendering/Renderer2D.hpp Rendering/Renderer2D.cpp include/GEOGL/GEOGL.hpp Rendering/SubTexture2D.cpp Rendering/SubTexture2D.hpp)
 
 set(GEOGL_LIBRARY_NAME GEOGL)
 
