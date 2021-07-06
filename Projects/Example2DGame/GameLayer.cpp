@@ -25,6 +25,35 @@
 
 #include "GameLayer.hpp"
 
+static const int    s_MapWidth = 24,
+                    s_MapHeight = 24;
+static const char*  s_MapTiles =
+        "WWWWWWWWWWWWWWWWWWWWWWWW"
+        "WWWWWWWWWWWWWWWWWWWWWWWW"
+        "WWWWWWWWWWWWDDWWWWWWWWWW"
+        "WWWWWWWWWDDDDDDDDWWWWWWW"
+        "WWWWDDDDDDDDDDDDDDDWWWWW"
+        "WWWWWWWDDDDDDDDDDDDDWWWW"
+        "WWWWWWWWWWDDDDDDDDDWWWWW"
+        "WWWWWWWWDDDDDDDDDDDWWWWW"
+        "WWWWWWDDDDDDDDDDDWWWWWWW"
+        "WWWWWWWWDDDDDDDDDWWWWWWW"
+        "WWWWWWDDDDDDDDDWWWWWWWWW"
+        "WWWDDDDDDDDDDDDDDDDWWWWW"
+        "WWWWWDDDDDDDDDDDDDDDWWWW"
+        "WWWWWWDDDDDDDDDDDDDDWWWW"
+        "WWWWWDDDDDDDDDDDDDDDWWWW"
+        "WWWWDDDDDDDDDDDDDDDDDWWW"
+        "WWWDDDDDDDDDDDDDDDDWWWWW"
+        "WWWWDDDDDDDDDDDDDDDWWWWW"
+        "WWWWWDDDDDDDDDDDDDDWWWWW"
+        "WWWWWWDDDDDDDDDDDDDDWWWW"
+        "WWWWWWWDDDDDDDDDDDDWWWWW"
+        "WWWWWWWWWWWWDDDWWWWWWWWW"
+        "WWWWWWWWWWWWWWWWWWWWWWWW"
+        "WWWWWWWWWWWWWWWWWWWWWWWW";
+
+
 namespace TwoDGame{
 
     void GameLayer::onAttach() {
@@ -36,6 +65,16 @@ namespace TwoDGame{
         m_TextureBarrel = GEOGL::SubTexture2D::createFromCoords(m_SpriteSheet, {9,2}, {128,128});
         m_TextureStairs = GEOGL::SubTexture2D::createFromCoords(m_SpriteSheet, {7,6}, {128,128});
         m_TextureTree = GEOGL::SubTexture2D::createFromCoords(m_SpriteSheet, {2,1}, {128,128}, {1,2});
+        m_TextureError = GEOGL::Texture2D::create(1,1);
+        uint32_t pinkColor = 0xFF7F00FF;
+        m_TextureError->setData(&pinkColor, sizeof(pinkColor));
+
+
+        m_TextureMap['D'] = GEOGL::SubTexture2D::createFromCoords(m_SpriteSheet, {6,11}, {128,128});
+        m_TextureMap['W'] = GEOGL::SubTexture2D::createFromCoords(m_SpriteSheet, {11,11}, {128,128});
+
+
+        m_OrthographicCameraController.setZoomLevel(5);
 
     }
 
@@ -51,9 +90,15 @@ namespace TwoDGame{
 
         GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
 
-        GEOGL::Renderer2D::drawQuad({{-.7,0,0},{0.5,0.5}}, m_TextureStairs);
-        GEOGL::Renderer2D::drawQuad({{.7,0,0}, {0.5,0.5}}, m_TextureBarrel);
-        GEOGL::Renderer2D::drawQuad({{0,0,0}, {0.5,1}}, m_TextureTree);
+        for(uint32_t y=0; y < s_MapHeight; ++y){
+            for(uint32_t x=0; x < s_MapWidth; ++x){
+                if(m_TextureMap.find(s_MapTiles[x+(y*s_MapWidth)]) != m_TextureMap.end()) {
+                    GEOGL::Renderer2D::drawQuad({{(float) x - ((float) s_MapWidth / 2), ((float) s_MapHeight / 2) - (float)y, 0},{1,1}}, m_TextureMap[s_MapTiles[x+(y*s_MapWidth)]]);
+                }else{
+                    GEOGL::Renderer2D::drawQuad({{(float) x - ((float) s_MapWidth / 2), ((float) s_MapHeight / 2) - (float)y, 0},{1,1}}, m_TextureError);
+                }
+            }
+        }
 
         GEOGL::Renderer2D::endScene();
 

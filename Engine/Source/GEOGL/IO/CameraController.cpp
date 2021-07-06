@@ -94,6 +94,18 @@ namespace GEOGL{
 
     }
 
+    void OrthographicCameraController::setZoomLevel(float zoomLevel) {
+
+        m_ZoomLevel = zoomLevel;
+
+        /* Guard against high and low zoom levels */
+        m_ZoomLevel = std::max(m_ZoomLevel, m_ZoomMin);
+        m_ZoomLevel = std::min(m_ZoomLevel, m_ZoomMax);
+
+        m_OrthographicCamera.setProjectionBounds({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
+
+    }
+
     void OrthographicCameraController::onEvent(Event &e) {
         GEOGL_PROFILE_FUNCTION();
 
@@ -127,4 +139,5 @@ namespace GEOGL{
         return false;
 
     }
+
 }

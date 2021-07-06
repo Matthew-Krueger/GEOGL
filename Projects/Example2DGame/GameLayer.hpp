@@ -52,6 +52,11 @@ namespace TwoDGame{
         GEOGL::Ref<GEOGL::SubTexture2D> m_TextureStairs;
         GEOGL::Ref<GEOGL::SubTexture2D> m_TextureBarrel;
         GEOGL::Ref<GEOGL::SubTexture2D> m_TextureTree;
+        GEOGL::Ref<GEOGL::Texture2D> m_TextureError;
+
+
+        std::unordered_map<char, GEOGL::Ref<GEOGL::SubTexture2D>> m_TextureMap;
+
 
     };
 

@@ -38,6 +38,7 @@ namespace GEOGL{
         OrthographicCameraController(float aspectRatio, bool rotation = false);
         OrthographicCameraController(const glm::ivec2& windowDimensions, bool rotation = false);
 
+        void setZoomLevel(float zoomLevel);
         inline const OrthographicCamera& getCamera() const { return m_OrthographicCamera; };
 
         void onUpdate(TimeStep ts);
