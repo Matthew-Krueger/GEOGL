@@ -70,6 +70,10 @@ using json = nlohmann::json;
 #include "../TimeStep.hpp"
 #include "../Timing/Timer.hpp"
 
+/* stb libs */
+#include <STB/stb_truetype.h>
+#include <STB/stb_image.h>
+
 
 
 
