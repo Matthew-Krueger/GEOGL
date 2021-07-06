@@ -110,6 +110,7 @@ namespace GEOGL{
 
     void Application::run(){
         GEOGL_PROFILE_FUNCTION();
+
         setUpImGui(ImGuiLayer::getImGuiContext());
 
         GEOGL::Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});

@@ -47,6 +47,9 @@ namespace SandboxApp{
     ){
         GEOGL_PROFILE_FUNCTION();
 
+        /* Since I want to load fonts in my layers, I need to explicitly set the context right now */
+        ImGui::SetCurrentContext(GEOGL::ImGuiLayer::getImGuiContext());
+
         m_DebugLayer = new DebugLayer();
         m_DebugLayerOnStack = false;
         pushLayer(new Layer2D());
