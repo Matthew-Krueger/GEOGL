@@ -89,7 +89,7 @@ namespace GEOGL::Platform::GLFW{
             // TODO: glfwTerminate on system shutdown
             GEOGL_CORE_INFO("Initializing GLFW");
             int success = glfwInit();
-            GEOGL_CORE_ASSERT_NOSTRIP(success, "Could not intialize GLFW!");
+            GEOGL_CORE_ASSERT_NOSTRIP(success, "Could not initialize GLFW!");
             glfwSetErrorCallback(&glfwErrorCallbackOpenGL);
 
             s_GLFWInitialized = true;
@@ -217,12 +217,14 @@ namespace GEOGL::Platform::GLFW{
     void Window::setWindowIcon(const std::string& windowIcon){
         GEOGL_PROFILE_FUNCTION();
 
+        stbi_set_flip_vertically_on_load(false);
+
         if(windowIcon.empty())
             return;
         GLFWimage image[1];
         {
             GEOGL_PROFILE_SCOPE("Loading image into memory");
-            image->pixels = stbi_load(windowIcon.c_str(), &image->width, &image->height, 0, 4);
+            image->pixels = stbi_load(windowIcon.c_str(), &image->width, &image->height, nullptr, 4);
         }
         GEOGL_ASSERT(image->pixels, "Could not load image");
         {

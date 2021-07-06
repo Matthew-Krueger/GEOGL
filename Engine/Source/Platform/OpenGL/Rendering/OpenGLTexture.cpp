@@ -62,7 +62,7 @@ namespace GEOGL::Platform::OpenGL {
         stbi_uc *data = nullptr;
         {
             GEOGL_PROFILE_SCOPE("Load image from file");
-            stbi_set_flip_vertically_on_load(1);
+            stbi_set_flip_vertically_on_load(true);
             data = stbi_load(m_Path.c_str(), &width, &height, &channels, 0);
             GEOGL_CORE_ASSERT_NOSTRIP(data, "Failed to load image {}", m_Path);
             m_Width = width;

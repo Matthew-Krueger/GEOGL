@@ -108,7 +108,9 @@ namespace GEOGL{
         static inline Application& get() { return *Application::s_Instance; };
         inline Window& getWindow() { return *m_Window; };
 
-        inline bool getShouldRestart(){ return m_ShouldRestart; };
+        inline bool getShouldRestart() const{ return m_ShouldRestart; };
+        inline void close(){ m_Running = false; };
+
         /**
          * Set if the game should continue running. If not, during the next update, the game loop will exit.
          * @param running Whether or not to keep running
