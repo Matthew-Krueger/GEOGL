@@ -60,18 +60,20 @@ namespace GEOGL::Platform::GLFW{
     float Input::getMouseXImpl() {
         GEOGL_PROFILE_FUNCTION();
 
-        return getMousePositionImpl().x;
+        auto [x,y] = getMousePositionImpl();
+        return x;
 
     }
 
     float Input::getMouseYImpl() {
         GEOGL_PROFILE_FUNCTION();
 
-        return getMousePositionImpl().y;
+        auto [x,y] = getMousePositionImpl();
+        return y;
 
     }
 
-    glm::vec2 Input::getMousePositionImpl(){
+    std::tuple<double, double> Input::getMousePositionImpl(){
         GEOGL_PROFILE_FUNCTION();
 
         auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
@@ -79,7 +81,8 @@ namespace GEOGL::Platform::GLFW{
 
         glfwGetCursorPos(window, &xpos, &ypos);
 
-        return glm::vec2((float)xpos, (float)ypos);
+        auto tuple = std::make_pair(xpos, ypos);
+        return tuple;
 
     }
 

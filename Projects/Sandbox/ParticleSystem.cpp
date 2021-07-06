@@ -33,7 +33,7 @@
 namespace SandboxApp{
 
     std::mt19937 Random::s_RandomEngine;
-    std::uniform_int_distribution<std::mt19937::result_type> Random::s_Distribution;
+    std::uniform_real_distribution<> Random::s_Distribution;
 
     ParticleSystem::ParticleSystem(uint32_t maxParticles) : m_PoolIndex(maxParticles-1){
         Random::Init();
@@ -52,10 +52,10 @@ namespace SandboxApp{
                 continue;
             }
 
-            //particle.lifeRemaining -= ts;
+            particle.lifeRemaining -= ts;
             glm::vec2 particleOldPos = particle.position;
             particle.position += particle.velocity * (float)ts;
-            particle.lifeRemaining -= std::abs(glm::distance(particle.position,particleOldPos));
+            //particle.lifeRemaining -= std::abs(glm::distance(particle.position,particleOldPos));
             particle.rotation += 0.01f * ts;
         }
     }
@@ -92,6 +92,9 @@ namespace SandboxApp{
 
         // Velocity
         particle.velocity = particleProps.velocity;
+        float randoma = Random::Float();
+        float random = (Random::Float() - 0.5f);
+        float variationX = particleProps.velocityVariation.x * (Random::Float() - 0.5f);
         particle.velocity.x += particleProps.velocityVariation.x * (Random::Float() - 0.5f);
         particle.velocity.y += particleProps.velocityVariation.y * (Random::Float() - 0.5f);
 

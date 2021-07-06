@@ -96,7 +96,7 @@ namespace SandboxApp{
 
         /* emit 50 particle */
         if(GEOGL::Input::isMouseButtonPressed(GEOGL::Mouse::ButtonLeft)){
-            auto mousePos = GEOGL::Input::getMousePosition();
+            glm::vec2 mousePos = GEOGL::Input::getMousePosition();
             glm::ivec2 windowDimensions = GEOGL::Application::get().getWindow().getDimensions();
 
             auto& bounds = m_OrthographicCameraController.getCamera().getProjectionBounds();
@@ -107,17 +107,15 @@ namespace SandboxApp{
             worldSpaceEmitterPosition.y = bounds.getHeight()*0.5f - ((mousePos.y/(float)windowDimensions.y) * bounds.getHeight());
             worldSpaceEmitterPosition = worldSpaceEmitterPosition + cameraPosition.xy;
 
-            //GEOGL_INFO("Coords X: {}, Y: {}", openGLCoords.x, openGLCoords.y);
-    #pragma omp for
             for(int i=0; i<50; ++i){
                 ParticleProperties properties{};
                 properties.position = worldSpaceEmitterPosition;
-                properties.velocity = {0,0};//{0, .7};
+                properties.velocity = {0.0f,0.0f};//{0, .7};
                 properties.velocityVariation = {5,5};//{Random::Float(), Random::Float()/2};
-                properties.sizeVariation = 0.02;
+                properties.sizeVariation = 0.0;
                 properties.sizeBegin = 0.2f;
-                properties.sizeEnd = 0;
-                properties.lifeTime = std::max(0.05f,Random::Float()*2);
+                properties.sizeEnd = 0.01f;
+                properties.lifeTime = 1.0f;//std::max(0.05f,Random::Float()*2);
                 properties.colorBegin = {.5,.5f,.8f,1};
                 properties.colorEnd = {0.6f, 0.6f,0.2f,1};
                 m_ParticleSystem->emit(properties);

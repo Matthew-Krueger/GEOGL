@@ -45,7 +45,7 @@ namespace GEOGL::Platform::GLFW{
         bool isMouseButtonPressedImpl(MouseCode button) override;
         float getMouseXImpl() override;
         float getMouseYImpl() override;
-        glm::vec2 getMousePositionImpl() override;
+        std::tuple<double, double> getMousePositionImpl() override;
 
     };
 

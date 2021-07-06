@@ -37,16 +37,17 @@ namespace SandboxApp{
     public:
         static void Init(){
             s_RandomEngine.seed(std::random_device()());
+            s_Distribution = std::uniform_real_distribution<>(0.0f,1.0f);
         }
 
         static float Float(){
-            auto limit = (float)0xFFFFFFFF;
-            return (float)s_Distribution(s_RandomEngine) / limit;
+            //auto limit = (float)0xFFFFFFFF;
+            return (float)s_Distribution(s_RandomEngine);//(float)s_Distribution(s_RandomEngine) / limit;
         }
 
     private:
         static std::mt19937 s_RandomEngine;
-        static std::uniform_int_distribution<std::mt19937::result_type> s_Distribution;
+        static std::uniform_real_distribution<> s_Distribution;
     };
 
 

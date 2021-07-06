@@ -42,7 +42,10 @@ namespace GEOGL{
         inline static bool isMouseButtonPressed(MouseCode button){ return s_Instance->isMouseButtonPressedImpl(button); };
         inline static float getMouseX(){return s_Instance->getMouseXImpl(); };
         inline static float getMouseY(){return s_Instance->getMouseYImpl(); };
-        inline static glm::vec2 getMousePosition(){return s_Instance->getMousePositionImpl();};
+        inline static glm::vec2 getMousePosition(){
+             auto [x,y] =  s_Instance->getMousePositionImpl();
+             return {x,y};
+        };
 
         inline static void init(Input* input){s_Instance = input; };
     protected:
@@ -50,7 +53,7 @@ namespace GEOGL{
         virtual bool isMouseButtonPressedImpl(MouseCode button) = 0;
         virtual float getMouseXImpl() = 0;
         virtual float getMouseYImpl() = 0;
-        virtual glm::vec2 getMousePositionImpl() = 0;
+        virtual std::tuple<double, double> getMousePositionImpl() = 0;
 
     private:
         static Input* s_Instance;
