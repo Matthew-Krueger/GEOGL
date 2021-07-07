@@ -53,6 +53,19 @@ namespace GEOGL::Platform::OpenGL{
 
     void Framebuffer::invalidate() {
 
+        if(m_ColorAttachment){
+            glDeleteTextures(1, &m_ColorAttachment);
+            m_ColorAttachment = 0;
+        }
+        if(m_DepthAttachment){
+            glDeleteTextures(1, &m_DepthAttachment);
+            m_DepthAttachment = 0;
+        }
+        if(m_RendererID){
+            glDeleteFramebuffers(1, &m_RendererID);
+            m_RendererID = 0;
+        }
+
         glCreateFramebuffers(1, &m_RendererID);
         glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
 

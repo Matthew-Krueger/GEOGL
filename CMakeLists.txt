@@ -111,6 +111,11 @@ add_subdirectory(Projects/Example2DGame)
 add_subdirectory(Projects/Sandbox)
 
 ###################################
+#       Build GEOGL-Editor        #
+###################################
+add_subdirectory(Projects/GEOGL-Editor)
+
+###################################
 #         Build Doxygen           #
 ###################################
 set(DOXYGEN_GENERATE_HTML YES)

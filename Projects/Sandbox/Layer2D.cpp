@@ -40,11 +40,6 @@ namespace SandboxApp{
     void Layer2D::onAttach() {
         GEOGL_PROFILE_FUNCTION();
 
-        GEOGL::FramebufferSpecification framebufferSpecification{};
-        framebufferSpecification.width = GEOGL::Application::get().getWindow().getWidth();
-        framebufferSpecification.height = GEOGL::Application::get().getWindow().getHeight();
-        m_Framebuffer = GEOGL::Framebuffer::create(framebufferSpecification);
-
         m_OrthographicCameraController = GEOGL::OrthographicCameraController(GEOGL::Application::get().getWindow().getDimensions());
         m_DebugName = "Layer2D - Sandbox";
 
@@ -72,14 +67,13 @@ namespace SandboxApp{
 
 
         GEOGL::Renderer2D::resetStats();
-        m_Framebuffer->bind();
         GEOGL::Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
         GEOGL::RenderCommand::clear();
 
 
         m_OrthographicCameraController.onUpdate(timeStep);
 
-        GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
+        /*GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
 
 
         rotation += timeStep * 20;
@@ -107,9 +101,9 @@ namespace SandboxApp{
 
         }
 
-        GEOGL::Renderer2D::endScene();
+        GEOGL::Renderer2D::endScene(); */
 
-        /* emit 50 particle *
+        /* emit 50 particle */
         if(GEOGL::Input::isMouseButtonPressed(GEOGL::Mouse::ButtonLeft)){
             glm::vec2 mousePos = GEOGL::Input::getMousePosition();
             glm::ivec2 windowDimensions = GEOGL::Application::get().getWindow().getDimensions();
@@ -139,100 +133,14 @@ namespace SandboxApp{
 
         m_ParticleSystem->onUpdate(timeStep);
 
-        m_ParticleSystem->onRender(m_OrthographicCameraController.getCamera()); */
+        m_ParticleSystem->onRender(m_OrthographicCameraController.getCamera());
 
-        m_Framebuffer->unbind();
 
     }
 
     void Layer2D::onImGuiRender(GEOGL::TimeStep timeStep) {
 
         GEOGL_PROFILE_FUNCTION();
-
-        static bool dockspaceOpen = true;
-        static bool opt_fullscreen_persistant = true;
-        bool opt_fullscreen = opt_fullscreen_persistant;
-        static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
-
-        // We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
-        // because it would be confusing to have two docking targets within each others.
-        ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-        if (opt_fullscreen)
-        {
-            ImGuiViewport* viewport = ImGui::GetMainViewport();
-            ImGui::SetNextWindowPos(viewport->Pos);
-            ImGui::SetNextWindowSize(viewport->Size);
-            ImGui::SetNextWindowViewport(viewport->ID);
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-            window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-            window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-        }
-
-        // When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
-        if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
-            window_flags |= ImGuiWindowFlags_NoBackground;
-
-        // Important: note that we proceed even if Begin() returns false (aka window is collapsed).
-        // This is because we want to keep our DockSpace() active. If a DockSpace() is inactive,
-        // all active windows docked into it will lose their parent and become undocked.
-        // We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
-        // any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-        ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
-        ImGui::PopStyleVar();
-
-        if (opt_fullscreen)
-            ImGui::PopStyleVar(2);
-
-        // DockSpace
-        ImGuiIO& io = ImGui::GetIO();
-        ImGuiStyle& style = ImGui::GetStyle();
-        float minWinSizeX = style.WindowMinSize.x;
-        style.WindowMinSize.x = 370.0f;
-        if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable){
-            ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-            ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-        }
-
-        style.WindowMinSize.x = minWinSizeX;
-
-        if (ImGui::BeginMenuBar()){
-
-            /* File Menu */
-            if (ImGui::BeginMenu("File")){
-                if(ImGui::MenuItem("Exit")){
-                    GEOGL::Application::get().close();
-                };
-                ImGui::EndMenu();
-            }
-
-            /* About Menu */
-            if(ImGui::BeginMenu("About")){
-                if(ImGui::MenuItem("Licenses")){
-                    GEOGL_INFO_NOSTRIP("Licenses coming Soon!");
-                }
-                ImGui::EndMenu();
-            }
-
-
-            ImGui::EndMenuBar();
-        }
-
-        uint32_t textureID = m_Framebuffer->getColorAttachmentRendererID();
-        ImVec2 framebufferDimensions = {(float)m_Framebuffer->getFramebufferSpecification().width, (float)m_Framebuffer->getFramebufferSpecification().height};
-
-#pragma warning (push)
-#pragma warning (disable:4312)
-        ImGui::Begin("Window");
-        ImGui::Image(reinterpret_cast<void*>(textureID),framebufferDimensions);
-        ImGui::End();
-        #pragma warning (pop)
-        ImGui::End();
-
-        //static bool show = true;
-        //ImGui::ShowDemoWindow(&show);
-
 
     }
 

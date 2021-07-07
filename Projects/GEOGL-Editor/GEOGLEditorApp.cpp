@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Matthew Krueger                                          *
+ * Copyright (c) 2021 Matthew Krueger                                          *
  *                                                                             *
  * This software is provided 'as-is', without any express or implied           *
  * warranty. In no event will the authors be held liable for any damages       *
@@ -23,49 +23,61 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_LAYER2D_HPP
-#define GEOGL_LAYER2D_HPP
+#include "GEOGLEditorApp.hpp"
+#include "EditorLayer.hpp"
 
-#include "ParticleSystem.hpp"
-#include <GEOGL/Layers.hpp>
-#include <GEOGL/IO.hpp>
-#include <GEOGL/Renderer.hpp>
+#define GEOGL_INCLUDE_MAIN
+#define GEOGL_INCLUDE_WIN_MAIN
+#include <GEOGL/MainCreator.hpp>
 
-namespace SandboxApp{
-
-    class Layer2D : public GEOGL::Layer{
-    public:
-        Layer2D();
-        Layer2D(const Layer2D&) = delete;
-        ~Layer2D() override = default;
+namespace GEOGLEditor{
 
 
-        void onAttach() override;
-        void onDetach() override;
-        void onUpdate(GEOGL::TimeStep timeStep) override;
-        void onImGuiRender(GEOGL::TimeStep timeStep) override;
+    GEOGLEditor::GEOGLEditor() : GEOGL::Application({
+                "GEOGL Editor",
+                "GEOGL-Editor-log.txt",
+                1280,
+                720,
+                "GEOGL-Editor-Resources", // application resource directory
+                "Runtime-Icon.png" // window Icon
+    }){
 
-        void onEvent(GEOGL::Event& event) override;
+        pushLayer(new EditorLayer());
 
-    private:
+    }
 
-        /* Camera utils */
-        GEOGL::OrthographicCameraController m_OrthographicCameraController;
+    GEOGLEditor::~GEOGLEditor() {
 
-        /* Textures */
-        /* Cherno Logo (Copyright the Cherno) */
-        GEOGL::Ref<GEOGL::Texture2D> m_ChernoLogo;
-        GEOGL::Ref<GEOGL::Texture2D> m_Checkerboard;
-        GEOGL::Ref<GEOGL::Texture2D> m_Sandman;
+    }
 
-        /* Color Controllers */
-        glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 1.0f};
+    void GEOGLEditor::onEvent(GEOGL::Event &event) {
 
-        /* Particle System */
-        GEOGL::Scope<ParticleSystem> m_ParticleSystem;
+        GEOGL::EventDispatcher dispatcher(event);
 
-    };
+        dispatcher.dispatch<GEOGL::KeyPressedEvent>(GEOGL_BIND_EVENT_FN(GEOGLEditor::onKeyPressedEvent));
+
+    }
+
+    void GEOGLEditor::setUpImGui(ImGuiContext *context) {
+
+        ImGui::SetCurrentContext(context);
+
+    }
+
+    bool GEOGLEditor::onKeyPressedEvent(GEOGL::KeyPressedEvent &event) {
+
+        if(event.getKeyCode() == GEOGL::Key::F1){
+            getWindow().setVSync(!getWindow().isVSync());
+        }
+
+        return false;
+    }
 
 }
 
-#endif //GEOGL_LAYER2D_HPP
+GEOGL::Application* GEOGL::createApplication() {
+    GEOGL_PROFILE_FUNCTION();
+
+    return new GEOGLEditor::GEOGLEditor();
+
+}

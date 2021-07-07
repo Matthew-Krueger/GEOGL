@@ -23,49 +23,5 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_LAYER2D_HPP
-#define GEOGL_LAYER2D_HPP
 
-#include "ParticleSystem.hpp"
-#include <GEOGL/Layers.hpp>
-#include <GEOGL/IO.hpp>
-#include <GEOGL/Renderer.hpp>
-
-namespace SandboxApp{
-
-    class Layer2D : public GEOGL::Layer{
-    public:
-        Layer2D();
-        Layer2D(const Layer2D&) = delete;
-        ~Layer2D() override = default;
-
-
-        void onAttach() override;
-        void onDetach() override;
-        void onUpdate(GEOGL::TimeStep timeStep) override;
-        void onImGuiRender(GEOGL::TimeStep timeStep) override;
-
-        void onEvent(GEOGL::Event& event) override;
-
-    private:
-
-        /* Camera utils */
-        GEOGL::OrthographicCameraController m_OrthographicCameraController;
-
-        /* Textures */
-        /* Cherno Logo (Copyright the Cherno) */
-        GEOGL::Ref<GEOGL::Texture2D> m_ChernoLogo;
-        GEOGL::Ref<GEOGL::Texture2D> m_Checkerboard;
-        GEOGL::Ref<GEOGL::Texture2D> m_Sandman;
-
-        /* Color Controllers */
-        glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 1.0f};
-
-        /* Particle System */
-        GEOGL::Scope<ParticleSystem> m_ParticleSystem;
-
-    };
-
-}
-
-#endif //GEOGL_LAYER2D_HPP
+#include "PCH.hpp"
