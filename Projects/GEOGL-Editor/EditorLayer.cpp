@@ -53,7 +53,7 @@ namespace GEOGLEditor{
         {
             ImGui::SetCurrentContext(GEOGL::ImGuiLayer::getImGuiContext());
             ImGuiIO &io = ImGui::GetIO();
-            io.Fonts->AddFontFromFileTTF("SandboxResources/Fonts/OpenSans/OpenSans-Regular.ttf", 18.0f);
+            io.Fonts->AddFontFromFileTTF("GEOGL-Editor-Resources/Fonts/OpenSans/OpenSans-Regular.ttf", 18.0f);
             io.Fonts->Build();
             io.Fonts->AddFontDefault();
             io.IniFilename = "GEOGL-Editor-Resources/imgui-config.ini";
@@ -61,7 +61,7 @@ namespace GEOGLEditor{
 
         /* load some textures */
         {
-
+            m_Checkerboard = GEOGL::Texture2D::create("GEOGL-Editor-Resources/Textures/Checkerboard.png");
             m_TextureAtlas = GEOGL::Texture2D::create("GEOGL-Editor-Resources/Textures/Kenny-RPG-Pack/RPGpack_sheet_2X.png");
             m_TextureTree = GEOGL::SubTexture2D::createFromCoords(m_TextureAtlas, {2,1}, {128,128}, {1,2});
         }
@@ -83,6 +83,7 @@ namespace GEOGLEditor{
 
         GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
 
+        GEOGL::Renderer2D::drawQuad({{0,0,-0.5}, {20,20},glm::vec4(1.0f), 20}, m_Checkerboard);
         GEOGL::Renderer2D::drawQuad({{0,0,0},{1,2}}, m_TextureTree);
 
         GEOGL::Renderer2D::endScene();
@@ -160,13 +161,22 @@ namespace GEOGLEditor{
         }
 
         uint32_t textureID = m_EditorViewportFramebuffer->getColorAttachmentRendererID();
-        ImVec2 framebufferDimensions = {(float)m_EditorViewportFramebuffer->getFramebufferSpecification().width, (float)m_EditorViewportFramebuffer->getFramebufferSpecification().height};
 
 #pragma warning (push)
 #pragma warning (disable:4312)
-        ImGui::Begin("Window");
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0,0});
+        ImGui::Begin("Viewport");
+        auto viewportPanelSize = ImGui::GetContentRegionAvail();
+        glm::vec2 viewportSize = {viewportPanelSize.x, viewportPanelSize.y};
+        if(m_ViewportSize != viewportSize){
+            m_ViewportSize = viewportSize;
+            m_EditorViewportFramebuffer->resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_OrthographicCameraController.onResize(m_ViewportSize.x, m_ViewportSize.y);
+        }
+        ImVec2 framebufferDimensions = {(float)m_EditorViewportFramebuffer->getFramebufferSpecification().width, (float)m_EditorViewportFramebuffer->getFramebufferSpecification().height};
         ImGui::Image(reinterpret_cast<void*>(textureID),framebufferDimensions, {0,1}, {1,0});
         ImGui::End();
+        ImGui::PopStyleVar();
 #pragma warning (pop)
         ImGui::End();
 

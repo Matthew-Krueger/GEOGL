@@ -133,9 +133,8 @@ namespace GEOGL{
     bool OrthographicCameraController::onWindowResize(WindowResizeEvent &e) {
         GEOGL_PROFILE_FUNCTION();
 
-        m_AspectRatio = (float)e.getWidth()/(float)e.getHeight();
+        onResize((float)e.getWidth(), (float)e.getHeight());
 
-        m_OrthographicCamera.setProjectionBounds({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});
         return false;
 
     }

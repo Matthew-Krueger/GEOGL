@@ -41,6 +41,8 @@ namespace GEOGL{
         void setZoomLevel(float zoomLevel);
         inline const OrthographicCamera& getCamera() const { return m_OrthographicCamera; };
 
+        inline void onResize(float width, float height) { m_AspectRatio = width/height;         m_OrthographicCamera.setProjectionBounds({-m_AspectRatio * m_ZoomLevel, m_AspectRatio*m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel});};
+
         void onUpdate(TimeStep ts);
         void onEvent(Event& e);
 

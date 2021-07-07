@@ -51,8 +51,11 @@ namespace GEOGLEditor{
         GEOGL::Ref<GEOGL::Framebuffer> m_EditorViewportFramebuffer;
 
         /* Textures */
+        GEOGL::Ref<GEOGL::Texture2D> m_Checkerboard;
         GEOGL::Ref<GEOGL::Texture2D> m_TextureAtlas;
         GEOGL::Ref<GEOGL::SubTexture2D> m_TextureTree;
+
+        glm::vec2 m_ViewportSize;
 
 
     };

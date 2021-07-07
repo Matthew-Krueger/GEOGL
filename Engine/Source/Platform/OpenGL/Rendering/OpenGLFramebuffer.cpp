@@ -44,7 +44,10 @@ namespace GEOGL::Platform::OpenGL{
     }
 
     void Framebuffer::bind() const {
+
         glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
+        glViewport(0,0, (GLsizei)m_FramebufferSpecification.width, (GLsizei)m_FramebufferSpecification.height);
+
     }
 
     void Framebuffer::unbind() const {
@@ -87,6 +90,14 @@ namespace GEOGL::Platform::OpenGL{
         GEOGL_CORE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is incomplete!");
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+
+    void Framebuffer::resize(uint32_t width, uint32_t height){
+
+        m_FramebufferSpecification.width = width;
+        m_FramebufferSpecification.height = height;
+        invalidate();
+
     }
 
     const FramebufferSpecification &Framebuffer::getFramebufferSpecification() const {

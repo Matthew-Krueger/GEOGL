@@ -40,7 +40,9 @@ namespace GEOGL::Platform::OpenGL{
         void bind() const override;
         void unbind() const override;
 
-        inline uint32_t getColorAttachmentRendererID() const override {return m_ColorAttachment; };
+        void resize(uint32_t width, uint32_t height) override;
+
+        [[nodiscard]] inline uint32_t getColorAttachmentRendererID() const override {return m_ColorAttachment; };
 
         [[nodiscard]] const FramebufferSpecification& getFramebufferSpecification() const override;
 
