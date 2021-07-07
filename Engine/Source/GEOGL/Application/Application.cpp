@@ -119,7 +119,6 @@ namespace GEOGL{
         while(m_Running){
             GEOGL_PROFILE_SCOPE("Run Loop");
 
-            Renderer::clear();
             /* Measure platform time */
             float time = m_Window->getCurrentPlatformTime();
             TimeStep timeStep = time - m_LastFrameTime;

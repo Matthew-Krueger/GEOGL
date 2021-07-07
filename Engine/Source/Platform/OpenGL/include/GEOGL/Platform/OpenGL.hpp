@@ -31,5 +31,6 @@
 #include "../Rendering/OpenGLShader.hpp"
 #include "../Rendering/OpenGLTexture.hpp"
 #include "../Rendering/OpenGLVertexArray.hpp"
+#include "../Rendering/OpenGLFramebuffer.hpp"
 
 #endif //GEOGL_OPENGL_HPP

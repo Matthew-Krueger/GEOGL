@@ -23,24 +23,34 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_RENDERER_INCLUDE_HPP
-#define GEOGL_RENDERER_INCLUDE_HPP
+#ifndef GEOGL_OPENGLFRAMEBUFFER_HPP
+#define GEOGL_OPENGLFRAMEBUFFER_HPP
 
-#include "Core.hpp"
+#include "../../../GEOGL/Rendering/Framebuffer.hpp"
 
-/* Render api */
-#include "../../Rendering/Renderer.hpp"
-#include "../../Rendering/RenderCommand.hpp"
-#include "../../Rendering/GraphicsContext.hpp"
+namespace GEOGL::Platform::OpenGL{
 
-#include "../../Rendering/VertexArray.hpp"
-#include "../../Rendering/Buffer.hpp"
-#include "../../Rendering/Shader.hpp"
-#include "../../Rendering/Camera.hpp"
-#include "../../Rendering/Texture.hpp"
-#include "../../Rendering/SubTexture2D.hpp"
-#include "../../Rendering/Renderer2D.hpp"
-#include "../../Rendering/Framebuffer.hpp"
+    class GEOGL_API Framebuffer : public GEOGL::Framebuffer{
+    public:
+        Framebuffer(const FramebufferSpecification& framebufferSpecification);
+        virtual ~Framebuffer() override;
 
+        void invalidate();
 
-#endif //GEOGL_RENDERER_INCLUDE_HPP
+        void bind() const override;
+        void unbind() const override;
+
+        inline uint32_t getColorAttachmentRendererID() const override {return m_ColorAttachment; };
+
+        [[nodiscard]] const FramebufferSpecification& getFramebufferSpecification() const override;
+
+    private:
+        uint32_t m_RendererID = 0;
+        uint32_t m_ColorAttachment, m_DepthAttachment;
+        FramebufferSpecification m_FramebufferSpecification;
+
+    };
+
+}
+
+#endif //GEOGL_OPENGLFRAMEBUFFER_HPP

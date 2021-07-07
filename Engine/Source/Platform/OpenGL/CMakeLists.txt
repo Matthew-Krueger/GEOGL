@@ -20,7 +20,7 @@ add_library(GEOGL_Platform_OpenGL ${GEOGL_LIBRARY_TYPE}
         Rendering/OpenGLRendererAPI.cpp
         Rendering/OpenGLRendererAPI.hpp
         Rendering/OpenGLTexture.cpp
-        Rendering/OpenGLTexture.hpp)
+        Rendering/OpenGLTexture.hpp Rendering/OpenGLFramebuffer.cpp Rendering/OpenGLFramebuffer.hpp)
 
 ######################################
 #     Set name for use elsewhere     #

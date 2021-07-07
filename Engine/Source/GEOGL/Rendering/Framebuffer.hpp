@@ -23,24 +23,34 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_RENDERER_INCLUDE_HPP
-#define GEOGL_RENDERER_INCLUDE_HPP
+#ifndef GEOGL_FRAMEBUFFER_HPP
+#define GEOGL_FRAMEBUFFER_HPP
 
-#include "Core.hpp"
+namespace GEOGL{
 
-/* Render api */
-#include "../../Rendering/Renderer.hpp"
-#include "../../Rendering/RenderCommand.hpp"
-#include "../../Rendering/GraphicsContext.hpp"
+    struct FramebufferSpecification{
+        uint32_t width{}, height{};
+        uint32_t samples = 1;
 
-#include "../../Rendering/VertexArray.hpp"
-#include "../../Rendering/Buffer.hpp"
-#include "../../Rendering/Shader.hpp"
-#include "../../Rendering/Camera.hpp"
-#include "../../Rendering/Texture.hpp"
-#include "../../Rendering/SubTexture2D.hpp"
-#include "../../Rendering/Renderer2D.hpp"
-#include "../../Rendering/Framebuffer.hpp"
+        bool swapChainTarget = false;
+    };
 
+    class GEOGL_API Framebuffer{
+    public:
+        virtual ~Framebuffer() {};
 
-#endif //GEOGL_RENDERER_INCLUDE_HPP
+        virtual void bind() const = 0;
+        virtual void unbind() const = 0;
+
+        virtual uint32_t getColorAttachmentRendererID() const = 0;
+
+        //virtual FramebufferSpecification& getFramebufferSpecification() = 0;
+        [[nodiscard]] virtual const FramebufferSpecification& getFramebufferSpecification() const = 0;
+
+        static Ref<Framebuffer> create(const FramebufferSpecification& framebufferSpecification);
+
+    };
+
+}
+
+#endif //GEOGL_FRAMEBUFFER_HPP

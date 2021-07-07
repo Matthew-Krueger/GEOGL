@@ -23,24 +23,30 @@
  *******************************************************************************/
 
 
-#ifndef GEOGL_RENDERER_INCLUDE_HPP
-#define GEOGL_RENDERER_INCLUDE_HPP
+#include "Framebuffer.hpp"
+#include "Renderer.hpp"
 
-#include "Core.hpp"
+#if GEOGL_BUILD_WITH_OPENGL
+#include <GEOGL/Platform/OpenGL.hpp>
+#endif
 
-/* Render api */
-#include "../../Rendering/Renderer.hpp"
-#include "../../Rendering/RenderCommand.hpp"
-#include "../../Rendering/GraphicsContext.hpp"
-
-#include "../../Rendering/VertexArray.hpp"
-#include "../../Rendering/Buffer.hpp"
-#include "../../Rendering/Shader.hpp"
-#include "../../Rendering/Camera.hpp"
-#include "../../Rendering/Texture.hpp"
-#include "../../Rendering/SubTexture2D.hpp"
-#include "../../Rendering/Renderer2D.hpp"
-#include "../../Rendering/Framebuffer.hpp"
+namespace GEOGL{
 
 
-#endif //GEOGL_RENDERER_INCLUDE_HPP
+    Ref <Framebuffer> Framebuffer::create(const FramebufferSpecification &framebufferSpecification) {
+
+        switch(Renderer::getRendererAPI()->getRenderingAPI()){
+            case RendererAPI::RENDERING_OPENGL_DESKTOP:
+#if GEOGL_BUILD_WITH_OPENGL
+                return createRef<GEOGL::Platform::OpenGL::Framebuffer>(framebufferSpecification);
+#else
+            GEOGL_CORE_CRITICAL_NOSTRIP("Tried to create an OpenGL Framebuffer, but not supported");
+            return nullptr;
+#endif
+            default:
+                GEOGL_CORE_ASSERT(false, "Tried to create a framebuffer, but no supported graphics API is selected");
+                return nullptr;
+        }
+
+    }
+}

@@ -40,6 +40,11 @@ namespace SandboxApp{
     void Layer2D::onAttach() {
         GEOGL_PROFILE_FUNCTION();
 
+        GEOGL::FramebufferSpecification framebufferSpecification{};
+        framebufferSpecification.width = GEOGL::Application::get().getWindow().getWidth();
+        framebufferSpecification.height = GEOGL::Application::get().getWindow().getHeight();
+        m_Framebuffer = GEOGL::Framebuffer::create(framebufferSpecification);
+
         m_OrthographicCameraController = GEOGL::OrthographicCameraController(GEOGL::Application::get().getWindow().getDimensions());
         m_DebugName = "Layer2D - Sandbox";
 
@@ -65,11 +70,16 @@ namespace SandboxApp{
 
         GEOGL_PROFILE_FUNCTION();
 
+
         GEOGL::Renderer2D::resetStats();
+        m_Framebuffer->bind();
+        GEOGL::Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
+        GEOGL::RenderCommand::clear();
+
 
         m_OrthographicCameraController.onUpdate(timeStep);
 
-        /*GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
+        GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
 
 
         rotation += timeStep * 20;
@@ -97,9 +107,9 @@ namespace SandboxApp{
 
         }
 
-        GEOGL::Renderer2D::endScene();*/
+        GEOGL::Renderer2D::endScene();
 
-        /* emit 50 particle */
+        /* emit 50 particle *
         if(GEOGL::Input::isMouseButtonPressed(GEOGL::Mouse::ButtonLeft)){
             glm::vec2 mousePos = GEOGL::Input::getMousePosition();
             glm::ivec2 windowDimensions = GEOGL::Application::get().getWindow().getDimensions();
@@ -129,7 +139,9 @@ namespace SandboxApp{
 
         m_ParticleSystem->onUpdate(timeStep);
 
-        m_ParticleSystem->onRender(m_OrthographicCameraController.getCamera());
+        m_ParticleSystem->onRender(m_OrthographicCameraController.getCamera()); */
+
+        m_Framebuffer->unbind();
 
     }
 
@@ -207,11 +219,15 @@ namespace SandboxApp{
             ImGui::EndMenuBar();
         }
 
-        uint32_t textureID = m_ChernoLogo->getRendererID();
+        uint32_t textureID = m_Framebuffer->getColorAttachmentRendererID();
+        ImVec2 framebufferDimensions = {(float)m_Framebuffer->getFramebufferSpecification().width, (float)m_Framebuffer->getFramebufferSpecification().height};
+
 #pragma warning (push)
 #pragma warning (disable:4312)
-        //ImGui::Image(reinterpret_cast<void*>(textureID),{512,512});
-#pragma warning (pop)
+        ImGui::Begin("Window");
+        ImGui::Image(reinterpret_cast<void*>(textureID),framebufferDimensions);
+        ImGui::End();
+        #pragma warning (pop)
         ImGui::End();
 
         //static bool show = true;
