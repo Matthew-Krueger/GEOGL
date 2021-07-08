@@ -8,13 +8,13 @@ if(WIN32)
         SET(OPTIONS WIN32)
     endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-    set(ADDITIONAL_WIN32_FILES Icons/imageIcon.rc EditorLayer.cpp EditorLayer.hpp)
+    set(ADDITIONAL_WIN32_FILES Icons/imageIcon.rc)
 
 endif(WIN32)
 
 add_executable(GEOGL-Editor ${OPTIONS} ${ADDITIONAL_WIN32_FILES}
         PCH/PCH.cpp PCH/PCH.hpp
-        GEOGLEditorApp.cpp GEOGLEditorApp.hpp)
+        GEOGLEditorApp.cpp GEOGLEditorApp.hpp EditorLayer.hpp EditorLayer.cpp)
 
 target_precompile_headers(GEOGL-Editor PRIVATE PCH/PCH.hpp)
 

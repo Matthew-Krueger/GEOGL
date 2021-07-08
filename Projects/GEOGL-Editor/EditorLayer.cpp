@@ -28,9 +28,7 @@
 namespace GEOGLEditor{
 
 
-    EditorLayer::EditorLayer() {
-
-    }
+    EditorLayer::EditorLayer() = default;
 
     void EditorLayer::onAttach() {
 
