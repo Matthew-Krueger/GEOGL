@@ -33,6 +33,7 @@ namespace GEOGL{
     class GEOGL_API SubTexture2D{
     public:
         SubTexture2D(const Ref<Texture2D>& textureAtlas, const glm::vec2& minBound, const glm::vec2& maxBound);
+        virtual ~SubTexture2D() = default;
 
         [[nodiscard]] const Ref<Texture2D>& getTexture() const { return m_Texture; };
         [[nodiscard]] const glm::vec2* getTextureCoords() const {return m_TextureCoords; };

@@ -88,6 +88,9 @@ namespace TwoDGame{
 
         m_OrthographicCameraController.onUpdate(timeStep);
 
+        GEOGL::Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
+        GEOGL::RenderCommand::clear();
+
         GEOGL::Renderer2D::beginScene(m_OrthographicCameraController.getCamera());
 
         for(uint32_t y=0; y < s_MapHeight; ++y){

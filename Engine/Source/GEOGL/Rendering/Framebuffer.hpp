@@ -37,7 +37,7 @@ namespace GEOGL{
 
     class GEOGL_API Framebuffer{
     public:
-        virtual ~Framebuffer() {};
+        virtual ~Framebuffer() = default;
 
         virtual void bind() const = 0;
         virtual void unbind() const = 0;
