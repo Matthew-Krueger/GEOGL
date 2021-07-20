@@ -29,9 +29,16 @@
 #include <ImGui/imgui.h>
 #include <GEOGL/Platform/OpenGL.hpp>
 
+/* #define FLIRTY_PARTICLES
+ * to define that the particle system should emit particles in the shape of a heart
+ */
+#define FLIRTY_PARTICLES
 namespace SandboxApp{
 
     static float rotation = 0;
+
+    static glm::vec4* particleEmitters = nullptr;
+    static size_t particleEmittersLength = 500;
 
     Layer2D::Layer2D() :
             m_OrthographicCameraController(0){
@@ -40,6 +47,28 @@ namespace SandboxApp{
     void Layer2D::onAttach() {
         GEOGL_PROFILE_FUNCTION();
 
+#ifdef FLIRTY_PARTICLES
+        GEOGL_INFO("Since flirty particles are selected, generating particle emitter positions using a cardioid curve. (Yay math)");
+        particleEmitters = new glm::vec4[particleEmittersLength];
+
+        /* generate the particle emitter positions using a cardioid curve */
+        const double startT = 0;
+        const double endT = 2 * glm::pi<double>();
+        double t = startT;
+
+        glm::mat4 transform = glm::scale(glm::mat4(1.0f), {0.05f,0.05f,0.1f});
+
+        for(int i=0; i<particleEmittersLength; ++i){
+            t = (((double)i/(double)particleEmittersLength) * (endT-startT))+startT;
+            particleEmitters[i].x =(float) (16 * std::pow(std::sin(t),3));
+            particleEmitters[i].y =(float) ((13 * std::cos(t)) - (5*std::cos(2*t)) - (2*std::cos(3*t)) - (std::cos(4*t)));
+            particleEmitters[i].z =0.0f;
+            particleEmitters[i].a =0.0f;
+            particleEmitters[i] = transform * particleEmitters[i];
+        }
+
+#endif
+
         m_OrthographicCameraController = GEOGL::OrthographicCameraController(GEOGL::Application::get().getWindow().getDimensions());
         m_DebugName = "Layer2D - Sandbox";
 
@@ -47,7 +76,7 @@ namespace SandboxApp{
         m_Checkerboard = GEOGL::Texture2D::create("SandboxResources/Textures/Checkerboard.png");
         m_Sandman = GEOGL::Texture2D::create("SandboxResources/Textures/Sandman.png");
 
-        m_ParticleSystem = GEOGL::createScope<ParticleSystem>(10000);
+        m_ParticleSystem = GEOGL::createScope<ParticleSystem>(100000);
 
         ImGuiIO& io = ImGui::GetIO();
         io.Fonts->AddFontFromFileTTF("SandboxResources/Fonts/OpenSans/OpenSans-Regular.ttf", 18.0f);
@@ -103,7 +132,35 @@ namespace SandboxApp{
 
         GEOGL::Renderer2D::endScene(); */
 
+#ifdef FLIRTY_PARTICLES
+
+        /* Emit Flirty particles */
+        if(GEOGL::Input::isKeyPressed(GEOGL::Key::H)) {
+
+            /* since h is pressed, render flirty particles */
+            for(int i=0; i<particleEmittersLength; ++i) {
+
+                ParticleProperties properties{};
+                properties.position = {(particleEmitters[i]).x, (particleEmitters[i]).y};
+                properties.velocity = {0.0f,.5f};//{0, .7};
+                properties.velocityVariation = {0.5f,.5f};//{Random::Float(), Random::Float()/2};
+                properties.sizeVariation = 0.0;
+                properties.sizeBegin = 0.1f;
+                properties.sizeEnd = 0.01f;
+                properties.lifeTime = 0.5f;//std::max(0.05f,Random::Float()*2);
+                properties.colorBegin = {.9,.01f,.1f,1};
+                properties.colorEnd = {0.4f, 0.01f,0.8f,1};
+                m_ParticleSystem->emit(properties);
+
+            }
+
+
+        }
+
+#else
+
         /* emit 50 particle */
+
         if(GEOGL::Input::isMouseButtonPressed(GEOGL::Mouse::ButtonLeft)){
             glm::vec2 mousePos = GEOGL::Input::getMousePosition();
             glm::ivec2 windowDimensions = GEOGL::Application::get().getWindow().getDimensions();
@@ -130,6 +187,7 @@ namespace SandboxApp{
                 m_ParticleSystem->emit(properties);
             }
         }
+#endif
 
         m_ParticleSystem->onUpdate(timeStep);
 
