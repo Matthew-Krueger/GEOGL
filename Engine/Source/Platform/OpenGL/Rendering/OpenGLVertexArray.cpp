@@ -77,7 +77,7 @@ namespace GEOGL::Platform::OpenGL{
     void VertexArray::addVertexBuffer(const Ref<GEOGL::VertexBuffer> &vertexBuffer){
         GEOGL_RENDERER_PROFILE_FUNCTION();
 
-        GEOGL_CORE_ASSERT_NOSTRIP(vertexBuffer->getLayout().getElements().size(),
+        GEOGL_CORE_ASSERT_NOSTRIP(!vertexBuffer->getLayout().getElements().empty(),
                                   "OpenGL Vertex Buffer elements appears to be empty. Please call setLayout() with a valid BufferLayout on your VertexBuffer before calling {}().", __func__);
 
         glBindVertexArray(m_RendererID);
