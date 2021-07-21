@@ -10,6 +10,9 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 cmake-build*
+cmake-build-minsizerel
+cmake-build-release
+cmake-build-relwithdebinfo
 out
 .vs
 .idea
