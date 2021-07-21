@@ -54,16 +54,20 @@ namespace SandboxApp{
         /* generate the particle emitter positions using a cardioid curve */
         const double startT = 0;
         const double endT = 2 * glm::pi<double>();
-        double t = startT;
+
 
         glm::mat4 transform = glm::scale(glm::mat4(1.0f), {0.05f,0.05f,0.1f});
 
+        /* Generate the heart curve for flirty particles in parallel. */
+#pragma omp parallel for
         for(int i=0; i<particleEmittersLength; ++i){
-            t = (((double)i/(double)particleEmittersLength) * (endT-startT))+startT;
+            double t = (((double)i/(double)particleEmittersLength) * (endT-startT))+startT;
             particleEmitters[i].x =(float) (16 * std::pow(std::sin(t),3));
             particleEmitters[i].y =(float) ((13 * std::cos(t)) - (5*std::cos(2*t)) - (2*std::cos(3*t)) - (std::cos(4*t)));
             particleEmitters[i].z =0.0f;
             particleEmitters[i].a =0.0f;
+
+            /* shrink the emitter coords into a space that fits on the screen */
             particleEmitters[i] = transform * particleEmitters[i];
         }
 
@@ -134,7 +138,7 @@ namespace SandboxApp{
 
 #ifdef FLIRTY_PARTICLES
 
-        /* Emit Flirty particles */
+        /* Emit Flirty particles, for obvious reasons, according to the heart curve calculated on setup */
         if(GEOGL::Input::isKeyPressed(GEOGL::Key::H)) {
 
             /* since h is pressed, render flirty particles */
