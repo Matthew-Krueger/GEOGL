@@ -33,6 +33,7 @@
  * to define that the particle system should emit particles in the shape of a heart
  */
 #define FLIRTY_PARTICLES
+//#undef FLIRTY_PARTICLES
 namespace SandboxApp{
 
     static float rotation = 0;
@@ -100,7 +101,7 @@ namespace SandboxApp{
 
 
         GEOGL::Renderer2D::resetStats();
-        GEOGL::Renderer::setClearColor({0.1f,0.1f,0.1f,1.0f});
+        GEOGL::Renderer::setClearColor({1.1f,1.1f,1.1f,1.0f});
         GEOGL::RenderCommand::clear();
 
 
